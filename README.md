@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=FinalProject%20FrontEnd&fontSize=80)
+![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=Final%20Project%20[FE]&fontSize=80)
 
 # 고투게더 서비스 플랫폼 리뉴얼 프로젝트
 
@@ -15,8 +15,9 @@
 - React.js
 - Next.js
 - TypeScript
-- Redux Toolkit
+- Axios
 - React-Query
+- Redux Toolkit
 - Styled-Components
 
 ### 코드관리
