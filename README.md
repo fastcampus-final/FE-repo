@@ -30,7 +30,6 @@
 - Node.js
 - npm
 - VSCode
-- Vite
 - Vercel
 
 ### 커뮤니케이션
