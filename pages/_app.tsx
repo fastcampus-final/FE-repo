@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());
 
   if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
-    require('../mocks');
+    require('../src/mocks');
   }
 
   return (
