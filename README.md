@@ -1,46 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=Final%20Project%20[FE]&fontSize=80)
 
-## Getting Started
+# 고투게더 서비스 플랫폼 리뉴얼 프로젝트
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## 😃 팀원
+|<img src="https://avatars.githubusercontent.com/u/87680906?v=4" width="90">|<img src="https://avatars.githubusercontent.com/u/114228865?v=4" width="90">|<img src="https://avatars.githubusercontent.com/u/107393773?v=4" width="90">|
+|:---:|:---:|:---:|
+|[안가을(팀장)](https://github.com/autumnly1007)|[김지영](https://github.com/dreamchach)|[박정민](https://github.com/plou102)|
+|역할|역할|역할|
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠 기술 스택
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### 개발
+- React.js
+- Next.js
+- TypeScript
+- Axios
+- React-Query
+- Redux Toolkit
+- Styled-Components
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### 코드관리
+- Prettier
+- ESLint
+- Husky
+- lint-staged
 
-<<<<<<< Updated upstream
 ### 개발환경
 - Node.js
 - npm
 - VSCode
 - Vercel
-=======
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
->>>>>>> Stashed changes
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### 커뮤니케이션
+- Notion
+- Slack
+- Figma
+- GatherTown
