@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import like from './like';
+import cart from './cart';
+import loading from './loading';
 
 const store = configureStore({
   reducer: {
-    like: like.reducer,
+    cart: cart.reducer,
+    loading: loading.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
   devTools: true,

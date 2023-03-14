@@ -8,10 +8,8 @@ const getLike = async () => {
 };
 
 const useLikeList = () => {
-  const { data, isLoading } = useQuery(['likeList'], () => getLike(), {
-    staleTime: 10000,
-  });
-  return { likeList: data, isLoading };
+  const { data } = useQuery(['likeList'], () => getLike());
+  return { likeList: data };
 };
 
 export default useLikeList;
