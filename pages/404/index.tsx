@@ -1,20 +1,16 @@
 import React from 'react';
-import Lottie from 'react-lottie';
+import Lottie from 'lottie-react';
 import lottieData from '@/../public/404page.json';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 
 const NotFound = () => {
   const router = useRouter();
-  const lottieOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: lottieData,
-  };
+
   return (
     <NotFoundContent>
       <LottieContent>
-        <Lottie options={lottieOptions} height={300} width={400} />
+        <Lottie animationData={lottieData} loop={true} autoPlay={true} />
       </LottieContent>
       <TextContent>
         <h2>페이지를 찾을 수 없습니다.</h2>
@@ -40,6 +36,8 @@ const NotFoundContent = styled.div`
 
 const LottieContent = styled.div`
   margin: 0;
+  width: 400px;
+  height: 300px;
 `;
 
 const TextContent = styled.div`
