@@ -4,7 +4,6 @@ import LoadingLottie from '@/../public/lotties/loading-plane.json';
 import styled from 'styled-components';
 
 const Loading = () => {
-  console.log('in');
   return (
     <StyledLoading>
       <Lottie animationData={LoadingLottie} loop={true} />
