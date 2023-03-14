@@ -4,6 +4,8 @@ import useLikeList from '@/hooks/useLikeList';
 import { GetServerSidePropsContext } from 'next';
 import { ILike } from '@/interfaces/like';
 import { instance } from './api/instance';
+import { useRouter } from 'next/router';
+import { ROUTES } from '@/constants/routes';
 
 interface Props {
   posts: {
@@ -14,8 +16,9 @@ interface Props {
   };
 }
 
-export default function Home({ posts }: Props) {
+const Home = ({ posts }: Props) => {
   const { likeList } = useLikeList();
+  const router = useRouter();
 
   return (
     <>
@@ -27,9 +30,12 @@ export default function Home({ posts }: Props) {
         <p key={idx}>MSW: {item.title}</p>
       ))}
       {`SSR: ${posts.title}`}
+      <button onClick={() => router.push(ROUTES.CART)}>장바구니</button>
     </>
   );
-}
+};
+
+export default Home;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { data } = await instance.get('https://jsonplaceholder.typicode.com/posts/1');

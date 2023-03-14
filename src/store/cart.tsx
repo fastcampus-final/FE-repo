@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const like = createSlice({
-  name: 'like',
+const cart = createSlice({
+  name: 'cart',
   initialState: [],
   reducers: {
     setLikeState(state, action) {
@@ -10,6 +10,6 @@ const like = createSlice({
   },
 });
 
-export const { setLikeState } = like.actions;
+export const { setLikeState } = cart.actions;
 
-export default like;
+export default cart;
