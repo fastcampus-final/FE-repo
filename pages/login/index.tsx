@@ -9,9 +9,9 @@ const Login = () => {
   const router = useRouter();
 
   if (getCookie('accessToken')) {
-    // alert('로그인된 계정입니다. 로그아웃 후 이용해주세요.');
-    // router.back();
-    // router.push('/');
+    alert('로그인된 계정입니다. 로그아웃 후 이용해주세요.');
+    router.back();
+    router.push('/');
     console.log(getCookie('accessToken'));
   }
 
