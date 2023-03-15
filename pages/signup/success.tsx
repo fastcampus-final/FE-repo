@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { getCookie } from '@/utils/cookie';
 
 const success = () => {
-  console.log(getCookie('accessToken'));
+  console.log(getCookie('tokens'));
   return (
     <div>
       <div>회원가입이 성공했습니다.</div>

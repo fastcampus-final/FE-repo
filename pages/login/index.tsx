@@ -1,9 +1,22 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import { setCookie, getCookie } from '@/utils/cookie';
 import Input from '@/components/common/Input';
+import { instance } from '../api/instance';
+
+interface IresProps {
+  data: {
+    code: number;
+    data: null | ItokenProps;
+    message: string;
+    status: string;
+  };
+}
+interface ItokenProps {
+  accessToken: string;
+  refreshToken: string;
+}
 
 const Login = () => {
   const router = useRouter();
@@ -11,8 +24,7 @@ const Login = () => {
   if (getCookie('accessToken')) {
     alert('로그인된 계정입니다. 로그아웃 후 이용해주세요.');
     router.back();
-    router.push('/');
-    console.log(getCookie('accessToken'));
+    console.log(getCookie('tokens'));
   }
 
   const {
@@ -25,7 +37,7 @@ const Login = () => {
     <div>
       <form
         onSubmit={handleSubmit(async (data) => {
-          await axios({
+          await instance({
             method: 'POST',
             url: 'http://13.209.33.84:8080/user/login',
             data: {
@@ -33,12 +45,12 @@ const Login = () => {
               password: data.password,
             },
           })
-            .then((res) => {
-              setCookie('accessToken', res.data.data.accessToken);
+            .then((res: IresProps) => {
+              setCookie('tokens', JSON.stringify(res.data.data));
             })
-            .catch((error) => {
+            .catch((error: IresProps) => {
               console.log(error);
-              throw new Error(error);
+              // throw new Error(error);
             });
 
           await router.back();
