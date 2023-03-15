@@ -1,31 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { setCookie, getCookie } from '@/utils/cookie';
 import Input from '@/components/common/Input';
 import { instance } from '../api/instance';
-
-interface IresProps {
-  data: {
-    code: number;
-    data: null | ItokenProps;
-    message: string;
-    status: string;
-  };
-}
-interface ItokenProps {
-  accessToken: string;
-  refreshToken: string;
-}
+import { IResProps } from '@/interfaces/loginResgister';
+import { MESSAGES } from '@/constants/messages';
+import Link from 'next/link';
+import { ROUTES } from '@/constants/routes';
 
 const Login = () => {
   const router = useRouter();
 
-  if (getCookie('accessToken')) {
-    alert('로그인된 계정입니다. 로그아웃 후 이용해주세요.');
-    router.back();
-    console.log(getCookie('tokens'));
-  }
+  useEffect(() => {
+    if (getCookie('accessToken')) {
+      alert('로그인된 계정입니다. 로그아웃 후 이용해주세요.');
+      router.back();
+      // console.log(getCookie('tokens'));
+    }
+  }, []);
 
   const {
     register,
@@ -45,16 +38,16 @@ const Login = () => {
               password: data.password,
             },
           })
-            .then((res: IresProps) => {
-              setCookie('tokens', JSON.stringify(res.data.data));
+            .then(async (res: IResProps) => {
+              console.log(JSON.stringify(res));
+              await setCookie('tokens', JSON.stringify(res.data.data));
+              // await router.back();
             })
-            .catch((error: IresProps) => {
+            .catch((error: IResProps) => {
               console.log(error);
+              alert(MESSAGES.LOGIN.ERROR_LOGIN);
               // throw new Error(error);
             });
-
-          await router.back();
-          await router.push('/');
         })}
       >
         <Input
@@ -81,6 +74,12 @@ const Login = () => {
           로그인
         </button>
       </form>
+      <div>
+        <div>계정이 없으신가요? 그렇다면 회원가입 페이지로 이동해 주세요.</div>
+        <Link href={ROUTES.SIGNUP}>
+          <div>회원가입</div>
+        </Link>
+      </div>
     </div>
   );
 };

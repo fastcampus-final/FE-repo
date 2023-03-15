@@ -1,30 +1,21 @@
 import Input from '@/components/common/Input';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { getCookie, setCookie } from '@/utils/cookie';
 import { instance } from '../api/instance';
-
-interface IresProps {
-  data: {
-    code: number;
-    data: string | null | ItokenProps;
-    message: string;
-    status: string;
-  };
-}
-interface ItokenProps {
-  accessToken: string;
-  refreshToken: string;
-}
+import { IResProps } from '@/interfaces/loginResgister';
+import { MESSAGES } from '@/constants/messages';
 
 const Register = () => {
   const router = useRouter();
 
-  if (getCookie('tokens')) {
-    alert('로그인된 계정입니다. 로그아웃 후 이용해주세요.');
-    router.back();
-  }
+  useEffect(() => {
+    if (getCookie('tokens')) {
+      alert('로그인된 계정입니다. 로그아웃 후 이용해주세요.');
+      router.back();
+    }
+  }, []);
 
   const {
     register,
@@ -71,11 +62,12 @@ const Register = () => {
           url: 'http://13.209.33.84:8080/user/signup',
           data: data,
         })
-          .then((res: IresProps) => {
+          .then((res: IResProps) => {
             console.log(res);
           })
-          .catch((error: IresProps) => {
+          .catch((error: IResProps) => {
             console.log(error);
+            alert(MESSAGES.SIGNUP.ERROR_SIGNUP);
             // throw new Error(error);
           });
 
@@ -87,15 +79,15 @@ const Register = () => {
             password: data.password,
           },
         })
-          .then((res: IresProps) => {
-            setCookie('tokens', JSON.stringify(res.data.data));
+          .then(async (res: IResProps) => {
+            await setCookie('tokens', JSON.stringify(res.data.data));
+            await router.push('/signup/success');
           })
-          .catch((error: IresProps) => {
+          .catch((error: IResProps) => {
             console.log(error);
+            alert(MESSAGES.LOGIN.ERROR_LOGIN);
             // throw new Error(error);
           });
-
-        await router.push('/signup/success');
       })}
     >
       <Input

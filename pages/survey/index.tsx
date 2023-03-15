@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Servey = () => {
-  return <div>Servey</div>;
+const Survey = () => {
+  return <div>Survey</div>;
 };
 
-export default Servey;
+export default Survey;
