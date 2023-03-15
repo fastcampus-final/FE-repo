@@ -1,9 +1,9 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { instance } from '../../pages/api/instance';
 
 const getLike = async () => {
-  const { data } = await axios.get('https://example.com/like');
+  const { data } = await instance.get('https://example.com/like');
   return data.data;
 };
 
