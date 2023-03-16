@@ -109,7 +109,11 @@ const getData = async () => {
   return data;
 };
 
-const Product = () => {
+interface Props {
+  type?: string;
+}
+
+const Product = ({ type }: Props) => {
   const data = useQuery({
     queryKey: ['data'],
     queryFn: getData,
@@ -119,7 +123,7 @@ const Product = () => {
     <Container>
       <Header>
         <ProductCount>
-          총 상품 <Count>{tempData.length}</Count> 개
+          {type === 'search' ? '검색 결과' : '총 상품'} <Count>{tempData.length}</Count> 개
         </ProductCount>
         <select>
           <option>최신 순</option>
