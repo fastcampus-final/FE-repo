@@ -51,8 +51,8 @@ const Search = () => {
     keywordRef.current.blur();
   };
 
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if ((event.nativeEvent.isComposing === false && event.key) === 'Enter') {
       handleClickSearch();
     }
   };
@@ -74,7 +74,7 @@ const Search = () => {
           value={keyword}
           onChange={(event) => setKeyword(event.target.value)}
           onFocus={handleFocusSearch}
-          onKeyPress={handleKeyPress}
+          onKeyDown={handleKeyDown}
         />
         <Button variant="transparent" onClick={() => handleClickSearch()}>
           <IoSearchOutline size={'22px'} />

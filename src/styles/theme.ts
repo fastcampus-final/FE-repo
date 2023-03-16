@@ -6,6 +6,7 @@ const colors = {
   white: '#fff',
   black: '#000',
   gray: 'rgba(128, 128, 128, 0.2)',
+  lightgray: 'rgba(128, 128, 128, 0.14)',
 };
 
 const shadow = {
