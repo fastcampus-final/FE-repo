@@ -16,5 +16,9 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Noto Sans KR', sans-serif;
     list-style: none;
   }
+
+  a {
+    text-decoration: none;
+  }
 `;
 export default GlobalStyle;
