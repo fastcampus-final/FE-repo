@@ -23,10 +23,6 @@ interface Props {
   };
 }
 
-interface ICityContent {
-  width: number;
-}
-
 const Home = ({ posts }: Props) => {
   const [cityWidth, setCityWidth] = useState(0);
   const anchorRef = useRef<any>(0);
@@ -211,7 +207,7 @@ const TestContent = styled.div`
   }
 `;
 
-const CityContent = styled.div<ICityContent>`
+const CityContent = styled.div<{ width: number }>`
   margin-bottom: 7rem;
   .city {
     .swiper-slide {
