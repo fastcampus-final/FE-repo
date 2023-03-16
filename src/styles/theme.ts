@@ -2,7 +2,7 @@ import { DefaultTheme } from 'styled-components';
 
 const colors = {
   primary: '#4581f8',
-  secondary: '#0a4297',
+  secondary: '#4581f8cf',
   white: '#fff',
   black: '#000',
   gray: 'rgba(128, 128, 128, 0.2)',

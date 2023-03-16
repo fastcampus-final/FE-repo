@@ -168,7 +168,7 @@ const ProductWrap = styled.div`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 20px;
+  padding: 30px 0;
   position: relative;
   &::after {
     content: '';
