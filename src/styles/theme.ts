@@ -1,10 +1,11 @@
 import { DefaultTheme } from 'styled-components';
 
 const colors = {
-  primary: '#0055b8',
+  primary: '#4581f8',
   secondary: '#0a4297',
   white: '#fff',
   black: '#000',
+  gray: 'rgba(128, 128, 128, 0.2)',
 };
 
 const shadow = {

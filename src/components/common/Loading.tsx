@@ -2,8 +2,13 @@ import React from 'react';
 import Lottie from 'lottie-react';
 import LoadingLottie from '@/../public/lotties/loading-plane.json';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 
 const Loading = () => {
+  const loading = useSelector((state: RootState) => state.loading);
+  if (loading === false) return null;
+
   return (
     <StyledLoading>
       <Lottie animationData={LoadingLottie} loop={true} />
