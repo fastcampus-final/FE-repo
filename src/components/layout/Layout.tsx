@@ -22,7 +22,7 @@ const Layout = ({ children }: Props) => {
     <Container>
       <Header />
       <Navbar />
-      <main>{children}</main>
+      <Main>{children}</Main>
       <Footer />
       <Loading />
     </Container>
@@ -35,4 +35,8 @@ const Container = styled.div`
   max-width: 1920px;
   margin: 0 auto;
   border: 1px solid black;
+`;
+
+const Main = styled.div`
+  padding: 30px;
 `;
