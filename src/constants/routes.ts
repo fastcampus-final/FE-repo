@@ -14,7 +14,7 @@ export const ROUTES = {
   REVIEW_ADD: '/review/add',
   REVIEW_MODIFY: '/review/modify',
   MYPAGE: {
-    MYPAGE: '/mypage',
+    MYPAGE_MAIN: '/mypage',
     MYPAGE_INFO: '/mypage/info',
     MYPAGE_ORDER: '/mypage/order',
     MYPAGE_REVIEW: '/mypage/review',

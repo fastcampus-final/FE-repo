@@ -21,6 +21,15 @@ const VARIANTS = {
       background-color: ${({ theme }) => theme.colors.primary};
     }
   `,
+  gray: css`
+    color: ${({ theme }) => theme.colors.black};
+    background-color: ${({ theme }) => theme.colors.gray};
+    transition: 0.3s ease all;
+    border: none;
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.lightgray};
+    }
+  `,
   disbled: css`
     color: #808080;
     background-color: #d8d9d9;
@@ -99,6 +108,7 @@ const StyledButton = styled.button<{
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 15px;
   &:disabled {
     opacity: 1;
     cursor: default;
