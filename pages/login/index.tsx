@@ -14,7 +14,7 @@ const Login = () => {
 
   useEffect(() => {
     if (getCookie('accessToken')) {
-      alert('로그인된 계정입니다. 로그아웃 후 이용해주세요.');
+      alert(MESSAGES.VALID_AUTH);
       router.back();
       // console.log(getCookie('tokens'));
     }

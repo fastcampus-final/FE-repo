@@ -12,7 +12,7 @@ const Register = () => {
 
   useEffect(() => {
     if (getCookie('tokens')) {
-      alert('로그인된 계정입니다. 로그아웃 후 이용해주세요.');
+      alert(MESSAGES.VALID_AUTH);
       router.back();
     }
   }, []);
