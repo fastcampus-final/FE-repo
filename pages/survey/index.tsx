@@ -71,13 +71,13 @@ const Servey = () => {
   return (
     <Container>
       <QuestionMessage>
-        <Image src="./test.png" alt="고투게더" width="40px" borderRadius="30px" />
+        <Image src="./logo.png" alt="고투게더" width="30px" borderRadius="30px" />
         <TextBubble>
           <p>안녕하세요. 여행 유형 테스트를 시작합니다.</p>
         </TextBubble>
       </QuestionMessage>
       <QuestionMessage>
-        <Image src="./test.png" alt="고투게더" width="40px" borderRadius="30px" />
+        <Image src="./logo.png" alt="고투게더" width="30px" borderRadius="30px" />
         <TextBubble>
           <p>평소에 어떤 여행을 선호하시나요?</p>
           <AnswerList>
@@ -106,7 +106,7 @@ const Servey = () => {
         </TextBubble>
       </AnswerMessage>
       <QuestionMessage>
-        <Image src="./test.png" alt="고투게더" width="40px" borderRadius="30px" />
+        <Image src="./logo.png" alt="고투게더" width="30px" borderRadius="30px" />
         <TextBubble>
           <p>여행지의 날씨는 어떤 게 더 좋으신가요?</p>
           <AnswerList>
@@ -135,7 +135,7 @@ const Servey = () => {
         </TextBubble>
       </AnswerMessage>
       <QuestionMessage>
-        <Image src="./test.png" alt="고투게더" width="40px" borderRadius="30px" />
+        <Image src="./logo.png" alt="고투게더" width="30px" borderRadius="30px" />
         <TextBubble>
           <p>고객님의 여행 유형은 &quot;시원한 도시&quot; 유형 입니다.</p>
           <p>마음에 꼭 드실 여행 상품을 추천해 드릴게요.</p>
@@ -182,7 +182,7 @@ const QuestionMessage = styled.div`
   flex-direction: column;
   width: fit-content;
   align-self: flex-start;
-  gap: 10px;
+  gap: 14px;
 `;
 
 const AnswerMessage = styled.div`
