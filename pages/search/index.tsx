@@ -9,6 +9,7 @@ import { getStorage, setStorage, removeStorage } from '@/utils/storage';
 import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
 import { MESSAGES } from '@/constants/messages';
+import PageTitle from '@/components/common/PageTitle';
 
 const Search = () => {
   const dispatch = useDispatch();
@@ -65,6 +66,7 @@ const Search = () => {
 
   return (
     <Container>
+      <PageTitle title="상품 검색" />
       <SearchInputWrap>
         {/* <Input type="text" placeholder="검색어를 입력해 주세요." /> */}
         <input
@@ -143,7 +145,7 @@ export default Search;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 30px;
 `;
 
 const SearchInputWrap = styled.div`

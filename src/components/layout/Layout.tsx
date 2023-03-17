@@ -36,9 +36,10 @@ export default Layout;
 const Container = styled.div`
   max-width: 1920px;
   margin: 0 auto;
-  border: 1px solid black;
 `;
 
 const Main = styled.div`
+  max-width: 1500px;
+  margin: 0 auto;
   padding: 30px;
 `;

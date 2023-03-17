@@ -10,7 +10,7 @@ const colors = {
 };
 
 const shadow = {
-  boxShadow: '1px 1px 4px rgba(0, 0, 0, 0.2), -1px -1px 4px rgba(0, 0, 0, 0.2)',
+  normal: '0 0.8rem 0.8rem -0.8rem rgb(0 0 0 / 10%)',
 };
 
 const media = {

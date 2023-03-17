@@ -3,7 +3,7 @@ import Head from 'next/head';
 import useLikeList from '@/hooks/useLikeList';
 import { GetServerSidePropsContext } from 'next';
 import { ILike } from '@/interfaces/like';
-import { instance } from './api/instance';
+import { instance } from '../src/api/instance';
 import { useRouter } from 'next/router';
 
 import { Swiper, SwiperSlide } from 'swiper/react';

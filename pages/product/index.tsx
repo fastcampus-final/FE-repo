@@ -3,7 +3,7 @@ import { IProduct } from '@/interfaces/product';
 import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
 import React from 'react';
 import styled from 'styled-components';
-import { instance } from '../api/instance';
+import { instance } from '../../src/api/instance';
 
 const tempData: IProduct[] = [
   {
@@ -173,16 +173,6 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 30px 0;
-  position: relative;
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: ${({ theme }) => theme.colors.gray};
-  }
 `;
 
 const ProductCount = styled.span`
