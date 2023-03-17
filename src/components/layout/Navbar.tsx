@@ -11,6 +11,12 @@ const Navbar = () => {
           <Link href={ROUTES.HOME}>메인</Link>
         </li>
         <li>
+          <Link href={ROUTES.LOGIN}>로그인</Link>
+        </li>
+        <li>
+          <Link href={ROUTES.SIGNUP}>회원가입</Link>
+        </li>
+        <li>
           <Link href={ROUTES.PRODUCT}>상품목록</Link>
         </li>
         <li>
@@ -33,10 +39,14 @@ const Navbar = () => {
 export default Navbar;
 
 const Container = styled.div`
-  border: 1px solid black;
+  display: flex;
+  padding: 30px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 `;
 
 const MenuList = styled.ul`
+  width: 1500px;
+  margin: 0 auto;
   display: flex;
   gap: 10px;
 `;
