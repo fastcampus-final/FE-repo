@@ -3,7 +3,7 @@ import { IProduct } from '@/interfaces/product';
 import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
 import React from 'react';
 import styled from 'styled-components';
-import { instance } from '../api/instance';
+import { instance } from '../../src/api/instance';
 
 const tempData: IProduct[] = [
   {
@@ -109,7 +109,11 @@ const getData = async () => {
   return data;
 };
 
-const Product = () => {
+interface Props {
+  type?: string;
+}
+
+const Product = ({ type }: Props) => {
   const data = useQuery({
     queryKey: ['data'],
     queryFn: getData,
@@ -119,7 +123,7 @@ const Product = () => {
     <Container>
       <Header>
         <ProductCount>
-          총 상품 <Count>{tempData.length}</Count> 개
+          {type === 'search' ? '검색 결과' : '총 상품'} <Count>{tempData.length}</Count> 개
         </ProductCount>
         <select>
           <option>최신 순</option>
@@ -168,17 +172,7 @@ const ProductWrap = styled.div`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 20px;
-  position: relative;
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: ${({ theme }) => theme.colors.gray};
-  }
+  padding: 30px 0;
 `;
 
 const ProductCount = styled.span`

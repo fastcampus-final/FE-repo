@@ -3,15 +3,15 @@ import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { getCookie, setCookie } from '@/utils/cookie';
-import { instance } from '../api/instance';
-import { IResProps } from '@/interfaces/loginResgister';
+import { instance } from '@/api/instance';
+import { ISignUpProps, ILoginProps } from '@/interfaces/loginResgister';
 import { MESSAGES } from '@/constants/messages';
 
-const Register = () => {
+const Signup = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (getCookie('tokens')) {
+    if (getCookie('accessToken') && getCookie('refreshToken')) {
       alert(MESSAGES.VALID_AUTH);
       router.back();
     }
@@ -62,10 +62,10 @@ const Register = () => {
           url: 'http://13.209.33.84:8080/user/signup',
           data: data,
         })
-          .then((res: IResProps) => {
+          .then((res: ISignUpProps) => {
             console.log(res);
           })
-          .catch((error: IResProps) => {
+          .catch((error: ISignUpProps) => {
             console.log(error);
             alert(MESSAGES.SIGNUP.ERROR_SIGNUP);
             // throw new Error(error);
@@ -79,11 +79,17 @@ const Register = () => {
             password: data.password,
           },
         })
-          .then(async (res: IResProps) => {
-            await setCookie('tokens', JSON.stringify(res.data.data));
-            await router.push('/signup/success');
+          .then(async (res: ILoginProps) => {
+            if (res.data.status === 'OK') {
+              await setCookie('accessToken', res.data.data?.accessToken as string);
+              await setCookie('refreshToken', res.data.data?.refreshToken as string);
+              await router.push('/signup/success');
+            } else {
+              console.log(MESSAGES.LOGIN.ERROR_LOGIN);
+              alert(MESSAGES.LOGIN.ERROR_LOGIN);
+            }
           })
-          .catch((error: IResProps) => {
+          .catch((error: ILoginProps) => {
             console.log(error);
             alert(MESSAGES.LOGIN.ERROR_LOGIN);
             // throw new Error(error);
@@ -119,7 +125,7 @@ const Register = () => {
         })}
         id="email"
         type="email"
-        placeholder="abcd1234"
+        placeholder="aaa@naver.com"
         label="이메일"
       />
       <Input
@@ -186,4 +192,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Signup;
