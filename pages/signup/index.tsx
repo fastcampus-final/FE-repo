@@ -1,13 +1,14 @@
 import Input from '@/components/common/Input';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
 import { getCookie, setCookie } from '@/utils/cookie';
 import { instance } from '@/api/instance';
 import { ISignUpProps, ILoginProps } from '@/interfaces/loginResgister';
 import { MESSAGES } from '@/constants/messages';
+import { useRouter } from 'next/router';
 
 const Signup = () => {
+  const [emailCheck, setEmailCheck] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -57,43 +58,53 @@ const Signup = () => {
   return (
     <form
       onSubmit={handleSubmit(async (data) => {
-        await instance({
-          method: 'POST',
-          url: 'http://13.209.33.84:8080/user/signup',
-          data: data,
-        })
-          .then((res: ISignUpProps) => {
-            console.log(res);
+        if (
+          confirm(
+            '회원가입을 하시면 비밀번호와 전화번호만 변경가능 합니다. 회원가입 하시겠습니까?',
+          ) === true &&
+          emailCheck === true
+        ) {
+          await instance({
+            method: 'POST',
+            url: 'https://www.go-together.store:443/user/signup',
+            data: data,
           })
-          .catch((error: ISignUpProps) => {
-            console.log(error);
-            alert(MESSAGES.SIGNUP.ERROR_SIGNUP);
-            // throw new Error(error);
-          });
+            .then((res: ISignUpProps) => {
+              console.log(res);
+              console.log(data);
+            })
+            .catch((error: ISignUpProps) => {
+              console.log(error);
+              alert(MESSAGES.SIGNUP.ERROR_SIGNUP);
+              // throw new Error(error);
+            });
 
-        await instance({
-          method: 'POST',
-          url: 'http://13.209.33.84:8080/user/login',
-          data: {
-            email: data.email,
-            password: data.password,
-          },
-        })
-          .then(async (res: ILoginProps) => {
-            if (res.data.status === 'OK') {
-              await setCookie('accessToken', res.data.data?.accessToken as string);
-              await setCookie('refreshToken', res.data.data?.refreshToken as string);
-              await router.push('/signup/success');
-            } else {
-              console.log(MESSAGES.LOGIN.ERROR_LOGIN);
-              alert(MESSAGES.LOGIN.ERROR_LOGIN);
-            }
+          await instance({
+            method: 'POST',
+            url: 'https://www.go-together.store:443/user/login',
+            data: {
+              email: data.email,
+              password: data.password,
+            },
           })
-          .catch((error: ILoginProps) => {
-            console.log(error);
-            alert(MESSAGES.LOGIN.ERROR_LOGIN);
-            // throw new Error(error);
-          });
+            .then(async (res: ILoginProps) => {
+              if (res.data.status === 'OK') {
+                await setCookie('accessToken', res.data.data?.accessToken as string);
+                await setCookie('refreshToken', res.data.data?.refreshToken as string);
+                await router.push('/signup/success');
+              } else {
+                console.log(MESSAGES.LOGIN.ERROR_LOGIN);
+                alert(MESSAGES.LOGIN.ERROR_LOGIN);
+              }
+            })
+            .catch((error: ILoginProps) => {
+              console.log(error);
+              alert(MESSAGES.LOGIN.ERROR_LOGIN);
+              // throw new Error(error);
+            });
+        } else {
+          alert('회원가입란을 다시 한번 확인해주세요.');
+        }
       })}
     >
       <Input
@@ -127,6 +138,9 @@ const Signup = () => {
         type="email"
         placeholder="aaa@naver.com"
         label="이메일"
+        email={watch('email')}
+        emailCheck={emailCheck}
+        setEmailCheck={setEmailCheck}
       />
       <Input
         error={errors.password?.message as string}

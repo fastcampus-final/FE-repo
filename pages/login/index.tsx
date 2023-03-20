@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+
 import { setCookie, getCookie } from '@/utils/cookie';
 import Input from '@/components/common/Input';
 import { instance } from '@/api/instance';
 import { ILoginProps } from '@/interfaces/loginResgister';
 import { MESSAGES } from '@/constants/messages';
-import Link from 'next/link';
 import { ROUTES } from '@/constants/routes';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
 
 const Login = () => {
   const router = useRouter();
@@ -32,7 +33,7 @@ const Login = () => {
         onSubmit={handleSubmit(async (data) => {
           await instance({
             method: 'POST',
-            url: 'http://13.209.33.84:8080/user/login',
+            url: 'https://www.go-together.store:443/user/login',
             data: {
               email: data.email,
               password: data.password,
@@ -42,7 +43,7 @@ const Login = () => {
               if (res.data.status === 'OK') {
                 await setCookie('accessToken', res.data.data?.accessToken as string);
                 await setCookie('refreshToken', res.data.data?.refreshToken as string);
-                // await router.back();
+                await router.back();
               } else {
                 console.log(MESSAGES.LOGIN.ERROR_LOGIN);
                 alert(MESSAGES.LOGIN.ERROR_LOGIN);

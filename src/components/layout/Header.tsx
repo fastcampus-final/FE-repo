@@ -5,6 +5,7 @@ import Logo from './header/Logo_header';
 import Mypage from './header/Mypage_header';
 import Search from './header/Search_header';
 import Login from './header/Login_header';
+import { useRouter } from 'next/router';
 
 const Header = () => {
   const [cookies, setCookies] = useState('');
@@ -12,10 +13,12 @@ const Header = () => {
     setCookies(getCookie('accessToken'));
   }, [getCookie('accessToken')]);
 
+  const router = useRouter();
+
   return (
     <Container>
       <Logo />
-      <Search />
+      {router.asPath !== '/search' ? <Search /> : <div></div>}
       {cookies ? <Mypage /> : <Login />}
     </Container>
   );
