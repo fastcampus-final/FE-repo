@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cart from './cart';
 import loading from './loading';
+import modal from './modal';
 
 const store = configureStore({
   reducer: {
-    cart: cart.reducer,
     loading: loading.reducer,
+    cart: cart.reducer,
+    modal: modal.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
   devTools: true,

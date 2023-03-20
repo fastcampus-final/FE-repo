@@ -1,15 +1,15 @@
 import React from 'react';
 
-interface IinputProps {
-  error: string;
-  register: { name: string };
-  id: string;
+interface Props {
   type: string;
   placeholder?: string;
-  label: string;
+  label?: string;
+  id?: string;
+  register?: { name: string };
+  error?: string;
 }
 
-const Input = ({ error, register, id, type, placeholder, label }: IinputProps) => {
+const Input = ({ error, register, id, type, placeholder, label }: Props) => {
   return (
     <div>
       <label htmlFor={id}>{label}</label>

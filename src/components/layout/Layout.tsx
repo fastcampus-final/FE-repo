@@ -4,6 +4,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Loading from '../common/Loading';
+import Modal from '../common/Modal';
 import Footer from './Footer';
 import Header from './Header';
 import Navbar from './Navbar';
@@ -22,8 +23,9 @@ const Layout = ({ children }: Props) => {
     <Container>
       <Header />
       <Navbar />
-      <main>{children}</main>
+      <Main>{children}</Main>
       <Footer />
+      <Modal />
       <Loading />
     </Container>
   );
@@ -34,5 +36,10 @@ export default Layout;
 const Container = styled.div`
   max-width: 1920px;
   margin: 0 auto;
-  border: 1px solid black;
+`;
+
+const Main = styled.div`
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 30px;
 `;

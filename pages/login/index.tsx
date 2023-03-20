@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { setCookie, getCookie } from '@/utils/cookie';
 import Input from '@/components/common/Input';
-import { instance } from '../api/instance';
-import { IResProps } from '@/interfaces/loginResgister';
+import { instance } from '@/api/instance';
+import { ILoginProps } from '@/interfaces/loginResgister';
 import { MESSAGES } from '@/constants/messages';
 import Link from 'next/link';
 import { ROUTES } from '@/constants/routes';
@@ -13,7 +13,7 @@ const Login = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (getCookie('accessToken')) {
+    if (getCookie('accessToken') && getCookie('refreshToken')) {
       alert(MESSAGES.VALID_AUTH);
       router.back();
       // console.log(getCookie('tokens'));
@@ -38,12 +38,17 @@ const Login = () => {
               password: data.password,
             },
           })
-            .then(async (res: IResProps) => {
-              console.log(JSON.stringify(res));
-              await setCookie('tokens', JSON.stringify(res.data.data));
-              // await router.back();
+            .then(async (res: ILoginProps) => {
+              if (res.data.status === 'OK') {
+                await setCookie('accessToken', res.data.data?.accessToken as string);
+                await setCookie('refreshToken', res.data.data?.refreshToken as string);
+                // await router.back();
+              } else {
+                console.log(MESSAGES.LOGIN.ERROR_LOGIN);
+                alert(MESSAGES.LOGIN.ERROR_LOGIN);
+              }
             })
-            .catch((error: IResProps) => {
+            .catch((error: ILoginProps) => {
               console.log(error);
               alert(MESSAGES.LOGIN.ERROR_LOGIN);
               // throw new Error(error);

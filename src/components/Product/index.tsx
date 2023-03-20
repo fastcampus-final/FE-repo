@@ -19,7 +19,7 @@ const ProductItem = ({ data }: Props) => {
 
   return (
     <Container onClick={handleClick}>
-      <Image src={data.imagePath} alt={data.title} width="350" height="350" borderRadius="10px" />
+      <Image src={data.imagePath} alt={data.title} width="340" height="340" borderRadius="10px" />
       <Title> {data.title}</Title>
       <Price>{formatPrice(data.price)}</Price>
     </Container>
