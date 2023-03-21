@@ -14,15 +14,7 @@ const ProductItem = ({ data }: Props) => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(
-      {
-        pathname: ROUTES.PRODUCT_BY_ID(data.productId),
-        query: {
-          ...data,
-        },
-      },
-      `${ROUTES.PRODUCT_BY_ID(data.productId)}`,
-    );
+    router.push(ROUTES.PRODUCT_BY_ID(data.productId));
   };
 
   return (
