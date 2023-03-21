@@ -1,14 +1,14 @@
-import Button from '@/components/common/Button';
 import Image from '@/components/common/Image';
 import { IProduct } from '@/interfaces/product';
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Autoplay } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import ProductItem from '@/components/Product';
+import Button from '@mui/material/Button';
 
 const tempData: IProduct[] = [
   {
@@ -82,20 +82,12 @@ const Servey = () => {
           <p>평소에 어떤 여행을 선호하시나요?</p>
           <AnswerList>
             <li>
-              <Button
-                variant="gray"
-                width="100%"
-                height="40px"
-                borderRadius="6px"
-                onClick={() => handleClickAnswer('1')}
-              >
+              <Button variant="contained" onClick={() => handleClickAnswer('1')}>
                 도시 여행
               </Button>
             </li>
             <li>
-              <Button variant="gray" width="100%" height="40px" borderRadius="6px">
-                자연 여행
-              </Button>
+              <Button variant="contained">자연 여행</Button>
             </li>
           </AnswerList>
         </TextBubble>
@@ -111,20 +103,12 @@ const Servey = () => {
           <p>여행지의 날씨는 어떤 게 더 좋으신가요?</p>
           <AnswerList>
             <li>
-              <Button
-                variant="gray"
-                width="100%"
-                height="40px"
-                borderRadius="6px"
-                onClick={() => handleClickAnswer('1')}
-              >
+              <Button variant="contained" onClick={() => handleClickAnswer('1')}>
                 따듯한 날씨
               </Button>
             </li>
             <li>
-              <Button variant="gray" width="100%" height="40px" borderRadius="6px">
-                시원한 날씨
-              </Button>
+              <Button variant="contained">시원한 날씨</Button>
             </li>
           </AnswerList>
         </TextBubble>

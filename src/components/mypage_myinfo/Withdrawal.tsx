@@ -1,6 +1,4 @@
-import { setModal } from '@/store/modal';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import PasswordModal from '../common/PasswordModal';
 
 interface Props {

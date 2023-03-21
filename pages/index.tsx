@@ -12,7 +12,7 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 interface Props {
   posts: {

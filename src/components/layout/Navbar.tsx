@@ -1,7 +1,7 @@
 // import { ROUTES } from '@/constants/routes';
 import Link from 'next/link';
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import NavList from './nav/NavList';
 
 const text = [

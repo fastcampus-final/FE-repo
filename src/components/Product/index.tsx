@@ -3,7 +3,7 @@ import { IProduct } from '@/interfaces/product';
 import { formatPrice } from '@/utils/format';
 import { useRouter } from 'next/router';
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Image from '../common/Image';
 
 interface Props {
