@@ -21,4 +21,5 @@ export const MESSAGES = {
     ERROR_GET_DETAIL: '상품상세 조회 중\n에러가 발생하였습니다.',
   },
   INVALID_AUTH: '회원 전용 메뉴입니다.\n로그인 후 이용해 주세요.',
+  VALID_AUTH: '로그인된 계정입니다.\n로그아웃 후 이용해주세요.',
 };

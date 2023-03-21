@@ -4,7 +4,7 @@ import Login from '../../../pages/login';
 
 const withAuth = (Component: React.FC<any>) => {
   const Auth = () => {
-    const accessToken = getCookie('accessToken');
+    const accessToken = getCookie('tokens');
 
     if (!accessToken) {
       return <Login />;

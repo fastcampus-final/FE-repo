@@ -1,15 +1,25 @@
-import { ROUTES } from '@/constants/routes';
-import Link from 'next/link';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Image from '../common/Image';
+import { getCookie } from '@/utils/cookie';
+import Logo from './header/Logo_header';
+import Mypage from './header/Mypage_header';
+import Search from './header/Search_header';
+import Login from './header/Login_header';
+import { useRouter } from 'next/router';
 
 const Header = () => {
+  const [cookies, setCookies] = useState('');
+  useEffect(() => {
+    setCookies(getCookie('accessToken'));
+  }, [getCookie('accessToken')]);
+
+  const router = useRouter();
+
   return (
     <Container>
-      <Link href={ROUTES.HOME}>
-        <Image src="./logo-full.png" alt="고투게더 로고" width="200px" />
-      </Link>
+      <Logo />
+      {router.asPath !== '/search' ? <Search /> : <div></div>}
+      {cookies ? <Mypage /> : <Login />}
     </Container>
   );
 };

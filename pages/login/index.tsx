@@ -1,19 +1,25 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+
 import { setCookie, getCookie } from '@/utils/cookie';
 import Input from '@/components/common/Input';
+import { instance } from '@/api/instance';
+import { ILoginProps } from '@/interfaces/loginResgister';
+import { MESSAGES } from '@/constants/messages';
+import { ROUTES } from '@/constants/routes';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
 
 const Login = () => {
   const router = useRouter();
 
-  if (getCookie('accessToken')) {
-    alert('로그인된 계정입니다. 로그아웃 후 이용해주세요.');
-    router.back();
-    router.push('/');
-    console.log(getCookie('accessToken'));
-  }
+  useEffect(() => {
+    if (getCookie('accessToken') && getCookie('refreshToken')) {
+      alert(MESSAGES.VALID_AUTH);
+      router.back();
+      // console.log(getCookie('tokens'));
+    }
+  }, []);
 
   const {
     register,
@@ -25,24 +31,29 @@ const Login = () => {
     <div>
       <form
         onSubmit={handleSubmit(async (data) => {
-          await axios({
+          await instance({
             method: 'POST',
-            url: 'http://13.209.33.84:8080/user/login',
+            url: 'https://www.go-together.store:443/user/login',
             data: {
               email: data.email,
               password: data.password,
             },
           })
-            .then((res) => {
-              setCookie('accessToken', res.data.data.accessToken);
+            .then(async (res: ILoginProps) => {
+              if (res.data.status === 'OK') {
+                await setCookie('accessToken', res.data.data?.accessToken as string);
+                await setCookie('refreshToken', res.data.data?.refreshToken as string);
+                await router.back();
+              } else {
+                console.log(MESSAGES.LOGIN.ERROR_LOGIN);
+                alert(MESSAGES.LOGIN.ERROR_LOGIN);
+              }
             })
-            .catch((error) => {
+            .catch((error: ILoginProps) => {
               console.log(error);
-              throw new Error(error);
+              alert(MESSAGES.LOGIN.ERROR_LOGIN);
+              // throw new Error(error);
             });
-
-          await router.back();
-          await router.push('/');
         })}
       >
         <Input
@@ -69,6 +80,12 @@ const Login = () => {
           로그인
         </button>
       </form>
+      <div>
+        <div>계정이 없으신가요? 그렇다면 회원가입 페이지로 이동해 주세요.</div>
+        <Link href={ROUTES.SIGNUP}>
+          <div>회원가입</div>
+        </Link>
+      </div>
     </div>
   );
 };
