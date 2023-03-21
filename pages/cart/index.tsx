@@ -2,7 +2,7 @@ import CartItem from '@/components/Cart/CartItem';
 import PageTitle from '@/components/common/PageTitle';
 import { ICart } from '@/interfaces/cart';
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 const tempData: ICart[] = [
   {

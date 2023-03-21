@@ -1,4 +1,5 @@
 import { instance } from '@/api/instance';
+import Button from '@mui/material/Button';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -32,7 +33,7 @@ const Input = ({
       <input id={id} type={type} placeholder={placeholder} {...register} />
       {error && <div role="alert">{error}</div>}
       {id === 'email' && router.asPath === '/signup' && (
-        <button
+        <Button
           onClick={async () => {
             await instance({
               method: 'GET',
@@ -53,7 +54,7 @@ const Input = ({
           }}
         >
           중복확인
-        </button>
+        </Button>
       )}
       {id === 'email' && emailCheck === true && <div>사용가능한 이메일입니다.</div>}
       {id === 'email' && emailCheck === false && (

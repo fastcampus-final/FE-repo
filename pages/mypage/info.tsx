@@ -2,11 +2,11 @@ import PageTitle from '@/components/common/PageTitle';
 import GetMyinfo from '@/components/mypage_myinfo/GetMyinfo';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect, useRef } from 'react';
-import NotInput from '@/components/common/notInput';
+import NotInput from '@/components/common/NotInput';
 import { useForm } from 'react-hook-form';
 import Input from '@/components/common/Input';
 import { instance } from '@/api/instance';
-import { getCookie } from '@/utils/cookie';
+import Button from '@mui/material/Button';
 
 const info = () => {
   const [patchInfo, setPatchInfo] = useState({
@@ -155,9 +155,9 @@ const info = () => {
               placeholder="01011112222"
               label="전화번호"
             />
-            <button type="submit" disabled={isSubmitting}>
+            <Button variant="contained" type="submit" disabled={isSubmitting}>
               수정 완료
-            </button>
+            </Button>
           </form>
         ) : (
           <div>
@@ -165,13 +165,14 @@ const info = () => {
               <NotInput id="password" label="비밀번호" type="password" value={patchInfo.password} />
               <NotInput id="phone" label="전화번호" type="tel" value={patchInfo.phone} />
             </div>
-            <button
+            <Button
+              variant="contained"
               onClick={() => {
                 setChangeInfo(true);
               }}
             >
               정보 수정
-            </button>
+            </Button>
           </div>
         )}
       </div>

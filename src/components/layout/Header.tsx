@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { getCookie } from '@/utils/cookie';
 import Logo from './header/Logo_header';
 import Mypage from './header/Mypage_header';

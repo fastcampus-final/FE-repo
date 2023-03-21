@@ -2,7 +2,7 @@ import { hideLoading, showLoading } from '@/store/loading';
 import { Router } from 'next/router';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Loading from '../common/Loading';
 import Modal from '../common/Modal';
 import Footer from './Footer';
