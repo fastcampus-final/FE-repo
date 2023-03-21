@@ -3,11 +3,25 @@ import GetMyinfo from '@/components/Mypage/GetMyinfo';
 import Logout from '@/components/Mypage/Logout';
 import MyPageLink from '@/components/Mypage/MyPageLink';
 import Withdrawal from '@/components/Mypage/Withdrawal';
+import { MESSAGES } from '@/constants/messages';
 import { ROUTES } from '@/constants/routes';
+import { getCookie } from '@/utils/cookie';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 
 const index = () => {
   const [modal, setModal] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!getCookie('accessToken') && !getCookie('refreshToken')) {
+      alert(MESSAGES.INVALID_AUTH);
+      router.push('/login');
+      // console.log(getCookie('tokens'));
+    }
+  }, []);
+
   return (
     <div>
       <PageTitle title="마이페이지" />

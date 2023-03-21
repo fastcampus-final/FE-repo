@@ -6,12 +6,31 @@ import Mypage from './header/Mypage_header';
 import Search from './header/Search_header';
 import Login from './header/Login_header';
 import { useRouter } from 'next/router';
+import { instance } from '@/api/instance';
 
 const Header = () => {
   const [cookies, setCookies] = useState('');
   useEffect(() => {
     setCookies(getCookie('accessToken'));
   }, [getCookie('accessToken')]);
+
+  setInterval(async () => {
+    if (getCookie('accessToken') && getCookie('refreshToken')) {
+      await instance({
+        method: 'POST',
+        url: 'https://www.go-together.store:443/user/refresh',
+        data: {
+          refreshToken: getCookie('refreshToken'),
+        },
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, 1800000);
 
   const router = useRouter();
 

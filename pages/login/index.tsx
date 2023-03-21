@@ -41,10 +41,15 @@ const Login = () => {
             },
           })
             .then(async (res: ILoginProps) => {
-              if (res.data.status === 'OK') {
+              console.log(res);
+              if (res.data.code === 200) {
                 await setCookie('accessToken', res.data.data?.accessToken as string);
                 await setCookie('refreshToken', res.data.data?.refreshToken as string);
                 await router.back();
+              } else if (res.data.code === 300) {
+                await setCookie('accessToken', res.data.data?.accessToken as string);
+                await setCookie('refreshToken', res.data.data?.refreshToken as string);
+                await setCookie('isAdmin', 'true');
               } else {
                 console.log(MESSAGES.LOGIN.ERROR_LOGIN);
                 alert(MESSAGES.LOGIN.ERROR_LOGIN);
