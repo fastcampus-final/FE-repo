@@ -1,8 +1,8 @@
 import PageTitle from '@/components/common/PageTitle';
-import GetMyinfo from '@/components/mypage_myinfo/GetMyinfo';
-import Logout from '@/components/mypage_myinfo/Logout';
-import MyPageLink from '@/components/mypage_myinfo/MyPageLink';
-import Withdrawal from '@/components/mypage_myinfo/Withdrawal';
+import GetMyinfo from '@/components/Mypage/GetMyinfo';
+import Logout from '@/components/Mypage/Logout';
+import MyPageLink from '@/components/Mypage/MyPageLink';
+import Withdrawal from '@/components/Mypage/Withdrawal';
 import { ROUTES } from '@/constants/routes';
 import React, { useState } from 'react';
 

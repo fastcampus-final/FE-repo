@@ -1,5 +1,5 @@
 import PageTitle from '@/components/common/PageTitle';
-import GetMyinfo from '@/components/mypage_myinfo/GetMyinfo';
+import GetMyinfo from '@/components/Mypage/GetMyinfo';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect, useRef } from 'react';
 import NotInput from '@/components/common/NotInput';
