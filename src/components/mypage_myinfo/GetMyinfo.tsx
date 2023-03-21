@@ -6,8 +6,11 @@ import React, { useState, useEffect } from 'react';
 import { Avatar } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { useRouter } from 'next/router';
 
 const GetMyinfo = () => {
+  const router = useRouter();
+
   const [myinfo, setMyinfo] = useState({
     birth: '',
     email: '',
@@ -63,12 +66,14 @@ const GetMyinfo = () => {
           <div>
             {myinfo.name}(만 {age()}세)
           </div>
-          <div>
-            <span>나의 정보 보러가기</span>
-            <span>
-              <ArrowForwardIosIcon />
-            </span>
-          </div>
+          {router.asPath === '/mypage' && (
+            <div>
+              <span>나의 정보 보러가기</span>
+              <span>
+                <ArrowForwardIosIcon />
+              </span>
+            </div>
+          )}
         </div>
       </Link>
     </div>
