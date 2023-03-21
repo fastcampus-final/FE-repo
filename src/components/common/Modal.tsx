@@ -4,6 +4,7 @@ import { default as ReactModal } from 'react-modal';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../common/Button';
+import PasswordModal from './PasswordModal';
 
 const Modal = () => {
   const modalState = useSelector((state: RootState) => state.modal);
@@ -26,31 +27,33 @@ const Modal = () => {
   return (
     <ReactModal isOpen={modalState.isOpen} style={customStyles}>
       <ModalWrap>
-        <ModalText>
-          <p>{modalState.text}</p>
-        </ModalText>
-        <ButtonWrap>
-          <Button
-            variant="blue"
-            width="80px"
-            height="34px"
-            borderRadius="6px"
-            onClick={modalState.onClickOk}
-          >
-            {modalState.okText ? modalState.okText : '확인'}
-          </Button>
-          {modalState.onClickCancel && (
+        <div>
+          <ModalText>
+            <p>{modalState.text}</p>
+          </ModalText>
+          <ButtonWrap>
             <Button
-              variant="white"
-              width={modalState.cancelText ? '110px' : '80px'}
+              variant="blue"
+              width="80px"
               height="34px"
               borderRadius="6px"
-              onClick={modalState.onClickCancel}
+              onClick={modalState.onClickOk}
             >
-              {modalState.cancelText ? modalState.cancelText : '취소'}
+              {modalState.okText ? modalState.okText : '확인'}
             </Button>
-          )}
-        </ButtonWrap>
+            {modalState.onClickCancel && (
+              <Button
+                variant="white"
+                width={modalState.cancelText ? '110px' : '80px'}
+                height="34px"
+                borderRadius="6px"
+                onClick={modalState.onClickCancel}
+              >
+                {modalState.cancelText ? modalState.cancelText : '취소'}
+              </Button>
+            )}
+          </ButtonWrap>
+        </div>
       </ModalWrap>
     </ReactModal>
   );

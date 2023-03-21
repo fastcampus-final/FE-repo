@@ -1,11 +1,25 @@
-import React from 'react';
+import { setModal } from '@/store/modal';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import PasswordModal from '../common/PasswordModal';
 
-// const [modal, setModal] = useState(false);
+interface Props {
+  modal?: boolean;
+  setmodal?: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const Withdrawal = () => {
+const Withdrawal = ({ modal, setmodal }: Props) => {
   return (
     <div>
-      <button>개인정보(탈퇴)</button>
+      <button
+        onClick={() => {
+          setmodal !== undefined && setmodal(true);
+          console.log(modal);
+        }}
+      >
+        개인정보(탈퇴)
+      </button>
+      {modal && <PasswordModal setmodal={setmodal} />}
     </div>
   );
 };
