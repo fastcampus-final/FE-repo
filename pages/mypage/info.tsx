@@ -83,9 +83,6 @@ const info = () => {
               await instance({
                 method: 'PATCH',
                 url: 'https://www.go-together.store:443/user/myInfo',
-                headers: {
-                  Authorization: `Bearer ${getCookie('accessToken')}`,
-                },
                 data: data,
               })
                 .then(async (res) => {

@@ -28,15 +28,12 @@ const PasswordModal = ({ setmodal }: Props) => {
       </button>
       <form
         onSubmit={handleSubmit(async (data) => {
-          if (confirm('회원탈퇴를 진행하시겠습니까? ') === true) {
+          if (confirm('회원탈퇴를 진행하시겠습니까? ')) {
             console.log(true);
             await instance({
               method: 'DELETE',
               url: 'https://www.go-together.store:443/user/withdraw',
               data: data,
-              headers: {
-                Authorization: `Bearer ${getCookie('accessToken')}`,
-              },
             })
               .then(async (res) => {
                 console.log(res.data);

@@ -61,8 +61,8 @@ const Signup = () => {
         if (
           confirm(
             '회원가입을 하시면 비밀번호와 전화번호만 변경가능 합니다. 회원가입 하시겠습니까?',
-          ) === true &&
-          emailCheck === true
+          ) &&
+          emailCheck
         ) {
           await instance({
             method: 'POST',
