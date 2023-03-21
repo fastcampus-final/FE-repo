@@ -1,6 +1,11 @@
 export interface ICart {
   productId: string;
-  title: string;
-  price: string;
-  imagePath: string;
+  producName: string;
+  productPrice: string;
+  productThumbnail: string;
+  reservationNumber?: string;
+  reservationSingleNumber?: string;
+  singleRoomPrice?: string;
+  totalAmount?: string;
+  travelDate?: string;
 }
