@@ -1,26 +1,15 @@
 import PageTitle from '@/components/common/PageTitle';
-import GetMyinfo from '@/components/Mypage/GetMyinfo';
+import GetMyinfo from '@/components/mypage_myinfo/GetMyinfo';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect, useRef } from 'react';
 import NotInput from '@/components/common/NotInput';
 import { useForm } from 'react-hook-form';
 import Input from '@/components/common/Input';
 import { instance } from '@/api/instance';
-import Button from '@mui/material/Button';
 import { getCookie } from '@/utils/cookie';
-import { MESSAGES } from '@/constants/messages';
+import Button from '@mui/material/Button';
 
 const info = () => {
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!getCookie('accessToken') && !getCookie('refreshToken')) {
-      alert(MESSAGES.INVALID_AUTH);
-      router.push('/login');
-      // console.log(getCookie('tokens'));
-    }
-  }, []);
-
   const [patchInfo, setPatchInfo] = useState({
     birth: '',
     email: '',
@@ -31,6 +20,7 @@ const info = () => {
 
   const [changeInfo, setChangeInfo] = useState(false);
 
+  const router = useRouter();
   const info = router.query.data;
 
   useEffect(() => {
@@ -94,6 +84,9 @@ const info = () => {
               await instance({
                 method: 'PATCH',
                 url: 'https://www.go-together.store:443/user/myInfo',
+                headers: {
+                  Authorization: `Bearer ${getCookie('accessToken')}`,
+                },
                 data: data,
               })
                 .then(async (res) => {
