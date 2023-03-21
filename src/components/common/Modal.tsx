@@ -2,8 +2,8 @@ import React from 'react';
 import { RootState } from '@/store';
 import { default as ReactModal } from 'react-modal';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
-import Button from '../common/Button';
+import styled from '@emotion/styled';
+import Button from '@mui/material/Button';
 
 const Modal = () => {
   const modalState = useSelector((state: RootState) => state.modal);
@@ -30,23 +30,11 @@ const Modal = () => {
           <p>{modalState.text}</p>
         </ModalText>
         <ButtonWrap>
-          <Button
-            variant="blue"
-            width="80px"
-            height="34px"
-            borderRadius="6px"
-            onClick={modalState.onClickOk}
-          >
+          <Button variant="contained" onClick={modalState.onClickOk}>
             {modalState.okText ? modalState.okText : '확인'}
           </Button>
           {modalState.onClickCancel && (
-            <Button
-              variant="white"
-              width={modalState.cancelText ? '110px' : '80px'}
-              height="34px"
-              borderRadius="6px"
-              onClick={modalState.onClickCancel}
-            >
+            <Button variant="outlined" onClick={modalState.onClickCancel}>
               {modalState.cancelText ? modalState.cancelText : '취소'}
             </Button>
           )}

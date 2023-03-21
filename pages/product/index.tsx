@@ -2,8 +2,9 @@ import ProductItem from '@/components/Product';
 import { IProduct } from '@/interfaces/product';
 import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { instance } from '../../src/api/instance';
+import THEME from '@/styles/theme';
 
 const tempData: IProduct[] = [
   {
@@ -181,5 +182,5 @@ const ProductCount = styled.span`
 
 const Count = styled.span`
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${THEME.colors.primary};
 `;

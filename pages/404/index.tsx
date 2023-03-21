@@ -1,8 +1,9 @@
 import React from 'react';
 import Lottie from 'lottie-react';
 import lottieData from '@/../public/404page.json';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import Button from '@mui/material/Button';
 
 const NotFound = () => {
   const router = useRouter();
@@ -18,12 +19,12 @@ const NotFound = () => {
           페이지가 존재하지 않거나, 사용할 수 없는 페이지 입니다. <br />
           입력하신 주소가 정확한지 다시 한 번 확인해주세요.{' '}
         </p>
-        <button onClick={() => router.push('/')} className="main">
+        <Button variant="contained" onClick={() => router.push('/')}>
           메인으로 {'>'}
-        </button>
-        <button onClick={() => router.back()} className="before">
+        </Button>
+        <Button variant="outlined" onClick={() => router.back()}>
           이전으로 {'>'}
-        </button>
+        </Button>
       </TextContent>
     </NotFoundContent>
   );
@@ -49,22 +50,6 @@ const TextContent = styled.div`
   p {
     line-height: 1.5;
     margin-bottom: 1.5rem;
-  }
-  button {
-    text-decoration: none;
-    padding: 0.5rem 0.7rem 0.4rem;
-    border-radius: 5px;
-    margin-right: 1rem;
-  }
-  .main {
-    background-color: #4393ff;
-    border: 2px solid #4393ff;
-    color: #fff;
-  }
-  .before {
-    border: 2px solid #4393ff;
-    color: #4393ff;
-    background-color: #fff;
   }
 `;
 

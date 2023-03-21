@@ -1,7 +1,6 @@
-import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { RxDotsHorizontal } from 'react-icons/rx';
 import { IoSearchOutline } from 'react-icons/io5';
 import Product from '../product';
@@ -10,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
 import { MESSAGES } from '@/constants/messages';
 import PageTitle from '@/components/common/PageTitle';
+import Button from '@mui/material/Button';
 
 const Search = () => {
   const dispatch = useDispatch();
@@ -78,7 +78,7 @@ const Search = () => {
           onFocus={handleFocusSearch}
           onKeyDown={handleKeyDown}
         />
-        <Button variant="transparent" onClick={() => handleClickSearch()}>
+        <Button variant="text" onClick={() => handleClickSearch()}>
           <IoSearchOutline size={'22px'} />
         </Button>
       </SearchInputWrap>
@@ -88,26 +88,18 @@ const Search = () => {
             <KeywordsHeader>
               <p>최근 검색어</p>
               <MenuList>
-                <Button variant="transparent">
+                <Button variant="text">
                   <RxDotsHorizontal size="14px" />
                 </Button>
-                <Button variant="transparent">선택 삭제</Button>
-                <Button variant="transparent">전체 삭제</Button>
-                <Button variant="transparent">자동저장 끄기</Button>
+                <Button variant="text">선택 삭제</Button>
+                <Button variant="text">전체 삭제</Button>
+                <Button variant="text">자동저장 끄기</Button>
               </MenuList>
             </KeywordsHeader>
             <Keywords>
               {recentKeywords &&
                 recentKeywords.map((item: string, idx: number) => (
-                  <Button
-                    key={idx}
-                    type="button"
-                    onClick={() => handleClickSearch(item)}
-                    borderRadius="50px"
-                    variant="white"
-                    padding="18px"
-                    height="30px"
-                  >
+                  <Button key={idx} onClick={() => handleClickSearch(item)} variant="outlined">
                     {item}
                   </Button>
                 ))}
@@ -123,10 +115,7 @@ const Search = () => {
                   key={idx}
                   type="button"
                   onClick={() => handleClickSearch(item)}
-                  borderRadius="50px"
-                  variant="blue"
-                  padding="18px"
-                  height="30px"
+                  variant="contained"
                 >
                   {item}
                 </Button>

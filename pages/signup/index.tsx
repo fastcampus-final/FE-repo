@@ -6,6 +6,7 @@ import { instance } from '@/api/instance';
 import { ISignUpProps, ILoginProps } from '@/interfaces/loginResgister';
 import { MESSAGES } from '@/constants/messages';
 import { useRouter } from 'next/router';
+import Button from '@mui/material/Button';
 
 const Signup = () => {
   const [emailCheck, setEmailCheck] = useState(false);
@@ -199,9 +200,9 @@ const Signup = () => {
         label="전화번호"
       />
 
-      <button type="submit" disabled={isSubmitting}>
+      <Button variant="contained" type="submit" disabled={isSubmitting}>
         회원가입
-      </button>
+      </Button>
     </form>
   );
 };

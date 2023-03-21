@@ -1,3 +1,4 @@
+import Button from '@mui/material/Button';
 import React from 'react';
 
 // const [modal, setModal] = useState(false);
@@ -5,7 +6,7 @@ import React from 'react';
 const Withdrawal = () => {
   return (
     <div>
-      <button>개인정보(탈퇴)</button>
+      <Button>개인정보(탈퇴)</Button>
     </div>
   );
 };

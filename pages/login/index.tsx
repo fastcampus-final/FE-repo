@@ -9,6 +9,7 @@ import { ROUTES } from '@/constants/routes';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import Button from '@mui/material/Button';
 
 const Login = () => {
   const router = useRouter();
@@ -76,9 +77,9 @@ const Login = () => {
           placeholder="********"
           label="비밀번호"
         />
-        <button type="submit" disabled={isSubmitting}>
+        <Button variant="contained" type="submit" disabled={isSubmitting}>
           로그인
-        </button>
+        </Button>
       </form>
       <div>
         <div>계정이 없으신가요? 그렇다면 회원가입 페이지로 이동해 주세요.</div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import Lottie from 'lottie-react';
 import LoadingLottie from '@/../public/lotties/loading-plane.json';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 
