@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Image from '@/../../src/components/common/Image';
 import { IDetail } from '@/interfaces/product';
 import { formatPrice } from '@/utils/format';
