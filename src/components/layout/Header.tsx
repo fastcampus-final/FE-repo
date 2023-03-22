@@ -64,7 +64,7 @@ const Header = () => {
           <Link href={ROUTES.CART}>장바구니</Link>
         </li>
         <li>
-          <Link href={ROUTES.MYPAGE.MYPAGE_MAIN}>마이페이지</Link>
+          <Link href={ROUTES.MYPAGE.MAIN}>마이페이지</Link>
         </li>
       </MenuList>
     </Container>
