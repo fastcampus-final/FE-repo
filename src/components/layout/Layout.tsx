@@ -1,6 +1,6 @@
 import { hideLoading, showLoading } from '@/store/loading';
 import { Router } from 'next/router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import Loading from '../common/Loading';
@@ -18,18 +18,15 @@ interface Props {
 
 const Layout = ({ children }: Props) => {
   const dispatch = useDispatch();
-  const [cookie] = useCookies(['isAdmin']);
+  const [cookies, setCookies] = useCookies();
+
   Router.events.on('routeChangeStart', () => dispatch(showLoading()));
   Router.events.on('routeChangeComplete', () => dispatch(hideLoading()));
   Router.events.on('routeChangeError', () => dispatch(hideLoading()));
 
-  useEffect(() => {
-    //
-  }, []);
-
   return (
     <Container>
-      {cookie.isAdmin ? (
+      {cookies.isAdmin ? (
         <>
           <AdminHeader />
           <AdminWrap>

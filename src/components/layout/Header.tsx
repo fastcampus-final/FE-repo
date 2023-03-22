@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
-import { getCookie } from '@/utils/cookie';
 import Logo from './header/Logo_header';
 import Mypage from './header/Mypage_header';
 import Search from './header/Search_header';
@@ -9,20 +8,18 @@ import { useRouter } from 'next/router';
 import { instance } from '@/api/instance';
 import { ROUTES } from '@/constants/routes';
 import Link from 'next/link';
+import { useCookies } from 'react-cookie';
 
 const Header = () => {
-  const [cookies, setCookies] = useState('');
-  useEffect(() => {
-    setCookies(getCookie('accessToken'));
-  }, [getCookie('accessToken')]);
+  const [cookies, setCookies] = useCookies();
 
   setInterval(async () => {
-    if (getCookie('accessToken') && getCookie('refreshToken')) {
+    if (cookies['accessToken'] && cookies['refreshToken']) {
       await instance({
         method: 'POST',
         url: 'https://www.go-together.store:443/user/refresh',
         data: {
-          refreshToken: getCookie('refreshToken'),
+          refreshToken: cookies['refreshToken'],
         },
       })
         .then((res) => {
@@ -65,6 +62,9 @@ const Header = () => {
         </li>
         <li>
           <Link href={ROUTES.MYPAGE.MAIN}>마이페이지</Link>
+        </li>
+        <li onClick={() => setCookies('isAdmin', true)}>
+          <Link href={ROUTES.ADMIN.MAIN}>관리자페이지</Link>
         </li>
       </MenuList>
     </Container>
