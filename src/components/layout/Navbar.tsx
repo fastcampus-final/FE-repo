@@ -50,19 +50,15 @@ export default Navbar;
 
 const Container = styled.div`
   display: flex;
-  padding: 30px;
+  width: 100%;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 `;
 
-// const MenuList = styled.ul`
-//   width: 1500px;
-//   margin: 0 auto;
-//   display: flex;
-//   gap: 10px;
-// `;
-
 const FlexUl = styled.ul`
   display: flex;
+  width: 1200px;
+  margin: 0 auto;
+  padding: 30px;
 `;
 
 const HoverUl = styled.ul`
