@@ -7,10 +7,10 @@ import React, { useEffect, useState } from 'react';
 const order = () => {
   const [order, setOrder] = useState([]);
   useEffect(() => {
-    // const token = getCookie('accessToken');
     const getData = async () => {
       await instance({
         method: 'GET',
+        url: '/reservations',
       })
         .then((res) => {
           console.log(res);
