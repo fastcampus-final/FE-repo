@@ -1,16 +1,18 @@
 import { instance } from '@/api/instance';
-import { getCookie, removeCookie } from '@/utils/cookie';
+import { MESSAGES } from '@/constants/messages';
+import { IPasswordModal } from '@/interfaces/passwordModal';
+import { setModal } from '@/store/modal';
+import { removeCookie } from '@/utils/cookie';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import Input from './Input';
 
-interface Props {
-  setmodal?: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const PasswordModal = ({ setmodal }: Props) => {
+const PasswordModal = ({ setmodal }: IPasswordModal) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -28,22 +30,33 @@ const PasswordModal = ({ setmodal }: Props) => {
       </button>
       <form
         onSubmit={handleSubmit(async (data) => {
-          if (confirm('회원탈퇴를 진행하시겠습니까? ')) {
-            console.log(true);
+          if (confirm(MESSAGES.WITHDRAWAL.CONFIRM)) {
             await instance({
               method: 'DELETE',
               url: 'https://www.go-together.store:443/user/withdraw',
               data: data,
             })
               .then(async (res) => {
-                console.log(res.data);
                 if (res.data.code === 200) {
-                  removeCookie('accessToken');
-                  removeCookie('refreshToken');
-                  alert('회원탈퇴가 완료되었습니다.');
-                  router.push('/');
+                  await removeCookie('accessToken');
+                  await removeCookie('refreshToken');
+                  await removeCookie('isAdmin');
+                  await dispatch(
+                    setModal({
+                      isOpen: true,
+                      onClickOk: () => dispatch(setModal({ isOpen: false })),
+                      text: MESSAGES.WITHDRAWAL.COMPLETE,
+                    }),
+                  );
+                  await router.push('/');
                 } else {
-                  alert(res.data.data);
+                  dispatch(
+                    setModal({
+                      isOpen: true,
+                      onClickOk: () => dispatch(setModal({ isOpen: false })),
+                      text: res.data.data,
+                    }),
+                  );
                 }
               })
               .catch((error) => {
@@ -55,7 +68,7 @@ const PasswordModal = ({ setmodal }: Props) => {
         <Input
           error={errors.password?.message as string}
           register={register('password', {
-            required: '비밀번호는 필수 입력입니다.',
+            required: MESSAGES.INPUT.CHECK.PASSWORD,
           })}
           id="password"
           type="password"

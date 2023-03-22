@@ -7,19 +7,14 @@ import { useForm } from 'react-hook-form';
 import Input from '@/components/common/Input';
 import { instance } from '@/api/instance';
 import Button from '@mui/material/Button';
-import { getCookie } from '@/utils/cookie';
 import { MESSAGES } from '@/constants/messages';
+import { useDispatch } from 'react-redux';
+import { setModal } from '@/store/modal';
+import withAuth from '@/components/common/PrivateRouter';
 
 const info = () => {
   const router = useRouter();
-
-  useEffect(() => {
-    if (!getCookie('accessToken') && !getCookie('refreshToken')) {
-      alert(MESSAGES.INVALID_AUTH);
-      router.push('/login');
-      // console.log(getCookie('tokens'));
-    }
-  }, []);
+  const dispatch = useDispatch();
 
   const [patchInfo, setPatchInfo] = useState({
     birth: '',
@@ -101,27 +96,46 @@ const info = () => {
                   if (res.data.code === 200) {
                     await setPatchInfo({ ...patchInfo, phone: res.data.data.phone });
                     await setChangeInfo(false);
+                    await dispatch(
+                      setModal({
+                        isOpen: true,
+                        onClickOk: () => dispatch(setModal({ isOpen: false })),
+                        text: MESSAGES.CHANGE_INFO,
+                      }),
+                    );
                   } else {
-                    alert(res.data.data);
+                    dispatch(
+                      setModal({
+                        isOpen: true,
+                        onClickOk: () => dispatch(setModal({ isOpen: false })),
+                        text: res.data.data,
+                      }),
+                    );
                   }
                 })
                 .catch((error) => {
                   console.log(error);
-                  // throw new Error(error);
+                  dispatch(
+                    setModal({
+                      isOpen: true,
+                      onClickOk: () => dispatch(setModal({ isOpen: false })),
+                      text: error,
+                    }),
+                  );
                 });
             })}
           >
             <Input
               error={errors.oldPassword?.message as string}
               register={register('oldPassword', {
-                required: '비밀번호는 필수 입력입니다.',
+                required: MESSAGES.INPUT.CHECK.PASSWORD,
                 minLength: {
                   value: 8,
-                  message: '8자리 이상 비밀번호를 사용하세요.',
+                  message: MESSAGES.INPUT.ERROR.PASSWORD_MIN,
                 },
                 pattern: {
                   value: /^(?=.*[A-Za-z!@#$%^&*()])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/,
-                  message: '적합한 비밀번호가 아닙니다.',
+                  message: MESSAGES.INPUT.ERROR.PASSWORD_PATTERN,
                 },
               })}
               id="oldPassword"
@@ -132,14 +146,14 @@ const info = () => {
             <Input
               error={errors.newPassword?.message as string}
               register={register('newPassword', {
-                required: '비밀번호는 필수 입력입니다.',
+                required: MESSAGES.INPUT.CHECK.PASSWORD,
                 minLength: {
                   value: 8,
-                  message: '8자리 이상 비밀번호를 사용하세요.',
+                  message: MESSAGES.INPUT.ERROR.PASSWORD_MIN,
                 },
                 pattern: {
                   value: /^(?=.*[A-Za-z!@#$%^&*()])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/,
-                  message: '적합한 비밀번호가 아닙니다.',
+                  message: MESSAGES.INPUT.ERROR.PASSWORD_PATTERN,
                 },
               })}
               id="newPassword"
@@ -151,14 +165,14 @@ const info = () => {
             <Input
               error={errors.phone?.message as string}
               register={register('phone', {
-                required: '전화번호는 필수 입력입니다.',
+                required: MESSAGES.INPUT.CHECK.PHONE,
                 pattern: {
                   value: /[0-9]{3}[0-9]{3,4}[0-9]{4}/,
-                  message: '전화번호 형식에 맞지 않습니다.',
+                  message: MESSAGES.INPUT.ERROR.PHONE_PATTERN,
                 },
                 maxLength: {
                   value: 11,
-                  message: '전화번호는 11자리 이하입니다.',
+                  message: MESSAGES.INPUT.ERROR.PHONE_MAX,
                 },
               })}
               id="phone"
@@ -191,4 +205,4 @@ const info = () => {
   );
 };
 
-export default info;
+export default withAuth(info);

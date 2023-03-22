@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { getCookie } from '@/utils/cookie';
+import { getCookie, removeCookie, setCookie } from '@/utils/cookie';
 import Logo from './header/Logo_header';
 import Mypage from './header/Mypage_header';
 import Search from './header/Search_header';
@@ -24,13 +24,52 @@ const Header = () => {
         },
       })
         .then((res) => {
-          console.log(res);
+          if (res.data.code === 200) {
+            removeCookie('accessToken');
+            setCookie('accessToken', res.data.data.accessToken);
+          } else
+            instance({
+              method: 'POST',
+              url: 'https://www.go-together.store:443/user/logout',
+              data: {
+                refreshToken: `${getCookie('refreshToken')}`,
+              },
+            })
+              .then((res) => {
+                if (res.data.code === 200) {
+                  alert('로그아웃이 완료되었습니다.');
+                  removeCookie('accessToken');
+                  removeCookie('refreshToken');
+                  router.push('/');
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
         })
         .catch((error) => {
           console.log(error);
+          instance({
+            method: 'POST',
+            url: 'https://www.go-together.store:443/user/logout',
+            data: {
+              refreshToken: `${getCookie('refreshToken')}`,
+            },
+          })
+            .then((res) => {
+              if (res.data.code === 200) {
+                alert('로그아웃이 완료되었습니다.');
+                removeCookie('accessToken');
+                removeCookie('refreshToken');
+                router.push('/');
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         });
     }
-  }, 1800000);
+  }, 1500000);
 
   const router = useRouter();
 

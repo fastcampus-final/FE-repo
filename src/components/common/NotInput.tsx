@@ -1,13 +1,7 @@
+import { INotInputProps } from '@/interfaces/notInputProps';
 import React from 'react';
 
-interface Props {
-  id: string;
-  label: string;
-  type: string;
-  value: string;
-}
-
-const NotInput = ({ id, label, type, value }: Props) => {
+const NotInput = ({ id, label, type, value }: INotInputProps) => {
   return (
     <div>
       <label htmlFor={id}>{label}</label>
