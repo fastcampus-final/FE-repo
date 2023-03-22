@@ -6,6 +6,8 @@ import { IDetail } from '@/interfaces/product';
 import { formatPrice } from '@/utils/format';
 import { AiOutlineHeart } from 'react-icons/ai';
 
+import Select from 'react-select';
+
 const tempData: IDetail = {
   productId: '1',
   title: '호주 시드니 8일',
@@ -20,21 +22,42 @@ const tempData: IDetail = {
 
 const ProductDetail = () => {
   const router = useRouter();
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState<string>();
   const [single, setSingle] = useState('');
   const [items, setItems] = useState([]);
   const [counts, setCounts] = useState(1);
 
-  const dateSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setDate(e.target.value);
+  const DateOptions = [
+    {
+      value: '2023/05/30(화)출발 ~ 06/13(화)도착',
+      label: '2023/05/30(화)출발 ~ 06/13(화)도착',
+    },
+    {
+      value: '2023/06/13(화)출발 ~ 06/27(화)도착',
+      label: '2023/06/13(화)출발 ~ 06/27(화)도착',
+    },
+    {
+      value: '2023/09/12(화)출발 ~ 09/13(화)도착',
+      label: '2023/09/12(화)출발 ~ 09/13(화)도착',
+    },
+    {
+      value: '2023/09/26(화)출발 ~ 10/10(화)도착',
+      label: '2023/09/26(화)출발 ~ 10/10(화)도착',
+    },
+  ];
+
+  const dateSelect = (option: any) => {
+    setDate(option.value);
+    console.log('date ' + date);
+    console.log('option ' + option.value);
 
     const newItem = {
       date,
       counts,
     };
+
     setItems([newItem as never, ...items]);
   };
-  console.log(items);
 
   const singleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSingle(e.target.value);
@@ -55,23 +78,12 @@ const ProductDetail = () => {
           <p className="title">여행 항공</p>
           <p className="detail">{tempData?.airline}</p>
           <p className="dropTitle">출발일</p>
-          <select onChange={dateSelect}>
-            <option selected disabled hidden>
-              출발일을 선택해 주세요 (필수)
-            </option>
-            <option value="2023/05/30(화)출발 ~ 06/13(화)도착">
-              2023/05/30(화)출발 ~ 06/13(화)도착
-            </option>
-            <option value="2023/06/13(화)출발 ~ 06/27(화)도착">
-              2023/06/13(화)출발 ~ 06/27(화)도착
-            </option>
-            <option value="2023/09/12(화)출발 ~ 09/13(화)도착">
-              2023/09/12(화)출발 ~ 09/13(화)도착
-            </option>
-            <option value="2023/09/26(화)출발 ~ 10/10(화)도착">
-              2023/09/26(화)출발 ~ 10/10(화)도착
-            </option>
-          </select>
+
+          <Select
+            onChange={dateSelect}
+            options={DateOptions}
+            placeholder="출발일을 선택해 주세요 (필수)"
+          />
 
           <p className="dropTitle">싱글차지</p>
           <select onChange={singleSelect}>
