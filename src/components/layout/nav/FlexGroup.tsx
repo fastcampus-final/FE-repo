@@ -5,13 +5,12 @@ import HoverGroup from './HoverGroup';
 
 interface IFlexGroup {
   title: string;
-  data: IGroupData[];
+  data: IGroupData[] | IHrefGroup[];
 }
 
 interface IGroupData {
   title: string;
-  href?: string;
-  data?: IHrefGroup[];
+  data: IHrefGroup[];
 }
 
 interface IHrefGroup {
@@ -43,9 +42,8 @@ const FlexGroup = ({ flexgroup }: { flexgroup: IFlexGroup }) => {
           {flexgroup.data.map((hoverGroup) => {
             return (
               <li key={hoverGroup.title}>
-                {hoverGroup.data !== undefined ? (
-                  <HoverGroup hovergroup={hoverGroup} />
-                ) : (
+                {(hoverGroup as IGroupData) && <HoverGroup hovergroup={hoverGroup as IGroupData} />}
+                {(hoverGroup as IHrefGroup) && (
                   <Link href={hoverGroup.href as string}>
                     <div>{hoverGroup.title}</div>
                   </Link>
