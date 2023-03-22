@@ -18,13 +18,11 @@ const GetMyinfo = () => {
     password: '',
     phone: '',
   });
+
   useEffect(() => {
     instance({
       method: 'GET',
       url: 'https://www.go-together.store:443/user/myInfo',
-      headers: {
-        Authorization: `Bearer ${getCookie('accessToken')}`,
-      },
     })
       .then((res) => {
         console.log(res);

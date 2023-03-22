@@ -1,22 +1,8 @@
+import { IFlexGroup, IGroupData } from '@/interfaces/navText';
 import Link from 'next/link';
 import React from 'react';
 import { useState } from 'react';
 import HoverGroup from './HoverGroup';
-
-interface IFlexGroup {
-  title: string;
-  data: IGroupData[] | IHrefGroup[];
-}
-
-interface IGroupData {
-  title: string;
-  data: IHrefGroup[];
-}
-
-interface IHrefGroup {
-  title: string;
-  href: string;
-}
 
 const FlexGroup = ({ flexgroup }: { flexgroup: IFlexGroup }) => {
   const [hover, setHover] = useState(false);
@@ -24,11 +10,11 @@ const FlexGroup = ({ flexgroup }: { flexgroup: IFlexGroup }) => {
     <div
       onMouseOut={() => {
         setHover(false);
-        console.log('flexgroup:un-hover');
+        // console.log('flexgroup:un-hover');
       }}
       onMouseOver={() => {
         setHover(true);
-        console.log('flexgroup:hover');
+        // console.log('flexgroup:hover');
       }}
     >
       <div>{flexgroup.title}</div>
@@ -36,14 +22,14 @@ const FlexGroup = ({ flexgroup }: { flexgroup: IFlexGroup }) => {
         <ul
           onMouseOut={() => {
             setHover(false);
-            console.log('flexgroup:un-hover');
+            // console.log('flexgroup:un-hover');
           }}
         >
           {flexgroup.data.map((hoverGroup) => {
             return (
               <li key={hoverGroup.title}>
-                {(hoverGroup as IGroupData) && <HoverGroup hovergroup={hoverGroup as IGroupData} />}
-                {(hoverGroup as IHrefGroup) && (
+                {hoverGroup && <HoverGroup hovergroup={hoverGroup as IGroupData} />}
+                {hoverGroup.href !== undefined && (
                   <Link href={hoverGroup.href as string}>
                     <div>{hoverGroup.title}</div>
                   </Link>

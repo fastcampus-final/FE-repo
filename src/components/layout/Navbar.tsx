@@ -1,8 +1,6 @@
 // import { ROUTES } from '@/constants/routes';
-import Link from 'next/link';
 import React from 'react';
 import styled from '@emotion/styled';
-import NavList from './nav/NavList';
 import { group } from '@/constants/navGroup';
 import FlexGroup from './nav/FlexGroup';
 

@@ -1,10 +1,14 @@
 import { instance } from '@/api/instance';
+import { MESSAGES } from '@/constants/messages';
+import { setModal } from '@/store/modal';
 import { getCookie, removeCookie } from '@/utils/cookie';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
 const Logout = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   return (
     <div>
@@ -19,14 +23,36 @@ const Logout = () => {
           })
             .then((res) => {
               if (res.data.code === 200) {
-                alert('로그아웃이 완료되었습니다.');
                 removeCookie('accessToken');
                 removeCookie('refreshToken');
+                removeCookie('isAdmin');
+                dispatch(
+                  setModal({
+                    isOpen: true,
+                    onClickOk: () => dispatch(setModal({ isOpen: false })),
+                    text: MESSAGES.LOGOUT.COMPLETE_LOGOUT,
+                  }),
+                );
                 router.push('/');
+              } else {
+                dispatch(
+                  setModal({
+                    isOpen: true,
+                    onClickOk: () => dispatch(setModal({ isOpen: false })),
+                    text: MESSAGES.LOGOUT.ERROR_LOGOUT,
+                  }),
+                );
               }
             })
             .catch((error) => {
               console.log(error);
+              dispatch(
+                setModal({
+                  isOpen: true,
+                  onClickOk: () => dispatch(setModal({ isOpen: false })),
+                  text: MESSAGES.LOGOUT.ERROR_LOGOUT,
+                }),
+              );
             });
         }}
       >
