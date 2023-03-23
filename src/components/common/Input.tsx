@@ -1,19 +1,9 @@
 import { instance } from '@/api/instance';
+import { MESSAGES } from '@/constants/messages';
+import { IInputProps } from '@/interfaces/inputProps';
 import Button from '@mui/material/Button';
 import { useRouter } from 'next/router';
 import React from 'react';
-
-interface Props {
-  type: string;
-  placeholder?: string;
-  label?: string;
-  id?: string;
-  register?: { name: string };
-  error?: string;
-  email?: string;
-  emailCheck?: boolean;
-  setEmailCheck?: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
 const Input = ({
   error,
@@ -25,8 +15,9 @@ const Input = ({
   email,
   emailCheck,
   setEmailCheck,
-}: Props) => {
+}: IInputProps) => {
   const router = useRouter();
+
   return (
     <div>
       <label htmlFor={id}>{label}</label>
@@ -56,10 +47,8 @@ const Input = ({
           중복확인
         </Button>
       )}
-      {id === 'email' && emailCheck === true && <div>사용가능한 이메일입니다.</div>}
-      {id === 'email' && emailCheck === false && (
-        <div>사용불가능한 이메일입니다. 다른 이메일로 바꿔주세요.</div>
-      )}
+      {id === 'email' && emailCheck === true && <div>{MESSAGES.SIGNUP.UNUSED_EMAIL}</div>}
+      {id === 'email' && emailCheck === false && <div>{MESSAGES.SIGNUP.USED_EMAIL}</div>}
     </div>
   );
 };

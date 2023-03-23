@@ -85,7 +85,21 @@ const Cart = () => {
             <p>총 예약 금액</p>
             <p>{amount}</p>
           </PriceText>
-          <Button variant="contained" onClick={() => router.push(ROUTES.ORDER)}>
+          <Button
+            variant="contained"
+            onClick={() =>
+              router.push(
+                {
+                  pathname: ROUTES.ORDER,
+                  query: {
+                    amount: amount,
+                    items: JSON.stringify(tempData),
+                  },
+                },
+                '/order',
+              )
+            }
+          >
             예약하기
           </Button>
         </AmountWrap>

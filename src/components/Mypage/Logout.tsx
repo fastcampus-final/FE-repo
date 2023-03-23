@@ -1,10 +1,15 @@
 import { instance } from '@/api/instance';
-import { getCookie, removeCookie } from '@/utils/cookie';
+import { MESSAGES } from '@/constants/messages';
+import { setModal } from '@/store/modal';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useCookies } from 'react-cookie';
+import { useDispatch } from 'react-redux';
 
 const Logout = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const [cookies, setCookies, removeCookies] = useCookies();
 
   return (
     <div>
@@ -14,19 +19,41 @@ const Logout = () => {
             method: 'POST',
             url: 'https://www.go-together.store:443/user/logout',
             data: {
-              refreshToken: `${getCookie('refreshToken')}`,
+              refreshToken: cookies.refreshToken,
             },
           })
             .then((res) => {
               if (res.data.code === 200) {
-                alert('로그아웃이 완료되었습니다.');
-                removeCookie('accessToken');
-                removeCookie('refreshToken');
+                removeCookies('accessToken');
+                removeCookies('refreshToken');
+                removeCookies('isAdmin');
+                dispatch(
+                  setModal({
+                    isOpen: true,
+                    onClickOk: () => dispatch(setModal({ isOpen: false })),
+                    text: MESSAGES.LOGOUT.COMPLETE_LOGOUT,
+                  }),
+                );
                 router.push('/');
+              } else {
+                dispatch(
+                  setModal({
+                    isOpen: true,
+                    onClickOk: () => dispatch(setModal({ isOpen: false })),
+                    text: MESSAGES.LOGOUT.ERROR_LOGOUT,
+                  }),
+                );
               }
             })
             .catch((error) => {
               console.log(error);
+              dispatch(
+                setModal({
+                  isOpen: true,
+                  onClickOk: () => dispatch(setModal({ isOpen: false })),
+                  text: MESSAGES.LOGOUT.ERROR_LOGOUT,
+                }),
+              );
             });
         }}
       >
