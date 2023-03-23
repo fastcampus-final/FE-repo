@@ -14,7 +14,7 @@ import { setModal } from '@/store/modal';
 import { MESSAGES } from '@/constants/messages';
 import { useForm } from 'react-hook-form';
 
-const index = () => {
+const Order = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const {
@@ -197,4 +197,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Order;
