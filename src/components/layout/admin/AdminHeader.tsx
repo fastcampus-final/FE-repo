@@ -13,7 +13,8 @@ const AdminHeader = () => {
 
   const handleLogout = async () => {
     removeCookie('isAdmin');
-    removeCookie('tokens');
+    removeCookie('accessToken');
+    removeCookie('refreshToken');
     await router.replace('/');
     router.reload();
   };
