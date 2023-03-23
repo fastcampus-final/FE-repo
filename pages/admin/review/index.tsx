@@ -1,8 +1,13 @@
+import PageTitle from '@/components/common/PageTitle';
 import withAuth from '@/components/common/PrivateRouter';
 import React from 'react';
 
 const Review = () => {
-  return <div>Review</div>;
+  return (
+    <div>
+      <PageTitle title="후기 관리" />
+    </div>
+  );
 };
 
 export default withAuth(Review);

@@ -11,15 +11,17 @@ const AdminHeader = () => {
   const router = useRouter();
   const [cookies, setCookie, removeCookie] = useCookies();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     removeCookie('isAdmin');
-    router.push('/');
+    removeCookie('tokens');
+    await router.replace('/');
+    router.reload();
   };
 
   return (
     <Container>
       <Link href={ROUTES.ADMIN.MAIN}>
-        <Image src="../logo-full.png" alt="고투게더 로고" width="140px" padding="16px 0 10px" />
+        <Image src="./../logo-full.png" alt="고투게더 로고" width="140px" padding="16px 0 10px" />
       </Link>
       <Button onClick={handleLogout}>로그아웃</Button>
     </Container>
@@ -35,6 +37,8 @@ const Container = styled.div`
   justify-content: space-between;
   box-sizing: border-box;
   width: 1920px;
-
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  height: 8vh;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 10;
 `;
