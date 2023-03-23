@@ -11,25 +11,65 @@ import Link from 'next/link';
 import { useCookies } from 'react-cookie';
 
 const Header = () => {
-  const [cookies, setCookies] = useCookies();
+  const [cookies, setCookies, removeCookies] = useCookies();
 
   setInterval(async () => {
-    if (cookies['accessToken'] && cookies['refreshToken']) {
+    if (cookies.accessToken && cookies.refreshToken) {
       await instance({
         method: 'POST',
         url: 'https://www.go-together.store:443/user/refresh',
         data: {
-          refreshToken: cookies['refreshToken'],
+          refreshToken: cookies.refreshToken,
         },
       })
         .then((res) => {
           console.log(res);
+          if (res.data.code === 200) {
+            removeCookie('accessToken');
+            setCookies('accessToken', res.data.data.accessToken);
+          } else
+            instance({
+              method: 'POST',
+              url: 'https://www.go-together.store:443/user/logout',
+              data: {
+                refreshToken: cookies.refreshToken,
+              },
+            })
+              .then((res) => {
+                if (res.data.code === 200) {
+                  alert('로그아웃이 완료되었습니다.');
+                  removeCookie('accessToken');
+                  removeCookie('refreshToken');
+                  router.push('/');
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
         })
         .catch((error) => {
           console.log(error);
+          instance({
+            method: 'POST',
+            url: 'https://www.go-together.store:443/user/logout',
+            data: {
+              refreshToken: cookies.refreshToken,
+            },
+          })
+            .then((res) => {
+              if (res.data.code === 200) {
+                alert('로그아웃이 완료되었습니다.');
+                removeCookie('accessToken');
+                removeCookie('refreshToken');
+                router.push('/');
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         });
     }
-  }, 1800000);
+  }, 1500000);
 
   const router = useRouter();
 
@@ -37,7 +77,7 @@ const Header = () => {
     <Container>
       <Logo />
       {router.asPath !== '/search' ? <Search /> : <div></div>}
-      {cookies ? <Mypage /> : <Login />}
+      {cookies.accessToken ? <Mypage /> : <Login />}
       <MenuList>
         <li>
           <Link href={ROUTES.HOME}>메인</Link>
