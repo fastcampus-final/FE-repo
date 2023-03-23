@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { setCookie, getCookie } from '@/utils/cookie';
 import Input from '@/components/common/Input';
 import { instance } from '@/api/instance';
 import { ILoginProps } from '@/interfaces/loginResgister';
@@ -11,13 +10,15 @@ import { useForm } from 'react-hook-form';
 import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
+import { useCookies } from 'react-cookie';
 
 const Login = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const [cookies, setCookies, removeCookies] = useCookies();
 
   useEffect(() => {
-    if (getCookie('accessToken') && getCookie('refreshToken')) {
+    if (cookies.accessToken && cookies.refreshToken) {
       alert(MESSAGES.VALID_AUTH);
       router.back();
     }
@@ -44,8 +45,8 @@ const Login = () => {
             .then(async (res: ILoginProps) => {
               console.log(res);
               if (res.data.code === 200) {
-                await setCookie('accessToken', res.data.data?.accessToken as string);
-                await setCookie('refreshToken', res.data.data?.refreshToken as string);
+                await setCookies('accessToken', res.data.data?.accessToken as string);
+                await setCookies('refreshToken', res.data.data?.refreshToken as string);
                 await dispatch(
                   setModal({
                     isOpen: true,
@@ -55,9 +56,9 @@ const Login = () => {
                 );
                 await router.back();
               } else if (res.data.code === 300) {
-                await setCookie('accessToken', res.data.data?.accessToken as string);
-                await setCookie('refreshToken', res.data.data?.refreshToken as string);
-                await setCookie('isAdmin', 'true');
+                await setCookies('accessToken', res.data.data?.accessToken as string);
+                await setCookies('refreshToken', res.data.data?.refreshToken as string);
+                await setCookies('isAdmin', 'true');
                 await dispatch(
                   setModal({
                     isOpen: true,

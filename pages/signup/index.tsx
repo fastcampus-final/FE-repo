@@ -1,7 +1,6 @@
 import Input from '@/components/common/Input';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { getCookie, setCookie } from '@/utils/cookie';
 import { instance } from '@/api/instance';
 import { ISignUpProps, ILoginProps } from '@/interfaces/loginResgister';
 import { MESSAGES } from '@/constants/messages';
@@ -9,22 +8,24 @@ import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
+import { useCookies } from 'react-cookie';
 
 const Signup = () => {
   const [emailCheck, setEmailCheck] = useState(false);
+  const [cookies, setCookies, removeCookies] = useCookies();
   const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!getCookie('accessToken') && !getCookie('refreshToken')) {
+    if (cookies.accessToken && cookies.refreshToken) {
       dispatch(
         setModal({
           isOpen: true,
           onClickOk: () => dispatch(setModal({ isOpen: false })),
-          text: MESSAGES.INVALID_AUTH,
+          text: MESSAGES.VALID_AUTH,
         }),
       );
-      router.push('/login');
+      router.back();
     }
   }, []);
 
@@ -99,8 +100,8 @@ const Signup = () => {
           })
             .then(async (res: ILoginProps) => {
               if (res.data.code === 200) {
-                await setCookie('accessToken', res.data.data?.accessToken as string);
-                await setCookie('refreshToken', res.data.data?.refreshToken as string);
+                await setCookies('accessToken', res.data.data?.accessToken as string);
+                await setCookies('refreshToken', res.data.data?.refreshToken as string);
                 await router.push('/signup/success');
                 await dispatch(
                   setModal({

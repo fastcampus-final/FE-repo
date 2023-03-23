@@ -2,9 +2,9 @@ import { instance } from '@/api/instance';
 import { MESSAGES } from '@/constants/messages';
 import { IPasswordModal } from '@/interfaces/passwordModal';
 import { setModal } from '@/store/modal';
-import { removeCookie } from '@/utils/cookie';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useCookies } from 'react-cookie';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import Input from './Input';
@@ -12,6 +12,7 @@ import Input from './Input';
 const PasswordModal = ({ setmodal }: IPasswordModal) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const [cookies, setCookies, removeCookies] = useCookies();
 
   const {
     register,
@@ -38,9 +39,9 @@ const PasswordModal = ({ setmodal }: IPasswordModal) => {
             })
               .then(async (res) => {
                 if (res.data.code === 200) {
-                  await removeCookie('accessToken');
-                  await removeCookie('refreshToken');
-                  await removeCookie('isAdmin');
+                  await removeCookies('accessToken');
+                  await removeCookies('refreshToken');
+                  await removeCookies('isAdmin');
                   await dispatch(
                     setModal({
                       isOpen: true,

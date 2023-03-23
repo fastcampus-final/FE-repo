@@ -1,5 +1,4 @@
 import PageTitle from '@/components/common/PageTitle';
-import withAuth from '@/components/common/PrivateRouter';
 import GetMyinfo from '@/components/Mypage/GetMyinfo';
 import Logout from '@/components/Mypage/Logout';
 import MyPageLink from '@/components/Mypage/MyPageLink';
@@ -23,4 +22,4 @@ const index = () => {
   );
 };
 
-export default withAuth(index);
+export default index;

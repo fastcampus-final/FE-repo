@@ -1,14 +1,15 @@
 import { instance } from '@/api/instance';
 import { MESSAGES } from '@/constants/messages';
 import { setModal } from '@/store/modal';
-import { getCookie, removeCookie } from '@/utils/cookie';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
 
 const Logout = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const [cookies, setCookies, removeCookies] = useCookies();
 
   return (
     <div>
@@ -18,14 +19,14 @@ const Logout = () => {
             method: 'POST',
             url: 'https://www.go-together.store:443/user/logout',
             data: {
-              refreshToken: `${getCookie('refreshToken')}`,
+              refreshToken: cookies.refreshToken,
             },
           })
             .then((res) => {
               if (res.data.code === 200) {
-                removeCookie('accessToken');
-                removeCookie('refreshToken');
-                removeCookie('isAdmin');
+                removeCookies('accessToken');
+                removeCookies('refreshToken');
+                removeCookies('isAdmin');
                 dispatch(
                   setModal({
                     isOpen: true,

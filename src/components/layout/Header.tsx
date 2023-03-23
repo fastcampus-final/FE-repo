@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { getCookie, removeCookie, setCookie } from '@/utils/cookie';
 import Logo from './header/Logo_header';
 import Mypage from './header/Mypage_header';
 import Search from './header/Search_header';
@@ -9,32 +8,32 @@ import { useRouter } from 'next/router';
 import { instance } from '@/api/instance';
 import { ROUTES } from '@/constants/routes';
 import Link from 'next/link';
+import { useCookies } from 'react-cookie';
+import { removeCookie } from '@/utils/cookie';
 
 const Header = () => {
-  const [cookies, setCookies] = useState('');
-  useEffect(() => {
-    setCookies(getCookie('accessToken'));
-  }, [getCookie('accessToken')]);
+  const [cookies, setCookies, removeCookies] = useCookies();
 
   setInterval(async () => {
-    if (getCookie('accessToken') && getCookie('refreshToken')) {
+    if (cookies.accessToken && cookies.refreshToken) {
       await instance({
         method: 'POST',
         url: 'https://www.go-together.store:443/user/refresh',
         data: {
-          refreshToken: getCookie('refreshToken'),
+          refreshToken: cookies.refreshToken,
         },
       })
         .then((res) => {
+          console.log(res);
           if (res.data.code === 200) {
             removeCookie('accessToken');
-            setCookie('accessToken', res.data.data.accessToken);
+            setCookies('accessToken', res.data.data.accessToken);
           } else
             instance({
               method: 'POST',
               url: 'https://www.go-together.store:443/user/logout',
               data: {
-                refreshToken: `${getCookie('refreshToken')}`,
+                refreshToken: cookies.refreshToken,
               },
             })
               .then((res) => {
@@ -55,7 +54,7 @@ const Header = () => {
             method: 'POST',
             url: 'https://www.go-together.store:443/user/logout',
             data: {
-              refreshToken: `${getCookie('refreshToken')}`,
+              refreshToken: cookies.refreshToken,
             },
           })
             .then((res) => {
@@ -79,7 +78,7 @@ const Header = () => {
     <Container>
       <Logo />
       {router.asPath !== '/search' ? <Search /> : <div></div>}
-      {cookies ? <Mypage /> : <Login />}
+      {cookies.accessToken ? <Mypage /> : <Login />}
       <MenuList>
         <li>
           <Link href={ROUTES.HOME}>메인</Link>

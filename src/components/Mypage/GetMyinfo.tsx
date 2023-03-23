@@ -1,12 +1,12 @@
 import { instance } from '@/api/instance';
 import { ROUTES } from '@/constants/routes';
-import { getCookie } from '@/utils/cookie';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { Avatar } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useRouter } from 'next/router';
+import { useCookies } from 'react-cookie';
 
 const GetMyinfo = () => {
   const router = useRouter();
@@ -25,7 +25,7 @@ const GetMyinfo = () => {
       url: 'https://www.go-together.store:443/user/myInfo',
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setMyinfo(res.data.data);
       })
       .catch((error) => {

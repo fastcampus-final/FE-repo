@@ -31,7 +31,6 @@ const info = () => {
   useEffect(() => {
     if (info !== undefined) {
       setPatchInfo(JSON.parse(info as string));
-      console.log(JSON.parse(info as string));
     }
   }, [info]);
 
@@ -205,4 +204,4 @@ const info = () => {
   );
 };
 
-export default withAuth(info);
+export default info;
