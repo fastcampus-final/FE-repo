@@ -25,12 +25,12 @@ export default function App({ Component, pageProps }: AppProps) {
       <ReactQueryDevtools initialIsOpen={true} />
       <Hydrate state={pageProps.dehydratedState}>
         <Provider store={store}>
-          <GlobalStyle />
-          <Layout>
-            <SSRSuspense fallback={<Loading />}>
+          <SSRSuspense fallback={<Loading />}>
+            <GlobalStyle />
+            <Layout>
               <Component {...pageProps} />
-            </SSRSuspense>
-          </Layout>
+            </Layout>
+          </SSRSuspense>
         </Provider>
       </Hydrate>
     </QueryClientProvider>

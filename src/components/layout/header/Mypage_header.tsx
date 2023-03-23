@@ -10,7 +10,7 @@ const Mypage = () => {
   return (
     <div>
       <div>
-        <Link href={ROUTES.MYPAGE.MYPAGE_MAIN}>
+        <Link href={ROUTES.MYPAGE.MAIN}>
           <Avatar>
             <AccountCircleIcon />
           </Avatar>

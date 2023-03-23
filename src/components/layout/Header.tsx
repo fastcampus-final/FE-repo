@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import Logo from './header/Logo_header';
 import Mypage from './header/Mypage_header';
@@ -9,7 +9,6 @@ import { instance } from '@/api/instance';
 import { ROUTES } from '@/constants/routes';
 import Link from 'next/link';
 import { useCookies } from 'react-cookie';
-import { removeCookie } from '@/utils/cookie';
 
 const Header = () => {
   const [cookies, setCookies, removeCookies] = useCookies();
@@ -102,7 +101,10 @@ const Header = () => {
           <Link href={ROUTES.CART}>장바구니</Link>
         </li>
         <li>
-          <Link href={ROUTES.MYPAGE.MYPAGE_MAIN}>마이페이지</Link>
+          <Link href={ROUTES.MYPAGE.MAIN}>마이페이지</Link>
+        </li>
+        <li onClick={() => setCookies('isAdmin', true)}>
+          <Link href={ROUTES.ADMIN.MAIN}>관리자페이지</Link>
         </li>
       </MenuList>
     </Container>

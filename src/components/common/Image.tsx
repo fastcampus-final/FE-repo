@@ -7,11 +7,21 @@ interface Prop {
   height?: string;
   borderRadius?: string;
   alt: string;
+  padding?: string;
   cursorPointer?: boolean;
   onClick?: () => void;
 }
 
-const Image = ({ src, width, height, borderRadius, alt, cursorPointer, onClick }: Prop) => {
+const Image = ({
+  src,
+  width,
+  height,
+  borderRadius,
+  alt,
+  padding,
+  cursorPointer,
+  onClick,
+}: Prop) => {
   return (
     <StyledImage
       src={src}
@@ -19,6 +29,7 @@ const Image = ({ src, width, height, borderRadius, alt, cursorPointer, onClick }
       height={height}
       borderRadius={borderRadius}
       alt={alt}
+      padding={padding}
       cursorPointer={cursorPointer}
       onClick={onClick}
     />
@@ -30,6 +41,7 @@ export default Image;
 const StyledImage = styled.img<Prop>`
   width: ${({ width }) => width};
   height: ${({ height }) => height};
+  padding: ${({ padding }) => padding};
   border-radius: ${({ borderRadius }) => borderRadius};
   cursor: ${({ cursorPointer }) => (cursorPointer ? 'pointer' : '')};
 `;
