@@ -37,6 +37,8 @@ export const MESSAGES = {
       NAME: '이름은 필수 입력입니다.',
       CONFIRM_PASSWORD: '비밀번호 확인은 필수입니다.',
       BIRTH: '생년월일은 필수 입력입니다.',
+      SEX: '성별은 필수 입력입니다.',
+      AGREE: '약관동의는 필수입니다.',
     },
     ERROR: {
       PASSWORD_MIN: '8자리 이상 비밀번호를 사용하세요.',
@@ -47,6 +49,9 @@ export const MESSAGES = {
       NAME_MAX: '이름은 3자리 이상 4자리 이하입니다.',
       EMAIL_PATTERN: '이메일 형식에 맞지 않습니다.',
     },
+  },
+  ORDER: {
+    EXPIRE: '결제시간이 초과되었습니다.\n다시 시도해주세요.',
   },
   INVALID_AUTH: '회원 전용 메뉴입니다.\n로그인 후 이용해 주세요.',
   VALID_AUTH: '로그인된 계정입니다.\n로그아웃 후 이용해주세요.',
