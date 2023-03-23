@@ -38,7 +38,12 @@ const AdminNavbar = () => {
   return (
     <Container>
       <List
-        sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+        sx={{
+          width: '100%',
+          maxWidth: 360,
+          height: '90vh',
+          bgcolor: 'background.paper',
+        }}
         component="nav"
         aria-labelledby="nested-list-subheader"
       >
@@ -105,5 +110,7 @@ const AdminNavbar = () => {
 export default AdminNavbar;
 
 const Container = styled.div`
-  width: 18%;
+  width: 16%;
+  height: 92vh;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
 `;
