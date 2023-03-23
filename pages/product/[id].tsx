@@ -29,31 +29,31 @@ const ProductDetail = () => {
 
   const DateOptions = [
     {
-      value: '2023/05/30(화)출발 ~ 06/13(화)도착',
+      value: 1,
       label: '2023/05/30(화)출발 ~ 06/13(화)도착',
     },
     {
-      value: '2023/06/13(화)출발 ~ 06/27(화)도착',
+      value: 1,
       label: '2023/06/13(화)출발 ~ 06/27(화)도착',
     },
     {
-      value: '2023/09/12(화)출발 ~ 09/13(화)도착',
+      value: 1,
       label: '2023/09/12(화)출발 ~ 09/13(화)도착',
     },
     {
-      value: '2023/09/26(화)출발 ~ 10/10(화)도착',
+      value: 1,
       label: '2023/09/26(화)출발 ~ 10/10(화)도착',
     },
   ];
 
   const dateSelect = (option: any) => {
-    setDate(option.value);
-    console.log('date ' + date);
-    console.log('option ' + option.value);
+    // setDate(option.value);
+    const optionDate = option.label;
+    const count = option.value;
 
     const newItem = {
-      date,
-      counts,
+      optionDate,
+      count,
     };
 
     setItems([newItem as never, ...items]);
@@ -96,24 +96,25 @@ const ProductDetail = () => {
           </select>
 
           {items.length > 0
-            ? items.map((item: { date: string; counts: number }, i: React.Key) => {
+            ? items.map((item: { optionDate: string; count: number }, i: React.Key) => {
                 return (
                   <ItemContent key={i}>
-                    <p className="itemTitle">{item?.date}</p>
+                    <p className="itemTitle">{item?.optionDate}</p>
                     <button
                       onClick={() => {
-                        if (counts > 1) {
-                          item.counts - 1;
+                        if (item.count > 1) {
+                          item.count - 1;
                         }
                       }}
                     >
                       -
                     </button>
-                    <p>{item.counts}</p>
+                    <p>{item.count}</p>
                     <button
                       onClick={() => {
-                        // item.counts + 1;
-                        setCounts(counts + 1);
+                        item.count += 1;
+                        console.log(item.count);
+                        // setCounts(item.count + 1);
                       }}
                     >
                       +
