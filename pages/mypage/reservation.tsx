@@ -4,7 +4,7 @@ import { IOrder } from '@/interfaces/myorder';
 import { getCookie } from '@/utils/cookie';
 import React, { useEffect, useState } from 'react';
 
-const order = () => {
+const reservation = () => {
   const [order, setOrder] = useState([]);
   useEffect(() => {
     const getData = async () => {
@@ -25,4 +25,4 @@ const order = () => {
   return <div>order</div>;
 };
 
-export default order;
+export default reservation;
