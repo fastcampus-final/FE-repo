@@ -2,7 +2,7 @@ import CartItem from '@/components/Cart/CartItem';
 import PageTitle from '@/components/common/PageTitle';
 import { ROUTES } from '@/constants/routes';
 import { ICart } from '@/interfaces/cart';
-import THEME from '@/styles/theme';
+import { COLORS } from '@/styles/colors';
 import { formatPrice } from '@/utils/format';
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
@@ -128,7 +128,7 @@ const AmountWrap = styled.div`
   display: flex;
   flex-direction: column;
   padding: 30px;
-  border: 1px solid ${THEME.colors.gray};
+  border: 1px solid ${COLORS.gray};
   gap: 20px;
 `;
 
