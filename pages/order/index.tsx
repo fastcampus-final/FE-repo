@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
 import { MESSAGES } from '@/constants/messages';
 import { useForm } from 'react-hook-form';
+import { alterModal } from '@/components/SignIn/function';
 
 const index = () => {
   const router = useRouter();
@@ -20,7 +21,6 @@ const index = () => {
   const {
     handleSubmit,
     register,
-    // watch,
     formState: { errors, isSubmitting },
   } = useForm();
 
@@ -31,13 +31,7 @@ const index = () => {
 
   useEffect(() => {
     if (router.query.items === undefined) {
-      dispatch(
-        setModal({
-          isOpen: true,
-          onClickOk: () => dispatch(setModal({ isOpen: false })),
-          text: MESSAGES.ORDER.EXPIRE,
-        }),
-      );
+      alterModal(MESSAGES.ORDER.EXPIRE, dispatch);
       router.back();
     } else {
       setItems(JSON.parse(router.query.items as string));
@@ -53,15 +47,22 @@ const index = () => {
   }, [useCheck, payCheck]);
 
   Object.values(errors).map((error) => {
-    dispatch(
-      setModal({
-        isOpen: true,
-        onClickOk: () => dispatch(setModal({ isOpen: false })),
-        text: error?.message,
-      }),
-    );
+    if (error !== undefined) {
+      alterModal(error.message as string, dispatch);
+    }
   });
 
+  const allcheck = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      setAllCheck(true);
+      setUseCheck(true);
+      setPayCheck(true);
+    } else {
+      setAllCheck(false);
+      setUseCheck(false);
+      setPayCheck(false);
+    }
+  };
   // console.log(Object.values(errors));
 
   return (
@@ -151,17 +152,7 @@ const index = () => {
                 required: MESSAGES.INPUT.CHECK.AGREE,
               })}
               checked={allCheck}
-              onChange={(event) => {
-                if (event.target.checked) {
-                  setAllCheck(true);
-                  setUseCheck(true);
-                  setPayCheck(true);
-                } else {
-                  setAllCheck(false);
-                  setUseCheck(false);
-                  setPayCheck(false);
-                }
-              }}
+              onChange={allcheck}
             />
             <label htmlFor="allAgree">전체 동의</label>
           </div>

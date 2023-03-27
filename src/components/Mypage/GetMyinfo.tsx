@@ -1,4 +1,3 @@
-import { instance } from '@/api/instance';
 import { ROUTES } from '@/constants/routes';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
@@ -7,6 +6,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
+import { getMyInfo } from './apis';
+import { globalAge } from './function';
 
 const GetMyinfo = () => {
   const router = useRouter();
@@ -20,32 +21,8 @@ const GetMyinfo = () => {
   });
 
   useEffect(() => {
-    instance({
-      method: 'GET',
-      url: 'https://www.go-together.store:443/user/myInfo',
-    })
-      .then((res) => {
-        // console.log(res);
-        setMyinfo(res.data.data);
-      })
-      .catch((error) => {
-        console.log(error);
-        // throw new Error(error);
-      });
+    getMyInfo(setMyinfo);
   }, []);
-
-  const age = () => {
-    const today = new Date();
-    const birthDate = new Date(myinfo.birth);
-
-    let old = today.getFullYear() - birthDate.getFullYear();
-    const m = today.getMonth() - birthDate.getMonth();
-
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      return (old -= 1);
-    }
-    return old;
-  };
 
   return (
     <Inner>
@@ -62,7 +39,7 @@ const GetMyinfo = () => {
         </div>
         <div>
           <div>
-            {myinfo.name}(만 {age()}세)
+            {myinfo.name}(만 {globalAge(myinfo)}세)
           </div>
           {router.asPath === '/mypage' && (
             <div>

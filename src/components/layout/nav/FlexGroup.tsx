@@ -4,17 +4,15 @@ import React from 'react';
 import { useState } from 'react';
 import HoverGroup from './HoverGroup';
 
-const FlexGroup = ({ flexgroup }: { flexgroup: IFlexGroup }) => {
+const FlexGroup = (flexgroup: any) => {
   const [hover, setHover] = useState(false);
   return (
     <div
       onMouseOut={() => {
         setHover(false);
-        // console.log('flexgroup:un-hover');
       }}
       onMouseOver={() => {
         setHover(true);
-        // console.log('flexgroup:hover');
       }}
     >
       <div>{flexgroup.title}</div>
@@ -22,7 +20,6 @@ const FlexGroup = ({ flexgroup }: { flexgroup: IFlexGroup }) => {
         <ul
           onMouseOut={() => {
             setHover(false);
-            // console.log('flexgroup:un-hover');
           }}
         >
           {flexgroup.data.map((hoverGroup) => {
