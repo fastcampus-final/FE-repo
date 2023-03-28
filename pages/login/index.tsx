@@ -17,7 +17,7 @@ import { login } from '@/components/Login/apis';
 const Login = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [cookies, ,] = useCookies();
+  const [cookies, setCookies] = useCookies();
   const [modal, setmodal] = useState(false);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const Login = () => {
       <form
         onSubmit={handleSubmit(async (data) => {
           console.log(data);
-          await login(data, dispatch, router);
+          await login(data, dispatch, router, setCookies);
         })}
       >
         <EmailInput

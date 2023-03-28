@@ -1,44 +1,63 @@
 import { instance } from '@/api/instance';
-import { getCookie, removeCookie, setCookie } from '@/utils/cookie';
+import { alterModal } from '@/components/SignIn/function';
 
-export const tokenRefresh = async (router: any) => {
+export const tokenRefresh = async (
+  router: any,
+  dispatch: any,
+  cookies: any,
+  removeCookies: any,
+  setCookies: any,
+) => {
   await instance({
     method: 'POST',
-    url: 'https://www.go-together.store:443/user/refresh',
+    url: 'https://www.go-together.store:443/auth/token/refresh',
     data: {
-      refreshToken: getCookie('refreshToken'),
+      refreshToken: cookies.refreshToken,
     },
   })
     .then((res) => {
       console.log(res);
-      if (res.data.code === 200) {
-        removeCookie('accessToken');
-        setCookie('accessToken', res.data.data.accessToken);
-      } else headerLogout(router);
+      if (res.status === 200) {
+        removeCookies('accessToken');
+        setCookies('accessToken', res.data.accessToken);
+      } else headerLogout(router, dispatch, cookies, removeCookies);
     })
     .catch((error) => {
       console.log(error);
-      headerLogout(router);
+      headerLogout(router, dispatch, cookies, removeCookies);
     });
 };
 
-const headerLogout = async (router: any) => {
+const headerLogout = async (router: any, dispatch: any, cookies: any, removeCookies: any) => {
   instance({
     method: 'POST',
-    url: 'https://www.go-together.store:443/user/logout',
+    url: 'https://www.go-together.store:443/auth/logout',
     data: {
-      refreshToken: getCookie('refreshToken'),
+      refreshToken: cookies.refreshToken,
     },
   })
-    .then((res) => {
-      if (res.data.code === 200) {
-        alert('로그아웃이 완료되었습니다.');
-        removeCookie('accessToken');
-        removeCookie('refreshToken');
+    .then(async (res) => {
+      if (res.status === 200) {
+        await removeCookies('accessToken');
+        await removeCookies('refreshToken');
+        await removeCookies('isAdmin');
+        await alterModal('로그아웃이 완료되었습니다.', dispatch);
         router.push('/');
+      } else if (res.status === 401) {
+        await removeCookies('accessToken');
+        await removeCookies('refreshToken');
+        await removeCookies('isAdmin');
+        await alterModal('이미 로그아웃이 된 계정입니다.', dispatch);
+        router.push('/');
+      } else {
+        await alterModal(
+          '서버 장애로 인해 로그아웃이 되지 않았습니다. 다시 시도해주세요.',
+          dispatch,
+        );
       }
     })
     .catch((error) => {
       console.log(error);
+      alterModal('서버 장애로 인해 로그아웃이 되지 않았습니다. 다시 시도해주세요.', dispatch);
     });
 };

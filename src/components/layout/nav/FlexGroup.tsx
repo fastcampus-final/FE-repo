@@ -1,4 +1,4 @@
-import { IFlexGroup, IGroupData } from '@/interfaces/navText';
+import { IGroupData } from '@/interfaces/navText';
 import Link from 'next/link';
 import React from 'react';
 import { useState } from 'react';
@@ -22,7 +22,7 @@ const FlexGroup = (flexgroup: any) => {
             setHover(false);
           }}
         >
-          {flexgroup.data.map((hoverGroup) => {
+          {flexgroup.data.map((hoverGroup: any) => {
             return (
               <li key={hoverGroup.title}>
                 {hoverGroup && <HoverGroup hovergroup={hoverGroup as IGroupData} />}

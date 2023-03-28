@@ -9,13 +9,15 @@ import { ROUTES } from '@/constants/routes';
 import Link from 'next/link';
 import { useCookies } from 'react-cookie';
 import { tokenRefresh } from './header/apis';
+import { useDispatch } from 'react-redux';
 
 const Header = () => {
-  const [cookies, setCookies] = useCookies();
+  const [cookies, setCookies, removeCookies] = useCookies();
+  const dispatch = useDispatch();
 
   setInterval(async () => {
     if (cookies.accessToken && cookies.refreshToken) {
-      await tokenRefresh(router);
+      await tokenRefresh(router, dispatch, cookies, removeCookies, setCookies);
     }
   }, 1500000);
 
@@ -28,31 +30,34 @@ const Header = () => {
       {cookies.accessToken ? <Mypage /> : <Login />}
       <MenuList>
         <li>
-          <Link href={ROUTES.HOME}>메인</Link>
-        </li>
-        <li>
           <Link href={ROUTES.LOGIN}>로그인</Link>
         </li>
         <li>
           <Link href={ROUTES.SIGNUP}>회원가입</Link>
         </li>
         <li>
-          <Link href={ROUTES.PRODUCT}>상품목록</Link>
-        </li>
-        <li>
-          <Link href={ROUTES.SEARCH}>검색</Link>
-        </li>
-        <li>
-          <Link href={ROUTES.SURVEY}>여행유형테스트</Link>
+          <Link href={ROUTES.SURVEY}>여행 유형 테스트</Link>
         </li>
         <li>
           <Link href={ROUTES.CART}>장바구니</Link>
         </li>
         <li>
+          <Link href={ROUTES.REVIEW}>여행 후기</Link>
+        </li>
+        {/* 임시 */}
+        <li>
           <Link href={ROUTES.MYPAGE.MAIN}>마이페이지</Link>
         </li>
-        <li onClick={() => setCookies('isAdmin', true)}>
-          <Link href={ROUTES.ADMIN.MAIN}>관리자페이지</Link>
+        <li>
+          <Link href={ROUTES.ORDER}>[임시]예약페이지</Link>
+        </li>
+        <li
+          onClick={() => {
+            setCookies('isAdmin', true);
+            setCookies('tokens', {});
+          }}
+        >
+          <Link href={ROUTES.ADMIN.MAIN}>[임시]관리자페이지</Link>
         </li>
       </MenuList>
     </Container>
@@ -71,5 +76,5 @@ const MenuList = styled.ul`
   width: 1500px;
   margin: 0 auto;
   display: flex;
-  gap: 10px;
+  gap: 30px;
 `;

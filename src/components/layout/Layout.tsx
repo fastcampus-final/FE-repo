@@ -62,8 +62,9 @@ const Main = styled.div`
 `;
 
 const AdminMain = styled.div`
-  width: 82%;
   padding: 30px;
+  background-color: #eee;
+  width: 84%;
 `;
 
 const AdminWrap = styled.div`

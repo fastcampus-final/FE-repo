@@ -1,5 +1,5 @@
 import Input from '@/components/common/Input';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MESSAGES } from '@/constants/messages';
 import { useRouter } from 'next/router';
@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 
 const Signup = () => {
   const [emailCheck, setEmailCheck] = useState(false);
-  const [cookies, ,] = useCookies();
+  const [cookies, setCookies] = useCookies();
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -36,7 +36,7 @@ const Signup = () => {
       onSubmit={handleSubmit(async (data) => {
         if (confirm(MESSAGES.SIGNUP.SUBMIT_CHECK) && emailCheck) {
           await signUp(data, dispatch);
-          await signUpLogin(data, dispatch, router);
+          await signUpLogin(data, dispatch, router, setCookies);
         } else {
           await alterModal(MESSAGES.SIGNUP.INPUT_ERROR, dispatch);
         }

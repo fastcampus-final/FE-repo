@@ -6,9 +6,12 @@ import MyPageLink from '@/components/Mypage/MyPageLink';
 import Withdrawal from '@/components/Mypage/Withdrawal';
 import { ROUTES } from '@/constants/routes';
 import React, { useState } from 'react';
+import { useCookies } from 'react-cookie';
 
 const index = () => {
   const [modal, setmodal] = useState(false);
+  const [cookies, setCookies, removeCookies] = useCookies();
+  console.log(cookies);
 
   return (
     <div>

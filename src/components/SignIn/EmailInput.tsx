@@ -29,11 +29,12 @@ const EmailInput = ({ register, error, email, setEmailCheck, emailCheck }: IInpu
           중복확인
         </Button>
       )}
-      {emailCheck ? (
-        <div>{MESSAGES.SIGNUP.UNUSED_EMAIL}</div>
-      ) : (
-        <div>{MESSAGES.SIGNUP.USED_EMAIL}</div>
-      )}
+      {router.asPath === '/signup' &&
+        (emailCheck ? (
+          <div>{MESSAGES.SIGNUP.UNUSED_EMAIL}</div>
+        ) : (
+          <div>{MESSAGES.SIGNUP.USED_EMAIL}</div>
+        ))}
     </div>
   );
 };

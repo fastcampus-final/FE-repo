@@ -1,7 +1,6 @@
 import PageTitle from '@/components/common/PageTitle';
 import { useRouter } from 'next/router';
 import React from 'react';
-import Image from '@/components/common/Image';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import OrderItem from '@/components/Order/OrderItem';
@@ -10,12 +9,11 @@ import { formatPrice } from '@/utils/format';
 import Link from 'next/link';
 import { Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { setModal } from '@/store/modal';
 import { MESSAGES } from '@/constants/messages';
 import { useForm } from 'react-hook-form';
 import { alterModal } from '@/components/SignIn/function';
 
-const index = () => {
+const Order = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const {
@@ -188,4 +186,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Order;

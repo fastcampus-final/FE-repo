@@ -1,6 +1,5 @@
 import { instance } from '@/api/instance';
 import { MESSAGES } from '@/constants/messages';
-import { setCookie } from '@/utils/cookie';
 import { alterModal } from './function';
 
 export const signUp = async (data: any, dispatch: any) => {
@@ -23,7 +22,7 @@ export const signUp = async (data: any, dispatch: any) => {
     });
 };
 
-export const signUpLogin = async (data: any, dispatch: any, router: any) => {
+export const signUpLogin = async (data: any, dispatch: any, router: any, setCookies: any) => {
   await instance({
     method: 'POST',
     url: 'https://www.go-together.store:443/auth/login',
@@ -35,12 +34,14 @@ export const signUpLogin = async (data: any, dispatch: any, router: any) => {
     .then(async (res) => {
       console.log(res);
       if (res.status === 200) {
-        await setCookie('accessToken', res.data.accessToken as string);
-        await setCookie('refreshToken', res.data.refreshToken as string);
+        await setCookies('accessToken', res.data.accessToken as string);
+        await setCookies('refreshToken', res.data.refreshToken as string);
         router.push('/signup/success');
         await alterModal(MESSAGES.SIGNUP.COMPLETE_SIGNUP, dispatch);
+      } else if (res.status === 401) {
+        await alterModal('이미 탈퇴한 회원입니다.', dispatch);
       } else {
-        await alterModal(MESSAGES.LOGIN.ERROR_LOGIN, dispatch);
+        await alterModal('비밀번호나 이메일이 바르지 않습니다. 다시 확인해주세요.', dispatch);
       }
     })
     .catch(async (error) => {

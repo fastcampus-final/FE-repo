@@ -2,6 +2,7 @@ import { MESSAGES } from '@/constants/messages';
 import { IPasswordModal } from '@/interfaces/passwordModal';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useCookies } from 'react-cookie';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { deleteMyAccount, searchMyPassword } from '../Mypage/apis';
@@ -10,6 +11,7 @@ import Input from './Input';
 const PasswordModal = ({ setmodal }: IPasswordModal) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const [, , removeCookies] = useCookies();
 
   const {
     register,
@@ -50,7 +52,7 @@ const PasswordModal = ({ setmodal }: IPasswordModal) => {
         <form
           onSubmit={handleSubmit(async (data) => {
             if (confirm(MESSAGES.WITHDRAWAL.CONFIRM)) {
-              await deleteMyAccount(data, dispatch, router);
+              await deleteMyAccount(data, dispatch, router, removeCookies);
             }
           })}
         >

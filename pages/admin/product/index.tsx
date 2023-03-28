@@ -1,9 +1,14 @@
 import React from 'react';
 import withAuth from '@/components/common/PrivateRouter';
 import styled from '@emotion/styled';
+import PageTitle from '@/components/common/PageTitle';
 
 const Product = () => {
-  return <Container>Product</Container>;
+  return (
+    <Container>
+      <PageTitle title="상품 관리" />
+    </Container>
+  );
 };
 
 export default withAuth(Product);

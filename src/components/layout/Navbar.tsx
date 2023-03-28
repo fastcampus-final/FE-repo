@@ -16,32 +16,6 @@ const Navbar = () => {
           ))}
         </FlexUl>
       </div>
-      {/* <MenuList>
-        <li>
-          <Link href={ROUTES.HOME}>메인</Link>
-        </li>
-        <li>
-          <Link href={ROUTES.LOGIN}>로그인</Link>
-        </li>
-        <li>
-          <Link href={ROUTES.SIGNUP}>회원가입</Link>
-        </li>
-        <li>
-          <Link href={ROUTES.PRODUCT}>상품목록</Link>
-        </li>
-        <li>
-          <Link href={ROUTES.SEARCH}>검색</Link>
-        </li>
-        <li>
-          <Link href={ROUTES.SURVEY}>여행유형테스트</Link>
-        </li>
-        <li>
-          <Link href={ROUTES.CART}>장바구니</Link>
-        </li>
-        <li>
-          <Link href={ROUTES.MYPAGE.MYPAGE_MAIN}>마이페이지</Link>
-        </li>
-      </MenuList> */}
     </Container>
   );
 };
