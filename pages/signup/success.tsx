@@ -1,11 +1,9 @@
 import React from 'react';
-import Link from 'next/link';
-import { getCookie } from '@/utils/cookie';
 import { ROUTES } from '@/constants/routes';
 import { MESSAGES } from '@/constants/messages';
+import Link from 'next/link';
 
 const success = () => {
-  console.log(getCookie('tokens'));
   return (
     <div>
       <div>{MESSAGES.SIGNUP.COMPLETE_SIGNUP}</div>

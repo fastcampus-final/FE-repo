@@ -12,7 +12,7 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 interface Props {
   posts: {
@@ -26,7 +26,7 @@ interface Props {
 const Home = ({ posts }: Props) => {
   const [cityWidth, setCityWidth] = useState(0);
   const anchorRef = useRef<any>(0);
-  const { likeList } = useLikeList();
+  // const { likeList } = useLikeList();
   const router = useRouter();
 
   useEffect(() => {
@@ -50,11 +50,11 @@ const Home = ({ posts }: Props) => {
         pagination={{ clickable: true }}
         className="banner"
       >
-        {likeList?.content.map((item: ILike, idx: number) => (
+        {/* {likeList?.content.map((item: ILike, idx: number) => (
           <SwiperSlide key={idx}>
             <p>{idx + 1}</p>
           </SwiperSlide>
-        ))}
+        ))} */}
       </Swiper>
 
       <h2>그룹 추천 여행</h2>
@@ -100,11 +100,11 @@ const Home = ({ posts }: Props) => {
           speed={5000}
           className="city"
         >
-          {likeList?.content.map((item: ILike, idx: number) => (
+          {/* {likeList?.content.map((item: ILike, idx: number) => (
             <SwiperSlide key={idx}>
               <div ref={anchorRef}>{item.productId}</div>
             </SwiperSlide>
-          ))}
+          ))} */}
         </Swiper>
       </CityContent>
 
@@ -121,11 +121,11 @@ const Home = ({ posts }: Props) => {
           speed={5000}
           className="best"
         >
-          {likeList?.content.map((item: ILike, idx: number) => (
+          {/* {likeList?.content.map((item: ILike, idx: number) => (
             <SwiperSlide key={idx}>
               <div>{item.productId}</div>
             </SwiperSlide>
-          ))}
+          ))} */}
         </Swiper>
       </BestContent>
 
@@ -141,15 +141,15 @@ const Home = ({ posts }: Props) => {
 
 export default Home;
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const { data } = await instance.get('https://jsonplaceholder.typicode.com/posts/1');
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+//   const { data } = await instance.get('https://jsonplaceholder.typicode.com/posts/1');
 
-  return {
-    props: {
-      posts: data,
-    },
-  };
-}
+//   return {
+//     props: {
+//       posts: data,
+//     },
+//   };
+// }
 
 const HomeContent = styled.div`
   margin: 0 10rem;

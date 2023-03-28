@@ -1,19 +1,20 @@
-import { createGlobalStyle } from 'styled-components';
-import reset from 'styled-reset';
+import React from 'react';
+import { Global, css } from '@emotion/react';
+import reset from 'emotion-reset';
 
-const GlobalStyle = createGlobalStyle`
+const style = css`
   ${reset}
 
   @font-face {
-    font-family: 'Noto Sans KR';
-    src: url('http://fonts.googleapis.com/earlyaccess/notosanskr.css')
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
       format('woff');
-    font-weight: normal;
+    font-weight: 400;
     font-style: normal;
   }
 
   body {
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Pretendard-Regular', sans-serif;
     list-style: none;
   }
 
@@ -21,4 +22,9 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
   }
 `;
+
+const GlobalStyle = () => {
+  return <Global styles={style} />;
+};
+
 export default GlobalStyle;
