@@ -1,18 +1,17 @@
-import { instance } from '@/api/instance';
 import { MESSAGES } from '@/constants/messages';
 import { IPasswordModal } from '@/interfaces/passwordModal';
-import { setModal } from '@/store/modal';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useCookies } from 'react-cookie';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
+import { deleteMyAccount, searchMyPassword } from '../Mypage/apis';
 import Input from './Input';
 
 const PasswordModal = ({ setmodal }: IPasswordModal) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [cookies, setCookies, removeCookies] = useCookies();
+  const [, , removeCookies] = useCookies();
 
   const {
     register,
@@ -29,57 +28,49 @@ const PasswordModal = ({ setmodal }: IPasswordModal) => {
       >
         x
       </button>
-      <form
-        onSubmit={handleSubmit(async (data) => {
-          if (confirm(MESSAGES.WITHDRAWAL.CONFIRM)) {
-            await instance({
-              method: 'DELETE',
-              url: 'https://www.go-together.store:443/user/withdraw',
-              data: data,
-            })
-              .then(async (res) => {
-                if (res.data.code === 200) {
-                  await removeCookies('accessToken');
-                  await removeCookies('refreshToken');
-                  await removeCookies('isAdmin');
-                  await dispatch(
-                    setModal({
-                      isOpen: true,
-                      onClickOk: () => dispatch(setModal({ isOpen: false })),
-                      text: MESSAGES.WITHDRAWAL.COMPLETE,
-                    }),
-                  );
-                  await router.push('/');
-                } else {
-                  dispatch(
-                    setModal({
-                      isOpen: true,
-                      onClickOk: () => dispatch(setModal({ isOpen: false })),
-                      text: res.data.data,
-                    }),
-                  );
-                }
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          }
-        })}
-      >
-        <Input
-          error={errors.password?.message as string}
-          register={register('password', {
-            required: MESSAGES.INPUT.CHECK.PASSWORD,
+      {router.asPath === '/login' ? (
+        <form
+          onSubmit={handleSubmit(async (data) => {
+            searchMyPassword(data, dispatch);
           })}
-          id="password"
-          type="password"
-          placeholder="********"
-          label="비밀번호"
-        />
-        <button type="submit" disabled={isSubmitting}>
-          회원탈퇴
-        </button>
-      </form>
+        >
+          <Input
+            error={errors.email?.message as string}
+            register={register('email', {
+              required: MESSAGES.INPUT.CHECK.EMAIL,
+            })}
+            id="email"
+            type="email"
+            placeholder="aaa@naver.com"
+            label="이메일"
+          />
+          <button type="submit" disabled={isSubmitting}>
+            비밀번호 발송
+          </button>
+        </form>
+      ) : (
+        <form
+          onSubmit={handleSubmit(async (data) => {
+            if (confirm(MESSAGES.WITHDRAWAL.CONFIRM)) {
+              await deleteMyAccount(data, dispatch, router, removeCookies);
+            }
+          })}
+        >
+          <Input
+            error={errors.password?.message as string}
+            register={register('password', {
+              required: MESSAGES.INPUT.CHECK.PASSWORD,
+            })}
+            id="password"
+            type="password"
+            placeholder="********"
+            label="비밀번호"
+          />
+          <button type="submit" disabled={isSubmitting}>
+            회원탈퇴
+          </button>
+        </form>
+      )}
     </div>
   );
 };

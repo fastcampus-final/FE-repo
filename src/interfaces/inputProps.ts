@@ -1,12 +1,8 @@
 export interface IInputProps {
+  error: string;
+  register: { name: string };
+  id: string;
   type: string;
   placeholder?: string;
-  label?: string;
-  id?: string;
-  register?: { name: string };
-  error?: string;
-  email?: string;
-  emailCheck?: boolean;
-  setEmailCheck?: React.Dispatch<React.SetStateAction<boolean>>;
-  value?: string;
+  label: string;
 }

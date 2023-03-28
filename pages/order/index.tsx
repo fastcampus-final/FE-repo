@@ -1,7 +1,6 @@
 import PageTitle from '@/components/common/PageTitle';
 import { useRouter } from 'next/router';
 import React from 'react';
-import Image from '@/components/common/Image';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import OrderItem from '@/components/Order/OrderItem';
@@ -10,9 +9,9 @@ import { formatPrice } from '@/utils/format';
 import Link from 'next/link';
 import { Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { setModal } from '@/store/modal';
 import { MESSAGES } from '@/constants/messages';
 import { useForm } from 'react-hook-form';
+import { alterModal } from '@/components/SignIn/function';
 
 const Order = () => {
   const router = useRouter();
@@ -20,7 +19,6 @@ const Order = () => {
   const {
     handleSubmit,
     register,
-    // watch,
     formState: { errors, isSubmitting },
   } = useForm();
 
@@ -31,13 +29,7 @@ const Order = () => {
 
   useEffect(() => {
     if (router.query.items === undefined) {
-      dispatch(
-        setModal({
-          isOpen: true,
-          onClickOk: () => dispatch(setModal({ isOpen: false })),
-          text: MESSAGES.ORDER.EXPIRE,
-        }),
-      );
+      alterModal(MESSAGES.ORDER.EXPIRE, dispatch);
       router.back();
     } else {
       setItems(JSON.parse(router.query.items as string));
@@ -53,15 +45,22 @@ const Order = () => {
   }, [useCheck, payCheck]);
 
   Object.values(errors).map((error) => {
-    dispatch(
-      setModal({
-        isOpen: true,
-        onClickOk: () => dispatch(setModal({ isOpen: false })),
-        text: error?.message,
-      }),
-    );
+    if (error !== undefined) {
+      alterModal(error.message as string, dispatch);
+    }
   });
 
+  const allcheck = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      setAllCheck(true);
+      setUseCheck(true);
+      setPayCheck(true);
+    } else {
+      setAllCheck(false);
+      setUseCheck(false);
+      setPayCheck(false);
+    }
+  };
   // console.log(Object.values(errors));
 
   return (
@@ -151,17 +150,7 @@ const Order = () => {
                 required: MESSAGES.INPUT.CHECK.AGREE,
               })}
               checked={allCheck}
-              onChange={(event) => {
-                if (event.target.checked) {
-                  setAllCheck(true);
-                  setUseCheck(true);
-                  setPayCheck(true);
-                } else {
-                  setAllCheck(false);
-                  setUseCheck(false);
-                  setPayCheck(false);
-                }
-              }}
+              onChange={allcheck}
             />
             <label htmlFor="allAgree">전체 동의</label>
           </div>

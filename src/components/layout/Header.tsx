@@ -5,69 +5,19 @@ import Mypage from './header/Mypage_header';
 import Search from './header/Search_header';
 import Login from './header/Login_header';
 import { useRouter } from 'next/router';
-import { instance } from '@/api/instance';
 import { ROUTES } from '@/constants/routes';
 import Link from 'next/link';
 import { useCookies } from 'react-cookie';
+import { tokenRefresh } from './header/apis';
+import { useDispatch } from 'react-redux';
 
 const Header = () => {
   const [cookies, setCookies, removeCookies] = useCookies();
+  const dispatch = useDispatch();
 
   setInterval(async () => {
     if (cookies.accessToken && cookies.refreshToken) {
-      await instance({
-        method: 'POST',
-        url: 'https://www.go-together.store:443/user/refresh',
-        data: {
-          refreshToken: cookies.refreshToken,
-        },
-      })
-        .then((res) => {
-          console.log(res);
-          if (res.data.code === 200) {
-            removeCookie('accessToken');
-            setCookies('accessToken', res.data.data.accessToken);
-          } else
-            instance({
-              method: 'POST',
-              url: 'https://www.go-together.store:443/user/logout',
-              data: {
-                refreshToken: cookies.refreshToken,
-              },
-            })
-              .then((res) => {
-                if (res.data.code === 200) {
-                  alert('로그아웃이 완료되었습니다.');
-                  removeCookie('accessToken');
-                  removeCookie('refreshToken');
-                  router.push('/');
-                }
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-        })
-        .catch((error) => {
-          console.log(error);
-          instance({
-            method: 'POST',
-            url: 'https://www.go-together.store:443/user/logout',
-            data: {
-              refreshToken: cookies.refreshToken,
-            },
-          })
-            .then((res) => {
-              if (res.data.code === 200) {
-                alert('로그아웃이 완료되었습니다.');
-                removeCookie('accessToken');
-                removeCookie('refreshToken');
-                router.push('/');
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        });
+      await tokenRefresh(router, dispatch, cookies, removeCookies, setCookies);
     }
   }, 1500000);
 
@@ -95,12 +45,7 @@ const Header = () => {
           <Link href={ROUTES.REVIEW}>여행 후기</Link>
         </li>
         {/* 임시 */}
-        <li
-          onClick={() => {
-            setCookies('accessToken', {});
-            setCookies('refreshToken', {});
-          }}
-        >
+        <li>
           <Link href={ROUTES.MYPAGE.MAIN}>마이페이지</Link>
         </li>
         <li>

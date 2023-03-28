@@ -1,16 +1,15 @@
 import PageTitle from '@/components/common/PageTitle';
 import GetMyinfo from '@/components/Mypage/GetMyinfo';
 import { useRouter } from 'next/router';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import NotInput from '@/components/common/NotInput';
 import { useForm } from 'react-hook-form';
 import Input from '@/components/common/Input';
-import { instance } from '@/api/instance';
 import Button from '@mui/material/Button';
 import { MESSAGES } from '@/constants/messages';
 import { useDispatch } from 'react-redux';
-import { setModal } from '@/store/modal';
-import withAuth from '@/components/common/PrivateRouter';
+import { checkPassword } from '@/components/SignIn/function';
+import { patchMyInfo } from '@/components/Mypage/apis';
 
 const info = () => {
   const router = useRouter();
@@ -41,35 +40,7 @@ const info = () => {
     formState: { isSubmitting, errors },
   } = useForm();
 
-  const passwordRef = useRef('');
-  passwordRef.current = watch('newPassword');
-
-  const checkPassword = () => {
-    let res = '';
-    let cnt = 0;
-    const passwordCondition = ['[A-Z]', '[a-z]', '[0-9]', '[!@#$%^&*()]'];
-
-    for (let i = 0; i < passwordCondition.length; i += 1) {
-      if (new RegExp(passwordCondition[i]).test(watch('newPassword'))) {
-        cnt += 1;
-      }
-    }
-
-    switch (cnt) {
-      case 2:
-        res = '낮음';
-        break;
-      case 3:
-        res = '적정';
-        break;
-      case 4:
-        res = '높음';
-        break;
-      default:
-        return '';
-    }
-    return `비밀번호 안전도 : ${res}`;
-  };
+  console.log(patchInfo);
 
   return (
     <div>
@@ -85,48 +56,13 @@ const info = () => {
         {changeInfo ? (
           <form
             onSubmit={handleSubmit(async (data) => {
-              await instance({
-                method: 'PATCH',
-                url: 'https://www.go-together.store:443/user/myInfo',
-                data: data,
-              })
-                .then(async (res) => {
-                  console.log(res);
-                  if (res.data.code === 200) {
-                    await setPatchInfo({ ...patchInfo, phone: res.data.data.phone });
-                    await setChangeInfo(false);
-                    await dispatch(
-                      setModal({
-                        isOpen: true,
-                        onClickOk: () => dispatch(setModal({ isOpen: false })),
-                        text: MESSAGES.CHANGE_INFO,
-                      }),
-                    );
-                  } else {
-                    dispatch(
-                      setModal({
-                        isOpen: true,
-                        onClickOk: () => dispatch(setModal({ isOpen: false })),
-                        text: res.data.data,
-                      }),
-                    );
-                  }
-                })
-                .catch((error) => {
-                  console.log(error);
-                  dispatch(
-                    setModal({
-                      isOpen: true,
-                      onClickOk: () => dispatch(setModal({ isOpen: false })),
-                      text: error,
-                    }),
-                  );
-                });
+              console.log(data);
+              await patchMyInfo(data, setPatchInfo, patchInfo, setChangeInfo, dispatch);
             })}
           >
             <Input
-              error={errors.oldPassword?.message as string}
-              register={register('oldPassword', {
+              error={errors.userPassword?.message as string}
+              register={register('userPassword', {
                 required: MESSAGES.INPUT.CHECK.PASSWORD,
                 minLength: {
                   value: 8,
@@ -137,14 +73,14 @@ const info = () => {
                   message: MESSAGES.INPUT.ERROR.PASSWORD_PATTERN,
                 },
               })}
-              id="oldPassword"
+              id="userPassword"
               type="password"
               placeholder="********"
               label="현재 비밀번호"
             />
             <Input
-              error={errors.newPassword?.message as string}
-              register={register('newPassword', {
+              error={errors.changePassword?.message as string}
+              register={register('changePassword', {
                 required: MESSAGES.INPUT.CHECK.PASSWORD,
                 minLength: {
                   value: 8,
@@ -155,15 +91,26 @@ const info = () => {
                   message: MESSAGES.INPUT.ERROR.PASSWORD_PATTERN,
                 },
               })}
-              id="newPassword"
+              id="changePassword"
               type="password"
               placeholder="********"
               label="변경할 비밀번호"
             />
-            {checkPassword()}
+            {checkPassword(watch('changePassword'))}
             <Input
-              error={errors.phone?.message as string}
-              register={register('phone', {
+              error={errors.passwordConfirmation?.message as string}
+              register={register('passwordConfirmation', {
+                required: MESSAGES.INPUT.CHECK.CONFIRM_PASSWORD,
+                validate: (value) =>
+                  value === watch('changePassword') || MESSAGES.LOGIN.CHECK_PASSWORD,
+              })}
+              id="passwordConfirmation"
+              type="password"
+              label="비밀번호 확인"
+            />
+            <Input
+              error={errors.userPhoneNumber?.message as string}
+              register={register('userPhoneNumber', {
                 required: MESSAGES.INPUT.CHECK.PHONE,
                 pattern: {
                   value: /[0-9]{3}[0-9]{3,4}[0-9]{4}/,
@@ -174,7 +121,7 @@ const info = () => {
                   message: MESSAGES.INPUT.ERROR.PHONE_MAX,
                 },
               })}
-              id="phone"
+              id="userPhoneNumber"
               type="tel"
               placeholder="01011112222"
               label="전화번호"
