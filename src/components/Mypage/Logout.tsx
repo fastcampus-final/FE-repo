@@ -11,11 +11,12 @@ const Logout = () => {
   const dispatch = useDispatch();
 
   return (
-    <div>
-      <Button onClick={async () => await mypageLogout(dispatch, router, cookies, removeCookies)}>
-        Logout
-      </Button>
-    </div>
+    <Button
+      variant="outlined"
+      onClick={async () => await mypageLogout(dispatch, router, cookies, removeCookies)}
+    >
+      로그아웃
+    </Button>
   );
 };
 

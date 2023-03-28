@@ -2,30 +2,55 @@ import PageTitle from '@/components/common/PageTitle';
 import withAuth from '@/components/common/PrivateRouter';
 import GetMyinfo from '@/components/Mypage/GetMyinfo';
 import Logout from '@/components/Mypage/Logout';
-import MyPageLink from '@/components/Mypage/MyPageLink';
 import Withdrawal from '@/components/Mypage/Withdrawal';
 import { ROUTES } from '@/constants/routes';
 import React, { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import styled from '@emotion/styled';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import { useRouter } from 'next/router';
+import CreditScoreIcon from '@mui/icons-material/CreditScore';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
 
 const index = () => {
+  const router = useRouter();
   const [modal, setmodal] = useState(false);
   const [cookies, setCookies, removeCookies] = useCookies();
   console.log(cookies);
 
   return (
-    <div>
-      <Title>
-        <PageTitle title="마이페이지" />
-      </Title>
+    <Container>
+      <PageTitle title="마이페이지" />
       <GetMyinfo />
-      <MyPageLink title="관심상품(위시리스트)" link="/mypage/wish" />
-      <MyPageLink title="여행 히스토리(나의 여행)" link={ROUTES.MYPAGE.REVIEW} />
-      <MyPageLink title="나의 여행 유형 테스트 이력" link={ROUTES.SURVEY} />
-      <Withdrawal modal={modal} setmodal={setmodal} />
+      <nav>
+        <List>
+          <ListItemButton onClick={() => router.push(ROUTES.MYPAGE.WISH)}>
+            <ListItemIcon>
+              <ShoppingCartIcon />
+            </ListItemIcon>
+            <ListItemText primary="나의 관심 상품" />
+          </ListItemButton>
+          <ListItemButton onClick={() => router.push(ROUTES.MYPAGE.ORDER)}>
+            <ListItemIcon>
+              <CreditScoreIcon />
+            </ListItemIcon>
+            <ListItemText primary="나의 예약 내역" />
+          </ListItemButton>
+          <ListItemButton onClick={() => router.push(ROUTES.MYPAGE.REVIEW)}>
+            <ListItemIcon>
+              <SmsOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText primary="나의 후기" />
+          </ListItemButton>
+        </List>
+      </nav>
       <Logout />
-    </div>
+      <Withdrawal modal={modal} setmodal={setmodal} />
+    </Container>
   );
 };
 
@@ -40,7 +65,7 @@ export async function getServerSideProps() {
   };
 }
 
-const Title = styled.h1`
-  position: relative;
-  top: 48px;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
 `;

@@ -21,4 +21,5 @@ const StyledTitle = styled.h1<{ fontSize: string; padding: string }>`
   font-size: ${({ fontSize }) => fontSize};
   font-weight: 600;
   padding: ${({ padding }) => padding};
+  margin: 0 auto;
 `;

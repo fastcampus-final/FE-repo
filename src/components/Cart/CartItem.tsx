@@ -7,7 +7,8 @@ import Image from '../common/Image';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import styled from '@emotion/styled';
-import { Divider, MenuItem, Select } from '@mui/material';
+import { Checkbox, InputLabel, MenuItem, Select } from '@mui/material';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 
 interface Props {
   data: ICart;
@@ -21,8 +22,12 @@ const CartItem = ({ data }: Props) => {
   };
 
   return (
-    <>
-      <Container>
+    <Container>
+      <CheckboxWrap>
+        <Checkbox aria-label="checkbox" />
+        <HighlightOffOutlinedIcon color="primary" />
+      </CheckboxWrap>
+      <ProductWrap>
         <Image
           src={data.productThumbnail}
           alt={data.productName}
@@ -32,23 +37,32 @@ const CartItem = ({ data }: Props) => {
           onClick={handleClick}
           cursorPointer={true}
         />
-        <Info>
+        <ProductText>
           <Title onClick={handleClick}> {data.productName}</Title>
-          <Select size="small" value={data.travelDate && formatPeriod(data.travelDate)}>
+          <Price>{formatPrice(data.productPrice)}</Price>
+        </ProductText>
+      </ProductWrap>
+      <OptionWrap>
+        <Option>
+          <InputLabel id="select-date">출발일자</InputLabel>
+          <Select
+            labelId="select-date"
+            size="small"
+            value={data.travelDate && formatPeriod(data.travelDate)}
+          >
             <MenuItem value={data.travelDate && formatPeriod(data.travelDate)}>
               {data.travelDate && formatPeriod(data.travelDate)}
             </MenuItem>
           </Select>
-        </Info>
+        </Option>
         <Count>
+          <InputLabel id="product-count">인원 수</InputLabel>
           <RemoveCircleIcon cursor="pointer" color="primary" />
           {data.reservationNumber}
           <AddCircleIcon cursor="pointer" color="primary" />
         </Count>
-        <Price>{formatPrice(data.productPrice)}</Price>
-      </Container>
-      <Divider />
-    </>
+      </OptionWrap>
+    </Container>
   );
 };
 
@@ -56,14 +70,29 @@ export default CartItem;
 
 const Container = styled.div`
   display: flex;
-  gap: 30px;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #f7f7f7;
+  padding: 20px;
+  border-radius: 10px;
 `;
 
-const Info = styled.div`
+const CheckboxWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const ProductWrap = styled.div`
+  display: flex;
+  gap: 20px;
+`;
+
+const ProductText = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 10px;
+  width: 100%;
+  height: 120px;
 `;
 
 const Title = styled.p`
@@ -72,15 +101,29 @@ const Title = styled.p`
   cursor: pointer;
 `;
 
+const OptionWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const Option = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
 const Count = styled.p`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
+  border-radius: 5px;
+  padding: 8px;
 `;
 
 const Price = styled.p`
   display: flex;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
 `;

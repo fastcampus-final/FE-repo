@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { checkPassword } from '@/components/SignIn/function';
 import { patchMyInfo } from '@/components/Mypage/apis';
 
-const info = () => {
+const MyInfo = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -151,4 +151,4 @@ const info = () => {
   );
 };
 
-export default info;
+export default MyInfo;

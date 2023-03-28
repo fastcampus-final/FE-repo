@@ -16,6 +16,7 @@ export const ROUTES = {
   MYPAGE: {
     MAIN: '/mypage',
     INFO: '/mypage/info',
+    WISH: '/mypage/wish',
     ORDER: '/mypage/order',
     REVIEW: '/mypage/review',
     WITHDRAWAL: '/mypage/withdrawal',

@@ -25,18 +25,17 @@ const GetMyinfo = () => {
   }, []);
 
   return (
-    <Inner>
+    <Container>
+      <Avatar>
+        <AccountCircleIcon />
+      </Avatar>
       <Link
         href={{
           pathname: ROUTES.MYPAGE.INFO,
           query: { data: JSON.stringify(myinfo) },
         }}
       >
-        <div>
-          <Avatar>
-            <AccountCircleIcon />
-          </Avatar>
-        </div>
+        <div></div>
         <div>
           <div>
             {myinfo.name}(만 {globalAge(myinfo)}세)
@@ -51,15 +50,15 @@ const GetMyinfo = () => {
           )}
         </div>
       </Link>
-    </Inner>
+    </Container>
   );
 };
 
 export default GetMyinfo;
 
-const Inner = styled.div`
+const Container = styled.div`
+  display: flex;
   background-color: #d9d9d9;
-  width: 355px;
   height: 120px;
   box-sizing: border-box;
 `;
