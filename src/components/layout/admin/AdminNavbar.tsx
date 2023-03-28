@@ -10,7 +10,8 @@ import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
+import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
+import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
 import ListIcon from '@mui/icons-material/List';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -18,14 +19,21 @@ import { useRouter } from 'next/router';
 import { ROUTES } from '@/constants/routes';
 
 const AdminNavbar = () => {
-  const [open, setOpen] = useState(true);
-  const [selectedIndex, setSelectedIndex] = useState(-1);
   const router = useRouter();
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+
+  const [open, setOpen] = useState({
+    product: false,
+    community: false,
+  });
+
   const MENUS = [
     ROUTES.ADMIN.USER,
     ROUTES.ADMIN.CATEGORY,
     ROUTES.ADMIN.PRODUCT,
+    ROUTES.ADMIN.POPULAR,
     ROUTES.ADMIN.ORDER,
+    ROUTES.ADMIN.NOTICE,
     ROUTES.ADMIN.REVIEW,
     ROUTES.ADMIN.BANNER,
   ];
@@ -53,14 +61,14 @@ const AdminNavbar = () => {
           </ListItemIcon>
           <ListItemText primary="사용자 관리" />
         </ListItemButton>
-        <ListItemButton onClick={() => setOpen((prev) => !prev)}>
+        <ListItemButton onClick={() => setOpen((prev) => ({ ...prev, product: !prev.product }))}>
           <ListItemIcon>
             <ShoppingCartIcon />
           </ListItemIcon>
           <ListItemText primary="상품 관리" />
-          {open ? <ExpandLess /> : <ExpandMore />}
+          {open.product ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Collapse in={open} timeout="auto" unmountOnExit>
+        <Collapse in={open.product} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItemButton
               sx={{ pl: 4 }}
@@ -82,21 +90,58 @@ const AdminNavbar = () => {
               </ListItemIcon>
               <ListItemText primary="상품 관리" />
             </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              selected={selectedIndex === 3}
+              onClick={() => handleListItemClick(3)}
+            >
+              <ListItemIcon>
+                <PlaceOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary="인기 여행지 관리" />
+            </ListItemButton>
           </List>
         </Collapse>
-        <ListItemButton selected={selectedIndex === 3} onClick={() => handleListItemClick(3)}>
+        <ListItemButton selected={selectedIndex === 4} onClick={() => handleListItemClick(4)}>
           <ListItemIcon>
             <CreditScoreIcon />
           </ListItemIcon>
           <ListItemText primary="예약 관리" />
         </ListItemButton>
-        <ListItemButton selected={selectedIndex === 4} onClick={() => handleListItemClick(4)}>
+        <ListItemButton
+          onClick={() => setOpen((prev) => ({ ...prev, community: !prev.community }))}
+        >
           <ListItemIcon>
-            <BorderColorIcon />
+            <SmsOutlinedIcon />
           </ListItemIcon>
-          <ListItemText primary="후기 관리" />
+          <ListItemText primary="커뮤니티 관리" />
+          {open.community ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <ListItemButton selected={selectedIndex === 5} onClick={() => handleListItemClick(5)}>
+        <Collapse in={open.community} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              selected={selectedIndex === 5}
+              onClick={() => handleListItemClick(5)}
+            >
+              <ListItemIcon>
+                <ListIcon />
+              </ListItemIcon>
+              <ListItemText primary="공지사항 관리" />
+            </ListItemButton>
+            <ListItemButton
+              sx={{ pl: 4 }}
+              selected={selectedIndex === 6}
+              onClick={() => handleListItemClick(6)}
+            >
+              <ListItemIcon>
+                <SmsOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary="여행 후기 관리" />
+            </ListItemButton>
+          </List>
+        </Collapse>
+        <ListItemButton selected={selectedIndex === 7} onClick={() => handleListItemClick(7)}>
           <ListItemIcon>
             <ColorLensIcon />
           </ListItemIcon>
@@ -110,7 +155,7 @@ const AdminNavbar = () => {
 export default AdminNavbar;
 
 const Container = styled.div`
-  width: 16%;
+  width: 18%;
   height: 92vh;
   border-right: 1px solid rgba(0, 0, 0, 0.08);
 `;

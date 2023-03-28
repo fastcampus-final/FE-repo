@@ -10,6 +10,7 @@ import { setModal } from '@/store/modal';
 import { MESSAGES } from '@/constants/messages';
 import PageTitle from '@/components/common/PageTitle';
 import Button from '@mui/material/Button';
+import { Chip, InputBase, TextField } from '@mui/material';
 
 const Search = () => {
   const dispatch = useDispatch();
@@ -68,10 +69,9 @@ const Search = () => {
     <Container>
       <PageTitle title="상품 검색" />
       <SearchInputWrap>
-        {/* <Input type="text" placeholder="검색어를 입력해 주세요." /> */}
-        <input
-          type="text"
+        <TextField
           placeholder="검색어를 입력해 주세요."
+          size="small"
           ref={keywordRef}
           value={keyword}
           onChange={(event) => setKeyword(event.target.value)}
@@ -88,10 +88,6 @@ const Search = () => {
             <KeywordsHeader>
               <p>최근 검색어</p>
               <MenuList>
-                <Button variant="text">
-                  <RxDotsHorizontal size="14px" />
-                </Button>
-                <Button variant="text">선택 삭제</Button>
                 <Button variant="text">전체 삭제</Button>
                 <Button variant="text">자동저장 끄기</Button>
               </MenuList>
@@ -99,26 +95,29 @@ const Search = () => {
             <Keywords>
               {recentKeywords &&
                 recentKeywords.map((item: string, idx: number) => (
-                  <Button key={idx} onClick={() => handleClickSearch(item)} variant="outlined">
-                    {item}
-                  </Button>
+                  <Chip
+                    key={idx}
+                    label={item}
+                    variant="outlined"
+                    onDelete={() => console.log('delete')}
+                    onClick={() => handleClickSearch(item)}
+                  />
                 ))}
             </Keywords>
           </RecentKeywords>
           <RecommendKeywords>
             <KeywordsHeader>
-              <p>추천 검색어</p>
+              <p>인기 여행지</p>
             </KeywordsHeader>
             <Keywords>
               {recommendKeywords.map((item, idx) => (
-                <Button
+                <Chip
                   key={idx}
-                  type="button"
+                  label={item}
+                  variant="outlined"
+                  onDelete={() => console.log('delete')}
                   onClick={() => handleClickSearch(item)}
-                  variant="contained"
-                >
-                  {item}
-                </Button>
+                />
               ))}
             </Keywords>
           </RecommendKeywords>

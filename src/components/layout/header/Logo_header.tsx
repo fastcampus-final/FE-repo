@@ -7,7 +7,7 @@ const Logo = () => {
   return (
     <div>
       <Link href={ROUTES.HOME}>
-        <Image src="./logo-full.png" alt="고투게더 로고" width="200px" />
+        <Image src="./logo.svg" alt="고투게더 로고" width="200px" />
       </Link>
     </div>
   );

@@ -5,7 +5,7 @@ const Input = ({ error, register, id, type, placeholder, label }: IInputProps) =
   return (
     <div>
       <label htmlFor={id}>{label}</label>
-      <input id={id} type={type} placeholder={placeholder} {...register} />
+      <input id={id} type={type} placeholder={placeholder} {...register} value={value} />
       {error && <div role="alert">{error}</div>}
     </div>
   );
