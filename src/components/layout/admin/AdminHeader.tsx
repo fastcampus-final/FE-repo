@@ -22,7 +22,7 @@ const AdminHeader = () => {
   return (
     <Container>
       <Link href={ROUTES.ADMIN.MAIN}>
-        <Image src="./../logo-full.png" alt="고투게더 로고" width="140px" padding="16px 0 10px" />
+        <Image src="./../logo.svg" alt="고투게더 로고" width="140px" padding="16px 0 10px" />
       </Link>
       <Button onClick={handleLogout}>로그아웃</Button>
     </Container>

@@ -30,26 +30,19 @@ const Header = () => {
       {cookies.accessToken ? <Mypage /> : <Login />}
       <MenuList>
         <li>
-          <Link href={ROUTES.LOGIN}>로그인</Link>
-        </li>
-        <li>
           <Link href={ROUTES.SIGNUP}>회원가입</Link>
         </li>
         <li>
-          <Link href={ROUTES.SURVEY}>여행 유형 테스트</Link>
+          <Link href={ROUTES.SURVEY}>테스트</Link>
         </li>
         <li>
           <Link href={ROUTES.CART}>장바구니</Link>
         </li>
         <li>
-          <Link href={ROUTES.REVIEW}>여행 후기</Link>
+          <Link href={ROUTES.REVIEW}>커뮤니티</Link>
         </li>
-        {/* 임시 */}
         <li>
           <Link href={ROUTES.MYPAGE.MAIN}>마이페이지</Link>
-        </li>
-        <li>
-          <Link href={ROUTES.ORDER}>[임시]예약페이지</Link>
         </li>
         <li
           onClick={() => {
@@ -73,7 +66,7 @@ const Container = styled.div`
 `;
 
 const MenuList = styled.ul`
-  width: 1500px;
+  /* width: 1500px; */
   margin: 0 auto;
   display: flex;
   gap: 30px;

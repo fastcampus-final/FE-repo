@@ -25,7 +25,7 @@ const CartItem = ({ data }: Props) => {
       <Container>
         <Image
           src={data.productThumbnail}
-          alt={data.producName}
+          alt={data.productName}
           width="120px"
           height="120px"
           borderRadius="10px"
@@ -33,7 +33,7 @@ const CartItem = ({ data }: Props) => {
           cursorPointer={true}
         />
         <Info>
-          <Title onClick={handleClick}> {data.producName}</Title>
+          <Title onClick={handleClick}> {data.productName}</Title>
           <Select size="small" value={data.travelDate && formatPeriod(data.travelDate)}>
             <MenuItem value={data.travelDate && formatPeriod(data.travelDate)}>
               {data.travelDate && formatPeriod(data.travelDate)}
@@ -57,7 +57,6 @@ export default CartItem;
 const Container = styled.div`
   display: flex;
   gap: 30px;
-  width: 100%;
 `;
 
 const Info = styled.div`
@@ -65,7 +64,6 @@ const Info = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 10px;
-  width: 40%;
 `;
 
 const Title = styled.p`
@@ -75,7 +73,6 @@ const Title = styled.p`
 `;
 
 const Count = styled.p`
-  width: 20%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -83,7 +80,6 @@ const Count = styled.p`
 `;
 
 const Price = styled.p`
-  width: 20%;
   display: flex;
   justify-content: center;
   align-items: center;

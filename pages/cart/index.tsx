@@ -12,7 +12,7 @@ import React, { useEffect, useState } from 'react';
 const tempData: ICart[] = [
   {
     productId: '1',
-    producName: '호주 시드니 8일',
+    productName: '호주 시드니 8일',
     productPrice: '2699000',
     reservationNumber: '1',
     productThumbnail: 'https://picsum.photos/id/10/350/350',
@@ -20,7 +20,7 @@ const tempData: ICart[] = [
   },
   {
     productId: '2',
-    producName: '다낭 골프팩 3박 5일',
+    productName: '다낭 골프팩 3박 5일',
     productPrice: '1000000',
     reservationNumber: '1',
     productThumbnail: 'https://picsum.photos/id/20/350/350',
@@ -28,7 +28,7 @@ const tempData: ICart[] = [
   },
   {
     productId: '3',
-    producName: '나고야 골프팩 4일',
+    productName: '나고야 골프팩 4일',
     productPrice: '1863000',
     reservationNumber: '1',
     productThumbnail: 'https://picsum.photos/id/30/350/350',
@@ -36,7 +36,7 @@ const tempData: ICart[] = [
   },
   {
     productId: '1',
-    producName: '호주 시드니 8일',
+    productName: '호주 시드니 8일',
     productPrice: '2699000',
     reservationNumber: '1',
     productThumbnail: 'https://picsum.photos/id/10/350/350',
@@ -44,7 +44,7 @@ const tempData: ICart[] = [
   },
   {
     productId: '2',
-    producName: '다낭 골프팩 3박 5일',
+    productName: '다낭 골프팩 3박 5일',
     productPrice: '1000000',
     reservationNumber: '1',
     productThumbnail: 'https://picsum.photos/id/20/350/350',
@@ -117,13 +117,12 @@ const Container = styled.div`
 
 const CartWrap = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 40px;
   width: 100%;
 `;
 
 const AmountWrap = styled.div`
-  width: 20%;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -136,7 +135,6 @@ const CartList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
-  width: 80%;
 `;
 
 const PriceText = styled.div`
