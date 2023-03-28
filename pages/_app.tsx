@@ -8,6 +8,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Layout from '@/components/layout/Layout';
 import Loading from '@/components/common/Loading';
 import SSRSuspense from '@/components/common/SSRSuspense';
+import { ThemeProvider } from '@mui/material';
+import { theme } from '@/styles/muiTheme';
 
 export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient({
@@ -22,17 +24,19 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={true} />
-      <Hydrate state={pageProps.dehydratedState}>
-        <Provider store={store}>
-          <SSRSuspense fallback={<Loading />}>
-            <GlobalStyle />
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </SSRSuspense>
-        </Provider>
-      </Hydrate>
+      <ThemeProvider theme={theme}>
+        <ReactQueryDevtools initialIsOpen={true} />
+        <Hydrate state={pageProps.dehydratedState}>
+          <Provider store={store}>
+            <SSRSuspense fallback={<Loading />}>
+              <GlobalStyle />
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </SSRSuspense>
+          </Provider>
+        </Hydrate>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

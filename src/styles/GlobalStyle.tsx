@@ -6,14 +6,15 @@ const style = css`
   ${reset}
 
   @font-face {
-    font-family: 'Noto Sans KR';
-    src: url('http://fonts.googleapis.com/earlyaccess/notosanskr.css') format('woff');
-    font-weight: normal;
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+      format('woff');
+    font-weight: 400;
     font-style: normal;
   }
 
   body {
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Pretendard-Regular', sans-serif;
     list-style: none;
   }
 
