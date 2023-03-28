@@ -25,40 +25,45 @@ const Layout = ({ children }: Props) => {
   Router.events.on('routeChangeError', () => dispatch(hideLoading()));
 
   return (
-    <Container>
+    <>
       {cookies.isAdmin ? (
-        <>
+        <AdminContainer>
           <AdminHeader />
           <AdminWrap>
             <AdminNavbar />
             <AdminMain>{children}</AdminMain>
           </AdminWrap>
-        </>
+          <Modal />
+          <Loading />
+        </AdminContainer>
       ) : (
-        <>
+        <Container>
           <Header />
           <Navbar />
           <Main>{children}</Main>
           <Footer />
-        </>
+          <Modal />
+          <Loading />
+        </Container>
       )}
-      <Modal />
-      <Loading />
-    </Container>
+    </>
   );
 };
 
 export default Layout;
 
-const Container = styled.div`
+const AdminContainer = styled.div`
   max-width: 1920px;
   margin: 0 auto;
 `;
 
-const Main = styled.div`
-  max-width: 1200px;
+const Container = styled.div`
+  max-width: 720px;
   margin: 0 auto;
-  padding: 30px;
+`;
+
+const Main = styled.div`
+  /* padding: 30px; */
 `;
 
 const AdminMain = styled.div`
