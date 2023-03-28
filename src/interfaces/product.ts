@@ -1,17 +1,17 @@
 export interface IProduct {
   productId: string;
-  title: string;
-  price: string;
-  imagePath: string;
+  productName: string;
+  productPrice: string;
+  productThumbnail: string;
 }
 
-export interface IDetail {
+export interface IProductDetail {
   productId: string;
-  title: string;
-  price: string;
-  imagePath: string;
-  summary: string;
-  area: string;
-  point: string;
-  airline: string;
+  productName: string;
+  productPrice: string;
+  productThumbnail: string;
+  // summary: string;
+  // area: string;
+  // point: string;
+  // airline: string;
 }
