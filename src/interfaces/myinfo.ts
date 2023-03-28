@@ -12,3 +12,11 @@ interface IInfoProps {
   name: string;
   phone: string;
 }
+
+export interface IPatchMyInfoProps {
+  birth: string;
+  email: string;
+  name: string;
+  password: string;
+  phone: string;
+}

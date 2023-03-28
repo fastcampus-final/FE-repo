@@ -1,4 +1,4 @@
-import { IText } from '@/interfaces/nav_text';
+import { IText } from '@/interfaces/navText';
 import Link from 'next/link';
 import React from 'react';
 

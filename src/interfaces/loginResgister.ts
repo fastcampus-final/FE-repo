@@ -8,15 +8,13 @@ export interface ISignUpProps {
 }
 
 export interface ILoginProps {
-  data: {
-    code: number;
-    data: null | ITokenProps;
-    message: string;
-    status: string;
-  };
+  data: ITokenProps;
+  message: string;
+  status: number;
 }
 
 interface ITokenProps {
   accessToken: string;
   refreshToken: string;
+  role: string;
 }

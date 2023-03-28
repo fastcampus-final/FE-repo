@@ -1,7 +1,6 @@
-import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { RxDotsHorizontal } from 'react-icons/rx';
 import { IoSearchOutline } from 'react-icons/io5';
 import Product from '../product';
@@ -10,6 +9,8 @@ import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
 import { MESSAGES } from '@/constants/messages';
 import PageTitle from '@/components/common/PageTitle';
+import Button from '@mui/material/Button';
+import { Chip, InputBase, TextField } from '@mui/material';
 
 const Search = () => {
   const dispatch = useDispatch();
@@ -68,17 +69,16 @@ const Search = () => {
     <Container>
       <PageTitle title="상품 검색" />
       <SearchInputWrap>
-        {/* <Input type="text" placeholder="검색어를 입력해 주세요." /> */}
-        <input
-          type="text"
+        <TextField
           placeholder="검색어를 입력해 주세요."
+          size="small"
           ref={keywordRef}
           value={keyword}
           onChange={(event) => setKeyword(event.target.value)}
           onFocus={handleFocusSearch}
           onKeyDown={handleKeyDown}
         />
-        <Button variant="transparent" onClick={() => handleClickSearch()}>
+        <Button variant="text" onClick={() => handleClickSearch()}>
           <IoSearchOutline size={'22px'} />
         </Button>
       </SearchInputWrap>
@@ -88,48 +88,36 @@ const Search = () => {
             <KeywordsHeader>
               <p>최근 검색어</p>
               <MenuList>
-                <Button variant="transparent">
-                  <RxDotsHorizontal size="14px" />
-                </Button>
-                <Button variant="transparent">선택 삭제</Button>
-                <Button variant="transparent">전체 삭제</Button>
-                <Button variant="transparent">자동저장 끄기</Button>
+                <Button variant="text">전체 삭제</Button>
+                <Button variant="text">자동저장 끄기</Button>
               </MenuList>
             </KeywordsHeader>
             <Keywords>
               {recentKeywords &&
                 recentKeywords.map((item: string, idx: number) => (
-                  <Button
+                  <Chip
                     key={idx}
-                    type="button"
+                    label={item}
+                    variant="outlined"
+                    onDelete={() => console.log('delete')}
                     onClick={() => handleClickSearch(item)}
-                    borderRadius="50px"
-                    variant="white"
-                    padding="18px"
-                    height="30px"
-                  >
-                    {item}
-                  </Button>
+                  />
                 ))}
             </Keywords>
           </RecentKeywords>
           <RecommendKeywords>
             <KeywordsHeader>
-              <p>추천 검색어</p>
+              <p>인기 여행지</p>
             </KeywordsHeader>
             <Keywords>
               {recommendKeywords.map((item, idx) => (
-                <Button
+                <Chip
                   key={idx}
-                  type="button"
+                  label={item}
+                  variant="outlined"
+                  onDelete={() => console.log('delete')}
                   onClick={() => handleClickSearch(item)}
-                  borderRadius="50px"
-                  variant="blue"
-                  padding="18px"
-                  height="30px"
-                >
-                  {item}
-                </Button>
+                />
               ))}
             </Keywords>
           </RecommendKeywords>
