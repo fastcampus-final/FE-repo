@@ -15,13 +15,14 @@ const Input = ({
   email,
   emailCheck,
   setEmailCheck,
+  value,
 }: IInputProps) => {
   const router = useRouter();
 
   return (
     <div>
       <label htmlFor={id}>{label}</label>
-      <input id={id} type={type} placeholder={placeholder} {...register} />
+      <input id={id} type={type} placeholder={placeholder} {...register} value={value} />
       {error && <div role="alert">{error}</div>}
       {id === 'email' && router.asPath === '/signup' && (
         <Button

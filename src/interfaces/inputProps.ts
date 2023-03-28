@@ -8,4 +8,5 @@ export interface IInputProps {
   email?: string;
   emailCheck?: boolean;
   setEmailCheck?: React.Dispatch<React.SetStateAction<boolean>>;
+  value?: string;
 }

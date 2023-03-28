@@ -159,6 +159,27 @@ const Signup = () => {
         placeholder="홍길동"
         label="이름"
       />
+      {/* <Input
+        error={errors.sex?.message as string}
+        register={register('sex', {
+          required: MESSAGES.INPUT.CHECK.SEX,
+        })}
+        id="sex"
+        type="radio"
+        label="남자"
+        value="male"
+      />
+      <Input
+        error={errors.sex?.message as string}
+        register={register('sex', {
+          required: MESSAGES.INPUT.CHECK.SEX,
+        })}
+        id="sex"
+        type="radio"
+        label="여자"
+        value="female"
+      /> */}
+
       <Input
         error={errors.email?.message as string}
         register={register('email', {

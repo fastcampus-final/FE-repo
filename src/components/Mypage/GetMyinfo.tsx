@@ -6,7 +6,7 @@ import { Avatar } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useRouter } from 'next/router';
-import { useCookies } from 'react-cookie';
+import styled from '@emotion/styled';
 
 const GetMyinfo = () => {
   const router = useRouter();
@@ -48,10 +48,10 @@ const GetMyinfo = () => {
   };
 
   return (
-    <div>
+    <Inner>
       <Link
         href={{
-          pathname: ROUTES.MYPAGE.MYPAGE_INFO,
+          pathname: ROUTES.MYPAGE.INFO,
           query: { data: JSON.stringify(myinfo) },
         }}
       >
@@ -74,8 +74,15 @@ const GetMyinfo = () => {
           )}
         </div>
       </Link>
-    </div>
+    </Inner>
   );
 };
 
 export default GetMyinfo;
+
+const Inner = styled.div`
+  background-color: #d9d9d9;
+  width: 355px;
+  height: 120px;
+  box-sizing: border-box;
+`;
