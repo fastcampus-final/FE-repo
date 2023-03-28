@@ -22,6 +22,14 @@ export default function App({ Component, pageProps }: AppProps) {
     },
   });
 
+  console.log(pageProps);
+
+  // switch (pageProps.layout) {
+  //   case 'login': {
+  //     return <Component {...pageProps} />;
+  //   }
+  // }
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>

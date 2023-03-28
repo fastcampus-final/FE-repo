@@ -7,6 +7,7 @@ import Withdrawal from '@/components/Mypage/Withdrawal';
 import { ROUTES } from '@/constants/routes';
 import React, { useState } from 'react';
 import { useCookies } from 'react-cookie';
+import styled from '@emotion/styled';
 
 const index = () => {
   const [modal, setmodal] = useState(false);
@@ -15,7 +16,9 @@ const index = () => {
 
   return (
     <div>
-      <PageTitle title="마이페이지" />
+      <Title>
+        <PageTitle title="마이페이지" />
+      </Title>
       <GetMyinfo />
       <MyPageLink title="관심상품(위시리스트)" link="/mypage/wish" />
       <MyPageLink title="여행 히스토리(나의 여행)" link={ROUTES.MYPAGE.REVIEW} />
@@ -27,3 +30,17 @@ const index = () => {
 };
 
 export default withAuth(index);
+
+export async function getServerSideProps() {
+  const layout = 'mypage';
+  return {
+    props: {
+      layout,
+    },
+  };
+}
+
+const Title = styled.h1`
+  position: relative;
+  top: 48px;
+`;
