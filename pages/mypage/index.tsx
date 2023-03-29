@@ -31,15 +31,6 @@ const index = () => {
 
 export default withAuth(index);
 
-export async function getServerSideProps() {
-  const layout = 'mypage';
-  return {
-    props: {
-      layout,
-    },
-  };
-}
-
 const Title = styled.h1`
   position: relative;
   top: 48px;

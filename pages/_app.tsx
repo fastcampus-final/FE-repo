@@ -22,29 +22,61 @@ export default function App({ Component, pageProps }: AppProps) {
     },
   });
 
-  console.log(pageProps);
+  switch (pageProps.layout) {
+    case 'search': {
+      return (
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider theme={theme}>
+            <ReactQueryDevtools initialIsOpen={true} />
+            <Hydrate state={pageProps.dehydratedState}>
+              <Provider store={store}>
+                <SSRSuspense fallback={<Loading />}>
+                  <GlobalStyle />
+                  <Component {...pageProps} />
+                </SSRSuspense>
+              </Provider>
+            </Hydrate>
+          </ThemeProvider>
+        </QueryClientProvider>
+      );
+    }
+    default: {
+      return (
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider theme={theme}>
+            <ReactQueryDevtools initialIsOpen={true} />
+            <Hydrate state={pageProps.dehydratedState}>
+              <Provider store={store}>
+                <SSRSuspense fallback={<Loading />}>
+                  <GlobalStyle />
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </SSRSuspense>
+              </Provider>
+            </Hydrate>
+          </ThemeProvider>
+        </QueryClientProvider>
+      );
+    }
+  }
 
-  // switch (pageProps.layout) {
-  //   case 'login': {
-  //     return <Component {...pageProps} />;
-  //   }
-  // }
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <ReactQueryDevtools initialIsOpen={true} />
-        <Hydrate state={pageProps.dehydratedState}>
-          <Provider store={store}>
-            <SSRSuspense fallback={<Loading />}>
-              <GlobalStyle />
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </SSRSuspense>
-          </Provider>
-        </Hydrate>
-      </ThemeProvider>
-    </QueryClientProvider>
-  );
+  // return (
+  //   <QueryClientProvider client={queryClient}>
+  //     <ThemeProvider theme={theme}>
+  //       <ReactQueryDevtools initialIsOpen={true} />
+  //       <Hydrate state={pageProps.dehydratedState}>
+  //         <Provider store={store}>
+  //           <SSRSuspense fallback={<Loading />}>
+  //             <GlobalStyle />
+  //             <Layouts />
+  //             {/* <Layout>
+  //               <Component {...pageProps} />
+  //             </Layout> */}
+  //           </SSRSuspense>
+  //         </Provider>
+  //       </Hydrate>
+  //     </ThemeProvider>
+  //   </QueryClientProvider>
+  // );
 }

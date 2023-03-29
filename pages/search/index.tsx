@@ -130,6 +130,15 @@ const Search = () => {
 
 export default Search;
 
+export async function getServerSideProps() {
+  const layout = 'search';
+  return {
+    props: {
+      layout,
+    },
+  };
+}
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
