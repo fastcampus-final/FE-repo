@@ -20,6 +20,7 @@ const style = css`
 
   a {
     text-decoration: none;
+    color: black;
   }
 
   .react-datepicker__tab-loop {
