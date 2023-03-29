@@ -1,0 +1,20 @@
+{
+  "content": [
+    {
+      "boardId": 1,
+      "userName": "홍길동",
+      "boardType": "여행후기",
+      "boardThumbnail": "url",
+      "boardTitle": "국내 여행 후기입니다~",
+      "createdDate": "2022-01-02"
+    },
+    {
+      "boardId": 2,
+      "userName": "김영희",
+      "boardType": "여행후기",
+      "boardThumbnail": "url",
+      "boardTitle": "일본 여행 갔다왔어요",
+      "createdDate": "2023-01-10"
+    }
+  ]
+}
