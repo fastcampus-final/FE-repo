@@ -5,6 +5,8 @@ interface Prop {
   src: string;
   width?: string;
   height?: string;
+  mediaWidth?: string;
+  mediaHeight?: string;
   borderRadius?: string;
   alt: string;
   padding?: string;
@@ -16,6 +18,8 @@ const Image = ({
   src,
   width,
   height,
+  mediaWidth,
+  mediaHeight,
   borderRadius,
   alt,
   padding,
@@ -27,6 +31,8 @@ const Image = ({
       src={src}
       width={width}
       height={height}
+      mediaWidth={mediaWidth}
+      mediaHeight={mediaHeight}
       borderRadius={borderRadius}
       alt={alt}
       padding={padding}
@@ -44,4 +50,8 @@ const StyledImage = styled.img<Prop>`
   padding: ${({ padding }) => padding};
   border-radius: ${({ borderRadius }) => borderRadius};
   cursor: ${({ cursorPointer }) => (cursorPointer ? 'pointer' : '')};
+  @media (max-width: 576px) {
+    width: ${({ mediaWidth }) => mediaWidth};
+    height: ${({ mediaHeight }) => mediaHeight};
+  }
 `;

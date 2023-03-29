@@ -21,6 +21,19 @@ const setStorage = (key: string, value: string) => {
   }
 };
 
+const deleteStorageItem = (key: string, value: string) => {
+  try {
+    const item = localStorage.getItem(key);
+    const itemArr = item ? JSON.parse(item) : [];
+    if (itemArr.includes(value)) {
+      itemArr.splice(itemArr.indexOf(value), 1);
+    }
+    localStorage.setItem(key, JSON.stringify(itemArr));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const removeStorage = (key: string) => {
   try {
     localStorage.removeItem(key);
@@ -29,4 +42,4 @@ const removeStorage = (key: string) => {
   }
 };
 
-export { getStorage, setStorage, removeStorage };
+export { getStorage, setStorage, deleteStorageItem, removeStorage };

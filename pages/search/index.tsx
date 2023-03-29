@@ -1,19 +1,33 @@
-import Input from '@/components/common/Input';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
-import { RxDotsHorizontal } from 'react-icons/rx';
 import { IoSearchOutline } from 'react-icons/io5';
 import Product from '../product';
-import { getStorage, setStorage, removeStorage } from '@/utils/storage';
+import { getStorage, setStorage, removeStorage, deleteStorageItem } from '@/utils/storage';
 import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
 import { MESSAGES } from '@/constants/messages';
 import PageTitle from '@/components/common/PageTitle';
-import Button from '@mui/material/Button';
-import { Chip, InputBase, TextField } from '@mui/material';
+import { Chip, TextField, Button, Divider } from '@mui/material';
+import { useCookies } from 'react-cookie';
+import { getCookie } from '@/utils/cookie';
+
+const recommendKeywords = [
+  '싱가포르',
+  '프랑스',
+  '산티아고',
+  '일본',
+  '이탈리아',
+  '산티아고',
+  '싱가포르',
+  '프랑스',
+  '이탈리아',
+  '일본',
+];
 
 const Search = () => {
   const dispatch = useDispatch();
+  const [cookies, setCookies] = useCookies();
+  const [isSaveRecentKeyword, setIsSaveRecentKeyword] = useState(true);
   const [showProduct, setShowProduct] = useState(false);
   const [showKeyword, setShowkeyword] = useState(true);
   const [recentKeywords, setRecentKeywords] = useState([]);
@@ -21,6 +35,11 @@ const Search = () => {
   const keywordRef = useRef<any>(null);
 
   useEffect(() => {
+    if (cookies.isSaveRecentKeyword === undefined) {
+      setCookies('isSaveRecentKeyword', true);
+      setIsSaveRecentKeyword(true);
+    }
+
     setStorage('recentKeywords', '골프');
     setStorage('recentKeywords', '가족');
     setStorage('recentKeywords', '유럽');
@@ -33,6 +52,10 @@ const Search = () => {
       removeStorage('recentKeywords');
     };
   }, []);
+
+  useEffect(() => {
+    setCookies('isSaveRecentKeyword', isSaveRecentKeyword);
+  }, [isSaveRecentKeyword]);
 
   const handleClickSearch = (keyword?: string) => {
     if (!keyword && !keywordRef.current.value) {
@@ -48,8 +71,11 @@ const Search = () => {
     setShowProduct(true);
     setShowkeyword(false);
     setKeyword(keyword ? keyword : keywordRef.current.value);
-    setStorage('recentKeywords', keyword ? keyword : keywordRef.current.value);
-    setRecentKeywords(getStorage('recentKeywords'));
+
+    if (isSaveRecentKeyword) {
+      setStorage('recentKeywords', keyword ? keyword : keywordRef.current.value);
+      setRecentKeywords(getStorage('recentKeywords'));
+    }
     keywordRef.current.blur();
   };
 
@@ -61,9 +87,22 @@ const Search = () => {
 
   const handleFocusSearch = () => {
     setShowkeyword(true);
+    setShowProduct(false);
   };
 
-  const recommendKeywords = ['연인', '프랑스', '반려동물 동반', '등산', '도시'];
+  const onDeleteKeyword = (item: string) => {
+    deleteStorageItem('recentKeywords', item);
+    setRecentKeywords(getStorage('recentKeywords'));
+  };
+
+  const onDeleteAllKeyword = () => {
+    removeStorage('recentKeywords');
+    setRecentKeywords(getStorage('recentKeywords'));
+  };
+
+  const onToggleSaveKeyword = () => {
+    setIsSaveRecentKeyword((prev) => !prev);
+  };
 
   return (
     <Container>
@@ -77,6 +116,7 @@ const Search = () => {
           onChange={(event) => setKeyword(event.target.value)}
           onFocus={handleFocusSearch}
           onKeyDown={handleKeyDown}
+          fullWidth
         />
         <Button variant="text" onClick={() => handleClickSearch()}>
           <IoSearchOutline size={'22px'} />
@@ -88,21 +128,34 @@ const Search = () => {
             <KeywordsHeader>
               <p>최근 검색어</p>
               <MenuList>
-                <Button variant="text">전체 삭제</Button>
-                <Button variant="text">자동저장 끄기</Button>
+                {isSaveRecentKeyword && recentKeywords && (
+                  <Button variant="text" onClick={onDeleteAllKeyword}>
+                    전체 삭제
+                  </Button>
+                )}
+                <Button variant="text" onClick={onToggleSaveKeyword}>
+                  {isSaveRecentKeyword ? '자동저장 끄기' : '자동저장 켜기'}
+                </Button>
               </MenuList>
             </KeywordsHeader>
             <Keywords>
-              {recentKeywords &&
-                recentKeywords.map((item: string, idx: number) => (
-                  <Chip
-                    key={idx}
-                    label={item}
-                    variant="outlined"
-                    onDelete={() => console.log('delete')}
-                    onClick={() => handleClickSearch(item)}
-                  />
-                ))}
+              {isSaveRecentKeyword ? (
+                recentKeywords.length > 0 ? (
+                  recentKeywords.map((item: string, idx: number) => (
+                    <Chip
+                      key={idx}
+                      label={item}
+                      variant="outlined"
+                      onDelete={() => onDeleteKeyword(item)}
+                      onClick={() => handleClickSearch(item)}
+                    />
+                  ))
+                ) : (
+                  <p>최근 검색어가 없습니다</p>
+                )
+              ) : (
+                <p>최근 검색어 저장이 꺼져있습니다.</p>
+              )}
             </Keywords>
           </RecentKeywords>
           <RecommendKeywords>
@@ -111,18 +164,15 @@ const Search = () => {
             </KeywordsHeader>
             <Keywords>
               {recommendKeywords.map((item, idx) => (
-                <Chip
-                  key={idx}
-                  label={item}
-                  variant="outlined"
-                  onDelete={() => console.log('delete')}
-                  onClick={() => handleClickSearch(item)}
-                />
+                <Button key={idx} variant="contained" onClick={() => handleClickSearch(item)}>
+                  {item}
+                </Button>
               ))}
             </Keywords>
           </RecommendKeywords>
         </>
       )}
+      <Divider />
       {showProduct && <Product type="search" />}
     </Container>
   );
@@ -134,6 +184,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
+  padding: 16px;
 `;
 
 const SearchInputWrap = styled.div`
@@ -160,6 +211,7 @@ const KeywordsHeader = styled.div`
 
 const Keywords = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 `;
 

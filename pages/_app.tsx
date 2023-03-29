@@ -10,6 +10,7 @@ import Loading from '@/components/common/Loading';
 import SSRSuspense from '@/components/common/SSRSuspense';
 import { ThemeProvider } from '@mui/material';
 import { theme } from '@/styles/muiTheme';
+import { CookiesProvider } from 'react-cookie';
 
 export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient({
@@ -36,12 +37,14 @@ export default function App({ Component, pageProps }: AppProps) {
         <ReactQueryDevtools initialIsOpen={true} />
         <Hydrate state={pageProps.dehydratedState}>
           <Provider store={store}>
-            <SSRSuspense fallback={<Loading />}>
-              <GlobalStyle />
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </SSRSuspense>
+            <CookiesProvider>
+              <SSRSuspense fallback={<Loading />}>
+                <GlobalStyle />
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </SSRSuspense>
+            </CookiesProvider>
           </Provider>
         </Hydrate>
       </ThemeProvider>
