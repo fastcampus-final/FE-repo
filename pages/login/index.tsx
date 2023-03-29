@@ -5,7 +5,6 @@ import { ROUTES } from '@/constants/routes';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
 import { useCookies } from 'react-cookie';
 import { useState } from 'react';
@@ -13,6 +12,8 @@ import Withdrawal from '@/components/Mypage/Withdrawal';
 import EmailInput from '@/components/SignIn/EmailInput';
 import { alterModal } from '@/components/SignIn/function';
 import { login } from '@/components/Login/apis';
+import PageTitle from '@/components/common/PageTitle';
+import styled from '@emotion/styled';
 
 const Login = () => {
   const router = useRouter();
@@ -35,7 +36,10 @@ const Login = () => {
 
   return (
     <div>
-      <form
+      <Title>
+        <PageTitle title="로그인" />
+      </Title>
+      <Form
         onSubmit={handleSubmit(async (data) => {
           console.log(data);
           await login(data, dispatch, router, setCookies);
@@ -54,14 +58,16 @@ const Login = () => {
           })}
           id="password"
           type="password"
-          placeholder="********"
+          placeholder="비밀번호를 입력해주세요"
           label="비밀번호"
         />
-        <Button variant="contained" type="submit" disabled={isSubmitting}>
-          로그인
-        </Button>
-      </form>
-      <div>
+        <ButtonContainer>
+          <Button type="submit" disabled={isSubmitting}>
+            로그인
+          </Button>
+        </ButtonContainer>
+      </Form>
+      {/* <div>
         <div>{MESSAGES.MOVE_TO_SIGNUP}</div>
         <Link href={ROUTES.SIGNUP}>
           <Button variant="contained">회원가입</Button>
@@ -69,9 +75,38 @@ const Login = () => {
       </div>
       <div>
         <Withdrawal modal={modal} setmodal={setmodal} />
-      </div>
+      </div> */}
     </div>
   );
 };
 
 export default Login;
+
+const Title = styled.h1`
+  margin: 40px 0 20px;
+  box-sizing: border-box;
+`;
+
+const Button = styled.button`
+  box-sizing: border-box;
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  background-color: #6dd0f8;
+  color: #fefefe;
+  font-weight: semi-bold;
+  font-size: 20px;
+  border: 0;
+  cursor: pointer;
+`;
+
+const Form = styled.form`
+  padding-top: 10px;
+  box-sizing: border-box;
+`;
+
+const ButtonContainer = styled.div`
+  width: 100%;
+  box-sizing: border-box;
+  padding: 270px 10px 20px;
+`;

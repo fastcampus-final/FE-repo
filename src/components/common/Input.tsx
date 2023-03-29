@@ -1,11 +1,14 @@
 import { IInputProps } from '@/interfaces/inputProps';
 import React from 'react';
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 
 const Input = ({ error, register, id, placeholder, label, type }: IInputProps) => {
+  const router = useRouter();
+
   return (
     <Inner>
-      <Label htmlFor={id}>{label}</Label>
+      {router.asPath !== '/login' && <Label htmlFor={id}>{label}</Label>}
       <InputBox>
         <InputInner id={id} type={type} placeholder={placeholder} {...register} />
       </InputBox>

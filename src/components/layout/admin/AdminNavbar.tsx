@@ -45,109 +45,111 @@ const AdminNavbar = () => {
 
   return (
     <Container>
-      <List
-        sx={{
-          width: '100%',
-          maxWidth: 360,
-          height: '90vh',
-          bgcolor: 'background.paper',
-        }}
-        component="nav"
-        aria-labelledby="nested-list-subheader"
-      >
-        <ListItemButton selected={selectedIndex === 0} onClick={() => handleListItemClick(0)}>
-          <ListItemIcon>
-            <PersonIcon />
-          </ListItemIcon>
-          <ListItemText primary="사용자 관리" />
-        </ListItemButton>
-        <ListItemButton onClick={() => setOpen((prev) => ({ ...prev, product: !prev.product }))}>
-          <ListItemIcon>
-            <ShoppingCartIcon />
-          </ListItemIcon>
-          <ListItemText primary="상품 관리" />
-          {open.product ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-        <Collapse in={open.product} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItemButton
-              sx={{ pl: 4 }}
-              selected={selectedIndex === 1}
-              onClick={() => handleListItemClick(1)}
-            >
-              <ListItemIcon>
-                <ListIcon />
-              </ListItemIcon>
-              <ListItemText primary="상품 카테고리 관리" />
-            </ListItemButton>
-            <ListItemButton
-              sx={{ pl: 4 }}
-              selected={selectedIndex === 2}
-              onClick={() => handleListItemClick(2)}
-            >
-              <ListItemIcon>
-                <AirplanemodeActiveIcon />
-              </ListItemIcon>
-              <ListItemText primary="상품 관리" />
-            </ListItemButton>
-            <ListItemButton
-              sx={{ pl: 4 }}
-              selected={selectedIndex === 3}
-              onClick={() => handleListItemClick(3)}
-            >
-              <ListItemIcon>
-                <PlaceOutlinedIcon />
-              </ListItemIcon>
-              <ListItemText primary="인기 여행지 관리" />
-            </ListItemButton>
-          </List>
-        </Collapse>
-        <ListItemButton selected={selectedIndex === 4} onClick={() => handleListItemClick(4)}>
-          <ListItemIcon>
-            <CreditScoreIcon />
-          </ListItemIcon>
-          <ListItemText primary="예약 관리" />
-        </ListItemButton>
-        <ListItemButton
-          onClick={() => setOpen((prev) => ({ ...prev, community: !prev.community }))}
+      <nav>
+        <List
+          sx={{
+            width: '100%',
+            maxWidth: 360,
+            height: '90vh',
+            bgcolor: 'background.paper',
+          }}
+          component="nav"
+          aria-labelledby="nested-list-subheader"
         >
-          <ListItemIcon>
-            <SmsOutlinedIcon />
-          </ListItemIcon>
-          <ListItemText primary="커뮤니티 관리" />
-          {open.community ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-        <Collapse in={open.community} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItemButton
-              sx={{ pl: 4 }}
-              selected={selectedIndex === 5}
-              onClick={() => handleListItemClick(5)}
-            >
-              <ListItemIcon>
-                <ListIcon />
-              </ListItemIcon>
-              <ListItemText primary="공지사항 관리" />
-            </ListItemButton>
-            <ListItemButton
-              sx={{ pl: 4 }}
-              selected={selectedIndex === 6}
-              onClick={() => handleListItemClick(6)}
-            >
-              <ListItemIcon>
-                <SmsOutlinedIcon />
-              </ListItemIcon>
-              <ListItemText primary="여행 후기 관리" />
-            </ListItemButton>
-          </List>
-        </Collapse>
-        <ListItemButton selected={selectedIndex === 7} onClick={() => handleListItemClick(7)}>
-          <ListItemIcon>
-            <ColorLensIcon />
-          </ListItemIcon>
-          <ListItemText primary="배너 관리" />
-        </ListItemButton>
-      </List>
+          <ListItemButton selected={selectedIndex === 0} onClick={() => handleListItemClick(0)}>
+            <ListItemIcon>
+              <PersonIcon />
+            </ListItemIcon>
+            <ListItemText primary="사용자 관리" />
+          </ListItemButton>
+          <ListItemButton onClick={() => setOpen((prev) => ({ ...prev, product: !prev.product }))}>
+            <ListItemIcon>
+              <ShoppingCartIcon />
+            </ListItemIcon>
+            <ListItemText primary="상품 관리" />
+            {open.product ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={open.product} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton
+                sx={{ pl: 4 }}
+                selected={selectedIndex === 1}
+                onClick={() => handleListItemClick(1)}
+              >
+                <ListItemIcon>
+                  <ListIcon />
+                </ListItemIcon>
+                <ListItemText primary="상품 카테고리 관리" />
+              </ListItemButton>
+              <ListItemButton
+                sx={{ pl: 4 }}
+                selected={selectedIndex === 2}
+                onClick={() => handleListItemClick(2)}
+              >
+                <ListItemIcon>
+                  <AirplanemodeActiveIcon />
+                </ListItemIcon>
+                <ListItemText primary="상품 관리" />
+              </ListItemButton>
+              <ListItemButton
+                sx={{ pl: 4 }}
+                selected={selectedIndex === 3}
+                onClick={() => handleListItemClick(3)}
+              >
+                <ListItemIcon>
+                  <PlaceOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText primary="인기 여행지 관리" />
+              </ListItemButton>
+            </List>
+          </Collapse>
+          <ListItemButton selected={selectedIndex === 4} onClick={() => handleListItemClick(4)}>
+            <ListItemIcon>
+              <CreditScoreIcon />
+            </ListItemIcon>
+            <ListItemText primary="예약 관리" />
+          </ListItemButton>
+          <ListItemButton
+            onClick={() => setOpen((prev) => ({ ...prev, community: !prev.community }))}
+          >
+            <ListItemIcon>
+              <SmsOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText primary="커뮤니티 관리" />
+            {open.community ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={open.community} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton
+                sx={{ pl: 4 }}
+                selected={selectedIndex === 5}
+                onClick={() => handleListItemClick(5)}
+              >
+                <ListItemIcon>
+                  <ListIcon />
+                </ListItemIcon>
+                <ListItemText primary="공지사항 관리" />
+              </ListItemButton>
+              <ListItemButton
+                sx={{ pl: 4 }}
+                selected={selectedIndex === 6}
+                onClick={() => handleListItemClick(6)}
+              >
+                <ListItemIcon>
+                  <SmsOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText primary="여행 후기 관리" />
+              </ListItemButton>
+            </List>
+          </Collapse>
+          <ListItemButton selected={selectedIndex === 7} onClick={() => handleListItemClick(7)}>
+            <ListItemIcon>
+              <ColorLensIcon />
+            </ListItemIcon>
+            <ListItemText primary="배너 관리" />
+          </ListItemButton>
+        </List>
+      </nav>
     </Container>
   );
 };

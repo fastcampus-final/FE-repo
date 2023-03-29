@@ -17,7 +17,7 @@ const EmailInput = ({ register, error, email, setEmailCheck, emailCheck }: IInpu
   const router = useRouter();
   return (
     <Inner>
-      <Label htmlFor="userEmail">이메일 주소</Label>
+      {router.asPath !== '/login' && <Label htmlFor="userEmail">이메일 주소</Label>}
       <Input>
         <InputInner
           id="userEmail"
