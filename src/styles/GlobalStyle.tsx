@@ -21,6 +21,15 @@ const style = css`
   a {
     text-decoration: none;
   }
+
+  .react-datepicker__tab-loop {
+    position: absolute;
+    top: 0;
+  }
+
+  .react-datepicker__triangle {
+    display: none !important;
+  }
 `;
 
 const GlobalStyle = () => {

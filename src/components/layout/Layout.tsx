@@ -11,6 +11,7 @@ import Navbar from './Navbar';
 import AdminHeader from './admin/AdminHeader';
 import AdminNavbar from './admin/AdminNavbar';
 import { useCookies } from 'react-cookie';
+import ScrollTop from '../common/ScrollTop';
 
 interface Props {
   children: React.ReactNode;
@@ -41,6 +42,7 @@ const Layout = ({ children }: Props) => {
           <Header />
           <Navbar />
           <Main>{children}</Main>
+          <ScrollTop />
           <Footer />
           <Modal />
           <Loading />

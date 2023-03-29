@@ -22,8 +22,10 @@ const ProductItem = ({ data }: Props) => {
       <Image
         src={data.productThumbnail}
         alt={data.productName}
-        width="330"
-        height="330"
+        width="334px"
+        height="334px"
+        mediaWidth="43vw"
+        mediaHeight="43vw"
         borderRadius="10px"
       />
       <Title> {data.productName}</Title>
@@ -39,16 +41,26 @@ const Container = styled.div`
   flex-direction: column;
   cursor: pointer;
   gap: 10px;
-  margin: 14px;
 `;
 
 const Title = styled.p`
-  font-size: 24px;
+  font-size: 1.4rem;
   font-weight: 600;
   margin-top: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 334px;
+  @media (max-width: 576px) {
+    font-size: 1.1rem;
+    width: 43vw;
+  }
 `;
 
 const Price = styled.p`
-  font-size: 20px;
+  font-size: 1.3rem;
   font-weight: 600;
+  @media (max-width: 576px) {
+    font-size: 1.1rem;
+  }
 `;
