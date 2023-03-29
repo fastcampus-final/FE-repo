@@ -19,8 +19,6 @@ import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
 const index = () => {
   const router = useRouter();
   const [modal, setmodal] = useState(false);
-  const [cookies, setCookies, removeCookies] = useCookies();
-  console.log(cookies);
 
   return (
     <Container>
@@ -68,4 +66,5 @@ export async function getServerSideProps() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 16px;
 `;

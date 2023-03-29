@@ -1,8 +1,8 @@
 import withAuth from '@/components/common/PrivateRouter';
 import React from 'react';
 
-const UserModifyForm = () => {
-  return <div>UserModifyForm</div>;
+const ProductCetegoryEditForm = () => {
+  return <div>ProductCetegoryEditForm</div>;
 };
 
-export default withAuth(UserModifyForm);
+export default withAuth(ProductCetegoryEditForm);
