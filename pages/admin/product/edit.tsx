@@ -1,12 +1,12 @@
 import PageTitle from '@/components/common/PageTitle';
 import withAuth from '@/components/common/PrivateRouter';
+import { IProduct } from '@/interfaces/product';
 import styled from '@emotion/styled';
+import { Table, TableRow, TableCell, Button, TextField } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { Table, TableRow, TableCell, Button, TextField } from '@mui/material';
-import { ROUTES } from '@/constants/routes';
 
-const ProductDetail = () => {
+const ProductEditForm = () => {
   const router = useRouter();
 
   const data = {
@@ -18,34 +18,56 @@ const ProductDetail = () => {
 
   return (
     <Container>
-      <PageTitle title="상품 상세" fontSize="20px" padding="10px" />
+      <PageTitle title="상품 등록" fontSize="20px" padding="10px" />
       <form>
         <Table>
           <TableRow>
             <TableCell align="center">썸네일</TableCell>
             <TableCell align="center" component="th">
-              {data.productThumbnail}
+              <input type={'file'} src={data.productThumbnail} required />
             </TableCell>
             <TableCell align="center"></TableCell>
             <TableCell align="center"></TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="center">상품명</TableCell>
-            <TableCell align="center">{data.productName}</TableCell>
+            <TableCell align="center">
+              <TextField
+                id="outlined-basic"
+                size="small"
+                defaultValue={data.productName}
+                fullWidth
+                required
+              />
+            </TableCell>
             <TableCell align="center">가격</TableCell>
-            <TableCell align="center">{data.productPrice}</TableCell>
+            <TableCell align="center">
+              <TextField
+                id="outlined-basic"
+                size="small"
+                defaultValue={data.productPrice}
+                fullWidth
+                required
+              />
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="center">요약정보</TableCell>
-            <TableCell align="center"></TableCell>
+            <TableCell align="center">
+              <TextField id="outlined-basic" size="small" defaultValue={''} fullWidth required />
+            </TableCell>
             <TableCell align="center">예약정보</TableCell>
-            <TableCell align="center"></TableCell>
+            <TableCell align="center">
+              <TextField id="outlined-basic" size="small" defaultValue={''} fullWidth required />
+            </TableCell>
           </TableRow>
         </Table>
         <ButtonWrap>
-          <Button variant="outlined">삭제</Button>
-          <Button variant="contained" onClick={() => router.push(ROUTES.ADMIN.PRODUCT_EDIT)}>
-            수정
+          <Button variant="outlined" onClick={() => router.back()}>
+            취소
+          </Button>
+          <Button variant="contained" type="submit">
+            수정 완료
           </Button>
         </ButtonWrap>
       </form>
@@ -53,7 +75,7 @@ const ProductDetail = () => {
   );
 };
 
-export default withAuth(ProductDetail);
+export default withAuth(ProductEditForm);
 
 const Container = styled.div`
   width: 100%;

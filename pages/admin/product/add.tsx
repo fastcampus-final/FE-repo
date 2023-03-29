@@ -6,15 +6,8 @@ import { Table, TableRow, TableCell, Button, TextField } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-const ProductForm = () => {
+const ProductAddForm = () => {
   const router = useRouter();
-
-  const data = {
-    productId: '1',
-    productName: '오사카 패키지 여행',
-    productPrice: '2680000',
-    productThumbnail: '/',
-  };
 
   return (
     <Container>
@@ -24,7 +17,7 @@ const ProductForm = () => {
           <TableRow>
             <TableCell align="center">썸네일</TableCell>
             <TableCell align="center" component="th">
-              <input type={'file'} src={data.productThumbnail} required />
+              <input type={'file'} required />
             </TableCell>
             <TableCell align="center"></TableCell>
             <TableCell align="center"></TableCell>
@@ -32,33 +25,21 @@ const ProductForm = () => {
           <TableRow>
             <TableCell align="center">상품명</TableCell>
             <TableCell align="center">
-              <TextField
-                id="outlined-basic"
-                size="small"
-                defaultValue={data.productName}
-                fullWidth
-                required
-              />
+              <TextField id="outlined-basic" size="small" fullWidth required />
             </TableCell>
             <TableCell align="center">가격</TableCell>
             <TableCell align="center">
-              <TextField
-                id="outlined-basic"
-                size="small"
-                defaultValue={data.productPrice}
-                fullWidth
-                required
-              />
+              <TextField id="outlined-basic" size="small" fullWidth required />
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="center">요약정보</TableCell>
             <TableCell align="center">
-              <TextField id="outlined-basic" size="small" defaultValue={''} fullWidth required />
+              <TextField id="outlined-basic" size="small" fullWidth required />
             </TableCell>
             <TableCell align="center">예약정보</TableCell>
             <TableCell align="center">
-              <TextField id="outlined-basic" size="small" defaultValue={''} fullWidth required />
+              <TextField id="outlined-basic" size="small" fullWidth required />
             </TableCell>
           </TableRow>
         </Table>
@@ -75,7 +56,7 @@ const ProductForm = () => {
   );
 };
 
-export default withAuth(ProductForm);
+export default withAuth(ProductAddForm);
 
 const Container = styled.div`
   width: 100%;

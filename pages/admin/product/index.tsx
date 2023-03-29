@@ -86,7 +86,7 @@ const Product = () => {
         <ButtonWrap>
           <Button variant="outlined">삭제</Button>
           <Pagination count={5} color="primary" />
-          <Button variant="contained" onClick={() => router.push(ROUTES.ADMIN.PRODUCT_FORM)}>
+          <Button variant="contained" onClick={() => router.push(ROUTES.ADMIN.PRODUCT_ADD)}>
             등록
           </Button>
         </ButtonWrap>
