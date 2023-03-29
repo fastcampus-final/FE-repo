@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableRow, TableCell } from '@material-ui/core';
+import { TableRow, TableCell } from '@mui/material';
 import { IProduct } from '@/interfaces/product';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';

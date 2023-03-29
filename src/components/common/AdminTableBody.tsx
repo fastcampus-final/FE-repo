@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableBody } from '@material-ui/core';
+import { TableBody } from '@mui/material';
 import { IProduct } from '@/interfaces/product';
 import AdminTableRow from './AdminTableRow';
 

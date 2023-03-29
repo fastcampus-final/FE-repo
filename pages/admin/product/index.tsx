@@ -2,7 +2,7 @@ import React from 'react';
 import withAuth from '@/components/common/PrivateRouter';
 import styled from '@emotion/styled';
 import PageTitle from '@/components/common/PageTitle';
-import { Table } from '@material-ui/core';
+import { Table } from '@mui/material';
 import AdminTableHead from '@/components/common/AdminTableHead';
 import AdminTableBody from '@/components/common/AdminTableBody';
 import { IProduct } from '@/interfaces/product';

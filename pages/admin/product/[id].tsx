@@ -3,8 +3,7 @@ import withAuth from '@/components/common/PrivateRouter';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { Table, TableRow, TableCell } from '@material-ui/core';
-import { Button, TextField } from '@mui/material';
+import { Table, TableRow, TableCell, Button, TextField } from '@mui/material';
 import { ROUTES } from '@/constants/routes';
 
 const ProductDetail = () => {
