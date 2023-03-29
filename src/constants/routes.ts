@@ -9,8 +9,9 @@ export const ROUTES = {
   PRODUCT_BY_ID: (id: string) => `/product/${id}`,
   CART: '/cart',
   ORDER: '/order',
-  REVIEW: '/review',
+  REVIEW: '/community/review',
   REVIEW_BY_ID: (id: string) => `/review/${id}`,
+  NOTICE: '/community/notice',
   REVIEW_ADD: '/review/add',
   REVIEW_MODIFY: '/review/modify',
   MYPAGE: {
