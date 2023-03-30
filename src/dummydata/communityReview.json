@@ -15,6 +15,30 @@
       "boardThumbnail": "url",
       "boardTitle": "일본 여행 갔다왔어요",
       "createdDate": "2023-01-10"
+    },
+    {
+      "boardId": 3,
+      "userName": "이유리",
+      "boardType": "여행후기",
+      "boardThumbnail": "url",
+      "boardTitle": "스페인 대중교통 이용 후기",
+      "createdDate": "2023-02-05"
+    },
+    {
+      "boardId": 4,
+      "userName": "관리자",
+      "boardType": "여행후기",
+      "boardThumbnail": "url",
+      "boardTitle": "산티아고 순례 여행 설명회",
+      "createdDate": "2022-10-05"
+    },
+    {
+      "boardId": 5,
+      "userName": "관리자",
+      "boardType": "여행후기",
+      "boardThumbnail": "url",
+      "boardTitle": "베트남에서 만난 골든타임은 좋은 추억이 되었습니다.",
+      "createdDate": "2022-10-05"
     }
   ]
 }
