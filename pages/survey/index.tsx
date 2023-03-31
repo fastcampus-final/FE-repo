@@ -14,9 +14,10 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import PageTitle from '@/components/common/PageTitle';
 
 const Servey = () => {
-  const steps = ['첫 번째 질문', '두 번째 질문', '세 번째 질문'];
+  const steps = ['질문1', '질문2', '질문3'];
   const [answer, setAnswer] = useState<string[]>([]);
 
   const [activeStep, setActiveStep] = React.useState(0);
@@ -35,6 +36,7 @@ const Servey = () => {
 
   return (
     <Container>
+      <PageTitle title="여행 유형 테스트" />
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
           const stepProps: { completed?: boolean } = {};
@@ -83,4 +85,5 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
+  padding: 16px;
 `;

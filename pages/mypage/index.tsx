@@ -22,7 +22,7 @@ const index = () => {
 
   return (
     <Container>
-      <PageTitle title="마이페이지" />
+      <PageTitle title="마이 페이지" />
       <GetMyinfo />
       <nav>
         <List>
@@ -42,7 +42,7 @@ const index = () => {
             <ListItemIcon>
               <SmsOutlinedIcon />
             </ListItemIcon>
-            <ListItemText primary="나의 후기" />
+            <ListItemText primary="나의 여행 후기" />
           </ListItemButton>
         </List>
       </nav>

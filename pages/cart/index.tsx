@@ -113,6 +113,7 @@ export default Cart;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 16px;
 `;
 
 const CartWrap = styled.div`
