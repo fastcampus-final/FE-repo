@@ -14,6 +14,7 @@ const palette = {
 export const theme = createTheme({
   palette,
   typography: {
-    fontFamily: 'Pretendard-Regular',
+    fontFamily: 'Pretendard',
+    fontSize: 14,
   },
 });

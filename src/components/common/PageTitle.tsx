@@ -7,7 +7,7 @@ interface Props {
   padding?: string;
 }
 
-const PageTitle = ({ title, fontSize = '24px', padding = '10px 0 20px 0' }: Props) => {
+const PageTitle = ({ title, fontSize = '20px', padding = '10px 0 20px 0' }: Props) => {
   return (
     <StyledTitle fontSize={fontSize} padding={padding}>
       {title}
