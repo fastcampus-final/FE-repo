@@ -13,7 +13,7 @@ const ScrollTop = () => {
 
   return (
     <Container>
-      <Fab color="primary" aria-label="scroll-top" onClick={handleClick}>
+      <Fab color="primary" aria-label="scroll-top" onClick={handleClick} size="small">
         <KeyboardArrowUpIcon />
       </Fab>
     </Container>
