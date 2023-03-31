@@ -62,6 +62,7 @@ const AdminContainer = styled.div`
 const Container = styled.div`
   max-width: 720px;
   margin: 0 auto;
+  box-sizing: border-box;
 `;
 
 const Main = styled.div`
