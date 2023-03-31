@@ -1,7 +1,7 @@
 import React from 'react';
 
-const NoticeDetail = () => {
-  return <div>NoticeDetail</div>;
+const ReviewDetail = () => {
+  return <div>ReviewDetail</div>;
 };
 
-export default NoticeDetail;
+export default ReviewDetail;
