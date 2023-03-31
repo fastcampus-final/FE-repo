@@ -4,17 +4,19 @@ import { useRouter } from 'next/router';
 import data from '@/dummydata/communityReview.json';
 import { IReview } from '@/interfaces/community';
 import styled from '@emotion/styled';
-import { TextField } from '@mui/material';
+import { Pagination, TextField } from '@mui/material';
 
 import WriteIcon from '@/../public/icons/edit.svg';
 import SearchIcon from '@/../public/icons/Group.svg';
 import ReviewItem from '@/components/Community/ReviewItem';
 import CommunityRouter from '@/components/Community/CommunityRouter';
+import { ROUTES } from '@/constants/routes';
 
 const Review = () => {
   const router = useRouter();
   const [reviewData, setReviewData] = useState<Array<IReview>>([]);
   const [keyword, setKeyword] = useState('');
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const getData = async () => {
@@ -33,6 +35,10 @@ const Review = () => {
     console.log(keyword);
   };
 
+  const pageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+
   return (
     <ReviewContent>
       <TopArea>
@@ -40,7 +46,7 @@ const Review = () => {
           생생한 <span className="textBold">여행후기</span>를 남겨주시고{' '}
           <span className="textBold">커피 한 잔</span>의 행운을 누려보세요.
         </p>
-        <button>
+        <button onClick={() => router.push(ROUTES.REVIEW_ADD)}>
           <WriteIcon />
           <span>후기쓰기</span>
         </button>
@@ -56,9 +62,9 @@ const Review = () => {
         </InputArea>
       </TopArea>
 
-      <MiddleArea>
+      <>
         <CommunityRouter pathname={router.pathname} />
-      </MiddleArea>
+      </>
 
       <BottomArea>
         {reviewData.length > 0 ? (
@@ -67,6 +73,10 @@ const Review = () => {
           <h3>후기가 존재하지 않습니다.</h3>
         )}
       </BottomArea>
+
+      <PageContent>
+        <Pagination count={10} color="primary" page={page} onChange={pageChange} />
+      </PageContent>
     </ReviewContent>
   );
 };
@@ -77,7 +87,7 @@ const ReviewContent = styled.div``;
 
 const TopArea = styled.div`
   background-color: #e7f7fe;
-  padding: 1rem 1.5rem;
+  padding: 1rem 1.3rem;
   margin-bottom: 20px;
   display: grid;
   grid-template-rows: 5rem 3rem;
@@ -97,7 +107,6 @@ const TopArea = styled.div`
     border: 1px solid #0cb1f3;
     border-radius: 8px;
     color: #fff;
-    width: 70%;
     height: 50%;
     margin: auto;
     grid-area: button;
@@ -130,12 +139,16 @@ const InputArea = styled.div`
   }
 `;
 
-const MiddleArea = styled.div``;
-
 const BottomArea = styled.div`
   display: flex;
   margin: 20px 0;
   flex-wrap: wrap;
   gap: 25px;
-  justify-content: flex-start;
+  justify-content: center;
+`;
+
+const PageContent = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 25px 0;
 `;

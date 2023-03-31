@@ -10,10 +10,10 @@ export const ROUTES = {
   CART: '/cart',
   ORDER: '/order',
   REVIEW: '/community/review',
-  REVIEW_BY_ID: (id: string) => `/review/${id}`,
+  REVIEW_BY_ID: (id: number) => `/community/review/${id}`,
   NOTICE: '/community/notice',
-  REVIEW_ADD: '/review/add',
-  REVIEW_EDIT: '/review/edit',
+  REVIEW_ADD: '/community/review/add',
+  REVIEW_EDIT: '/community/review/edit',
   MYPAGE: {
     MAIN: '/mypage',
     INFO: '/mypage/info',
