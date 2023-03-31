@@ -7,7 +7,7 @@ import { Pagination, Navigation, Autoplay } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import ProductItem from '@/components/Product/ProductItem';
+import ProductItem from '@/components/Product/ProductCard';
 import Button from '@mui/material/Button';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';

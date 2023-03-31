@@ -6,6 +6,9 @@ const palette = {
     contrastText: '#fff',
     dark: '#0ba5e2',
   },
+  secondary: {
+    main: '#F84A24',
+  },
 };
 
 export const theme = createTheme({
