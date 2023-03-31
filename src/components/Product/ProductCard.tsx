@@ -10,7 +10,7 @@ interface Props {
   data: IProduct;
 }
 
-const ProductItem = ({ data }: Props) => {
+const ProductCard = ({ data }: Props) => {
   const router = useRouter();
 
   const handleClick = () => {
@@ -34,7 +34,7 @@ const ProductItem = ({ data }: Props) => {
   );
 };
 
-export default ProductItem;
+export default ProductCard;
 
 const Container = styled.div`
   display: flex;
