@@ -60,8 +60,15 @@ const Header = () => {
 export default Header;
 
 const Container = styled.div`
+  width: 1200px;
   margin: 0 auto;
-  padding: 16px;
+  display: flex;
+  padding: 30px 0;
+  gap: 30px;
+  align-items: center;
+  @media (max-width: 1200px) {
+    padding: 16px;
+  }
 `;
 
 const MenuList = styled.ul`

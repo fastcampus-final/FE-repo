@@ -57,84 +57,86 @@ const Home = ({ posts }: Props) => {
         ))} */}
       </Swiper>
 
-      <h2>그룹 추천 여행</h2>
-      <GroupContent>
-        <div className="group">
-          <div>
-            <p>active SENIOR</p>
+      <ContentWrap>
+        <h2>그룹 추천 여행</h2>
+        <GroupContent>
+          <div className="group">
+            <div>
+              <p>active SENIOR</p>
+            </div>
+            <div>
+              <p>with ANYONE</p>
+            </div>
           </div>
-          <div>
-            <p>with ANYONE</p>
+          <div className="group">
+            <div>
+              <p>WOMEN only</p>
+            </div>
+            <div>
+              <p>MEN only</p>
+            </div>
+            <div>
+              <p>with ANYONE</p>
+            </div>
           </div>
-        </div>
-        <div className="group">
-          <div>
-            <p>WOMEN only</p>
-          </div>
-          <div>
-            <p>MEN only</p>
-          </div>
-          <div>
-            <p>with ANYONE</p>
-          </div>
-        </div>
-      </GroupContent>
+        </GroupContent>
 
-      <TestContent onClick={() => router.push('/')}>
-        <div className="text">
-          <p>나의 여행 유형이 궁금하다면?</p>
-          <h3>여행 유형 테스트 하러가기</h3>
-        </div>
-      </TestContent>
+        <TestContent onClick={() => router.push('/')}>
+          <div className="text">
+            <p>나의 여행 유형이 궁금하다면?</p>
+            <h3>여행 유형 테스트 하러가기</h3>
+          </div>
+        </TestContent>
 
-      <h2>인기 도시</h2>
-      <CityContent width={cityWidth}>
-        <Swiper
-          modules={[Autoplay]}
-          spaceBetween={15}
-          slidesPerView={5}
-          loop={true}
-          autoplay={{
-            delay: 3000,
-          }}
-          speed={5000}
-          className="city"
-        >
-          {/* {likeList?.content.map((item: ILike, idx: number) => (
+        <h2>인기 도시</h2>
+        <CityContent width={cityWidth}>
+          <Swiper
+            modules={[Autoplay]}
+            spaceBetween={15}
+            slidesPerView={5}
+            loop={true}
+            autoplay={{
+              delay: 3000,
+            }}
+            speed={5000}
+            className="city"
+          >
+            {/* {likeList?.content.map((item: ILike, idx: number) => (
             <SwiperSlide key={idx}>
               <div ref={anchorRef}>{item.productId}</div>
             </SwiperSlide>
           ))} */}
-        </Swiper>
-      </CityContent>
+          </Swiper>
+        </CityContent>
 
-      <h2>베스트 여행을 확인해보세요! -{'>'} 회원의 경우 이자리에 추천...?</h2>
-      <BestContent>
-        <Swiper
-          modules={[Autoplay]}
-          spaceBetween={15}
-          slidesPerView={4}
-          loop={true}
-          autoplay={{
-            delay: 3000,
-          }}
-          speed={5000}
-          className="best"
-        >
-          {/* {likeList?.content.map((item: ILike, idx: number) => (
+        <h2>베스트 여행을 확인해보세요! -{'>'} 회원의 경우 이자리에 추천...?</h2>
+        <BestContent>
+          <Swiper
+            modules={[Autoplay]}
+            spaceBetween={15}
+            slidesPerView={4}
+            loop={true}
+            autoplay={{
+              delay: 3000,
+            }}
+            speed={5000}
+            className="best"
+          >
+            {/* {likeList?.content.map((item: ILike, idx: number) => (
             <SwiperSlide key={idx}>
               <div>{item.productId}</div>
             </SwiperSlide>
           ))} */}
-        </Swiper>
-      </BestContent>
+          </Swiper>
+        </BestContent>
 
-      <TestContent onClick={() => router.push('/')}>
-        <div className="text">
-          <p>드디어 산티아고 오픈!</p>
-          <h3>산티아고 순례길 여행설명회가 열립니다</h3>
-        </div>
-      </TestContent>
+        <TestContent onClick={() => router.push('/')}>
+          <div className="text">
+            <p>드디어 산티아고 오픈!</p>
+            <h3>산티아고 순례길 여행설명회가 열립니다</h3>
+          </div>
+        </TestContent>
+      </ContentWrap>
     </HomeContent>
   );
 };
@@ -152,15 +154,24 @@ export default Home;
 // }
 
 const HomeContent = styled.div`
-  margin: 0 10rem;
   .banner {
     background-color: #999;
-    height: 450px;
+    height: 550px;
     margin-bottom: 5rem;
+    width: 100%;
   }
   h2 {
     font-size: 2rem;
     margin-bottom: 20px;
+  }
+`;
+
+const ContentWrap = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 0;
+  @media (max-width: 1200px) {
+    padding: 16px;
   }
 `;
 

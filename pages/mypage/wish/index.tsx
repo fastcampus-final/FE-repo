@@ -1,4 +1,5 @@
 import PageTitle from '@/components/common/PageTitle';
+import MyPageNavbar from '@/components/layout/MyPageNavbar';
 import WishCard from '@/components/Mypage/Wish/WishCard';
 import ProductItem from '@/components/Product/ProductCard';
 import { IProduct } from '@/interfaces/product';
@@ -41,12 +42,15 @@ const tempData: IProduct[] = [
 const MyWish = () => {
   return (
     <Container>
-      <PageTitle title="나의 관심 상품" />
-      <CardContainer>
-        {tempData.map((item) => (
-          <WishCard key={item.productId} data={item} />
-        ))}
-      </CardContainer>
+      <MyPageNavbar />
+      <MypageWrap>
+        <PageTitle title="나의 관심 상품" />
+        <CardContainer>
+          {tempData.map((item) => (
+            <WishCard key={item.productId} data={item} />
+          ))}
+        </CardContainer>
+      </MypageWrap>
     </Container>
   );
 };
@@ -55,12 +59,26 @@ export default MyWish;
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  padding: 16px;
+  width: 1200px;
+  margin: 0 auto;
+  gap: 30px;
+  padding: 16px 0;
+  @media (max-width: 1200px) {
+    padding: 16px;
+  }
 `;
 
 const CardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 40px;
+`;
+
+const MypageWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
 `;

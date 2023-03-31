@@ -184,7 +184,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
-  padding: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 0;
+  @media (max-width: 1200px) {
+    padding: 16px;
+  }
 `;
 
 const SearchInputWrap = styled.div`

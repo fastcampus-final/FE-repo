@@ -19,15 +19,7 @@ const ProductCard = ({ data }: Props) => {
 
   return (
     <Container onClick={handleClick}>
-      <Image
-        src={data.productThumbnail}
-        alt={data.productName}
-        width="334px"
-        height="334px"
-        mediaWidth="43vw"
-        mediaHeight="43vw"
-        borderRadius="10px"
-      />
+      <ProductImg src={data.productThumbnail} alt={data.productName} />
       <Title> {data.productName}</Title>
       <Price>{formatPrice(data.productPrice)}</Price>
     </Container>
@@ -41,7 +33,27 @@ const Container = styled.div`
   flex-direction: column;
   cursor: pointer;
   gap: 10px;
-  width: 43vw;
+  width: 386px;
+  @media (max-width: 1200px) {
+    width: 280px;
+  }
+  @media (max-width: 576px) {
+    width: 43vw;
+  }
+`;
+
+const ProductImg = styled.img`
+  width: 386px;
+  height: 386px;
+  border-radius: 10px;
+  @media (max-width: 1200px) {
+    width: 280px;
+    height: 280px;
+  }
+  @media (max-width: 576px) {
+    width: 43vw;
+    height: 43vw;
+  }
 `;
 
 const Title = styled.p`

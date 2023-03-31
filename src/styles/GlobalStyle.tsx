@@ -55,7 +55,10 @@ const style = css`
     font-family: 'Pretendard', sans-serif;
     list-style: none;
     color: #101010;
-    font-size: 14px;
+    font-size: 16px;
+    @media (max-width: 576px) {
+      font-size: 14px;
+    }
   }
 
   a {

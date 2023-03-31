@@ -93,18 +93,24 @@ export default Servey;
 
 const Container = styled.div`
   margin: 0 auto;
-  width: 100%;
+  max-width: 1200px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 30px;
-  padding: 16px;
+  padding: 16px 0;
+  @media (max-width: 1200px) {
+    padding: 16px;
+  }
 `;
 
 const CardContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 10px;
+  @media (max-width: 576px) {
+    flex-direction: column;
+  }
 `;
 
 const SurveyCard = styled.div`

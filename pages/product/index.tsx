@@ -241,6 +241,7 @@ const Count = styled.span`
 const ProductWrap = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
   padding-top: 20px;
 `;

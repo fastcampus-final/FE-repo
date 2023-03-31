@@ -113,29 +113,47 @@ export default Cart;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 16px 0;
+  @media (max-width: 1200px) {
+    padding: 16px;
+  }
 `;
 
 const CartWrap = styled.div`
   display: flex;
-  flex-direction: column;
   gap: 40px;
   width: 100%;
+  @media (max-width: 1200px) {
+    flex-direction: column;
+  }
 `;
 
 const AmountWrap = styled.div`
+  width: 30%;
+  box-sizing: border-box;
   height: fit-content;
   display: flex;
   flex-direction: column;
   padding: 30px;
   border: 1px solid ${COLORS.gray};
   gap: 20px;
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
 `;
 
 const CartList = styled.div`
+  width: 70%;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 30px;
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
 `;
 
 const PriceText = styled.div`

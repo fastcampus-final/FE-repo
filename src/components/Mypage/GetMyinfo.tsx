@@ -5,7 +5,6 @@ import { ArrowForwardIos } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import { getMyInfo } from './apis';
-import { globalAge } from './function';
 import Avatar from 'boring-avatars';
 
 const GetMyinfo = () => {
@@ -65,12 +64,14 @@ const Container = styled.div`
   display: flex;
   gap: 40px;
   justify-content: center;
-  width: 100%;
   border-radius: 10px;
-  margin: 0 auto;
   background-color: #e7f7fe;
   box-sizing: border-box;
   padding: 30px;
+  max-width: 100%;
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
 `;
 
 const InfoWrap = styled.div`
