@@ -48,7 +48,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.p`
-  font-size: 1.4rem;
+  font-size: 20px;
   font-weight: 600;
   margin-top: 10px;
   white-space: nowrap;
@@ -56,7 +56,7 @@ const Title = styled.p`
   text-overflow: ellipsis;
   width: 334px;
   @media (max-width: 576px) {
-    font-size: 1.1rem;
+    font-size: 14px;
     width: 43vw;
   }
 `;
