@@ -1,4 +1,4 @@
-import ProductItem from '@/components/Product/ProductItem';
+import ProductCard from '@/components/Product/ProductCard';
 import { IProduct } from '@/interfaces/product';
 import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
@@ -187,7 +187,7 @@ const Product = ({ type }: Props) => {
       </Header>
       <ProductWrap>
         {tempData.map((item) => (
-          <ProductItem key={item.productId} data={item} />
+          <ProductCard key={item.productId} data={item} />
         ))}
       </ProductWrap>
     </Container>
@@ -240,7 +240,6 @@ const Count = styled.span`
 
 const ProductWrap = styled.div`
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   gap: 20px;
   padding-top: 20px;

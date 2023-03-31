@@ -1,4 +1,4 @@
-import CartItem from '@/components/Cart/CartItem';
+import CartCard from '@/components/Cart/CartCard';
 import PageTitle from '@/components/common/PageTitle';
 import { ROUTES } from '@/constants/routes';
 import { ICart } from '@/interfaces/cart';
@@ -69,7 +69,7 @@ const Cart = () => {
       <CartWrap>
         <CartList>
           {tempData?.map((item, idx) => (
-            <CartItem key={idx} data={item} />
+            <CartCard key={idx} data={item} />
           ))}
         </CartList>
         <AmountWrap>
