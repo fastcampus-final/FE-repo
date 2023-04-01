@@ -12,7 +12,7 @@ export const ROUTES = {
   REVIEW: '/community/review',
   REVIEW_BY_ID: (id: number) => `/community/review/${id}`,
   NOTICE: '/community/notice',
-  NOTICE_BY_ID: (id: number) => `community/notice/${id}`,
+  NOTICE_BY_ID: (id: number) => `/community/notice/${id}`,
   REVIEW_ADD: '/community/review/add',
   REVIEW_EDIT: '/community/review/edit',
   MYPAGE: {
