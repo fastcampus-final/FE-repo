@@ -7,16 +7,17 @@ import { Pagination, TextField } from '@mui/material';
 
 import SearchIcon from '@/../public/icons/Group.svg';
 import CommunityRouter from '@/components/Community/CommunityRouter';
+import NoticeItem from '@/components/Community/NoticeItem';
 
 const Notice = () => {
   const router = useRouter();
-  const [reviewData, setReviewData] = useState<Array<IReview>>([]);
+  const [noticeData, setNoticeData] = useState<Array<IReview>>([]);
   const [keyword, setKeyword] = useState('');
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     const getData = async () => {
-      await setReviewData(data.content);
+      await setNoticeData(data.content);
     };
     getData();
   }, []);
@@ -58,7 +59,13 @@ const Notice = () => {
         <CommunityRouter pathname={router.pathname} />
       </>
 
-      <BottomArea></BottomArea>
+      <BottomArea>
+        {noticeData.length > 0 ? (
+          noticeData.map((item) => <NoticeItem key={item.boardId} data={item} />)
+        ) : (
+          <h3>공지사항이 존재하지 않습니다.</h3>
+        )}
+      </BottomArea>
 
       <PageContent>
         <Pagination count={10} color="primary" page={page} onChange={pageChange} />
@@ -125,7 +132,11 @@ const InputArea = styled.div`
   }
 `;
 
-const BottomArea = styled.div``;
+const BottomArea = styled.div`
+  @media screen and (min-width: 1000px) {
+    padding: 0 10rem;
+  }
+`;
 
 const PageContent = styled.div`
   display: flex;

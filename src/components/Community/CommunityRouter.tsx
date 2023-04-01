@@ -34,6 +34,10 @@ export default CommunityRouter;
 const RouterContent = styled.div`
   display: flex;
   justify-content: space-around;
+  margin: 1rem 0;
+  @media screen and (min-width: 1000px) {
+    padding: 0 10rem;
+  }
 `;
 
 const RouterButton = styled.button<{ isRouter: boolean }>`
