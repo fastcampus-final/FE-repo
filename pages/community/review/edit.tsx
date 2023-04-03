@@ -1,13 +1,12 @@
-import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import React, { useCallback, useRef, useState } from 'react';
-
 import ArrowLeft from '@/../public/icons/arrow-left.svg';
 import { Button, TextField } from '@mui/material';
 import { formatUserName } from '@/utils/format';
 import Editor from '@/components/common/Editor';
+import styled from '@emotion/styled';
 
-const ReviewAdd = () => {
+const ReviewEdit = () => {
   const router = useRouter();
   const [keyword, setKeyword] = useState('');
 
@@ -88,7 +87,7 @@ const ReviewAdd = () => {
   );
 };
 
-export default ReviewAdd;
+export default ReviewEdit;
 
 const AddContent = styled.div`
   padding: 0 1.5rem;
