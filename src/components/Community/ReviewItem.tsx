@@ -1,3 +1,4 @@
+import { ROUTES } from '@/constants/routes';
 import { IReview } from '@/interfaces/community';
 import { formatUserName } from '@/utils/format';
 import styled from '@emotion/styled';
@@ -13,7 +14,7 @@ const ReviewItem = ({ data }: Props) => {
   const imageUrl = data.boardThumbnail;
 
   return (
-    <ItemContent image={imageUrl} onClick={() => router.push(`/community/review/${data.boardId}`)}>
+    <ItemContent image={imageUrl} onClick={() => router.push(ROUTES.REVIEW_BY_ID(data.boardId))}>
       <p className="reviewTitle">{data.boardTitle}</p>
       <p className="user">{formatUserName(data.userName)}</p>
       <p className="date">{data.createdDate}</p>
