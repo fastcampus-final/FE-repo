@@ -9,7 +9,7 @@ import { MESSAGES } from '@/constants/messages';
 import PageTitle from '@/components/common/PageTitle';
 import { Chip, TextField, Button, Divider } from '@mui/material';
 import { useCookies } from 'react-cookie';
-import { getCookie } from '@/utils/cookie';
+import useProduct from '@/hooks/useProduct';
 
 const recommendKeywords = [
   '싱가포르',
@@ -29,10 +29,11 @@ const Search = () => {
   const [cookies, setCookies] = useCookies();
   const [isSaveRecentKeyword, setIsSaveRecentKeyword] = useState(true);
   const [showProduct, setShowProduct] = useState(false);
-  const [showKeyword, setShowkeyword] = useState(true);
+  const [showKeyword, setShowKeyword] = useState(true);
   const [recentKeywords, setRecentKeywords] = useState([]);
   const [keyword, setKeyword] = useState('');
   const keywordRef = useRef<any>(null);
+  const { data } = useProduct(keyword);
 
   useEffect(() => {
     if (cookies.isSaveRecentKeyword === undefined) {
@@ -57,8 +58,8 @@ const Search = () => {
     setCookies('isSaveRecentKeyword', isSaveRecentKeyword);
   }, [isSaveRecentKeyword]);
 
-  const handleClickSearch = (keyword?: string) => {
-    if (!keyword && !keywordRef.current.value) {
+  const handleClickSearch = (item?: string) => {
+    if (!item && !keyword) {
       return dispatch(
         setModal({
           isOpen: true,
@@ -69,11 +70,11 @@ const Search = () => {
     }
 
     setShowProduct(true);
-    setShowkeyword(false);
-    setKeyword(keyword ? keyword : keywordRef.current.value);
+    setShowKeyword(false);
+    setKeyword(item ? item : keyword);
 
     if (isSaveRecentKeyword) {
-      setStorage('recentKeywords', keyword ? keyword : keywordRef.current.value);
+      setStorage('recentKeywords', item ? item : keyword);
       setRecentKeywords(getStorage('recentKeywords'));
     }
     keywordRef.current.blur();
@@ -86,7 +87,7 @@ const Search = () => {
   };
 
   const handleFocusSearch = () => {
-    setShowkeyword(true);
+    setShowKeyword(true);
     setShowProduct(false);
   };
 
@@ -113,7 +114,11 @@ const Search = () => {
           size="small"
           ref={keywordRef}
           value={keyword}
-          onChange={(event) => setKeyword(event.target.value)}
+          onChange={(event) => {
+            if (showProduct) setShowProduct(false);
+            if (!showKeyword) setShowKeyword(true);
+            setKeyword(event.target.value);
+          }}
           onFocus={handleFocusSearch}
           onKeyDown={handleKeyDown}
           fullWidth
@@ -173,7 +178,7 @@ const Search = () => {
         </>
       )}
       <Divider />
-      {showProduct && <Product type="search" />}
+      {showProduct && data && <Product type="search" data={data} />}
     </Container>
   );
 };

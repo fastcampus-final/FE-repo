@@ -1,4 +1,4 @@
-import { instance } from '@/api/instance';
+import { instance } from '@/apis/instance';
 import { MESSAGES } from '@/constants/messages';
 import { IPatchMyInfoProps } from '@/interfaces/myinfo';
 import { alterModal } from '../SignIn/function';

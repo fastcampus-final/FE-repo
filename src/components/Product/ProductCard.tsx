@@ -35,9 +35,6 @@ const Container = styled.div`
   gap: 10px;
   width: 386px;
   @media (max-width: 1200px) {
-    width: 280px;
-  }
-  @media (max-width: 576px) {
     width: 43vw;
   }
 `;
@@ -47,10 +44,6 @@ const ProductImg = styled.img`
   height: 386px;
   border-radius: 10px;
   @media (max-width: 1200px) {
-    width: 280px;
-    height: 280px;
-  }
-  @media (max-width: 576px) {
     width: 43vw;
     height: 43vw;
   }
@@ -64,7 +57,7 @@ const Title = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   width: 334px;
-  @media (max-width: 576px) {
+  @media (max-width: 1200px) {
     font-size: 1.1rem;
     width: 43vw;
   }
@@ -73,7 +66,7 @@ const Title = styled.p`
 const Price = styled.p`
   font-size: 1.3rem;
   font-weight: 600;
-  @media (max-width: 576px) {
+  @media (max-width: 1200px) {
     font-size: 1.1rem;
   }
 `;

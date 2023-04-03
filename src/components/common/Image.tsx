@@ -54,7 +54,7 @@ const StyledImage = styled.img<Prop>`
   border-radius: ${({ borderRadius }) => borderRadius};
   cursor: ${({ cursorPointer }) => (cursorPointer ? 'pointer' : '')};
   object-fit: ${({ isCover }) => (isCover ? 'cover' : '')};
-  @media (max-width: 576px) {
+  @media (max-width: 1200px) {
     width: ${({ mediaWidth }) => mediaWidth};
     height: ${({ mediaHeight }) => mediaHeight};
   }

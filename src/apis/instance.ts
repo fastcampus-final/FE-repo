@@ -1,7 +1,7 @@
 import { getCookie } from '@/utils/cookie';
 import axios from 'axios';
 
-const API_BASE_URL = `${process.env.NEXT_API_BASE_URL}`;
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_BASE_URL}`;
 
 export const instance = axios.create({
   timeout: 5000,
@@ -25,6 +25,8 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
+    // test
+    console.log(response);
     return response;
   },
   (error) => {

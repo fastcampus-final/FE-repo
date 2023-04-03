@@ -1,4 +1,4 @@
-import { instance } from '@/api/instance';
+import { instance } from '@/apis/instance';
 import { alterModal } from '@/components/SignIn/function';
 
 export const tokenRefresh = async (

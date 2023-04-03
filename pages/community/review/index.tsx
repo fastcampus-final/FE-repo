@@ -1,4 +1,4 @@
-import { instance } from '@/api/instance';
+import { instance } from '@/apis/instance';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import data from '@/dummydata/communityReview.json';

@@ -108,7 +108,7 @@ const CardContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 10px;
-  @media (max-width: 576px) {
+  @media (max-width: 1200px) {
     flex-direction: column;
   }
 `;
@@ -120,7 +120,7 @@ const SurveyCard = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  @media (max-width: 576px) {
+  @media (max-width: 1200px) {
     height: 200px;
   }
 `;
