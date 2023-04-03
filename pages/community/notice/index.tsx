@@ -133,7 +133,7 @@ const InputArea = styled.div`
 `;
 
 const BottomArea = styled.div`
-  @media screen and (min-width: 1000px) {
+  @media screen and (min-width: 1200px) {
     padding: 0 10rem;
   }
 `;
