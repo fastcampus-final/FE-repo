@@ -1,5 +1,7 @@
-export const formatPrice = (value: string) => {
-  return value.replace(/\B(?=(\d{3})+(?!\d))/g, ',').concat('원');
+export const formatPrice = (value: number) => {
+  return String(value)
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    .concat('원');
 };
 
 export const formatPeriod = (value: string) => {

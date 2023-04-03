@@ -55,7 +55,7 @@ const Title = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   width: 334px;
-  @media (max-width: 576px) {
+  @media (max-width: 1200px) {
     font-size: 14px;
     width: 43vw;
   }
