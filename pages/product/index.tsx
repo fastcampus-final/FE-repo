@@ -1,161 +1,93 @@
-import ProductItem from '@/components/Product';
-import { IProduct } from '@/interfaces/product';
-import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
+import ProductCard from '@/components/Product/ProductCard';
 import React from 'react';
 import styled from '@emotion/styled';
-import { instance } from '../../src/api/instance';
 import { COLORS } from '@/styles/colors';
-import { MenuItem, Select } from '@mui/material';
-
-const tempData: IProduct[] = [
-  {
-    productId: '1',
-    productName: '호주 시드니 8일',
-    productPrice: '2699000',
-    productThumbnail: 'https://picsum.photos/id/10/350/350',
-  },
-  {
-    productId: '2',
-    productName: '다낭 골프팩 3박 5일',
-    productPrice: '1000000',
-    productThumbnail: 'https://picsum.photos/id/20/350/350',
-  },
-  {
-    productId: '3',
-    productName: '나고야 골프팩 4일',
-    productPrice: '1863000',
-    productThumbnail: 'https://picsum.photos/id/30/350/350',
-  },
-  {
-    productId: '4',
-    productName: '오카야마 4일',
-    productPrice: '999000',
-    productThumbnail: 'https://picsum.photos/id/40/350/350',
-  },
-  {
-    productId: '5',
-    productName: '광저우 5일',
-    productPrice: '729000',
-    productThumbnail: 'https://picsum.photos/id/50/350/350',
-  },
-  {
-    productId: '6',
-    productName: '미서부 9일 (모두투어)',
-    productPrice: '1890000',
-    productThumbnail: 'https://picsum.photos/id/60/350/350',
-  },
-  {
-    productId: '7',
-    productName: '사이판 월드 리조트 5일 (모두투어)',
-    productPrice: '1269000',
-    productThumbnail: 'https://picsum.photos/id/70/350/350',
-  },
-  {
-    productId: '8',
-    productName: '까미노 성지순례 11일',
-    productPrice: '2290000',
-    productThumbnail: 'https://picsum.photos/id/80/350/350',
-  },
-  {
-    productId: '9',
-    productName: '호주 시드니 8일',
-    productPrice: '2699000',
-    productThumbnail: 'https://picsum.photos/id/10/350/350',
-  },
-  {
-    productId: '10',
-    productName: '다낭 골프팩 3박 5일',
-    productPrice: '1000000',
-    productThumbnail: 'https://picsum.photos/id/20/350/350',
-  },
-  {
-    productId: '11',
-    productName: '나고야 골프팩 4일',
-    productPrice: '1863000',
-    productThumbnail: 'https://picsum.photos/id/30/350/350',
-  },
-  {
-    productId: '12',
-    productName: '오카야마 4일',
-    productPrice: '999000',
-    productThumbnail: 'https://picsum.photos/id/40/350/350',
-  },
-  {
-    productId: '13',
-    productName: '광저우 5일',
-    productPrice: '729000',
-    productThumbnail: 'https://picsum.photos/id/50/350/350',
-  },
-  {
-    productId: '14',
-    productName: '미서부 9일 (모두투어)',
-    productPrice: '1890000',
-    productThumbnail: 'https://picsum.photos/id/60/350/350',
-  },
-  {
-    productId: '15',
-    productName: '사이판 월드 리조트 5일 (모두투어)',
-    productPrice: '1269000',
-    productThumbnail: 'https://picsum.photos/id/70/350/350',
-  },
-  {
-    productId: '16',
-    productName: '까미노 성지순례 11일',
-    productPrice: '2290000',
-    productThumbnail: 'https://picsum.photos/id/80/350/350',
-  },
-];
-
-const getData = async () => {
-  const { data } = await instance.get('https://jsonplaceholder.typicode.com/posts');
-  return data;
-};
+import { Button, MenuItem, Select, TextField } from '@mui/material';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { ko } from 'date-fns/locale';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { IProduct } from '@/interfaces/product';
 
 interface Props {
   type?: string;
+  data?: IProduct[];
+  sort?: string;
+  people?: number;
+  dateOption?: Date | null;
+  setSort?: any;
+  setPeople?: any;
+  setDateOption?: any;
 }
 
-const Product = ({ type }: Props) => {
-  const data = useQuery({
-    queryKey: ['data'],
-    queryFn: getData,
-  });
+const Product = ({
+  type,
+  data,
+  sort,
+  people,
+  dateOption,
+  setSort,
+  setPeople,
+  setDateOption,
+}: Props) => {
+  const CustomInput = (
+    props: React.HTMLProps<HTMLInputElement>,
+    ref: React.Ref<HTMLInputElement>,
+  ) => <TextField size="small" {...props} style={{ width: '140px' }} />;
+
+  const handleClickRefresh = () => {
+    setDateOption(null);
+    setPeople(0);
+    setSort('recent');
+  };
 
   return (
     <Container>
       <Header>
         <ProductCount>
-          {type === 'search' ? '검색 결과' : '총 상품'} <Count>{tempData.length}</Count> 개
+          {type === 'search' ? '검색 결과' : '총 상품'}
+          <Count>{data ? data.length : 0}</Count> 개
         </ProductCount>
-        <Select size="small" defaultValue={'최신순'}>
-          <MenuItem value={'최신순'}>최신순</MenuItem>
-          <MenuItem value={'가격 오름차 순'}>가격 오름차 순</MenuItem>
-          <MenuItem value={'가격 내림차 순'}>가격 내림차 순</MenuItem>
-        </Select>
+        <Options>
+          <DatePicker
+            locale={ko}
+            dateFormat="yyyy.MM.dd (eee)"
+            showPopperArrow={false}
+            minDate={new Date()}
+            selected={dateOption}
+            placeholderText="출발일자 선택"
+            customInput={React.createElement(React.forwardRef(CustomInput))}
+            onChange={(date) => setDateOption(date)}
+          />
+          <Select size="small" value={people} onChange={(event) => setPeople(event.target.value)}>
+            <MenuItem value={0}>인원</MenuItem>
+            <MenuItem value={1}>1 인</MenuItem>
+            <MenuItem value={2}>2 인</MenuItem>
+            <MenuItem value={3}>3 인</MenuItem>
+            <MenuItem value={4}>4 인</MenuItem>
+            <MenuItem value={5}>5 인</MenuItem>
+            <MenuItem value={6}>6 인</MenuItem>
+            <MenuItem value={7}>7 인</MenuItem>
+            <MenuItem value={8}>8 인</MenuItem>
+            <MenuItem value={9}>9 인</MenuItem>
+            <MenuItem value={10}>10 인</MenuItem>
+          </Select>
+          <Select size="small" value={sort} onChange={(event) => setSort(event.target.value)}>
+            <MenuItem value={'recent'}>최신순</MenuItem>
+            <MenuItem value={'desc'}>높은 가격 순</MenuItem>
+            <MenuItem value={'asc'}>낮은 가격 순</MenuItem>
+          </Select>
+          <Button size="small" variant="outlined" onClick={handleClickRefresh}>
+            <RefreshIcon />
+          </Button>
+        </Options>
       </Header>
       <ProductWrap>
-        {tempData.map((item) => (
-          <ProductItem key={item.productId} data={item} />
-        ))}
+        {data && data.length > 0 && data.map((item, idx) => <ProductCard key={idx} data={item} />)}
       </ProductWrap>
     </Container>
   );
 };
-
-export async function getServerSideProps() {
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery({
-    queryKey: ['data'],
-    queryFn: getData,
-  });
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-}
 
 export default Product;
 
@@ -164,23 +96,32 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const ProductWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-`;
-
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 30px 0;
+`;
+
+const Options = styled.div`
+  display: flex;
+  gap: 10px;
+  @media (max-width: 1200px) {
+    flex-direction: column;
+  }
 `;
 
 const ProductCount = styled.span`
-  font-size: 18px;
+  font-size: 1rem;
 `;
 
 const Count = styled.span`
   font-weight: 600;
   color: ${COLORS.primary};
+`;
+
+const ProductWrap = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding-top: 20px;
 `;

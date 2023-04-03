@@ -44,7 +44,7 @@ const ProductDetail = () => {
         </Table>
         <ButtonWrap>
           <Button variant="outlined">삭제</Button>
-          <Button variant="contained" onClick={() => router.push(ROUTES.ADMIN.PRODUCT_FORM)}>
+          <Button variant="contained" onClick={() => router.push(ROUTES.ADMIN.PRODUCT_EDIT)}>
             수정
           </Button>
         </ButtonWrap>

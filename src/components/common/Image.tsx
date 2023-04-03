@@ -5,10 +5,13 @@ interface Prop {
   src: string;
   width?: string;
   height?: string;
+  mediaWidth?: string;
+  mediaHeight?: string;
   borderRadius?: string;
   alt: string;
   padding?: string;
   cursorPointer?: boolean;
+  isCover?: boolean;
   onClick?: () => void;
 }
 
@@ -16,10 +19,13 @@ const Image = ({
   src,
   width,
   height,
+  mediaWidth,
+  mediaHeight,
   borderRadius,
   alt,
   padding,
   cursorPointer,
+  isCover,
   onClick,
 }: Prop) => {
   return (
@@ -27,10 +33,13 @@ const Image = ({
       src={src}
       width={width}
       height={height}
+      mediaWidth={mediaWidth}
+      mediaHeight={mediaHeight}
       borderRadius={borderRadius}
       alt={alt}
       padding={padding}
       cursorPointer={cursorPointer}
+      isCover={isCover}
       onClick={onClick}
     />
   );
@@ -44,4 +53,9 @@ const StyledImage = styled.img<Prop>`
   padding: ${({ padding }) => padding};
   border-radius: ${({ borderRadius }) => borderRadius};
   cursor: ${({ cursorPointer }) => (cursorPointer ? 'pointer' : '')};
+  object-fit: ${({ isCover }) => (isCover ? 'cover' : '')};
+  @media (max-width: 1200px) {
+    width: ${({ mediaWidth }) => mediaWidth};
+    height: ${({ mediaHeight }) => mediaHeight};
+  }
 `;

@@ -2,11 +2,10 @@ import React from 'react';
 import withAuth from '@/components/common/PrivateRouter';
 import styled from '@emotion/styled';
 import PageTitle from '@/components/common/PageTitle';
-import { Table } from '@mui/material';
 import AdminTableHead from '@/components/common/AdminTableHead';
 import AdminTableBody from '@/components/common/AdminTableBody';
 import { IProduct } from '@/interfaces/product';
-import { Button, Pagination } from '@mui/material';
+import { Button, Pagination, Table } from '@mui/material';
 import { useRouter } from 'next/router';
 import { ROUTES } from '@/constants/routes';
 
@@ -87,7 +86,7 @@ const Product = () => {
         <ButtonWrap>
           <Button variant="outlined">삭제</Button>
           <Pagination count={5} color="primary" />
-          <Button variant="contained" onClick={() => router.push(ROUTES.ADMIN.PRODUCT_FORM)}>
+          <Button variant="contained" onClick={() => router.push(ROUTES.ADMIN.PRODUCT_ADD)}>
             등록
           </Button>
         </ButtonWrap>

@@ -11,6 +11,7 @@ import Navbar from './Navbar';
 import AdminHeader from './admin/AdminHeader';
 import AdminNavbar from './admin/AdminNavbar';
 import { useCookies } from 'react-cookie';
+import ScrollTop from '../common/ScrollTop';
 
 interface Props {
   children: React.ReactNode;
@@ -25,9 +26,10 @@ const Layout = ({ children }: Props) => {
   Router.events.on('routeChangeError', () => dispatch(hideLoading()));
 
   return (
-    <>
+    <Container>
+      <title>고투게더</title>
       {cookies.isAdmin ? (
-        <AdminContainer>
+        <>
           <AdminHeader />
           <AdminWrap>
             <AdminNavbar />
@@ -35,31 +37,30 @@ const Layout = ({ children }: Props) => {
           </AdminWrap>
           <Modal />
           <Loading />
-        </AdminContainer>
+        </>
       ) : (
-        <Container>
+        <>
           <Header />
           <Navbar />
           <Main>{children}</Main>
+          <ScrollTop />
           <Footer />
           <Modal />
           <Loading />
-        </Container>
+        </>
       )}
-    </>
+    </Container>
   );
 };
 
 export default Layout;
 
-const AdminContainer = styled.div`
+const Container = styled.div`
   max-width: 1920px;
   margin: 0 auto;
-`;
-
-const Container = styled.div`
-  max-width: 720px;
-  margin: 0 auto;
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
 `;
 
 const Main = styled.div`

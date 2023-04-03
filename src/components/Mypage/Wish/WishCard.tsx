@@ -1,16 +1,16 @@
+import Image from '@/components/common/Image';
 import { ROUTES } from '@/constants/routes';
 import { IProduct } from '@/interfaces/product';
-import { formatPrice } from '@/utils/format';
+import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import React from 'react';
-import styled from '@emotion/styled';
-import Image from '../common/Image';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 interface Props {
   data: IProduct;
 }
 
-const ProductItem = ({ data }: Props) => {
+const WishCard = ({ data }: Props) => {
   const router = useRouter();
 
   const handleClick = () => {
@@ -19,36 +19,51 @@ const ProductItem = ({ data }: Props) => {
 
   return (
     <Container onClick={handleClick}>
+      <WishButton>
+        <FavoriteIcon color="secondary" />
+      </WishButton>
       <Image
         src={data.productThumbnail}
         alt={data.productName}
-        width="330"
-        height="330"
+        width="100%"
+        height="20vw"
+        mediaHeight="180px"
         borderRadius="10px"
+        isCover={true}
       />
       <Title> {data.productName}</Title>
-      <Price>{formatPrice(data.productPrice)}</Price>
     </Container>
   );
 };
 
-export default ProductItem;
+export default WishCard;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   cursor: pointer;
   gap: 10px;
-  margin: 14px;
+  width: 100%;
+  position: relative;
 `;
 
 const Title = styled.p`
-  font-size: 24px;
-  font-weight: 600;
-  margin-top: 10px;
-`;
-
-const Price = styled.p`
   font-size: 20px;
   font-weight: 600;
+  margin-top: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 334px;
+  @media (max-width: 1200px) {
+    font-size: 14px;
+    width: 43vw;
+  }
+`;
+
+const WishButton = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
 `;

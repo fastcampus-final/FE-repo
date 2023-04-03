@@ -8,22 +8,18 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const Mypage = () => {
   return (
-    <div>
-      <div>
-        <Link href={ROUTES.MYPAGE.MAIN}>
-          <Avatar>
-            <AccountCircleIcon />
-          </Avatar>
-        </Link>
-      </div>
-      <div>
-        <Link href={ROUTES.ORDER}>
-          <Badge color="error" badgeContent={0} showZero>
-            <NotificationsIcon color="action" />
-          </Badge>
-        </Link>
-      </div>
-    </div>
+    <>
+      <Link href={ROUTES.MYPAGE.MAIN}>
+        <Avatar>
+          <AccountCircleIcon />
+        </Avatar>
+      </Link>
+      <Link href={ROUTES.ORDER}>
+        <Badge color="error" badgeContent={0} showZero>
+          <NotificationsIcon color="action" />
+        </Badge>
+      </Link>
+    </>
   );
 };
 
