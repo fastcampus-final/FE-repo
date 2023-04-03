@@ -115,7 +115,7 @@ const TitleContent = styled.div`
     margin: auto 15px auto 0;
   }
   .title {
-    width: 40%;
+    width: 50%;
     input {
       padding: 5px;
       border: none;
