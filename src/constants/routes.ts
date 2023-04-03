@@ -5,6 +5,15 @@ export const ROUTES = {
   WELCOME: '/welcome',
   SURVEY: '/survey',
   SEARCH: '/search',
+  SEARCH_BY_KEYWORD: (
+    keyword: string,
+    page = 1,
+    sort = 'recent',
+    people = 1,
+    dateOption: string | null = '',
+  ) =>
+    `/search?keyword=${keyword}&page=${page}
+    &sort=${sort}&people=${people}&dateOption=${dateOption ? dateOption : ''}`,
   PRODUCT: '/product',
   PRODUCT_BY_ID: (id: string) => `/product/${id}`,
   CART: '/cart',

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { IoSearchOutline } from 'react-icons/io5';
 import Product from '../product';
@@ -9,7 +9,11 @@ import { MESSAGES } from '@/constants/messages';
 import PageTitle from '@/components/common/PageTitle';
 import { Chip, TextField, Button, Divider } from '@mui/material';
 import { useCookies } from 'react-cookie';
-import useProduct from '@/hooks/useProduct';
+import { useRouter } from 'next/router';
+import { getProductList } from '@/apis/product';
+import { ROUTES } from '@/constants/routes';
+import { RootState } from '@/store';
+import dayjs from 'dayjs';
 
 const recommendKeywords = [
   '싱가포르',
@@ -26,39 +30,28 @@ const recommendKeywords = [
 
 const Search = () => {
   const dispatch = useDispatch();
-  const [cookies, setCookies] = useCookies();
-  const [isSaveRecentKeyword, setIsSaveRecentKeyword] = useState(true);
+  const router = useRouter();
+  const [cookies, setCookies, removeCookies] = useCookies();
+  const [isSaveRecentKeyword, setIsSaveRecentKeyword] = useState(cookies.isSaveRecentKeyword);
   const [showProduct, setShowProduct] = useState(false);
   const [showKeyword, setShowKeyword] = useState(true);
   const [recentKeywords, setRecentKeywords] = useState([]);
   const [keyword, setKeyword] = useState('');
-  const keywordRef = useRef<any>(null);
-  const { data } = useProduct(keyword);
+  const [page, setPage] = useState(1);
+  const [sort, setSort] = useState('recent');
+  const [dateOption, setDateOption] = useState<Date | null>(null);
+  const [people, setPeople] = useState(1);
+  const [product, setProduct] = useState([]);
 
   useEffect(() => {
-    if (cookies.isSaveRecentKeyword === undefined) {
-      setCookies('isSaveRecentKeyword', true);
-      setIsSaveRecentKeyword(true);
-    }
-
-    setStorage('recentKeywords', '골프');
-    setStorage('recentKeywords', '가족');
-    setStorage('recentKeywords', '유럽');
-    setStorage('recentKeywords', '프랑스');
-    setStorage('recentKeywords', '바다');
-    setStorage('recentKeywords', '낚시');
-
     setRecentKeywords(getStorage('recentKeywords'));
-    return () => {
-      removeStorage('recentKeywords');
-    };
   }, []);
 
   useEffect(() => {
-    setCookies('isSaveRecentKeyword', isSaveRecentKeyword);
-  }, [isSaveRecentKeyword]);
+    if (keyword) handleClickSearch();
+  }, [sort, people, dateOption]);
 
-  const handleClickSearch = (item?: string) => {
+  const handleClickSearch = async (item?: string) => {
     if (!item && !keyword) {
       return dispatch(
         setModal({
@@ -68,16 +61,24 @@ const Search = () => {
         }),
       );
     }
-
     setShowProduct(true);
     setShowKeyword(false);
     setKeyword(item ? item : keyword);
+
+    const data = await getProductList(
+      item ? item : keyword,
+      page,
+      sort,
+      people,
+      dateOption ? dayjs(dateOption).format('YYYY-MM-DD') : '',
+    );
+    setProduct(data.content);
 
     if (isSaveRecentKeyword) {
       setStorage('recentKeywords', item ? item : keyword);
       setRecentKeywords(getStorage('recentKeywords'));
     }
-    keywordRef.current.blur();
+    // router.push(ROUTES.SEARCH_BY_KEYWORD(item ? item : keyword, 1));
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -102,7 +103,12 @@ const Search = () => {
   };
 
   const onToggleSaveKeyword = () => {
-    setIsSaveRecentKeyword((prev) => !prev);
+    if (isSaveRecentKeyword) {
+      removeCookies('isSaveRecentKeyword');
+    } else {
+      setCookies('isSaveRecentKeyword', true);
+    }
+    setIsSaveRecentKeyword((prev: boolean) => !prev);
   };
 
   return (
@@ -112,7 +118,6 @@ const Search = () => {
         <TextField
           placeholder="검색어를 입력해 주세요."
           size="small"
-          ref={keywordRef}
           value={keyword}
           onChange={(event) => {
             if (showProduct) setShowProduct(false);
@@ -178,7 +183,18 @@ const Search = () => {
         </>
       )}
       <Divider />
-      {showProduct && data && <Product type="search" data={data} />}
+      {showProduct && (
+        <Product
+          type="search"
+          data={product}
+          sort={sort}
+          people={people}
+          dateOption={dateOption}
+          setSort={setSort}
+          setPeople={setPeople}
+          setDateOption={setDateOption}
+        />
+      )}
     </Container>
   );
 };
