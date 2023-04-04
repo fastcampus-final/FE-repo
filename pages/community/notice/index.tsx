@@ -1,35 +1,42 @@
 import { IReview } from '@/interfaces/community';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import data from '@/dummydata/communityNotice.json';
 import styled from '@emotion/styled';
 import { Pagination, TextField } from '@mui/material';
 
 import SearchIcon from '@/../public/icons/Group.svg';
 import CommunityRouter from '@/components/Community/CommunityRouter';
 import NoticeItem from '@/components/Community/NoticeItem';
+import { getBoardList, getBoardSearchList } from '@/apis/community';
 
 const Notice = () => {
   const router = useRouter();
   const [noticeData, setNoticeData] = useState<Array<IReview>>([]);
   const [keyword, setKeyword] = useState('');
   const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
 
   useEffect(() => {
-    const getData = async () => {
-      await setNoticeData(data.content);
-    };
-    getData();
-  }, []);
+    (async () => {
+      const data = await getBoardList('NOTICE', page);
+      setNoticeData(data?.content);
+      setTotalPage(data.totalPages);
+    })();
+  }, [page]);
+
+  const getSearchData = async () => {
+    const searchData = await getBoardSearchList('NOTICE', keyword, 1);
+    setNoticeData(searchData?.content);
+  };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if ((event.nativeEvent.isComposing === false && event.key) === 'Enter') {
-      console.log(keyword);
+      getSearchData();
     }
   };
 
-  const searchClick = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    console.log(keyword);
+  const searchClick = () => {
+    getSearchData();
   };
 
   const pageChange = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -51,7 +58,7 @@ const Notice = () => {
             onChange={(event) => setKeyword(event.target.value)}
             onKeyDown={handleKeyDown}
           />
-          <SearchIcon onClick={(e: React.KeyboardEvent<HTMLInputElement>) => searchClick(e)} />
+          <SearchIcon onClick={() => searchClick()} />
         </InputArea>
       </TopArea>
 
@@ -60,7 +67,7 @@ const Notice = () => {
       </>
 
       <BottomArea>
-        {noticeData.length > 0 ? (
+        {noticeData && noticeData.length > 0 ? (
           noticeData.map((item) => <NoticeItem key={item.boardId} data={item} />)
         ) : (
           <h3>공지사항이 존재하지 않습니다.</h3>
@@ -68,7 +75,7 @@ const Notice = () => {
       </BottomArea>
 
       <PageContent>
-        <Pagination count={10} color="primary" page={page} onChange={pageChange} />
+        <Pagination count={totalPage} color="primary" page={page} onChange={pageChange} />
       </PageContent>
     </NoticeContent>
   );
@@ -133,6 +140,10 @@ const InputArea = styled.div`
 `;
 
 const BottomArea = styled.div`
+  h3 {
+    margin-top: 50px;
+    text-align: center;
+  }
   @media screen and (min-width: 1200px) {
     padding: 0 10rem;
   }
