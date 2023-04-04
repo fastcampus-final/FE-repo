@@ -6,3 +6,13 @@ export interface IReview {
   boardTitle: string;
   createdDate: string;
 }
+
+export interface IReviewDetail {
+  boardId: number;
+  userName: string;
+  boardType: string;
+  boardTitle: string;
+  boardContent: string;
+  createdDate: string;
+  updatedDate: string;
+}

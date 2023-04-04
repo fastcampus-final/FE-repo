@@ -66,7 +66,7 @@ const ProductDetail = () => {
   const SingleOption = [
     {
       value: 1,
-      label: `1인 싱글룸 사용시 추가 ${formatPrice('540000')}`,
+      label: `1인 싱글룸 사용시 추가 ${formatPrice(540000)}`,
     },
   ];
 

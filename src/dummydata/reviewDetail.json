@@ -1,0 +1,9 @@
+{
+  "boardId": 1,
+  "userName": "홍길동",
+  "boardType": "여행후기",
+  "boardTitle": "국내 여행 후기입니다~",
+  "boardContent": "국내 여행 후기 내용",
+  "createdDate": "2022-01-02",
+  "updatedDate": "2022-01-03"
+}
