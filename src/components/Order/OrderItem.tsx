@@ -17,7 +17,7 @@ const OrderItem = ({ item }: { item: ICart }) => {
       <div>
         <Image
           src={item.productThumbnail}
-          alt={item.producName}
+          alt={item.productName}
           width="120px"
           height="120px"
           borderRadius="10px"
@@ -25,7 +25,7 @@ const OrderItem = ({ item }: { item: ICart }) => {
         />
       </div>
       <div>
-        <div>{item.producName}</div>
+        <div>{item.productName}</div>
         <div>{formatPeriod(item.travelDate as string)}</div>
         <div>{formatPrice(item.productPrice)}</div>
       </div>
