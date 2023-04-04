@@ -44,7 +44,21 @@ const ReviewDetail = () => {
           </p>
         </div>
         <div>
-          <button onClick={() => router.push(ROUTES.REVIEW_EDIT)}>수정</button>
+          <button
+            onClick={() =>
+              router.push(
+                {
+                  pathname: ROUTES.REVIEW_EDIT,
+                  query: {
+                    boardId: detailData?.boardId,
+                  },
+                },
+                ROUTES.REVIEW_EDIT,
+              )
+            }
+          >
+            수정
+          </button>
           <button className="delete">삭제</button>
         </div>
       </SummaryContent>
