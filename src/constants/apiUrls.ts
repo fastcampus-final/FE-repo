@@ -23,6 +23,7 @@ export const API_URLS = {
   BOARD_DETAIL: (id: string) => `/board/detail/${id}`,
   BOARD_SEARCH: (keyword: string, pageNumber: number) =>
     `/board/search?keyword=${keyword}&pageNumber=${pageNumber}`,
+  BOARD_ADD: '/board',
   CATEGORY: '/categories',
   CATEGORY_DETAIL: (id: string) => `/categories/${id}`,
   ADMIN: {

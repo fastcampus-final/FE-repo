@@ -10,6 +10,8 @@ import dynamic from 'next/dynamic';
 const Editor = dynamic(() => import('@/components/common/Editor'), { ssr: false });
 
 import dayjs from 'dayjs';
+import { postBoardAdd } from '@/apis/community';
+import { ROUTES } from '@/constants/routes';
 
 const ReviewAdd = () => {
   const router = useRouter();
@@ -82,7 +84,19 @@ const ReviewAdd = () => {
         <button className="white" onClick={() => router.back()}>
           취소
         </button>
-        <button className="blue" onClick={() => console.log(editValue)}>
+        <button
+          className="blue"
+          onClick={() => {
+            const data = {
+              boardContent: JSON.stringify(editValue),
+              boardThumbnail: JSON.stringify(fileUrl),
+              boardTitle: keyword,
+              boardType: '여행후기',
+            };
+            postBoardAdd(data);
+            router.push(ROUTES.REVIEW);
+          }}
+        >
           저장
         </button>
       </ButtonContent>
