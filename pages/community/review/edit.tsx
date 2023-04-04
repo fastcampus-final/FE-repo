@@ -3,10 +3,13 @@ import React, { useCallback, useRef, useState } from 'react';
 import ArrowLeft from '@/../public/icons/arrow-left.svg';
 import { Button, TextField } from '@mui/material';
 import { formatUserName } from '@/utils/format';
-import Editor from '@/components/common/Editor';
 import styled from '@emotion/styled';
 
+import dynamic from 'next/dynamic';
+const Editor = dynamic(() => import('@/components/common/Editor'), { ssr: false });
+
 import dayjs from 'dayjs';
+import { patchBoardEdit } from '@/apis/community';
 
 const ReviewEdit = () => {
   const router = useRouter();
@@ -17,6 +20,8 @@ const ReviewEdit = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [fileName, setFileName] = useState('');
   const [fileUrl, setFileUrl] = useState('');
+
+  const boardId = router.query.id;
 
   const onUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
@@ -79,7 +84,19 @@ const ReviewEdit = () => {
         <button className="white" onClick={() => router.back()}>
           취소
         </button>
-        <button className="blue">저장</button>
+        <button
+          className="blue"
+          onClick={() => {
+            const data = {
+              boardContent: JSON.stringify(editValue),
+              boardThumbnail: JSON.stringify(fileUrl),
+              boardTitle: keyword,
+            };
+            patchBoardEdit(boardId, data);
+          }}
+        >
+          저장
+        </button>
       </ButtonContent>
     </AddContent>
   );
