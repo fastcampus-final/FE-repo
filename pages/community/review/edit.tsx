@@ -92,7 +92,7 @@ const ReviewEdit = () => {
               boardThumbnail: JSON.stringify(fileUrl),
               boardTitle: keyword,
             };
-            patchBoardEdit(boardId, data);
+            patchBoardEdit(Number(boardId), data);
           }}
         >
           저장
