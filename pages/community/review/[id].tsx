@@ -1,22 +1,32 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import data from '@/dummydata/reviewDetail.json';
 import { IReviewDetail } from '@/interfaces/community';
 import styled from '@emotion/styled';
 import { formatUserName } from '@/utils/format';
 
+import { SlArrowUp, SlArrowDown } from 'react-icons/sl';
+import { ROUTES } from '@/constants/routes';
+
 const ReviewDetail = () => {
   const [detailData, setDetailData] = useState<IReviewDetail>();
   const router = useRouter();
-
-  console.log(router.query.user);
+  const viewContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const getData = async () => {
       await setDetailData(data);
     };
+
+    const innerHtml = () => {
+      if (viewContainerRef.current) {
+        viewContainerRef.current.innerHTML = '';
+        viewContainerRef.current.innerHTML += detailData?.boardContent;
+      }
+    };
     getData();
+    innerHtml();
   }, []);
 
   return (
@@ -27,13 +37,54 @@ const ReviewDetail = () => {
       </TitleContent>
 
       <SummaryContent>
-        <p>{formatUserName(detailData?.userName)}</p>
-        <p className="date">
-          {detailData?.createdDate} | {detailData?.updatedDate}
-        </p>
+        <div>
+          <p>{formatUserName(detailData?.userName)}</p>
+          <p className="date">
+            {detailData?.createdDate} | {detailData?.updatedDate}
+          </p>
+        </div>
+        <div>
+          <button
+            onClick={() =>
+              router.push(
+                {
+                  pathname: ROUTES.REVIEW_EDIT,
+                  query: {
+                    boardId: detailData?.boardId,
+                  },
+                },
+                ROUTES.REVIEW_EDIT,
+              )
+            }
+          >
+            수정
+          </button>
+          <button className="delete">삭제</button>
+        </div>
       </SummaryContent>
 
-      <MainContent></MainContent>
+      <MainContent>
+        <div ref={viewContainerRef} />
+      </MainContent>
+
+      <PrevNextContent>
+        <SlArrowUp size={20} />
+        <p onClick={() => router.push(ROUTES.REVIEW_BY_ID(Number(router.query.id) - 1))}>
+          이전 페이지
+        </p>
+      </PrevNextContent>
+
+      <PrevNextContent>
+        <SlArrowDown size={20} />
+        <p onClick={() => router.push(ROUTES.REVIEW_BY_ID(Number(router.query.id) + 1))}>
+          다음 페이지
+        </p>
+      </PrevNextContent>
+
+      <ButtonContent>
+        <button onClick={() => router.push(ROUTES.REVIEW)}>목록</button>
+        <button onClick={() => router.push(ROUTES.REVIEW_ADD)}>글쓰기</button>
+      </ButtonContent>
     </DetailContent>
   );
 };
@@ -78,9 +129,51 @@ const TitleContent = styled.div`
 const SummaryContent = styled.div`
   line-height: 1.3rem;
   margin-bottom: 3rem;
+  display: flex;
+  justify-content: space-between;
   .date {
     color: rgba(33, 37, 41, 0.7);
   }
+  button {
+    width: 4rem;
+    height: 2rem;
+    border: none;
+    background-color: transparent;
+    font-size: 1rem;
+  }
+  .delete {
+    color: #f84a24;
+  }
 `;
 
-const MainContent = styled.div``;
+const MainContent = styled.div`
+  margin-bottom: 50px;
+`;
+
+const PrevNextContent = styled.div`
+  display: flex;
+  border-bottom: 1px solid #e5e7eb;
+  height: 2.5rem;
+  gap: 1rem;
+  svg {
+    width: 5%;
+    margin: auto 0;
+  }
+  p {
+    margin: auto 0;
+  }
+`;
+
+const ButtonContent = styled.div`
+  margin: 40px 0;
+  display: flex;
+  justify-content: space-between;
+  button {
+    border: none;
+    background-color: #0cb1f3;
+    color: #fff;
+    border-radius: 8px;
+    width: 5rem;
+    height: 2rem;
+  }
+`;
