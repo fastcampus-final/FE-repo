@@ -45,17 +45,39 @@ const ReviewDetail = () => {
         }),
       );
     } else {
-      router.push(ROUTES.REVIEW);
       return dispatch(
         setModal({
           isOpen: true,
-          onClickOk: () =>
+          text: MESSAGES.COMMUNITY.COMPLETE_DELETE,
+          onClickOk: () => {
             dispatch(
               setModal({
                 isOpen: false,
               }),
             ),
-          text: MESSAGES.COMMUNITY.COMPLETE_DELETE,
+              router.push(ROUTES.REVIEW);
+          },
+        }),
+      );
+    }
+  };
+
+  const moveLogin = () => {
+    if (cookies.accessToken && cookies.length > 0) {
+      router.push(ROUTES.REVIEW_ADD);
+    } else {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          text: MESSAGES.COMMUNITY.MOVE_TO_LOGIN,
+          onClickOk: () => {
+            dispatch(
+              setModal({
+                isOpen: false,
+              }),
+            ),
+              router.push(ROUTES.LOGIN);
+          },
         }),
       );
     }
@@ -128,7 +150,7 @@ const ReviewDetail = () => {
 
       <ButtonContent>
         <button onClick={() => router.push(ROUTES.REVIEW)}>목록</button>
-        <button onClick={() => router.push(ROUTES.REVIEW_ADD)}>글쓰기</button>
+        <button onClick={() => moveLogin()}>글쓰기</button>
       </ButtonContent>
     </DetailContent>
   );
