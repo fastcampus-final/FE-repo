@@ -5,7 +5,9 @@ import React, { useCallback, useRef, useState } from 'react';
 import ArrowLeft from '@/../public/icons/arrow-left.svg';
 import { Button, TextField } from '@mui/material';
 import { formatUserName } from '@/utils/format';
-import Editor from '@/components/common/Editor';
+
+import dynamic from 'next/dynamic';
+const Editor = dynamic(() => import('@/components/common/Editor'), { ssr: false });
 
 import dayjs from 'dayjs';
 
@@ -13,7 +15,7 @@ const ReviewAdd = () => {
   const router = useRouter();
   const [keyword, setKeyword] = useState('');
 
-  const [editValue, setEditValue] = useState('');
+  const [editValue, setEditValue] = useState<string>('');
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [fileName, setFileName] = useState('');
@@ -73,14 +75,16 @@ const ReviewAdd = () => {
       </UserContent>
 
       <EditorContent>
-        <Editor setEditValue={setEditValue} editValue={editValue} />
+        <Editor htmlStr={editValue} setHtmlStr={setEditValue} />
       </EditorContent>
 
       <ButtonContent>
         <button className="white" onClick={() => router.back()}>
           취소
         </button>
-        <button className="blue">저장</button>
+        <button className="blue" onClick={() => console.log(editValue)}>
+          저장
+        </button>
       </ButtonContent>
     </AddContent>
   );
@@ -136,15 +140,7 @@ const UserContent = styled.div`
 `;
 
 const EditorContent = styled.div`
-  height: 550px;
-  .quill {
-    height: 90%;
-    .ql-container {
-      @media screen and (max-width: 500px) {
-        height: 90%;
-      }
-    }
-  }
+  height: 500px;
 `;
 
 const ButtonContent = styled.div`
