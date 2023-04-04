@@ -20,3 +20,15 @@ export const postBoardAdd = async (data: {
   const res = await instance.post(API_URLS.BOARD_ADD, data);
   return res;
 };
+
+export const patchBoardEdit = async (
+  boardId: number,
+  data: {
+    boardContent: string;
+    boardThumbnail: string;
+    boardTitle: string;
+  },
+) => {
+  const res = await instance.patch(API_URLS.BOARD_EDIT(boardId), data);
+  return res;
+};

@@ -79,7 +79,19 @@ const ReviewEdit = () => {
         <button className="white" onClick={() => router.back()}>
           취소
         </button>
-        <button className="blue">저장</button>
+        <button
+          className="blue"
+          onClick={() => {
+            const data = {
+              boardContent: JSON.stringify(editValue),
+              boardThumbnail: JSON.stringify(fileUrl),
+              boardTitle: keyword,
+            };
+            console.log(data);
+          }}
+        >
+          저장
+        </button>
       </ButtonContent>
     </AddContent>
   );
