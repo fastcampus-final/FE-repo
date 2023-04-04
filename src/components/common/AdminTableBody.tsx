@@ -1,7 +1,7 @@
 import React from 'react';
 import { TableBody } from '@mui/material';
-import { IProduct } from '@/interfaces/product';
 import AdminTableRow from './AdminTableRow';
+import { IProduct } from '@/interfaces/product';
 
 interface Props {
   data: IProduct[];
@@ -10,7 +10,9 @@ interface Props {
 const AdminTableBody = ({ data }: Props) => {
   return (
     <TableBody>
-      {data.length > 0 && data.map((row) => <AdminTableRow key={row.productId} data={row} />)}
+      {data &&
+        data.length > 0 &&
+        data.map((row) => <AdminTableRow key={row.productId} data={row} />)}
     </TableBody>
   );
 };
