@@ -74,7 +74,7 @@ const ReviewEdit = () => {
       </UserContent>
 
       <EditorContent>
-        <Editor setEditValue={setEditValue} editValue={editValue} />
+        <Editor htmlStr={editValue} setHtmlStr={setEditValue} />
       </EditorContent>
 
       <ButtonContent>
