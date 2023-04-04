@@ -14,7 +14,20 @@ const ReviewItem = ({ data }: Props) => {
   const imageUrl = data.boardThumbnail;
 
   return (
-    <ItemContent image={imageUrl} onClick={() => router.push(ROUTES.REVIEW_BY_ID(data.boardId))}>
+    <ItemContent
+      image={imageUrl}
+      onClick={() =>
+        router.push(
+          {
+            pathname: ROUTES.REVIEW_BY_ID(data.boardId),
+            query: {
+              id: data.boardId,
+            },
+          },
+          ROUTES.REVIEW_BY_ID(data.boardId),
+        )
+      }
+    >
       <p className="reviewTitle">{data.boardTitle}</p>
       <p className="user">{formatUserName(data.userName)}</p>
       <p className="date">{data.createdDate}</p>

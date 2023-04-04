@@ -1,53 +1,62 @@
 import React from 'react';
-import dynamic from 'next/dynamic';
-import 'react-quill/dist/quill.snow.css';
-import { DeltaStatic, Sources } from 'quill';
-import { UnprivilegedEditor } from 'react-quill';
 
-const QuillNoSSRWrapper = dynamic(import('react-quill'), {
-  ssr: false,
-  loading: () => <p>Loading ...</p>,
-});
+import { Editor as ToastEditor } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
 
-const modules = {
-  toolbar: [
-    [{ header: '1' }, { header: '2' }, { font: [] }],
-    [{ size: [] }],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
-    ['link', 'image'],
-    ['clean'],
-  ],
-  clipboard: {
-    // toggle to add extra line breaks when pasting HTML:
-    matchVisual: false,
-  },
-};
+import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+import 'tui-color-picker/dist/tui-color-picker.css';
+import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 
-const formats = [
-  'header',
-  'font',
-  'size',
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'blockquote',
-  'list',
-  'bullet',
-  'indent',
-  'link',
-  'image',
-];
+interface IEditor {
+  htmlStr: string;
+  setHtmlStr: React.Dispatch<React.SetStateAction<string>>;
+}
 
-const Editor = ({ editValue, setEditValue }: any) => {
+const Editor = ({ htmlStr, setHtmlStr }: IEditor) => {
+  const editorRef = React.useRef<ToastEditor>(null);
+
+  // Editor Change 이벤트
+  const onChangeEditor = () => {
+    if (editorRef.current) {
+      setHtmlStr(editorRef.current.getInstance().getHTML());
+    }
+  };
+
+  React.useEffect(() => {
+    if (editorRef.current) {
+      // 전달받은 html값으로 초기화
+      editorRef.current.getInstance().setHTML(htmlStr);
+
+      // 기존 이미지 업로드 기능 제거
+      editorRef.current.getInstance().removeHook('addImageBlobHook');
+      // 이미지 서버로 데이터를 전달하는 기능 추가
+      editorRef.current.getInstance().addHook('addImageBlobHook', (blob, callback) => {
+        (async () => {
+          const res = URL.createObjectURL(blob);
+
+          callback(res, 'input alt text');
+        })();
+
+        return false;
+      });
+    }
+  }, []);
+
+  // Editor에 사용되는 plugin 추가
+  const plugins = [
+    colorSyntax, // 글자 색상 추가
+  ];
+
   return (
-    <QuillNoSSRWrapper
-      modules={modules}
-      formats={formats}
-      theme="snow"
-      onChange={setEditValue}
-      value={editValue}
+    <ToastEditor
+      initialValue=""
+      previewStyle="vertical"
+      initialEditType="wysiwyg"
+      useCommandShortcut={true}
+      ref={editorRef}
+      plugins={plugins}
+      onChange={onChangeEditor}
+      height="95%"
     />
   );
 };
