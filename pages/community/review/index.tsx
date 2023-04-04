@@ -19,12 +19,11 @@ const Review = () => {
   const [totalPage, setTotalPage] = useState(1);
 
   useEffect(() => {
-    const getData = async () => {
+    (async () => {
       const data = await getBoardList('TRAVEL_REVIEW', page);
       setReviewData(data?.content);
       setTotalPage(data.totalPages);
-    };
-    getData();
+    })();
   }, [page]);
 
   const getSearchData = async () => {
