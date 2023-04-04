@@ -6,6 +6,8 @@ import { formatUserName } from '@/utils/format';
 import Editor from '@/components/common/Editor';
 import styled from '@emotion/styled';
 
+import dayjs from 'dayjs';
+
 const ReviewEdit = () => {
   const router = useRouter();
   const [keyword, setKeyword] = useState('');
@@ -37,12 +39,8 @@ const ReviewEdit = () => {
     setFileName('');
   };
 
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1 < 10 ? '0' + (today.getMonth() + 1) : today.getMonth() + 1;
-  const date = today.getDate() < 10 ? '0' + today.getDate() : today.getDate();
-
-  const addDate = year + '-' + month + '-' + date;
+  const now = dayjs();
+  const date = now.format('YYYY-MM-DD');
 
   return (
     <AddContent>
@@ -70,7 +68,7 @@ const ReviewEdit = () => {
 
       <UserContent>
         <span className="user">{formatUserName('홍길동')}</span>
-        <span>{addDate}</span>
+        <span>{date}</span>
       </UserContent>
 
       <EditorContent>
