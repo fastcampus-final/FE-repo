@@ -11,5 +11,5 @@ export const getProductList = async (
   const { data } = await instance.get(
     API_URLS.SEARCH_BY_KEYWORD(keyword, page, sort, people, dateOption),
   );
-  return data;
+  return data.data;
 };
