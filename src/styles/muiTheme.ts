@@ -6,11 +6,15 @@ const palette = {
     contrastText: '#fff',
     dark: '#0ba5e2',
   },
+  secondary: {
+    main: '#F84A24',
+  },
 };
 
 export const theme = createTheme({
   palette,
   typography: {
-    fontFamily: 'Pretendard-Regular',
+    fontFamily: 'Pretendard',
+    fontSize: 14,
   },
 });

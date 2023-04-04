@@ -1,80 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import withAuth from '@/components/common/PrivateRouter';
 import styled from '@emotion/styled';
 import PageTitle from '@/components/common/PageTitle';
-import { Table } from '@mui/material';
 import AdminTableHead from '@/components/common/AdminTableHead';
 import AdminTableBody from '@/components/common/AdminTableBody';
-import { IProduct } from '@/interfaces/product';
-import { Button, Pagination } from '@mui/material';
+import { Button, Pagination, Table } from '@mui/material';
 import { useRouter } from 'next/router';
 import { ROUTES } from '@/constants/routes';
-
-const data: IProduct[] = [
-  {
-    productId: '1',
-    productName: '오사카 패키지 여행',
-    productPrice: '2680000',
-    productThumbnail: '/',
-  },
-  {
-    productId: '2',
-    productName: '캐나다 패키지 여행',
-    productPrice: '6270000',
-    productThumbnail: '/',
-  },
-  {
-    productId: '3',
-    productName: '오사카 패키지 여행',
-    productPrice: '2680000',
-    productThumbnail: '/',
-  },
-  {
-    productId: '4',
-    productName: '캐나다 패키지 여행',
-    productPrice: '6270000',
-    productThumbnail: '/',
-  },
-  {
-    productId: '5',
-    productName: '오사카 패키지 여행',
-    productPrice: '2680000',
-    productThumbnail: '/',
-  },
-  {
-    productId: '6',
-    productName: '캐나다 패키지 여행',
-    productPrice: '6270000',
-    productThumbnail: '/',
-  },
-  {
-    productId: '7',
-    productName: '오사카 패키지 여행',
-    productPrice: '2680000',
-    productThumbnail: '/',
-  },
-  {
-    productId: '8',
-    productName: '캐나다 패키지 여행',
-    productPrice: '6270000',
-    productThumbnail: '/',
-  },
-  {
-    productId: '9',
-    productName: '오사카 패키지 여행',
-    productPrice: '2680000',
-    productThumbnail: '/',
-  },
-  {
-    productId: '10',
-    productName: '캐나다 패키지 여행',
-    productPrice: '6270000',
-    productThumbnail: '/',
-  },
-];
+import { getAdminProduct } from '@/apis/admin/product';
 
 const Product = () => {
   const router = useRouter();
+  const [product, setProduct] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const data = await getAdminProduct();
+      setProduct(data.content);
+    })();
+  }, []);
 
   return (
     <Container>
@@ -82,12 +26,12 @@ const Product = () => {
       <TableWrap>
         <Table>
           <AdminTableHead titles={['번호', '제목', '가격']} />
-          <AdminTableBody data={data} />
+          <AdminTableBody data={product} />
         </Table>
         <ButtonWrap>
           <Button variant="outlined">삭제</Button>
           <Pagination count={5} color="primary" />
-          <Button variant="contained" onClick={() => router.push(ROUTES.ADMIN.PRODUCT_FORM)}>
+          <Button variant="contained" onClick={() => router.push(ROUTES.ADMIN.PRODUCT_ADD)}>
             등록
           </Button>
         </ButtonWrap>

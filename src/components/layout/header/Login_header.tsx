@@ -5,14 +5,12 @@ import { ROUTES } from '@/constants/routes';
 
 const Login = () => {
   return (
-    <div>
-      <Link href={ROUTES.LOGIN}>
-        <div>
-          <LoginIcon />
-        </div>
-        <div>로그인</div>
-      </Link>
-    </div>
+    <Link href={ROUTES.LOGIN}>
+      <div>
+        <LoginIcon />
+      </div>
+      <div>로그인</div>
+    </Link>
   );
 };
 

@@ -30,7 +30,6 @@ const Container = styled.div`
 
 const FlexUl = styled.ul`
   display: flex;
-  /* width: 1200px; */
   margin: 0 auto;
   padding: 30px;
 `;

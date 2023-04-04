@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Logo from './header/Logo_header';
+import Logo from './header/Logo';
 import Mypage from './header/Mypage_header';
 import Search from './header/Search_header';
 import Login from './header/Login_header';
@@ -25,7 +25,7 @@ const Header = () => {
 
   return (
     <Container>
-      <Logo />
+      <Logo width="154px" />
       {router.asPath !== '/search' ? <Search /> : <div></div>}
       {cookies.accessToken ? <Mypage /> : <Login />}
       <MenuList>
@@ -60,13 +60,18 @@ const Header = () => {
 export default Header;
 
 const Container = styled.div`
-  max-width: 1200px;
+  width: 1200px;
   margin: 0 auto;
-  padding: 30px;
+  display: flex;
+  padding: 30px 0;
+  gap: 30px;
+  align-items: center;
+  @media (max-width: 1200px) {
+    padding: 16px;
+  }
 `;
 
 const MenuList = styled.ul`
-  /* width: 1500px; */
   margin: 0 auto;
   display: flex;
   gap: 30px;

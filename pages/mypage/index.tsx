@@ -1,60 +1,23 @@
 import PageTitle from '@/components/common/PageTitle';
 import withAuth from '@/components/common/PrivateRouter';
 import GetMyinfo from '@/components/Mypage/GetMyinfo';
-import Logout from '@/components/Mypage/Logout';
-import Withdrawal from '@/components/Mypage/Withdrawal';
-import { ROUTES } from '@/constants/routes';
-import React, { useState } from 'react';
-import { useCookies } from 'react-cookie';
+import React from 'react';
 import styled from '@emotion/styled';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import { useRouter } from 'next/router';
-import CreditScoreIcon from '@mui/icons-material/CreditScore';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
+import MyPageNavbar from '@/components/layout/MyPageNavbar';
 
-const index = () => {
-  const router = useRouter();
-  const [modal, setmodal] = useState(false);
-  const [cookies, setCookies, removeCookies] = useCookies();
-  console.log(cookies);
-
+const Mypage = () => {
   return (
     <Container>
-      <PageTitle title="마이페이지" />
-      <GetMyinfo />
-      <nav>
-        <List>
-          <ListItemButton onClick={() => router.push(ROUTES.MYPAGE.WISH)}>
-            <ListItemIcon>
-              <ShoppingCartIcon />
-            </ListItemIcon>
-            <ListItemText primary="나의 관심 상품" />
-          </ListItemButton>
-          <ListItemButton onClick={() => router.push(ROUTES.MYPAGE.ORDER)}>
-            <ListItemIcon>
-              <CreditScoreIcon />
-            </ListItemIcon>
-            <ListItemText primary="나의 예약 내역" />
-          </ListItemButton>
-          <ListItemButton onClick={() => router.push(ROUTES.MYPAGE.REVIEW)}>
-            <ListItemIcon>
-              <SmsOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary="나의 후기" />
-          </ListItemButton>
-        </List>
-      </nav>
-      <Logout />
-      <Withdrawal modal={modal} setmodal={setmodal} />
+      <MyPageNavbar />
+      <MypageWrap>
+        <PageTitle title="마이 페이지" />
+        <GetMyinfo />
+      </MypageWrap>
     </Container>
   );
 };
 
-export default withAuth(index);
+export default withAuth(Mypage);
 
 export async function getServerSideProps() {
   const layout = 'mypage';
@@ -67,5 +30,26 @@ export async function getServerSideProps() {
 
 const Container = styled.div`
   display: flex;
+  margin: 0 auto;
+  width: 1200px;
+  gap: 30px;
+  box-sizing: border-box;
+  padding: 16px 0;
+  @media (max-width: 1200px) {
+    width: 100%;
+    flex-direction: column;
+    flex-direction: column-reverse;
+  }
+  @media (max-width: 1200px) {
+    padding: 16px;
+  }
+`;
+
+const MypageWrap = styled.div`
+  display: flex;
   flex-direction: column;
+  width: 80%;
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
 `;

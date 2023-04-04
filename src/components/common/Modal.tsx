@@ -24,7 +24,7 @@ const Modal = () => {
   };
 
   return (
-    <ReactModal isOpen={modalState.isOpen} style={customStyles}>
+    <ReactModal isOpen={modalState.isOpen} style={customStyles} ariaHideApp={false}>
       <ModalWrap>
         <ModalText>
           <p>{modalState.text}</p>
