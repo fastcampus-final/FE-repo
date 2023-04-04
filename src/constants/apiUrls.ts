@@ -18,17 +18,11 @@ export const API_URLS = {
   BUY_LIST: (page: number) => `/buy/${page}`,
   CART: '/cart',
   ORDER: '/order',
-  BOARD: '/board',
+  BOARD: (type: string, pageNumber: number) => `/board?type=${type}&pageNumber=${pageNumber}`,
   BOARD_AUTH: (id: string) => `/board/authority/${id}`,
   BOARD_DETAIL: (id: string) => `/board/detail/${id}`,
-  BOARD_SEARCH: (
-    keyword: string,
-    page: number,
-    sort?: string,
-    people?: number,
-    dateOption?: string,
-  ) =>
-    `/board/search?keyword=${keyword}&page=${page}&sort=${sort}&people=${people}&dateOption=${dateOption}`,
+  BOARD_SEARCH: (keyword: string, pageNumber: number) =>
+    `/board/search?keyword=${keyword}&pageNumber=${pageNumber}`,
   CATEGORY: '/categories',
   CATEGORY_DETAIL: (id: string) => `/categories/${id}`,
   ADMIN: {
