@@ -2,13 +2,13 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 interface Prop {
-  src: string;
+  src?: string;
   width?: string;
   height?: string;
   mediaWidth?: string;
   mediaHeight?: string;
   borderRadius?: string;
-  alt: string;
+  alt?: string;
   padding?: string;
   cursorPointer?: boolean;
   isCover?: boolean;

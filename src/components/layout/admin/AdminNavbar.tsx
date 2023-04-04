@@ -31,7 +31,7 @@ const AdminNavbar = () => {
     ROUTES.ADMIN.USER,
     ROUTES.ADMIN.CATEGORY,
     ROUTES.ADMIN.PRODUCT,
-    ROUTES.ADMIN.POPULAR,
+    ROUTES.ADMIN.RECOMMEND,
     ROUTES.ADMIN.ORDER,
     ROUTES.ADMIN.NOTICE,
     ROUTES.ADMIN.REVIEW,
@@ -99,7 +99,7 @@ const AdminNavbar = () => {
                 <ListItemIcon>
                   <PlaceOutlinedIcon />
                 </ListItemIcon>
-                <ListItemText primary="인기 여행지 관리" />
+                <ListItemText primary="추천 상품 관리" />
               </ListItemButton>
             </List>
           </Collapse>

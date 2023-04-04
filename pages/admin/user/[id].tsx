@@ -1,4 +1,4 @@
-import { instance } from '@/api/instance';
+import { instance } from '@/apis/instance';
 import withAuth from '@/components/common/PrivateRouter';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
