@@ -1,4 +1,4 @@
-import { instance } from '@/api/instance';
+import { instance } from '@/apis/instance';
 import React, { useEffect, useMemo, useState } from 'react';
 import AdminTable from './AdminTable';
 import { userColumns } from './userColumns';

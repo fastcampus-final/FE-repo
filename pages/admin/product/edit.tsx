@@ -1,19 +1,23 @@
+import { getAdminProductDetail } from '@/apis/admin/product';
 import PageTitle from '@/components/common/PageTitle';
 import withAuth from '@/components/common/PrivateRouter';
-import { IProduct } from '@/interfaces/product';
+import { ROUTES } from '@/constants/routes';
+import { IProductDetail } from '@/interfaces/product';
 import styled from '@emotion/styled';
 import { Table, TableRow, TableCell, Button, TextField } from '@mui/material';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const ProductEditForm = () => {
   const router = useRouter();
+  const [product, setProduct] = useState<IProductDetail>();
 
-  const data = {
-    productId: '1',
-    productName: '오사카 패키지 여행',
-    productPrice: '2680000',
-    productThumbnail: '/',
+  useEffect(() => {
+    setProduct(JSON.parse(router.query.data as string));
+  }, []);
+
+  const handleSubmit = () => {
+    //
   };
 
   return (
@@ -23,42 +27,98 @@ const ProductEditForm = () => {
         <Table>
           <TableRow>
             <TableCell align="center">썸네일</TableCell>
-            <TableCell align="center" component="th">
-              <input type={'file'} src={data.productThumbnail} required />
+            <TableCell align="left" component="th">
+              <input type="file" src={product && product.thumbnail} width="330px" />
             </TableCell>
-            <TableCell align="center"></TableCell>
-            <TableCell align="center"></TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="center">상품명</TableCell>
-            <TableCell align="center">
-              <TextField
-                id="outlined-basic"
-                size="small"
-                defaultValue={data.productName}
-                fullWidth
-                required
-              />
+            <TableCell align="left">
+              <TextField size="small" fullWidth defaultValue={product && product.name}></TextField>
             </TableCell>
+          </TableRow>
+          <TableRow>
             <TableCell align="center">가격</TableCell>
-            <TableCell align="center">
+            <TableCell align="left">
+              <TextField size="small" fullWidth defaultValue={product && product.price}></TextField>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">카테고리</TableCell>
+            <TableCell align="left">
+              {/* {product && product.categories.map((item) => <p>{item.categoryName}</p>)} */}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">지역</TableCell>
+            <TableCell align="left">
+              <TextField size="small" fullWidth defaultValue={product && product.area}></TextField>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">특징</TableCell>
+            <TableCell align="left">
               <TextField
-                id="outlined-basic"
                 size="small"
-                defaultValue={data.productPrice}
                 fullWidth
-                required
-              />
+                defaultValue={product && product.feature}
+              ></TextField>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">항공</TableCell>
+            <TableCell align="left">
+              <TextField
+                size="small"
+                fullWidth
+                defaultValue={product && product.airplane}
+              ></TextField>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="center">요약정보</TableCell>
-            <TableCell align="center">
-              <TextField id="outlined-basic" size="small" defaultValue={''} fullWidth required />
+            <TableCell align="left">
+              <TextField
+                size="small"
+                fullWidth
+                defaultValue={product && product.summary}
+              ></TextField>
             </TableCell>
-            <TableCell align="center">예약정보</TableCell>
-            <TableCell align="center">
-              <TextField id="outlined-basic" size="small" defaultValue={''} fullWidth required />
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">싱글룸가격</TableCell>
+            <TableCell align="left">
+              <TextField
+                size="small"
+                fullWidth
+                defaultValue={product && product.singleRoomPrice}
+              ></TextField>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">상품상태</TableCell>
+            <TableCell align="left">
+              <TextField
+                size="small"
+                fullWidth
+                defaultValue={product && product.productStatus}
+              ></TextField>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">상품옵션</TableCell>
+            <TableCell align="left">
+              {/* {product && product.productOptions.map((item) => <p>{item.startDate}</p>)} */}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">상세정보</TableCell>
+            <TableCell align="left">
+              <TextField
+                size="small"
+                fullWidth
+                defaultValue={product && product.detail}
+              ></TextField>
             </TableCell>
           </TableRow>
         </Table>
@@ -66,7 +126,7 @@ const ProductEditForm = () => {
           <Button variant="outlined" onClick={() => router.back()}>
             취소
           </Button>
-          <Button variant="contained" type="submit">
+          <Button variant="contained" onClick={handleSubmit}>
             수정 완료
           </Button>
         </ButtonWrap>

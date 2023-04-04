@@ -1,28 +1,38 @@
 export interface IProduct {
   productId: string;
   productName: string;
-  productPrice: string;
+  productPrice: number;
   productThumbnail: string;
 }
 
 export interface IProductDetail {
   productId: string;
-  productName: string;
-  productPrice: string;
-  productThumbnail: string;
-  // summary: string;
-  // area: string;
-  // point: string;
-  // airline: string;
-}
-
-export interface IDetail {
-  productId: string;
-  title: string;
-  price: string;
-  imagePath: string;
+  name: string;
   summary: string;
   area: string;
-  point: string;
-  airline: string;
+  feature: string;
+  airplane: string;
+  singleRoomPrice: number;
+  price: number;
+  type: string;
+  thumbnail: string;
+  detail: string;
+  productStatus: string;
+  categories: ICategories[];
+  productOptions: IProductOptions[];
+}
+
+interface ICategories {
+  categoryName: string;
+  categoryId: number;
+}
+
+interface IProductOptions {
+  startDate: number[];
+  endDate: number[];
+  maxPeople: number;
+  maxSingleRoom: number;
+  presentSingleRoomNumber: number;
+  productOptionId: number;
+  presentPeopleNumber: number;
 }

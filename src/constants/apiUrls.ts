@@ -31,5 +31,12 @@ export const API_URLS = {
     `/board/search?keyword=${keyword}&page=${page}&sort=${sort}&people=${people}&dateOption=${dateOption}`,
   CATEGORY: '/categories',
   CATEGORY_DETAIL: (id: string) => `/categories/${id}`,
-  ADMIN: {},
+  ADMIN: {
+    PRODUCT: '/admin/products',
+    PRODUCT_DETAIL: (id: string) => `/admin/products/details/${id}`,
+    CATEGORY: '/categories',
+    CATEGORY_BY_ID: (id: string) => `/categories/${id}`,
+    RECOMMEND: '/page/popular/regions',
+    RECOMMEND_BY_ID: (id: string) => `/admin/regions/${id}`,
+  },
 };
