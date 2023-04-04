@@ -74,7 +74,9 @@ const Review = () => {
 
       <BottomArea>
         {reviewData && reviewData.length > 0 ? (
-          reviewData.map((item) => <ReviewItem key={item.boardId} data={item} />)
+          reviewData.map((item, i) => (
+            <ReviewItem key={item.boardId} data={item} i={i} length={reviewData.length} />
+          ))
         ) : (
           <h3>후기가 존재하지 않습니다.</h3>
         )}
