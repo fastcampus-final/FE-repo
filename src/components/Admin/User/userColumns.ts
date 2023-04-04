@@ -4,11 +4,15 @@ export const userColumns = [
     Header: 'userId',
   },
   {
-    accessor: 'name' as const,
+    accessor: 'userName' as const,
     Header: 'Name',
   },
   {
-    accessor: 'email' as const,
+    accessor: 'userEmail' as const,
     Header: 'Email',
+  },
+  {
+    accessor: 'userRole' as const,
+    Header: 'Role',
   },
 ];

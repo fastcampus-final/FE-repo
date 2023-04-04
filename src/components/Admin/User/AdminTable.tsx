@@ -3,6 +3,7 @@ import { useGlobalFilter, useSortBy, useTable } from 'react-table';
 import TableSearch from './TableSearch';
 import { useRouter } from 'next/router';
 import {
+  Button,
   Paper,
   Table,
   TableBody,
@@ -11,20 +12,6 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-
-// interface ITableProps {
-//   readonly columns: IColumnsProps[];
-//   readonly data: IDataProps[];
-// }
-// interface IColumnsProps {
-//   readonly accessor: string;
-//   readonly Header: string;
-// }
-// interface IDataProps {
-//   readonly userId: number;
-//   readonly email: string;
-//   readonly name: string;
-// }
 
 const AdminTable = ({ columns, data }: any) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, setGlobalFilter } =
@@ -56,8 +43,18 @@ const AdminTable = ({ columns, data }: any) => {
                 }}
               >
                 {row.cells.map((cell) => (
-                  <TableCell key={cell} {...cell.getCellProps()}>
-                    {cell.render('Cell')}
+                  <TableCell
+                    key={cell}
+                    {...cell.getCellProps()}
+                    // onClick={() => {
+                    //   console.log(cell.value);
+                    // }}
+                  >
+                    {cell.value === 'ROLE_ADMIN' ? (
+                      <Button variant="contained">{cell.render('Cell')}</Button>
+                    ) : (
+                      <Button>{cell.render('Cell')}</Button>
+                    )}
                   </TableCell>
                 ))}
               </TableRow>
