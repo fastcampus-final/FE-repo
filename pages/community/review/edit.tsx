@@ -1,27 +1,27 @@
-import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import React, { useCallback, useRef, useState } from 'react';
-
 import ArrowLeft from '@/../public/icons/arrow-left.svg';
 import { Button, TextField } from '@mui/material';
 import { formatUserName } from '@/utils/format';
+import styled from '@emotion/styled';
 
 import dynamic from 'next/dynamic';
 const Editor = dynamic(() => import('@/components/common/Editor'), { ssr: false });
 
 import dayjs from 'dayjs';
-import { postBoardAdd } from '@/apis/community';
-import { ROUTES } from '@/constants/routes';
+import { patchBoardEdit } from '@/apis/community';
 
-const ReviewAdd = () => {
+const ReviewEdit = () => {
   const router = useRouter();
   const [keyword, setKeyword] = useState('');
 
-  const [editValue, setEditValue] = useState<string>('');
+  const [editValue, setEditValue] = useState('');
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [fileName, setFileName] = useState('');
   const [fileUrl, setFileUrl] = useState('');
+
+  const boardId = router.query.id;
 
   const onUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
@@ -91,10 +91,8 @@ const ReviewAdd = () => {
               boardContent: JSON.stringify(editValue),
               boardThumbnail: JSON.stringify(fileUrl),
               boardTitle: keyword,
-              boardType: '여행후기',
             };
-            postBoardAdd(data);
-            router.push(ROUTES.REVIEW);
+            patchBoardEdit(boardId, data);
           }}
         >
           저장
@@ -104,7 +102,7 @@ const ReviewAdd = () => {
   );
 };
 
-export default ReviewAdd;
+export default ReviewEdit;
 
 const AddContent = styled.div`
   padding: 0 1.5rem;
@@ -154,7 +152,15 @@ const UserContent = styled.div`
 `;
 
 const EditorContent = styled.div`
-  height: 500px;
+  height: 550px;
+  .quill {
+    height: 90%;
+    .ql-container {
+      @media screen and (max-width: 500px) {
+        height: 90%;
+      }
+    }
+  }
 `;
 
 const ButtonContent = styled.div`
