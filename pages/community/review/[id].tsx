@@ -1,33 +1,87 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import data from '@/dummydata/reviewDetail.json';
 import { IReviewDetail } from '@/interfaces/community';
 import styled from '@emotion/styled';
 import { formatUserName } from '@/utils/format';
 
 import { SlArrowUp, SlArrowDown } from 'react-icons/sl';
 import { ROUTES } from '@/constants/routes';
+import { deleteBoard, getBoardDetail } from '@/apis/community';
+import { useCookies } from 'react-cookie';
+import { useDispatch } from 'react-redux';
+import { setModal } from '@/store/modal';
+import { MESSAGES } from '@/constants/messages';
 
 const ReviewDetail = () => {
   const [detailData, setDetailData] = useState<IReviewDetail>();
   const router = useRouter();
-  const viewContainerRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
+  const [cookies, setCookies] = useCookies();
 
   useEffect(() => {
     const getData = async () => {
-      await setDetailData(data);
+      const data = await getBoardDetail(Number(router.query.id));
+      setDetailData(data);
     };
 
-    const innerHtml = () => {
-      if (viewContainerRef.current) {
-        viewContainerRef.current.innerHTML = '';
-        viewContainerRef.current.innerHTML += detailData?.boardContent;
-      }
-    };
     getData();
-    innerHtml();
   }, []);
+
+  const markUp = () => {
+    if (detailData?.boardContent !== undefined) {
+      return { __html: JSON.parse(detailData?.boardContent) };
+    }
+  };
+
+  const deleteHandler = async () => {
+    const deleteData = deleteBoard(Number(detailData?.boardId));
+    if ((await deleteData) === 'ERR_BAD_REQUEST') {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.COMMUNITY.ERROR_DELETE,
+        }),
+      );
+    } else {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          text: MESSAGES.COMMUNITY.COMPLETE_DELETE,
+          onClickOk: () => {
+            dispatch(
+              setModal({
+                isOpen: false,
+              }),
+            ),
+              router.push(ROUTES.REVIEW);
+          },
+        }),
+      );
+    }
+  };
+
+  const moveLogin = () => {
+    if (cookies.accessToken && cookies.length > 0) {
+      router.push(ROUTES.REVIEW_ADD);
+    } else {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          text: MESSAGES.COMMUNITY.MOVE_TO_LOGIN,
+          onClickOk: () => {
+            dispatch(
+              setModal({
+                isOpen: false,
+              }),
+            ),
+              router.push(ROUTES.LOGIN);
+          },
+        }),
+      );
+    }
+  };
 
   return (
     <DetailContent>
@@ -43,47 +97,60 @@ const ReviewDetail = () => {
             {detailData?.createdDate} | {detailData?.updatedDate}
           </p>
         </div>
-        <div>
-          <button
-            onClick={() =>
-              router.push(
-                {
-                  pathname: ROUTES.REVIEW_EDIT,
-                  query: {
-                    boardId: detailData?.boardId,
+        {cookies.accessToken && cookies.length > 0 && detailData?.userName !== '관리자' ? (
+          <div>
+            <button
+              onClick={() =>
+                router.push(
+                  {
+                    pathname: ROUTES.REVIEW_EDIT,
+                    query: {
+                      boardId: detailData?.boardId,
+                    },
                   },
-                },
-                ROUTES.REVIEW_EDIT,
-              )
-            }
-          >
-            수정
-          </button>
-          <button className="delete">삭제</button>
-        </div>
+                  ROUTES.REVIEW_EDIT,
+                )
+              }
+            >
+              수정
+            </button>
+            <button
+              className="delete"
+              onClick={() => {
+                deleteHandler();
+              }}
+            >
+              삭제
+            </button>
+          </div>
+        ) : null}
       </SummaryContent>
 
       <MainContent>
-        <div ref={viewContainerRef} />
+        <div dangerouslySetInnerHTML={markUp()}></div>
       </MainContent>
 
-      <PrevNextContent>
-        <SlArrowUp size={20} />
-        <p onClick={() => router.push(ROUTES.REVIEW_BY_ID(Number(router.query.id) - 1))}>
-          이전 페이지
-        </p>
-      </PrevNextContent>
+      {router.query.i !== '0' ? (
+        <PrevNextContent>
+          <SlArrowUp size={20} />
+          <p onClick={() => router.push(ROUTES.REVIEW_BY_ID(Number(router.query.id) - 1))}>
+            이전 후기 보기
+          </p>
+        </PrevNextContent>
+      ) : null}
 
-      <PrevNextContent>
-        <SlArrowDown size={20} />
-        <p onClick={() => router.push(ROUTES.REVIEW_BY_ID(Number(router.query.id) + 1))}>
-          다음 페이지
-        </p>
-      </PrevNextContent>
+      {Number(router.query.i) !== Number(router.query.length) - 1 ? (
+        <PrevNextContent>
+          <SlArrowDown size={20} />
+          <p onClick={() => router.push(ROUTES.REVIEW_BY_ID(Number(router.query.id) + 1))}>
+            다음 후기 보기
+          </p>
+        </PrevNextContent>
+      ) : null}
 
       <ButtonContent>
         <button onClick={() => router.push(ROUTES.REVIEW)}>목록</button>
-        <button onClick={() => router.push(ROUTES.REVIEW_ADD)}>글쓰기</button>
+        <button onClick={() => moveLogin()}>글쓰기</button>
       </ButtonContent>
     </DetailContent>
   );

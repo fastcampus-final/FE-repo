@@ -12,7 +12,19 @@ const NoticeItem = ({ data }: Props) => {
   const router = useRouter();
 
   return (
-    <ItemContent onClick={() => router.push(ROUTES.NOTICE_BY_ID(data.boardId))}>
+    <ItemContent
+      onClick={() =>
+        router.push(
+          {
+            pathname: ROUTES.NOTICE_BY_ID(data.boardId),
+            query: {
+              id: data.boardId,
+            },
+          },
+          ROUTES.NOTICE_BY_ID(data.boardId),
+        )
+      }
+    >
       <p className="title">{data.boardTitle}</p>
       <p className="user">
         {data.userName} {data.createdDate}
