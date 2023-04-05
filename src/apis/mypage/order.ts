@@ -10,3 +10,8 @@ export const getReservationDetail = async (id: number) => {
   const { data } = await instance.get(API_URLS.MYPAGE.RESERVATIONS_BY_ID(id));
   return data;
 };
+
+export const deleteReservation = async (id: number) => {
+  const { data } = await instance.delete(API_URLS.MYPAGE.RESERVATIONS_BY_ID(id));
+  return data;
+};

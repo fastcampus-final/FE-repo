@@ -34,12 +34,13 @@ const PastOrder = ({ data }: Props) => {
         onClick={() =>
           router.push(
             {
-              pathname: ROUTES.MYPAGE.ORDER_BY_ID(data.reservationId),
+              pathname: ROUTES.MYPAGE.ORDER_BY_ID(data.reservationDetailId),
               query: {
-                id: data.reservationId,
+                id: data.reservationDetailId,
+                status: 'past',
               },
             },
-            ROUTES.MYPAGE.ORDER_BY_ID(data.reservationId),
+            ROUTES.MYPAGE.ORDER_BY_ID(data.reservationDetailId),
           )
         }
       />
