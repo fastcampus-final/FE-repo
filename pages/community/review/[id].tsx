@@ -35,7 +35,7 @@ const ReviewDetail = () => {
   };
 
   const deleteHandler = async () => {
-    const deleteData = deleteBoard(Number(detailData?.boardId));
+    const deleteData = await deleteBoard(Number(detailData?.boardId));
     if ((await deleteData) === 'ERR_BAD_REQUEST') {
       return dispatch(
         setModal({
@@ -114,12 +114,7 @@ const ReviewDetail = () => {
             >
               수정
             </button>
-            <button
-              className="delete"
-              onClick={() => {
-                deleteHandler();
-              }}
-            >
+            <button className="delete" onClick={() => deleteHandler()}>
               삭제
             </button>
           </div>
