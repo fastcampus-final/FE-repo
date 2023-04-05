@@ -9,17 +9,17 @@ export interface IProductDetail {
   productId: string;
   name: string;
   summary: string;
-  area: string;
-  feature: string;
-  airplane: string;
-  singleRoomPrice: number;
   price: number;
-  type: string;
+  area?: string;
+  feature?: string;
+  airplane?: string;
+  singleRoomPrice?: number;
+  type?: string;
   thumbnail: string;
   detail: string;
-  productStatus: string;
-  categories: ICategories[];
-  productOptions: IProductOptions[];
+  productStatus?: string;
+  categories?: ICategories[];
+  productOptions?: IProductOptions[];
 }
 
 interface ICategories {
