@@ -37,6 +37,7 @@ const PastOrder = ({ data }: Props) => {
               pathname: ROUTES.MYPAGE.ORDER_BY_ID(data.reservationId),
               query: {
                 id: data.reservationId,
+                status: 'past',
               },
             },
             ROUTES.MYPAGE.ORDER_BY_ID(data.reservationId),

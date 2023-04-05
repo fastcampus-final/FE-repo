@@ -3,23 +3,48 @@ import MyPageNavbar from '@/components/layout/MyPageNavbar';
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 
-import DetailData from '@/dummydata/orderDetail.json';
 import { IOrderDetail } from '@/interfaces/mypageOrder';
 import dayjs from 'dayjs';
 import { formatPrice } from '@/utils/format';
+import { getReservationDetail } from '@/apis/mypage/order';
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { setModal } from '@/store/modal';
+import { MESSAGES } from '@/constants/messages';
+import { ROUTES } from '@/constants/routes';
 
 const MyOrderDetail = () => {
   const [detailData, setDetailData] = useState<IOrderDetail>();
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
-      setDetailData(DetailData);
+      const data = await getReservationDetail(Number(router.query.id));
+      setDetailData(data);
     })();
   });
 
   const imageUrl = detailData?.productThumbnail as string;
 
   const orderDate = dayjs(detailData?.reservationDate).format('YYYY-MM-DD HH:mm');
+
+  const deleteReservation = () => {
+    return dispatch(
+      setModal({
+        isOpen: true,
+        text: MESSAGES.MYPAGE.DELETE_REVERVATION,
+        onClick: () => {
+          dispatch(
+            setModal({
+              isOpen: false,
+            }),
+          );
+          router.push(ROUTES.MYPAGE.ORDER);
+        },
+      }),
+    );
+  };
 
   return (
     <Container>
@@ -62,7 +87,11 @@ const MyOrderDetail = () => {
 
         <ButtonContent>
           <button className="share">예약 일정 공유하기</button>
-          <button className="delete">예약 취소</button>
+          {router.query.status === 'scheduled' ? (
+            <button className="delete" onClick={() => deleteReservation()}>
+              예약 취소
+            </button>
+          ) : null}
         </ButtonContent>
       </DetailContent>
     </Container>

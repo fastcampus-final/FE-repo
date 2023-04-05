@@ -49,6 +49,7 @@ const ScheduledOrder = ({ data }: Props) => {
                 pathname: ROUTES.MYPAGE.ORDER_BY_ID(data.reservationId),
                 query: {
                   id: data.reservationId,
+                  status: 'scheduled',
                 },
               },
               ROUTES.MYPAGE.ORDER_BY_ID(data.reservationId),
