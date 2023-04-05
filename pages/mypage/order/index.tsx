@@ -4,9 +4,9 @@ import { IOrder } from '@/interfaces/mypageOrder';
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 
-import Listdata from '@/dummydata/orderList.json';
-import ScheduledOrder from '@/components/Mypage/Order/scheduledOrder';
+import ScheduledOrder from '@/components/Mypage/Order/ScheduledOrder';
 import PastOrder from '@/components/Mypage/Order/PastOrder';
+import { getReservationList } from '@/apis/mypage/order';
 
 const MyOrder = () => {
   const [scheduledData, setScheduledData] = useState<Array<IOrder>>([]);
@@ -14,8 +14,9 @@ const MyOrder = () => {
 
   useEffect(() => {
     (async () => {
-      setScheduledData(Listdata.scheduledTravel.content);
-      setPastData(Listdata.pastTravel.content);
+      const data = await getReservationList();
+      setScheduledData(data.scheduledTravel.content);
+      setPastData(data.pastTravel.content);
     })();
   });
   return (
