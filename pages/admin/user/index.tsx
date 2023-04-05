@@ -12,4 +12,5 @@ const User = () => {
   );
 };
 
-export default withAuth(User);
+export default User;
+// export default withAuth(User);

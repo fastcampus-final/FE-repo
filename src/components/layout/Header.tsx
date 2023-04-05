@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Logo from './header/Logo';
 import Mypage from './header/Mypage_header';
 import Search from './header/Search_header';
 import Login from './header/Login_header';
@@ -10,6 +9,7 @@ import Link from 'next/link';
 import { useCookies } from 'react-cookie';
 import { tokenRefresh } from './header/apis';
 import { useDispatch } from 'react-redux';
+import Logo from './header/Logo';
 
 const Header = () => {
   const [cookies, setCookies, removeCookies] = useCookies();
@@ -25,10 +25,10 @@ const Header = () => {
 
   return (
     <Container>
-      <Logo width="154px" />
+      <Logo />
       {router.asPath !== '/search' ? <Search /> : <div></div>}
       {cookies.accessToken ? <Mypage /> : <Login />}
-      <MenuList>
+      {/* <MenuList>
         <li>
           <Link href={ROUTES.SIGNUP}>회원가입</Link>
         </li>
@@ -52,7 +52,7 @@ const Header = () => {
         >
           <Link href={ROUTES.ADMIN.MAIN}>[임시]관리자페이지</Link>
         </li>
-      </MenuList>
+      </MenuList> */}
     </Container>
   );
 };
@@ -60,19 +60,21 @@ const Header = () => {
 export default Header;
 
 const Container = styled.div`
-  width: 1200px;
+  box-sizing: border-box;
+  width: 100vw;
+  height: 58px;
   margin: 0 auto;
-  display: flex;
   padding: 30px 0;
   gap: 30px;
   align-items: center;
   @media (max-width: 1200px) {
     padding: 16px;
   }
+  display: flex;
 `;
 
-const MenuList = styled.ul`
-  margin: 0 auto;
-  display: flex;
-  gap: 30px;
-`;
+// const MenuList = styled.ul`
+//   margin: 0 auto;
+//   display: flex;
+//   gap: 30px;
+// `;
