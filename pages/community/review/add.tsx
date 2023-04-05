@@ -18,8 +18,8 @@ const ReviewAdd = () => {
   const [keyword, setKeyword] = useState('');
 
   const [editValue, setEditValue] = useState<string>('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const [fileName, setFileName] = useState('');
   const [fileUrl, setFileUrl] = useState('');
 
@@ -93,6 +93,7 @@ const ReviewAdd = () => {
               boardTitle: keyword,
               boardType: '여행후기',
             };
+            console.log(data);
             postBoardAdd(data);
             router.push(ROUTES.REVIEW);
           }}
@@ -155,10 +156,14 @@ const UserContent = styled.div`
 
 const EditorContent = styled.div`
   height: 500px;
+  .rdw-editor-wrapper {
+    height: 100%;
+  }
 `;
 
 const ButtonContent = styled.div`
   margin-bottom: 30px;
+  margin-top: 80px;
   text-align: right;
   button {
     border-radius: 8px;
