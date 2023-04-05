@@ -58,7 +58,7 @@ const Cart = () => {
 
   useEffect(() => {
     const tempAmount = formatPrice(
-      String(tempData.reduce((acc, cur) => acc + parseInt(cur.productPrice), 0)),
+      tempData.reduce((acc, cur) => acc + parseInt(cur.productPrice), 0),
     );
     setAmount(tempAmount);
   }, []);
