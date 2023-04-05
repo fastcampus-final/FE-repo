@@ -57,4 +57,9 @@ export const MESSAGES = {
   VALID_AUTH: '로그인된 계정입니다.\n로그아웃 후 이용해주세요.',
   CHANGE_INFO: '정보수정이 완료되었습니다.',
   MOVE_TO_SIGNUP: '계정이 없으신가요? 그렇다면 회원가입 페이지로 이동해 주세요.',
+  COMMUNITY: {
+    MOVE_TO_LOGIN: '회원 전용 메뉴입니다.\n로그인 후 이용해 주세요.',
+    ERROR_DELETE: '권한이 없어 삭제가 불가능합니다.',
+    COMPLETE_DELETE: '삭제가 완료되었습니다.',
+  },
 };
