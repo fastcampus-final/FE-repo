@@ -2,8 +2,8 @@ import { IProductDetail } from './../../interfaces/product';
 import { API_URLS } from '@/constants/apiUrls';
 import { instance } from '../instance';
 
-export const getAdminProduct = async () => {
-  const { data } = await instance.get(API_URLS.ADMIN.PRODUCT);
+export const getAdminProduct = async (page: number) => {
+  const { data } = await instance.get(API_URLS.ADMIN.PRODUCT_PAGE(page));
   return data;
 };
 
