@@ -1,7 +1,7 @@
 export interface ICart {
   productId: string;
   productName: string;
-  productPrice: string;
+  productPrice: number;
   productThumbnail: string;
   reservationNumber?: string;
   reservationSingleNumber?: string;
