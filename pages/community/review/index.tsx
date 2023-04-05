@@ -10,6 +10,10 @@ import ReviewItem from '@/components/Community/ReviewItem';
 import CommunityRouter from '@/components/Community/CommunityRouter';
 import { ROUTES } from '@/constants/routes';
 import { getBoardList, getBoardSearchList } from '@/apis/community';
+import { useDispatch } from 'react-redux';
+import { useCookies } from 'react-cookie';
+import { setModal } from '@/store/modal';
+import { MESSAGES } from '@/constants/messages';
 
 const Review = () => {
   const router = useRouter();
@@ -17,6 +21,9 @@ const Review = () => {
   const [keyword, setKeyword] = useState('');
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
+
+  const dispatch = useDispatch();
+  const [cookies, setCookies] = useCookies();
 
   useEffect(() => {
     (async () => {
@@ -45,6 +52,27 @@ const Review = () => {
     setPage(value);
   };
 
+  const moveLogin = () => {
+    if (cookies.accessToken && cookies.length > 0) {
+      router.push(ROUTES.REVIEW_ADD);
+    } else {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          text: MESSAGES.COMMUNITY.MOVE_TO_LOGIN,
+          onClickOk: () => {
+            dispatch(
+              setModal({
+                isOpen: false,
+              }),
+            ),
+              router.push(ROUTES.LOGIN);
+          },
+        }),
+      );
+    }
+  };
+
   return (
     <ReviewContent>
       <TopArea>
@@ -52,7 +80,7 @@ const Review = () => {
           생생한 <span className="textBold">여행후기</span>를 남겨주시고{' '}
           <span className="textBold">커피 한 잔</span>의 행운을 누려보세요.
         </p>
-        <button onClick={() => router.push(ROUTES.REVIEW_ADD)}>
+        <button onClick={() => moveLogin()}>
           <WriteIcon />
           <span>후기쓰기</span>
         </button>
