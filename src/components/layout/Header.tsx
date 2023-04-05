@@ -28,7 +28,7 @@ const Header = () => {
       <Logo />
       {router.asPath !== '/search' ? <Search /> : <div></div>}
       {cookies.accessToken ? <Mypage /> : <Login />}
-      {/* <MenuList>
+      <MenuList>
         <li>
           <Link href={ROUTES.SIGNUP}>회원가입</Link>
         </li>
@@ -52,7 +52,7 @@ const Header = () => {
         >
           <Link href={ROUTES.ADMIN.MAIN}>[임시]관리자페이지</Link>
         </li>
-      </MenuList> */}
+      </MenuList>
     </Container>
   );
 };
@@ -61,8 +61,7 @@ export default Header;
 
 const Container = styled.div`
   box-sizing: border-box;
-  width: 100vw;
-  height: 58px;
+  width: 1200px;
   margin: 0 auto;
   padding: 30px 0;
   gap: 30px;
@@ -73,8 +72,8 @@ const Container = styled.div`
   display: flex;
 `;
 
-// const MenuList = styled.ul`
-//   margin: 0 auto;
-//   display: flex;
-//   gap: 30px;
-// `;
+const MenuList = styled.ul`
+  margin: 0 auto;
+  display: flex;
+  gap: 30px;
+`;
