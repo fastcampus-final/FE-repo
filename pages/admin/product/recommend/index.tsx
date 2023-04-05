@@ -4,19 +4,19 @@ import withAuth from '@/components/common/PrivateRouter';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import AdminTableHead from '@/components/common/AdminTableHead';
-import AdminTableBody from '@/components/common/AdminTableBody';
-import { Button, Pagination, Table } from '@mui/material';
+import { Button, Pagination, Table, TableBody, TableCell, TableRow } from '@mui/material';
 import { ROUTES } from '@/constants/routes';
+import AdminTableHead from '@/components/common/AdminTableHead';
+import { IRecommend } from '@/interfaces/product';
 
 const RecommendProduct = () => {
   const router = useRouter();
-  const [product, setProduct] = useState([]);
+  const [recomment, setRecommend] = useState<IRecommend[]>([]);
 
   useEffect(() => {
     (async () => {
       const data = await getAdminRecommendProduct();
-      setProduct(data.content);
+      setRecommend(data.content);
     })();
   }, []);
 
@@ -25,8 +25,25 @@ const RecommendProduct = () => {
       <PageTitle title="추천 상품 관리" />
       <TableWrap>
         <Table>
-          <AdminTableHead titles={['번호', '제목', '가격']} />
-          <AdminTableBody data={product} />
+          <AdminTableHead titles={['번호', '상품명', '노출단계']} />
+          <TableBody>
+            {recomment &&
+              recomment.length > 0 &&
+              recomment.map((item, idx) => (
+                <TableRow
+                  key={idx}
+                  style={{ cursor: 'pointer' }}
+                  hover
+                  onClick={() => router.push(ROUTES.ADMIN.PRODUCT_BY_ID(String(item.regionId)))}
+                >
+                  <TableCell align="center" width="200px">
+                    {idx + 1}
+                  </TableCell>
+                  <TableCell align="center">{item.regionName}</TableCell>
+                  <TableCell align="center">{item.rate}</TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
         </Table>
         <ButtonWrap>
           <Button variant="outlined">삭제</Button>

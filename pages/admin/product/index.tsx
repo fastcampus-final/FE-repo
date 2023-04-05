@@ -3,15 +3,16 @@ import withAuth from '@/components/common/PrivateRouter';
 import styled from '@emotion/styled';
 import PageTitle from '@/components/common/PageTitle';
 import AdminTableHead from '@/components/common/AdminTableHead';
-import AdminTableBody from '@/components/common/AdminTableBody';
-import { Button, Pagination, Table } from '@mui/material';
+import { Button, Pagination, Table, TableBody, TableCell, TableRow } from '@mui/material';
 import { useRouter } from 'next/router';
 import { ROUTES } from '@/constants/routes';
 import { getAdminProduct } from '@/apis/admin/product';
+import { IProduct } from '@/interfaces/product';
+import { formatPrice } from '@/utils/format';
 
 const Product = () => {
   const router = useRouter();
-  const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState<IProduct[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -26,7 +27,24 @@ const Product = () => {
       <TableWrap>
         <Table>
           <AdminTableHead titles={['번호', '제목', '가격']} />
-          <AdminTableBody data={product} />
+          <TableBody>
+            {product &&
+              product.length > 0 &&
+              product.map((item, idx) => (
+                <TableRow
+                  key={idx}
+                  style={{ cursor: 'pointer' }}
+                  hover
+                  onClick={() => router.push(ROUTES.ADMIN.PRODUCT_BY_ID(String(item.productId)))}
+                >
+                  <TableCell align="center" width="200px">
+                    {idx + 1}
+                  </TableCell>
+                  <TableCell align="center">{item.productName}</TableCell>
+                  <TableCell align="center">{formatPrice(item.productPrice)}</TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
         </Table>
         <ButtonWrap>
           <Button variant="outlined">삭제</Button>
