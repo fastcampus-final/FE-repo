@@ -2,15 +2,12 @@ import React from 'react';
 import { ROUTES } from '@/constants/routes';
 import Link from 'next/link';
 import Image from '@/components/common/Image';
+import styled from '@emotion/styled';
 
-interface Props {
-  width: string;
-}
-
-const Logo = ({ width }: Props) => {
+const Logo = () => {
   return (
     <Link href={ROUTES.HOME}>
-      <Image src="./logo.svg" alt="고투게더 로고" width={width} />
+      <Image src="./logo.svg" alt="고투게더 로고" width="154px" />
     </Link>
   );
 };

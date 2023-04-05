@@ -12,7 +12,14 @@ import styled from '@emotion/styled';
 const UserTable = () => {
   const [page, setPage] = useState(1);
   const [datas, setDatas] = useState({
-    content: [],
+    content: [
+      {
+        userId: 0,
+        userEmail: '',
+        userName: '',
+        userRole: '',
+      },
+    ],
     pageNumber: 1,
     totalPages: 1,
   });

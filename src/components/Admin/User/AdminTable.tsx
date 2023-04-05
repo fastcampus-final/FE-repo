@@ -25,26 +25,32 @@ const AdminTable = ({ columns, data }: any) => {
         <TableHead>
           <TableRow>
             {headerGroups[0].headers.map((header) => (
-              <TableCell key={header.id} {...header.getHeaderProps(header.getSortByToggleProps())}>
+              // eslint-disable-next-line react/jsx-key
+              <TableCell
+                {...header.getHeaderProps(header.getSortByToggleProps())}
+                onClick={() => {
+                  console.log(header.id);
+                }}
+              >
                 {header.render('Header')}
               </TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {rows.map((row: any) => {
             prepareRow(row);
             return (
+              // eslint-disable-next-line react/jsx-key
               <TableRow
-                key={row.id}
                 {...row.getRowProps()}
                 onClick={() => {
                   router.push(`/admin/user/${row.original.userId}`);
                 }}
               >
-                {row.cells.map((cell) => (
+                {row.cells.map((cell: any) => (
+                  // eslint-disable-next-line react/jsx-key
                   <TableCell
-                    key={cell}
                     {...cell.getCellProps()}
                     // onClick={() => {
                     //   console.log(cell.value);
