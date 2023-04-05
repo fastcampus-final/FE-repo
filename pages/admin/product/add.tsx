@@ -4,9 +4,20 @@ import { uploadImage } from '@/apis/common';
 import Image from '@/components/common/Image';
 import PageTitle from '@/components/common/PageTitle';
 import withAuth from '@/components/common/PrivateRouter';
+import { ROUTES } from '@/constants/routes';
 import { ICategory, IProductDetailForm } from '@/interfaces/product';
 import styled from '@emotion/styled';
-import { Table, TableRow, TableCell, Button, TextField, Select, MenuItem } from '@mui/material';
+import {
+  Table,
+  TableRow,
+  TableCell,
+  Button,
+  TextField,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+} from '@mui/material';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
@@ -15,15 +26,20 @@ const Editor = dynamic(() => import('@/components/common/Editor'), { ssr: false 
 
 const ProductAddForm = () => {
   const router = useRouter();
-  const [product, setProduct] = useState<IProductDetailForm>();
   const [category, setCategory] = useState<ICategory[]>([]);
   const [imagePreview, setImagePreview] = useState('');
   const [detail, setDetail] = useState<string>('');
   const { register, handleSubmit, watch } = useForm<IProductDetailForm>();
-  const thumbnailWatch = watch('thumbnail');
   const { ref } = register('thumbnail');
+  const thumbnailWatch = watch('thumbnail');
   const thumbnailRef = useRef<HTMLInputElement | null>(null);
-  const [thumbnail, setThumbnail] = useState<string>('');
+
+  useEffect(() => {
+    (async () => {
+      const data = await getAdminProductCategory();
+      setCategory(data);
+    })();
+  }, []);
 
   useEffect(() => {
     if (thumbnailWatch && thumbnailWatch.length > 0) {
@@ -32,27 +48,9 @@ const ProductAddForm = () => {
     }
   }, [thumbnailWatch]);
 
-  // const formData = {
-  // productId: '',
-  // name: '',
-  // summary: '',
-  // price: 0,
-  // area: '',
-  // feature: '',
-  // airplane: '',
-  // singleRoomPrice: 0,
-  // type: '',
-  // thumbnail: '',
-  // detail: '',
-  // productStatus: '',
-  // categories: [],
-  // productOptions: [],
-  // };
-
   const onSubmit = async (data: IProductDetailForm) => {
     const thumbnail = await uploadImage(data.thumbnail[0], 'product');
     const formData = {
-      // ...data,
       airplane: data.airplane,
       area: data.area,
       categoryIdList: [1],
@@ -64,9 +62,7 @@ const ProductAddForm = () => {
           endDate: data.endDate,
           startDate: data.startDate,
           maxPeople: data.maxPeople,
-          presentPeopleNumber: data.presentPeopleNumber,
           maxSingleRoom: data.maxSingleRoom,
-          presentSingleRoomNumber: data.presentSingleRoomNumber,
         },
       ],
       price: data.price,
@@ -77,15 +73,8 @@ const ProductAddForm = () => {
       type: 'A',
     };
     await addAdminProduct(formData);
+    router.push(ROUTES.ADMIN.PRODUCT);
   };
-
-  useEffect(() => {
-    (async () => {
-      const data = await getAdminProductCategory();
-      setCategory(data);
-      console.log(data);
-    })();
-  }, []);
 
   const handleThumbnail = () => {
     thumbnailRef.current!.click();
@@ -118,95 +107,64 @@ const ProductAddForm = () => {
           <TableRow>
             <TableCell align="center">상품명</TableCell>
             <TableCell align="left">
-              <TextField
-                size="small"
-                fullWidth
-                defaultValue={product && product.name}
-                {...register('name')}
-              />
+              <TextField size="small" fullWidth {...register('name')} />
             </TableCell>
             <TableCell align="center">카테고리</TableCell>
             <TableCell align="left">
-              <Select size="small" fullWidth {...register('categories')}>
-                {category &&
-                  category.map((item, idx) => (
-                    <MenuItem key={idx} value={item.categoryId}>
-                      {item.categoryName}
-                    </MenuItem>
-                  ))}
-              </Select>
+              <FormControl size="small" fullWidth>
+                <InputLabel id="category">카테고리</InputLabel>
+                <Select {...register('categories')} labelId="category" label="카테고리">
+                  {category &&
+                    category.map((item, idx) => (
+                      <MenuItem key={idx} value={item.categoryId}>
+                        {item.categoryName}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="center">가격</TableCell>
             <TableCell align="left">
-              <TextField
-                size="small"
-                fullWidth
-                type="number"
-                defaultValue={product && product.price}
-                {...register('price')}
-              />
+              <TextField size="small" fullWidth type="number" {...register('price')} />
             </TableCell>
             <TableCell align="center">상품상태</TableCell>
             <TableCell align="left">
-              <Select size="small" fullWidth {...register('productStatus')} defaultValue="FOR_SALE">
-                <MenuItem value={'FOR_SALE'}>판매중</MenuItem>
-                <MenuItem value={'STOP_SELLING'}>판매중지</MenuItem>
-                <MenuItem value={'HIDING'}>숨김</MenuItem>
-              </Select>
+              <FormControl size="small" fullWidth>
+                <InputLabel id="category">상품상태</InputLabel>
+                <Select {...register('productStatus')} labelId="category" label="상품상태">
+                  <MenuItem value={'FOR_SALE'}>판매중</MenuItem>
+                  <MenuItem value={'STOP_SELLING'}>판매중지</MenuItem>
+                  <MenuItem value={'HIDING'}>숨김</MenuItem>
+                </Select>
+              </FormControl>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="center">지역</TableCell>
             <TableCell align="left">
-              <TextField
-                size="small"
-                fullWidth
-                defaultValue={product && product.area}
-                {...register('area')}
-              />
+              <TextField size="small" fullWidth {...register('area')} />
             </TableCell>
             <TableCell align="center">항공</TableCell>
             <TableCell align="left">
-              <TextField
-                size="small"
-                fullWidth
-                defaultValue={product && product.airplane}
-                {...register('airplane')}
-              />
+              <TextField size="small" fullWidth {...register('airplane')} />
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="center">특징</TableCell>
             <TableCell align="left">
-              <TextField
-                size="small"
-                fullWidth
-                defaultValue={product && product.feature}
-                {...register('feature')}
-              />
+              <TextField size="small" fullWidth {...register('feature')} />
             </TableCell>
             <TableCell align="center">싱글룸가격</TableCell>
             <TableCell align="left">
-              <TextField
-                type="number"
-                size="small"
-                fullWidth
-                defaultValue={product && product.singleRoomPrice}
-                {...register('singleRoomPrice')}
-              />
+              <TextField type="number" size="small" fullWidth {...register('singleRoomPrice')} />
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="center">요약정보</TableCell>
             <TableCell align="left" colSpan={3}>
-              <TextField
-                size="small"
-                fullWidth
-                defaultValue={product && product.summary}
-                {...register('summary')}
-              />
+              <TextField size="small" fullWidth {...register('summary')} />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -219,7 +177,6 @@ const ProductAddForm = () => {
                     <TextField
                       size="small"
                       fullWidth
-                      defaultValue={product && product.startDate}
                       {...register('startDate')}
                       placeholder="YYYY-MM-DD"
                     />
@@ -229,7 +186,6 @@ const ProductAddForm = () => {
                     <TextField
                       size="small"
                       fullWidth
-                      defaultValue={product && product.endDate}
                       {...register('endDate')}
                       placeholder="YYYY-MM-DD"
                     />
@@ -240,17 +196,6 @@ const ProductAddForm = () => {
                   <TableCell align="left">
                     <TextField size="small" fullWidth defaultValue={0} {...register('maxPeople')} />
                   </TableCell>
-                  <TableCell align="center">현재인원</TableCell>
-                  <TableCell align="left">
-                    <TextField
-                      size="small"
-                      fullWidth
-                      defaultValue={0}
-                      {...register('maxSingleRoom')}
-                    />
-                  </TableCell>
-                </TableRow>
-                <TableRow>
                   <TableCell align="center">최대싱글룸</TableCell>
                   <TableCell align="left">
                     <TextField
@@ -258,15 +203,6 @@ const ProductAddForm = () => {
                       fullWidth
                       defaultValue={0}
                       {...register('maxSingleRoom')}
-                    />
-                  </TableCell>
-                  <TableCell align="center">현재싱글룸</TableCell>
-                  <TableCell align="left">
-                    <TextField
-                      size="small"
-                      fullWidth
-                      defaultValue={0}
-                      {...register('presentPeopleNumber')}
                     />
                   </TableCell>
                 </TableRow>
@@ -285,7 +221,7 @@ const ProductAddForm = () => {
             취소
           </Button>
           <Button variant="contained" type="submit">
-            수정 완료
+            등록 완료
           </Button>
         </ButtonWrap>
       </form>
