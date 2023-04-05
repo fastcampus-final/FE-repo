@@ -3,8 +3,10 @@ import React, { useCallback, useRef, useState } from 'react';
 import ArrowLeft from '@/../public/icons/arrow-left.svg';
 import { Button, TextField } from '@mui/material';
 import { formatUserName } from '@/utils/format';
-import Editor from '@/components/common/Editor';
 import styled from '@emotion/styled';
+
+import dynamic from 'next/dynamic';
+const Editor = dynamic(() => import('@/components/common/Editor'), { ssr: false });
 
 import dayjs from 'dayjs';
 
@@ -13,8 +15,8 @@ const ReviewEdit = () => {
   const [keyword, setKeyword] = useState('');
 
   const [editValue, setEditValue] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const [fileName, setFileName] = useState('');
   const [fileUrl, setFileUrl] = useState('');
 
@@ -136,13 +138,8 @@ const UserContent = styled.div`
 
 const EditorContent = styled.div`
   height: 550px;
-  .quill {
-    height: 90%;
-    .ql-container {
-      @media screen and (max-width: 500px) {
-        height: 90%;
-      }
-    }
+  .rdw-editor-wrapper {
+    height: 100%;
   }
 `;
 

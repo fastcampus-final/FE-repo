@@ -23,8 +23,6 @@ const ReviewAdd = () => {
   const [fileName, setFileName] = useState('');
   const [fileUrl, setFileUrl] = useState('');
 
-  console.log(editValue);
-
   const onUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return;
@@ -96,8 +94,8 @@ const ReviewAdd = () => {
               boardType: '여행후기',
             };
             console.log(data);
-            // postBoardAdd(data);
-            // router.push(ROUTES.REVIEW);
+            postBoardAdd(data);
+            router.push(ROUTES.REVIEW);
           }}
         >
           저장
