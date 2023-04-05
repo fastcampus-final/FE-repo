@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import Image from '@/../../src/components/common/Image';
-import { IDetail } from '@/interfaces/product';
+import { IProductDetail } from '@/interfaces/product';
 import { formatPrice } from '@/utils/format';
 
 import { AiOutlineHeart } from 'react-icons/ai';
@@ -10,16 +10,17 @@ import { RxCrossCircled } from 'react-icons/rx';
 
 import Select, { OnChangeValue } from 'react-select';
 
-const tempData: IDetail = {
+const tempData: IProductDetail = {
   productId: '1',
-  title: '호주 시드니 8일',
-  price: '2699000',
-  imagePath: 'https://picsum.photos/id/10/350/350',
+  name: '호주 시드니 8일',
+  price: 2699000,
+  thumbnail: 'https://picsum.photos/id/10/350/350',
   summary:
     '4050 여성들 누구나 참가하는 조지아 일주 여행 코카서스의 백미 조지아를 샅샅히 둘러보는 상품 패키지의 안전함과 자유여행의 즐거움을 동시에~',
   area: '트빌리시/카즈베기/바르지아/보르조미/쿠타이시/메스티아/바투미/고리/우플리시케/시그나기/크바렐리',
-  point: '포함투어 12개(타사상품 비교必)/No팁/No쇼핑/No옵션',
-  airline: '인천-트빌리시 왕복 항공',
+  feature: '포함투어 12개(타사상품 비교必)/No팁/No쇼핑/No옵션',
+  airplane: '인천-트빌리시 왕복 항공',
+  detail: '',
 };
 
 interface IItemOption {
@@ -137,17 +138,17 @@ const ProductDetail = () => {
   return (
     <DetailContent>
       <Simple>
-        <Image src={tempData?.imagePath} alt="product image" width="525" height="525" />
+        <Image src={tempData?.thumbnail} alt="product image" width="525" height="525" />
         <TextContent>
-          <h2>{tempData?.title}</h2>
+          <h2>{tempData?.name}</h2>
           <p className="price">{formatPrice(tempData?.price)}</p>
           <p className="summary">{tempData?.summary}</p>
           <p className="title">여행 지역</p>
           <p className="detail">{tempData?.area}</p>
           <p className="title">여행 특징</p>
-          <p className="detail">{tempData?.point}</p>
+          <p className="detail">{tempData?.feature}</p>
           <p className="title">여행 항공</p>
-          <p className="detail">{tempData?.airline}</p>
+          <p className="detail">{tempData?.airplane}</p>
           <p className="dropTitle">출발일</p>
 
           <Select
@@ -188,9 +189,7 @@ const ProductDetail = () => {
                     >
                       +
                     </button>
-                    <p className="itemPrice">
-                      {formatPrice(`${productPrice * itemCounts[i].count}`)}
-                    </p>
+                    <p className="itemPrice">{formatPrice(productPrice * itemCounts[i].count)}</p>
                   </ItemContent>
                 );
               })
@@ -226,14 +225,14 @@ const ProductDetail = () => {
               >
                 +
               </button>
-              <p className="itemPrice">{formatPrice(`${540000 * singleCount}`)}</p>
+              <p className="itemPrice">{formatPrice(540000 * singleCount)}</p>
             </ItemContent>
           ) : null}
 
           {items.length > 0 || single !== '' ? (
             <TotalContent>
               <p>총 상품금액 ( {totalMember} 명 )</p>
-              <p className="totalPrice">{formatPrice(`${totalPrice}`)}</p>
+              <p className="totalPrice">{formatPrice(totalPrice)}</p>
             </TotalContent>
           ) : null}
 
