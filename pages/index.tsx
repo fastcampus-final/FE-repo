@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
-import useLikeList from '@/hooks/useLikeList';
 import { GetServerSidePropsContext } from 'next';
 import { ILike } from '@/interfaces/like';
 import { instance } from '../src/apis/instance';
@@ -26,7 +25,6 @@ interface Props {
 const Home = ({ posts }: Props) => {
   const [cityWidth, setCityWidth] = useState(0);
   const anchorRef = useRef<any>(0);
-  // const { likeList } = useLikeList();
   const router = useRouter();
 
   useEffect(() => {
