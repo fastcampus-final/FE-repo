@@ -1,7 +1,7 @@
 export const formatPrice = (value: number) => {
   return String(value)
     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    .concat('원');
+    .concat(' 원');
 };
 
 export const formatPeriod = (value: string) => {
@@ -11,4 +11,15 @@ export const formatPeriod = (value: string) => {
 export const formatUserName = (value: string | undefined) => {
   if (value === '관리자') return value;
   else return value?.replace(/(?<=.{2})./gi, '*');
+};
+
+export const formatProductStatus = (value: string) => {
+  switch (value) {
+    case 'FOR_SALE':
+      return '판매중';
+    case 'STOP_SELLING':
+      return '판매중지';
+    case 'HIDING':
+      return '숨김';
+  }
 };

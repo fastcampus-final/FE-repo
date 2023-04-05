@@ -27,13 +27,14 @@ export const API_URLS = {
   BOARD_EDIT: (boardId: number) => `/board/${boardId}`,
   CATEGORY: '/categories',
   CATEGORY_DETAIL: (id: string) => `/categories/${id}`,
+  UPLOAD_IMAGE: (category: string) => `/image?category=${category}`,
   MYPAGE: {
     RESERVATIONS: '/reservations',
     RESERVATIONS_BY_ID: (id: number) => `/reservations/${id}`,
   },
   ADMIN: {
     PRODUCT: '/admin/products',
-    PRODUCT_DETAIL: (id: string) => `/admin/products/details/${id}`,
+    PRODUCT_DETAIL: (id: string) => `/admin/products/detail/${id}`,
     CATEGORY: '/categories',
     CATEGORY_BY_ID: (id: string) => `/categories/${id}`,
     RECOMMEND: '/page/popular/regions',

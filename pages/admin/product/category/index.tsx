@@ -5,18 +5,18 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import AdminTableHead from '@/components/common/AdminTableHead';
-import AdminTableBody from '@/components/common/AdminTableBody';
-import { Button, Pagination, Table } from '@mui/material';
+import { Button, Pagination, Table, TableBody, TableCell, TableRow } from '@mui/material';
 import { ROUTES } from '@/constants/routes';
+import { ICategory } from '@/interfaces/product';
 
 const ProductCategory = () => {
   const router = useRouter();
-  const [category, setCategory] = useState([]);
+  const [category, setCategory] = useState<ICategory[]>([]);
 
   useEffect(() => {
     (async () => {
-      const data = await getAdminProductCategory();
-      setCategory(data.content);
+      const data: ICategory[] = await getAdminProductCategory();
+      setCategory(data);
     })();
   }, []);
 
@@ -25,8 +25,27 @@ const ProductCategory = () => {
       <PageTitle title="상품 카테고리 관리" />
       <TableWrap>
         <Table>
-          <AdminTableHead titles={['번호', '제목', '가격']} />
-          <AdminTableBody data={category} />
+          <AdminTableHead titles={['번호', '깊이', '카테고리명']} />
+          <TableBody>
+            {category &&
+              category.length > 0 &&
+              category.map((item, idx) => (
+                <TableRow
+                  key={idx}
+                  style={{ cursor: 'pointer' }}
+                  hover
+                  onClick={() => router.push(ROUTES.ADMIN.PRODUCT_BY_ID(String(item.categoryId)))}
+                >
+                  <TableCell align="center" width="200px">
+                    {idx + 1}
+                  </TableCell>
+                  <TableCell align="center" width="200px">
+                    {item.categoryDepth}
+                  </TableCell>
+                  <TableCell align="center">{item.categoryName}</TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
         </Table>
         <ButtonWrap>
           <Button variant="outlined">삭제</Button>

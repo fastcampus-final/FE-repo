@@ -33,7 +33,7 @@ const Product = ({
   const CustomInput = (
     props: React.HTMLProps<HTMLInputElement>,
     ref: React.Ref<HTMLInputElement>,
-  ) => <TextField size="small" {...props} style={{ width: '140px' }} />;
+  ) => <TextField size="small" style={{ width: '140px' }} inputProps={props} />;
 
   const handleClickRefresh = () => {
     setDateOption(null);
