@@ -6,12 +6,15 @@ import React, { useEffect, useState } from 'react';
 import ReviewData from '@/dummydata/MyReviewList.json';
 import { IMyReview } from '@/interfaces/myReview';
 import ReviewList from '@/components/Mypage/Review/ReviewList';
+import { getMyReviewList } from '@/apis/mypage/review';
 
 const MyReview = () => {
   const [reviewData, setReviewData] = useState<Array<IMyReview>>([]);
 
   useEffect(() => {
     (async () => {
+      // const data = await getMyReviewList();
+      // setReviewData(data.content);
       setReviewData(ReviewData.content);
     })();
   });

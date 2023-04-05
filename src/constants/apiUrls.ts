@@ -31,6 +31,7 @@ export const API_URLS = {
   MYPAGE: {
     RESERVATIONS: '/reservations',
     RESERVATIONS_BY_ID: (id: number) => `/reservations/${id}`,
+    REVIEW: '/board/myreviews',
   },
   ADMIN: {
     PRODUCT: '/admin/products',
