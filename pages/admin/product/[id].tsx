@@ -8,6 +8,8 @@ import { ROUTES } from '@/constants/routes';
 import { getAdminProductDetail } from '@/apis/admin/product';
 import { IProductDetail } from '@/interfaces/product';
 import Image from '@/components/common/Image';
+import { formatPrice, formatProductStatus } from '@/utils/format';
+import Parser from 'html-react-parser';
 
 const ProductDetail = () => {
   const router = useRouter();
@@ -26,7 +28,9 @@ const ProductDetail = () => {
       <form>
         <Table>
           <TableRow>
-            <TableCell align="center">썸네일</TableCell>
+            <TableCell align="center" width="200px">
+              썸네일
+            </TableCell>
             <TableCell align="left" component="th">
               <Image
                 src={product && product.thumbnail}
@@ -41,13 +45,14 @@ const ProductDetail = () => {
           </TableRow>
           <TableRow>
             <TableCell align="center">가격</TableCell>
-            <TableCell align="left">{product && product.price}</TableCell>
+            <TableCell align="left">{product && formatPrice(product.price)}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="center">카테고리</TableCell>
             <TableCell align="left">
               {product &&
-                product.categories.map((item, idx) => <p key={idx}>{item.categoryName}</p>)}
+                product.categories!.length > 0 &&
+                product.categories!.map((item, idx) => <p key={idx}>{item.categoryName}</p>)}
             </TableCell>
           </TableRow>
           <TableRow>
@@ -68,11 +73,13 @@ const ProductDetail = () => {
           </TableRow>
           <TableRow>
             <TableCell align="center">싱글룸가격</TableCell>
-            <TableCell align="left">{product && product.singleRoomPrice}</TableCell>
+            <TableCell align="left">{product && formatPrice(product.singleRoomPrice!)}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="center">상품상태</TableCell>
-            <TableCell align="left">{product && product.productStatus}</TableCell>
+            <TableCell align="left">
+              {product && formatProductStatus(product.productStatus!)}
+            </TableCell>
           </TableRow>
           {/* <TableRow>
             <TableCell align="center">여행유형</TableCell>
@@ -82,12 +89,22 @@ const ProductDetail = () => {
             <TableCell align="center">상품옵션</TableCell>
             <TableCell align="left">
               {product &&
-                product.productOptions.map((item, idx) => <p key={idx}>{item.startDate}</p>)}
+                product.productOptions!.length > 0 &&
+                product.productOptions!.map((item, idx) => (
+                  <div key={idx}>
+                    <p>출발일자: {item.startDate}</p>
+                    <p>도착일자: {item.endDate}</p>
+                    <p>최대인원: {item.maxPeople}</p>
+                    <p>현재인원: {item.presentSingleRoomNumber}</p>
+                    <p>최대싱글룸: {item.maxSingleRoom}</p>
+                    <p>현재싱글룸: {item.presentPeopleNumber}</p>
+                  </div>
+                ))}
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="center">상세정보</TableCell>
-            <TableCell align="left">{product && product.detail}</TableCell>
+            <TableCell align="left">{product && Parser(product.detail)}</TableCell>
           </TableRow>
         </Table>
         <ButtonWrap>

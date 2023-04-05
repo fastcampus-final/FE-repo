@@ -1,8 +1,4 @@
 import React from 'react';
-
-import { Editor as ToastEditor } from '@toast-ui/react-editor';
-import '@toast-ui/editor/dist/toastui-editor.css';
-
 import { Editor as WysiwygEditor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { ContentState, convertToRaw, EditorState } from 'draft-js';
@@ -73,6 +69,7 @@ const Editor = ({ htmlStr, setHtmlStr }: IEditor) => {
       localization={localization}
       editorState={editorState}
       onEditorStateChange={onEditorStateChange}
+      editorStyle={{ height: '500px' }}
     />
   );
 };

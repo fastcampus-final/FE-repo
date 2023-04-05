@@ -1,7 +1,7 @@
+import { instance } from '@/apis/instance';
 import React, { useEffect, useMemo, useState } from 'react';
 import AdminTable from './AdminTable';
 import { userColumns } from './userColumns';
-import { instance } from '@/apis/instance';
 import { Button } from '@mui/material';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -12,7 +12,14 @@ import styled from '@emotion/styled';
 const UserTable = () => {
   const [page, setPage] = useState(1);
   const [datas, setDatas] = useState({
-    content: [],
+    content: [
+      {
+        userId: 0,
+        userEmail: '',
+        userName: '',
+        userRole: '',
+      },
+    ],
     pageNumber: 1,
     totalPages: 1,
   });
