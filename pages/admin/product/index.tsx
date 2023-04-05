@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import withAuth from '@/components/common/PrivateRouter';
 import styled from '@emotion/styled';
 import PageTitle from '@/components/common/PageTitle';
@@ -13,13 +13,23 @@ import { formatPrice } from '@/utils/format';
 const Product = () => {
   const router = useRouter();
   const [product, setProduct] = useState<IProduct[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
 
   useEffect(() => {
     (async () => {
-      const data = await getAdminProduct();
+      const data = await getAdminProduct(1);
       setProduct(data.content);
+      setTotalPage(data.totalPages);
     })();
   }, []);
+
+  const handlePagination = async (event: MouseEvent<HTMLElement>) => {
+    const target = event.target as HTMLElement;
+    setPage(Number(target.outerText));
+    const data = await getAdminProduct(Number(target.outerText));
+    setProduct(data.content);
+  };
 
   return (
     <Container>
@@ -38,7 +48,7 @@ const Product = () => {
                   onClick={() => router.push(ROUTES.ADMIN.PRODUCT_BY_ID(String(item.productId)))}
                 >
                   <TableCell align="center" width="200px">
-                    {idx + 1}
+                    {(page - 1) * 10 + idx + 1}
                   </TableCell>
                   <TableCell align="center">{item.productName}</TableCell>
                   <TableCell align="center">{formatPrice(item.productPrice)}</TableCell>
@@ -48,7 +58,7 @@ const Product = () => {
         </Table>
         <ButtonWrap>
           <Button variant="outlined">삭제</Button>
-          <Pagination count={5} color="primary" />
+          <Pagination count={totalPage} color="primary" onClick={handlePagination} page={page} />
           <Button variant="contained" onClick={() => router.push(ROUTES.ADMIN.PRODUCT_ADD)}>
             등록
           </Button>
