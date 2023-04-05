@@ -13,7 +13,7 @@ const tempData: ICart[] = [
   {
     productId: '1',
     productName: '호주 시드니 8일',
-    productPrice: '2699000',
+    productPrice: 2699000,
     reservationNumber: '1',
     productThumbnail: 'https://picsum.photos/id/10/350/350',
     travelDate: '20230316~20230321',
@@ -21,7 +21,7 @@ const tempData: ICart[] = [
   {
     productId: '2',
     productName: '다낭 골프팩 3박 5일',
-    productPrice: '1000000',
+    productPrice: 1000000,
     reservationNumber: '1',
     productThumbnail: 'https://picsum.photos/id/20/350/350',
     travelDate: '20230316~20230321',
@@ -29,7 +29,7 @@ const tempData: ICart[] = [
   {
     productId: '3',
     productName: '나고야 골프팩 4일',
-    productPrice: '1863000',
+    productPrice: 1863000,
     reservationNumber: '1',
     productThumbnail: 'https://picsum.photos/id/30/350/350',
     travelDate: '20230316~20230321',
@@ -37,7 +37,7 @@ const tempData: ICart[] = [
   {
     productId: '1',
     productName: '호주 시드니 8일',
-    productPrice: '2699000',
+    productPrice: 2699000,
     reservationNumber: '1',
     productThumbnail: 'https://picsum.photos/id/10/350/350',
     travelDate: '20230316~20230321',
@@ -45,7 +45,7 @@ const tempData: ICart[] = [
   {
     productId: '2',
     productName: '다낭 골프팩 3박 5일',
-    productPrice: '1000000',
+    productPrice: 1000000,
     reservationNumber: '1',
     productThumbnail: 'https://picsum.photos/id/20/350/350',
     travelDate: '20230316~20230321',
@@ -57,9 +57,7 @@ const Cart = () => {
   const [amount, setAmount] = useState('');
 
   useEffect(() => {
-    const tempAmount = formatPrice(
-      String(tempData.reduce((acc, cur) => acc + parseInt(cur.productPrice), 0)),
-    );
+    const tempAmount = formatPrice(tempData.reduce((acc, cur) => acc + cur.productPrice, 0));
     setAmount(tempAmount);
   }, []);
 

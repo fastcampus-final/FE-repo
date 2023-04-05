@@ -7,9 +7,11 @@ import React from 'react';
 
 interface Props {
   data: IReview;
+  i: number;
+  length: number;
 }
 
-const ReviewItem = ({ data }: Props) => {
+const ReviewItem = ({ data, i, length }: Props) => {
   const router = useRouter();
   const imageUrl = data.boardThumbnail;
 
@@ -22,6 +24,8 @@ const ReviewItem = ({ data }: Props) => {
             pathname: ROUTES.REVIEW_BY_ID(data.boardId),
             query: {
               id: data.boardId,
+              i: i,
+              length: length,
             },
           },
           ROUTES.REVIEW_BY_ID(data.boardId),
