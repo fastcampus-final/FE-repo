@@ -1,8 +1,8 @@
 import { API_URLS } from '@/constants/apiUrls';
 import { instance } from '../instance';
 
-export const getAdminProductCategory = async () => {
-  const { data } = await instance.get(API_URLS.ADMIN.CATEGORY);
+export const getAdminProductCategory = async (page: number) => {
+  const { data } = await instance.get(API_URLS.ADMIN.CATEGORY_PAGE(page));
   return data;
 };
 

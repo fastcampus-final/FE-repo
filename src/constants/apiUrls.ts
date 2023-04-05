@@ -37,8 +37,10 @@ export const API_URLS = {
     PRODUCT_PAGE: (page = 1) => `/admin/products?page=${page}`,
     PRODUCT_DETAIL: (id: string) => `/admin/products/detail/${id}`,
     CATEGORY: '/categories',
+    CATEGORY_PAGE: (page = 1) => `/categories?page=${page}`,
     CATEGORY_BY_ID: (id: string) => `/categories/${id}`,
     RECOMMEND: '/page/popular/regions',
+    RECOMMEND_PAGE: (page = 1) => `/page/popular/regions?page=${page}`,
     RECOMMEND_BY_ID: (id: string) => `/admin/regions/${id}`,
   },
 };
