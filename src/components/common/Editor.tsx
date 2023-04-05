@@ -3,9 +3,11 @@ import React from 'react';
 import { Editor as ToastEditor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 
-import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
-import 'tui-color-picker/dist/tui-color-picker.css';
-import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import { Editor as WysiwygEditor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { ContentState, convertToRaw, EditorState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 
 interface IEditor {
   htmlStr: string;
@@ -13,50 +15,64 @@ interface IEditor {
 }
 
 const Editor = ({ htmlStr, setHtmlStr }: IEditor) => {
-  const editorRef = React.useRef<ToastEditor>(null);
-
-  // Editor Change 이벤트
-  const onChangeEditor = () => {
-    if (editorRef.current) {
-      setHtmlStr(editorRef.current.getInstance().getHTML());
-    }
-  };
+  const [editorState, setEditorState] = React.useState(EditorState.createEmpty());
 
   React.useEffect(() => {
-    if (editorRef.current) {
-      // 전달받은 html값으로 초기화
-      editorRef.current.getInstance().setHTML(htmlStr);
-
-      // 기존 이미지 업로드 기능 제거
-      editorRef.current.getInstance().removeHook('addImageBlobHook');
-      // 이미지 서버로 데이터를 전달하는 기능 추가
-      editorRef.current.getInstance().addHook('addImageBlobHook', (blob, callback) => {
-        (async () => {
-          const res = URL.createObjectURL(blob);
-
-          callback(res, 'input alt text');
-        })();
-
-        return false;
-      });
+    const blocksFromHtml = htmlToDraft(htmlStr);
+    if (blocksFromHtml) {
+      const { contentBlocks, entityMap } = blocksFromHtml;
+      const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+      const editorState = EditorState.createWithContent(contentState);
+      setEditorState(editorState);
     }
   }, []);
 
-  // Editor에 사용되는 plugin 추가
-  const plugins = [
-    colorSyntax, // 글자 색상 추가
-  ];
+  // editor 수정 이벤트
+  const onEditorStateChange = (editorState: EditorState) => {
+    setEditorState(editorState);
+    setHtmlStr(draftToHtml(convertToRaw(editorState.getCurrentContent())));
+  };
+
+  const uploadCallback = (file: Blob) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onloadend = async () => {
+        const formData = new FormData();
+        formData.append('multipartFiles', file);
+
+        const res = URL.createObjectURL(file);
+
+        resolve({ data: { link: res } });
+      };
+
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // toolbar 설정
+  const toolbar = {
+    list: { inDropdown: true }, // list 드롭다운
+    textAlign: { inDropdown: true }, // align 드롭다운
+    link: { inDropdown: true }, // link 드롭다운
+    history: { inDropdown: false }, // history 드롭다운
+    image: { uploadCallback: uploadCallback }, // 이미지 커스텀 업로드
+  };
+
+  // 언어 설정
+  const localization = {
+    locale: 'ko',
+  };
 
   return (
-    <ToastEditor
-      initialValue=""
-      previewStyle="vertical"
-      initialEditType="wysiwyg"
-      useCommandShortcut={true}
-      ref={editorRef}
-      plugins={plugins}
-      onChange={onChangeEditor}
-      height="95%"
+    <WysiwygEditor
+      editorClassName="editor" // Editor 적용 클래스
+      toolbarClassName="toolbar" // Toolbar 적용 클래스
+      toolbar={toolbar}
+      placeholder="내용을 입력하세요."
+      localization={localization}
+      editorState={editorState}
+      onEditorStateChange={onEditorStateChange}
     />
   );
 };
