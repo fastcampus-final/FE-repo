@@ -6,8 +6,8 @@ export const getBoardList = async (type: string, pageNumber: number) => {
   return data;
 };
 
-export const getBoardSearchList = async (type: string, pageNumber: number) => {
-  const { data } = await instance.get(API_URLS.BOARD_SEARCH(type, pageNumber));
+export const getBoardSearchList = async (type: string, keyword: string, pageNumber: number) => {
+  const { data } = await instance.get(API_URLS.BOARD_SEARCH(type, keyword, pageNumber));
   return data;
 };
 

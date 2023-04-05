@@ -1,7 +1,13 @@
-import { instance } from '@/apis/instance';
 import React, { useEffect, useMemo, useState } from 'react';
 import AdminTable from './AdminTable';
 import { userColumns } from './userColumns';
+import { instance } from '@/apis/instance';
+import { Button } from '@mui/material';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import styled from '@emotion/styled';
 
 const UserTable = () => {
   const [page, setPage] = useState(1);
@@ -34,41 +40,60 @@ const UserTable = () => {
   return (
     <div>
       <AdminTable columns={columns} data={datas.content} />
-      <div>
+      <ArrowBox>
         {page > 1 && (
           <span>
-            <button
+            <Button
               onClick={() => {
                 setPage(1);
               }}
+              variant="outlined"
+              color="inherit"
             >
-              처음으로
-            </button>
-            <button
+              <KeyboardDoubleArrowLeftIcon />
+            </Button>
+            <Button
               onClick={() => {
                 setPage(page - 1);
               }}
+              variant="outlined"
+              color="inherit"
             >
-              이전
-            </button>
+              <KeyboardArrowLeftIcon />
+            </Button>
           </span>
         )}
-        <span>현재 페이지 : {page}</span>
+        <NowPage>현재 페이지 : {page}</NowPage>
         {datas.totalPages > 1 && page !== datas.totalPages && (
           <span>
-            <button onClick={() => setPage(page + 1)}>다음</button>
-            <button
+            <Button onClick={() => setPage(page + 1)} variant="outlined" color="inherit">
+              <KeyboardArrowRightIcon />
+            </Button>
+            <Button
               onClick={() => {
                 setPage(datas.totalPages);
               }}
+              variant="outlined"
+              color="inherit"
             >
-              마지막으로
-            </button>
+              <KeyboardDoubleArrowRightIcon />
+            </Button>
           </span>
         )}
-      </div>
+      </ArrowBox>
     </div>
   );
 };
 
 export default UserTable;
+
+const ArrowBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+`;
+const NowPage = styled.span`
+  display: inline-block;
+  padding: 0 15px;
+`;

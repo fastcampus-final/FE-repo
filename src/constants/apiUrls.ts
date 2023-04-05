@@ -21,8 +21,8 @@ export const API_URLS = {
   BOARD: (type: string, pageNumber: number) => `/board?type=${type}&pageNumber=${pageNumber}`,
   BOARD_AUTH: (id: string) => `/board/authority/${id}`,
   BOARD_DETAIL: (id: number) => `/board/detail/${id}`,
-  BOARD_SEARCH: (keyword: string, pageNumber: number) =>
-    `/board/search?keyword=${keyword}&pageNumber=${pageNumber}`,
+  BOARD_SEARCH: (type: string, keyword: string, pageNumber: number) =>
+    `/board/search?type=${type}&keyword=${keyword}&pageNumber=${pageNumber}`,
   BOARD_ADD: '/board',
   BOARD_EDIT: (boardId: number) => `/board/${boardId}`,
   CATEGORY: '/categories',
