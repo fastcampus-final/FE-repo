@@ -28,10 +28,8 @@ const ProductDetail = () => {
       <form>
         <Table>
           <TableRow>
-            <TableCell align="center" width="200px">
-              썸네일
-            </TableCell>
-            <TableCell align="left" component="th">
+            <TableCell align="center">썸네일</TableCell>
+            <TableCell align="left" colSpan={3}>
               <Image
                 src={product && product.thumbnail}
                 alt={product && product.name}
@@ -40,45 +38,45 @@ const ProductDetail = () => {
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align="center">상품명</TableCell>
-            <TableCell align="left">{product && product.name}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="center">가격</TableCell>
-            <TableCell align="left">{product && formatPrice(product.price)}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="center">카테고리</TableCell>
-            <TableCell align="left">
+            <TableCell align="center" width="15%">
+              상품명
+            </TableCell>
+            <TableCell align="left" width="30%">
+              {product && product.name}
+            </TableCell>
+            <TableCell align="center" width="15%">
+              카테고리
+            </TableCell>
+            <TableCell align="left" width="30%">
               {product &&
                 product.categories!.length > 0 &&
                 product.categories!.map((item, idx) => <p key={idx}>{item.categoryName}</p>)}
             </TableCell>
           </TableRow>
           <TableRow>
+            <TableCell align="center">가격</TableCell>
+            <TableCell align="left">{product && formatPrice(product.price)}</TableCell>
+            <TableCell align="center">상품상태</TableCell>
+            <TableCell align="left">
+              {product && formatProductStatus(product.productStatus!)}
+            </TableCell>
+          </TableRow>
+          <TableRow>
             <TableCell align="center">지역</TableCell>
             <TableCell align="left">{product && product.area}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="center">특징</TableCell>
-            <TableCell align="left">{product && product.feature}</TableCell>
-          </TableRow>
-          <TableRow>
             <TableCell align="center">항공</TableCell>
             <TableCell align="left">{product && product.airplane}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align="center">요약정보</TableCell>
-            <TableCell align="left">{product && product.summary}</TableCell>
-          </TableRow>
-          <TableRow>
+            <TableCell align="center">특징</TableCell>
+            <TableCell align="left">{product && product.feature}</TableCell>
             <TableCell align="center">싱글룸가격</TableCell>
             <TableCell align="left">{product && formatPrice(product.singleRoomPrice!)}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align="center">상품상태</TableCell>
-            <TableCell align="left">
-              {product && formatProductStatus(product.productStatus!)}
+            <TableCell align="center">요약정보</TableCell>
+            <TableCell align="left" colSpan={3}>
+              {product && product.summary}
             </TableCell>
           </TableRow>
           {/* <TableRow>
@@ -87,7 +85,7 @@ const ProductDetail = () => {
           </TableRow> */}
           <TableRow>
             <TableCell align="center">상품옵션</TableCell>
-            <TableCell align="left">
+            <TableCell align="left" colSpan={3}>
               {product &&
                 product.productOptions!.length > 0 &&
                 product.productOptions!.map((item, idx) => (
@@ -95,9 +93,7 @@ const ProductDetail = () => {
                     <p>출발일자: {item.startDate}</p>
                     <p>도착일자: {item.endDate}</p>
                     <p>최대인원: {item.maxPeople}</p>
-                    <p>현재인원: {item.presentSingleRoomNumber}</p>
                     <p>최대싱글룸: {item.maxSingleRoom}</p>
-                    <p>현재싱글룸: {item.presentPeopleNumber}</p>
                   </div>
                 ))}
             </TableCell>

@@ -38,8 +38,7 @@ const Product = () => {
         <Table>
           <AdminTableHead titles={['번호', '제목', '가격']} />
           <TableBody>
-            {product &&
-              product.length > 0 &&
+            {product && product.length > 0 ? (
               product.map((item, idx) => (
                 <TableRow
                   key={idx}
@@ -53,15 +52,26 @@ const Product = () => {
                   <TableCell align="center">{item.productName}</TableCell>
                   <TableCell align="center">{formatPrice(item.productPrice)}</TableCell>
                 </TableRow>
-              ))}
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={3}>
+                  <EmptyText>등록된 상품이 없습니다.</EmptyText>
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
         <ButtonWrap>
-          <Button variant="outlined">삭제</Button>
-          <Pagination count={totalPage} color="primary" onClick={handlePagination} page={page} />
-          <Button variant="contained" onClick={() => router.push(ROUTES.ADMIN.PRODUCT_ADD)}>
-            등록
-          </Button>
+          {/* <Button variant="outlined">삭제</Button> */}
+          <CenterWrap>
+            <Pagination count={totalPage} color="primary" onClick={handlePagination} page={page} />
+          </CenterWrap>
+          <RightWrap>
+            <Button variant="contained" onClick={() => router.push(ROUTES.ADMIN.PRODUCT_ADD)}>
+              등록
+            </Button>
+          </RightWrap>
         </ButtonWrap>
       </TableWrap>
     </Container>
@@ -89,6 +99,27 @@ const TableWrap = styled.div`
 
 const ButtonWrap = styled.div`
   width: 100%;
+  box-sizing: border-box;
+  height: 40px;
+  position: relative;
+`;
+
+const CenterWrap = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const RightWrap = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+`;
+
+const EmptyText = styled.p`
+  width: 100%;
+  font-size: 16px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 `;
