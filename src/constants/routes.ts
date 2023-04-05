@@ -29,6 +29,7 @@ export const ROUTES = {
     INFO: '/mypage/info',
     WISH: '/mypage/wish',
     ORDER: '/mypage/order',
+    ORDER_BY_ID: (id: number) => `/mypage/order/${id}`,
     REVIEW: '/mypage/review',
     WITHDRAWAL: '/mypage/withdrawal',
   },
