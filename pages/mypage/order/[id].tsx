@@ -87,7 +87,6 @@ const MyOrderDetail = () => {
         </InfoBottomContent>
 
         <ButtonContent>
-          <button className="share">예약 일정 공유하기</button>
           {router.query.status === 'scheduled' ? (
             <button className="delete" onClick={() => deleteHandler()}>
               예약 취소
@@ -184,11 +183,6 @@ const ButtonContent = styled.div`
     margin-bottom: 0.8rem;
     font-size: 1rem;
     font-weight: 600;
-  }
-  .share {
-    background-color: #fff;
-    border: 1px solid #101010;
-    color: #101010;
   }
   .delete {
     background-color: #f84a24;
