@@ -1,11 +1,34 @@
 import PageTitle from '@/components/common/PageTitle';
+import MyPageNavbar from '@/components/layout/MyPageNavbar';
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+import ReviewData from '@/dummydata/MyReviewList.json';
+import { IMyReview } from '@/interfaces/myReview';
+import ReviewList from '@/components/Mypage/Review/ReviewList';
 
 const MyReview = () => {
+  const [reviewData, setReviewData] = useState<Array<IMyReview>>([]);
+
+  useEffect(() => {
+    (async () => {
+      setReviewData(ReviewData.content);
+    })();
+  });
   return (
     <Container>
-      <PageTitle title="나의 여행 후기" />
+      <MyPageNavbar />
+      <MyReviewContent>
+        <PageTitle title="나의 여행 후기" />
+
+        <ListContent>
+          {reviewData && reviewData.length > 0 ? (
+            reviewData.map((item) => <ReviewList key={item.boardId} data={item} />)
+          ) : (
+            <p>목록이 존재하지 않습니다.</p>
+          )}
+        </ListContent>
+      </MyReviewContent>
     </Container>
   );
 };
@@ -14,6 +37,25 @@ export default MyReview;
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  padding: 16px;
+  margin: 0 auto;
+  width: 1200px;
+  gap: 30px;
+  box-sizing: border-box;
+  padding: 16px 0;
+  @media (max-width: 1200px) {
+    width: 100%;
+    flex-direction: column;
+    flex-direction: column-reverse;
+  }
+  @media (max-width: 1200px) {
+    padding: 16px;
+  }
+`;
+
+const MyReviewContent = styled.div`
+  width: 100%;
+`;
+
+const ListContent = styled.div`
+  margin-top: 2rem;
 `;

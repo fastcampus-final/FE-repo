@@ -31,6 +31,7 @@ export const ROUTES = {
     ORDER: '/mypage/order',
     ORDER_BY_ID: (id: number) => `/mypage/order/${id}`,
     REVIEW: '/mypage/review',
+    REVIEW_BY_ID: (id: number) => `/mypage/review/${id}`,
     WITHDRAWAL: '/mypage/withdrawal',
   },
   ADMIN: {
