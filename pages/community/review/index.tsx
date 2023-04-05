@@ -34,7 +34,7 @@ const Review = () => {
   }, [page]);
 
   const getSearchData = async () => {
-    const searchData = await getBoardSearchList(keyword, 1);
+    const searchData = await getBoardSearchList('TRAVEL_REVIEW', keyword, 1);
     setReviewData(searchData?.content);
   };
 
