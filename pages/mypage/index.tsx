@@ -17,7 +17,7 @@ const Mypage = () => {
   );
 };
 
-export default withAuth(Mypage);
+export default Mypage;
 
 export async function getServerSideProps() {
   const layout = 'mypage';
