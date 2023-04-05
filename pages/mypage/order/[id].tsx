@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { IOrderDetail } from '@/interfaces/mypageOrder';
 import dayjs from 'dayjs';
 import { formatPrice } from '@/utils/format';
-import { getReservationDetail } from '@/apis/mypage/order';
+import { deleteReservation, getReservationDetail } from '@/apis/mypage/order';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
@@ -29,12 +29,13 @@ const MyOrderDetail = () => {
 
   const orderDate = dayjs(detailData?.reservationDate).format('YYYY-MM-DD HH:mm');
 
-  const deleteReservation = () => {
+  const deleteHandler = () => {
     return dispatch(
       setModal({
         isOpen: true,
         text: MESSAGES.MYPAGE.DELETE_REVERVATION,
         onClick: () => {
+          deleteReservation(Number(detailData?.reservationDetailId));
           dispatch(
             setModal({
               isOpen: false,
@@ -88,7 +89,7 @@ const MyOrderDetail = () => {
         <ButtonContent>
           <button className="share">예약 일정 공유하기</button>
           {router.query.status === 'scheduled' ? (
-            <button className="delete" onClick={() => deleteReservation()}>
+            <button className="delete" onClick={() => deleteHandler()}>
               예약 취소
             </button>
           ) : null}
