@@ -43,8 +43,8 @@ const Layout = ({ children }: Props) => {
           <Header />
           <Navbar />
           <Main>{children}</Main>
-          <ScrollTop />
           <Footer />
+          <ScrollTop />
           <Modal />
           <Loading />
         </>
@@ -65,6 +65,7 @@ const Container = styled.div`
 
 const Main = styled.div`
   /* padding: 30px; */
+  margin-bottom: 90px;
 `;
 
 const AdminMain = styled.div`
