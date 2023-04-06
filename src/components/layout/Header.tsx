@@ -57,7 +57,7 @@ const Header = () => {
         >
           <Link href={ROUTES.ADMIN.MAIN}>[임시]관리자페이지</Link>
         </li>
-      </MenuList>
+        </MenuList>*/}
     </Container>
   );
 };
@@ -87,8 +87,8 @@ const Menus = styled.div`
   align-items: center;
 `;
 
-const MenuList = styled.ul`
-  margin: 0 auto;
-  display: flex;
-  gap: 30px;
-`;
+// const MenuList = styled.ul`
+//   margin: 0 auto;
+//   display: flex;
+//   gap: 30px;
+// `;
