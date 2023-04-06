@@ -56,7 +56,7 @@ const ProductAddForm = () => {
 
   const onSubmit = async (data: IProductDetailForm) => {
     const thumbnail = await uploadImage(data.thumbnail[0], 'product');
-    const formData = {
+    let formData = {
       airplane: data.airplane,
       area: data.area,
       categoryIdList: categoryChip.map((item) => item.categoryId),
@@ -68,7 +68,6 @@ const ProductAddForm = () => {
       singleRoomPrice: data.singleRoomPrice,
       summary: data.summary,
       thumbnail,
-      type: data.type,
       options: productOption.map((item) => ({
         startDate: item.startDate,
         endDate: item.endDate,
@@ -76,6 +75,7 @@ const ProductAddForm = () => {
         maxSingleRoom: item.maxSingleRoom,
       })),
     };
+    if (data.type) formData = Object.assign(formData, { type: data.type });
     await addAdminProduct(formData);
     router.push(ROUTES.ADMIN.PRODUCT);
   };
@@ -155,7 +155,7 @@ const ProductAddForm = () => {
                           <MenuItem
                             key={idx}
                             value={item.categoryId}
-                            onClick={() => handleAddCategory(item)}
+                            onClick={() => item.children!.length < 1 && handleAddCategory(item)}
                           >
                             {item.categoryName}
                           </MenuItem>
@@ -179,7 +179,9 @@ const ProductAddForm = () => {
                               <MenuItem
                                 key={idx}
                                 value={item2.categoryId}
-                                onClick={() => handleAddCategory(item2)}
+                                onClick={() =>
+                                  item2.children!.length < 1 && handleAddCategory(item2)
+                                }
                               >
                                 {item2.categoryName}
                               </MenuItem>
@@ -207,7 +209,9 @@ const ProductAddForm = () => {
                                   <MenuItem
                                     key={idx}
                                     value={item3.categoryId}
-                                    onClick={() => handleAddCategory(item3)}
+                                    onClick={() =>
+                                      item3.children!.length < 1 && handleAddCategory(item3)
+                                    }
                                   >
                                     {item3.categoryName}
                                   </MenuItem>
@@ -282,7 +286,8 @@ const ProductAddForm = () => {
             <TableCell align="left">
               <FormControl size="small" fullWidth>
                 <InputLabel id="category">추천타입</InputLabel>
-                <Select {...register('type')} labelId="category" label="추천타입" defaultValue={''}>
+                <Select {...register('type')} labelId="category" label="추천타입">
+                  <MenuItem value={0}>해당없음</MenuItem>
                   <MenuItem value={'A'}>ESFJ / INFJ / INFP</MenuItem>
                   <MenuItem value={'B'}>ENTP / INTJ</MenuItem>
                   <MenuItem value={'C'}>ESTJ / ISTP</MenuItem>
@@ -452,9 +457,4 @@ const ChipWrap = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-`;
-
-const OptionWrap = styled.div`
-  display: flex;
-  align-items: center;
 `;

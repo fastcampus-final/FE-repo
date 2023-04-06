@@ -23,3 +23,20 @@ export const formatProductStatus = (value: string) => {
       return '숨김';
   }
 };
+
+export const formatProductType = (value: string) => {
+  switch (value) {
+    case 'A':
+      return 'ESFJ / INFJ / INFP';
+    case 'B':
+      return 'ENTP / INTJ';
+    case 'C':
+      return 'ESTJ / ISTP';
+    case 'D':
+      return 'ESFP / ESTP / INTP / ISFP';
+    case 'E':
+      return 'ENFJ / ENTJ';
+    case 'F':
+      return 'ENFP / ISFJ / ISTJ';
+  }
+};

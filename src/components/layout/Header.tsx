@@ -8,6 +8,8 @@ import { useDispatch } from 'react-redux';
 import Logo from './header/Logo';
 import MyCartHeader from './header/MyCartHeader';
 import MenuList from './header/MenuList';
+import Link from 'next/link';
+import { ROUTES } from '@/constants/routes';
 
 const Header = () => {
   const [cookies, setCookies, removeCookies] = useCookies();
@@ -33,7 +35,7 @@ const Header = () => {
       ) : (
         <div></div>
       )}
-      {/* <MenuList>
+      <List>
         <li>
           <Link href={ROUTES.SIGNUP}>회원가입</Link>
         </li>
@@ -57,7 +59,7 @@ const Header = () => {
         >
           <Link href={ROUTES.ADMIN.MAIN}>[임시]관리자페이지</Link>
         </li>
-        </MenuList>*/}
+      </List>
     </Container>
   );
 };
@@ -86,8 +88,8 @@ const Menus = styled.div`
   align-items: center;
 `;
 
-// const MenuList = styled.ul`
-//   margin: 0 auto;
-//   display: flex;
-//   gap: 30px;
-// `;
+const List = styled.ul`
+  margin: 0 auto;
+  display: flex;
+  gap: 30px;
+`;
