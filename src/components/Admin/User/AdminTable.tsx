@@ -26,12 +26,7 @@ const AdminTable = ({ columns, data }: any) => {
           <TableRow>
             {headerGroups[0].headers.map((header) => (
               // eslint-disable-next-line react/jsx-key
-              <TableCell
-                {...header.getHeaderProps(header.getSortByToggleProps())}
-                onClick={() => {
-                  console.log(header.id);
-                }}
-              >
+              <TableCell {...header.getHeaderProps(header.getSortByToggleProps())}>
                 {header.render('Header')}
               </TableCell>
             ))}
@@ -50,12 +45,7 @@ const AdminTable = ({ columns, data }: any) => {
               >
                 {row.cells.map((cell: any) => (
                   // eslint-disable-next-line react/jsx-key
-                  <TableCell
-                    {...cell.getCellProps()}
-                    // onClick={() => {
-                    //   console.log(cell.value);
-                    // }}
-                  >
+                  <TableCell {...cell.getCellProps()}>
                     {cell.value === 'ROLE_ADMIN' ? (
                       <Button variant="contained">{cell.render('Cell')}</Button>
                     ) : (
