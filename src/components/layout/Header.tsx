@@ -1,15 +1,13 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Mypage from './header/Mypage_header';
-import Search from './header/Search_header';
-import Login from './header/Login_header';
+import Search from './header/SearchHeader';
 import { useRouter } from 'next/router';
-import { ROUTES } from '@/constants/routes';
-import Link from 'next/link';
 import { useCookies } from 'react-cookie';
 import { tokenRefresh } from './header/apis';
 import { useDispatch } from 'react-redux';
 import Logo from './header/Logo';
+import MyCartHeader from './header/MyCartHeader';
+import MenuList from './header/MenuList';
 
 const Header = () => {
   const [cookies, setCookies, removeCookies] = useCookies();
@@ -26,9 +24,16 @@ const Header = () => {
   return (
     <Container>
       <Logo />
-      {router.asPath !== '/search' ? <Search /> : <div></div>}
-      {cookies.accessToken ? <Mypage /> : <Login />}
-      <MenuList>
+      {router.asPath !== '/login' ? (
+        <Menus>
+          {router.asPath !== '/search' ? <Search /> : <div></div>}
+          <MyCartHeader />
+          <MenuList />
+        </Menus>
+      ) : (
+        <div></div>
+      )}
+      {/* <MenuList>
         <li>
           <Link href={ROUTES.SIGNUP}>회원가입</Link>
         </li>
@@ -64,13 +69,22 @@ const Container = styled.div`
   width: 100vw;
   height: 58px;
   margin: 0 auto;
-  padding: 30px 0;
-  gap: 30px;
+  padding: 30px;
+  gap: 80px;
   align-items: center;
   @media (max-width: 1200px) {
     padding: 16px;
   }
   display: flex;
+  justify-content: space-between;
+  position: fixed;
+  background-color: white;
+  z-index: 9999;
+`;
+
+const Menus = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const MenuList = styled.ul`
