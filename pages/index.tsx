@@ -12,6 +12,7 @@ import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 
 import styled from '@emotion/styled';
+import Banner from '@/components/Main/Banner';
 
 interface Props {
   posts: {
@@ -36,24 +37,7 @@ const Home = ({ posts }: Props) => {
       <Head>
         <title>고투게더</title>
       </Head>
-      <Swiper
-        modules={[Pagination, Autoplay]}
-        spaceBetween={50}
-        slidesPerView={1}
-        loop={true}
-        autoplay={{
-          delay: 3000,
-        }}
-        speed={5000}
-        pagination={{ clickable: true }}
-        className="banner"
-      >
-        {/* {likeList?.content.map((item: ILike, idx: number) => (
-          <SwiperSlide key={idx}>
-            <p>{idx + 1}</p>
-          </SwiperSlide>
-        ))} */}
-      </Swiper>
+      <Banner />
 
       <ContentWrap>
         <h2>그룹 추천 여행</h2>

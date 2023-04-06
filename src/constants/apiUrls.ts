@@ -44,4 +44,6 @@ export const API_URLS = {
     RECOMMEND_PAGE: (page = 1) => `/page/popular/regions?page=${page}`,
     RECOMMEND_BY_ID: (id: string) => `/admin/regions/${id}`,
   },
+  BANNERLIST: '/bannerlist',
+  PRODUCT_BY_ID: (id: number) => `/products/detail/${id}`,
 };
