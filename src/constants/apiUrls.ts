@@ -31,13 +31,13 @@ export const API_URLS = {
   MYPAGE: {
     RESERVATIONS: '/reservations',
     RESERVATIONS_BY_ID: (id: number) => `/reservations/${id}`,
+    REVIEW: '/board/myreviews',
   },
   ADMIN: {
     PRODUCT: '/admin/products',
     PRODUCT_PAGE: (page = 1) => `/admin/products?page=${page}`,
     PRODUCT_DETAIL: (id: string) => `/admin/products/detail/${id}`,
     CATEGORY: '/categories',
-    CATEGORY_PAGE: (page = 1) => `/categories?page=${page}`,
     CATEGORY_BY_ID: (id: string) => `/categories/${id}`,
     RECOMMEND: '/page/popular/regions',
     RECOMMEND_PAGE: (page = 1) => `/page/popular/regions?page=${page}`,

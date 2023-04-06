@@ -62,4 +62,7 @@ export const MESSAGES = {
     ERROR_DELETE: '권한이 없어 삭제가 불가능합니다.',
     COMPLETE_DELETE: '삭제가 완료되었습니다.',
   },
+  MYPAGE: {
+    DELETE_REVERVATION: '삭제가 완료되었습니다.',
+  },
 };
