@@ -47,13 +47,11 @@ export interface ICategory {
 }
 
 export interface IProductOption {
+  productOptionId?: number;
   startDate: string;
   endDate: string;
   maxPeople: number;
   maxSingleRoom: number;
-  presentSingleRoomNumber: number;
-  productOptionId: number;
-  presentPeopleNumber: number;
 }
 
 export interface IRecommend {
