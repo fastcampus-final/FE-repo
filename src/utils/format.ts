@@ -38,5 +38,7 @@ export const formatProductType = (value: string) => {
       return 'ENFJ / ENTJ';
     case 'F':
       return 'ENFP / ISFJ / ISTJ';
+    default:
+      return '해당없음';
   }
 };

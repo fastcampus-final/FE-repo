@@ -107,8 +107,6 @@ const ProductAddForm = () => {
   };
 
   const handleDeleteOption = (productOptionId: number) => {
-    console.log(productOptionId);
-    console.log(productOption);
     setProductOption((prev) => prev.filter((item) => item.productOptionId !== productOptionId));
   };
 
