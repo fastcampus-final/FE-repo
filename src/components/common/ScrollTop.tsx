@@ -28,6 +28,6 @@ const Container = styled.div`
   right: 7vw;
   z-index: 30;
   @media (max-width: 1200px) {
-    bottom: 13vh;
+    bottom: 15vh;
   }
 `;

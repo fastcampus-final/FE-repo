@@ -13,6 +13,8 @@ import Withdrawal from '@/components/Mypage/Withdrawal';
 import EmailInput from '@/components/SignIn/EmailInput';
 import { alterModal } from '@/components/SignIn/function';
 import { login } from '@/components/Login/apis';
+import styled from '@emotion/styled';
+import PageTitle from '@/components/common/PageTitle';
 
 const Login = () => {
   const router = useRouter();
@@ -34,7 +36,14 @@ const Login = () => {
   } = useForm();
 
   return (
-    <div>
+    <Container>
+      <div>
+        <PageTitle title="로그인" />
+      </div>
+      <Text>
+        <span>고투게더</span> 로그인 하시고
+        <br />더 많은 혜택을 이용해 보세요.
+      </Text>
       <form
         onSubmit={handleSubmit(async (data) => {
           console.log(data);
@@ -70,8 +79,20 @@ const Login = () => {
       <div>
         <Withdrawal modal={modal} setmodal={setmodal} />
       </div>
-    </div>
+    </Container>
   );
 };
 
 export default Login;
+
+const Container = styled.div`
+  background-color: yellow;
+  margin: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+const Text = styled.div`
+  text-align: center;
+`;
