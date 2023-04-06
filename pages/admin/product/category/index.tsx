@@ -17,7 +17,7 @@ const ProductCategory = () => {
 
   useEffect(() => {
     (async () => {
-      const data: ICategory[] = await getAdminProductCategory(1);
+      const data: ICategory[] = await getAdminProductCategory();
       setCategory(data);
     })();
   }, []);
@@ -25,7 +25,7 @@ const ProductCategory = () => {
   const handlePagination = async (event: MouseEvent<HTMLElement>) => {
     const target = event.target as HTMLElement;
     setPage(Number(target.outerText));
-    const data = await getAdminProductCategory(Number(target.outerText));
+    const data = await getAdminProductCategory();
     setCategory(data.content);
   };
 
