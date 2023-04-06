@@ -25,7 +25,7 @@ const Banner = () => {
     <BannerContent>
       <Swiper
         modules={[Pagination, Autoplay]}
-        spaceBetween={50}
+        spaceBetween={0}
         slidesPerView={1}
         loop={true}
         autoplay={{
@@ -47,7 +47,13 @@ const Banner = () => {
 
 export default Banner;
 
-const BannerContent = styled.div``;
+const BannerContent = styled.div`
+  .banner {
+    height: 550px;
+    margin-bottom: 5rem;
+    width: 100%;
+  }
+`;
 
 const SwiperContent = styled(SwiperSlide)<{ image: string }>`
   background-image: url(${(props) => props.image});

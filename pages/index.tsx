@@ -13,6 +13,7 @@ import 'swiper/css/pagination';
 
 import styled from '@emotion/styled';
 import Banner from '@/components/Main/Banner';
+import PopularRegion from '@/components/Main/PopularRegion';
 
 interface Props {
   posts: {
@@ -63,33 +64,15 @@ const Home = ({ posts }: Props) => {
           </div>
         </GroupContent>
 
+        <h2>요즘 사람들이 많이 찾는 인기 여행지</h2>
+        <PopularRegion />
+
         <TestContent onClick={() => router.push('/')}>
           <div className="text">
             <p>나의 여행 유형이 궁금하다면?</p>
             <h3>여행 유형 테스트 하러가기</h3>
           </div>
         </TestContent>
-
-        <h2>인기 도시</h2>
-        <CityContent width={cityWidth}>
-          <Swiper
-            modules={[Autoplay]}
-            spaceBetween={15}
-            slidesPerView={5}
-            loop={true}
-            autoplay={{
-              delay: 3000,
-            }}
-            speed={5000}
-            className="city"
-          >
-            {/* {likeList?.content.map((item: ILike, idx: number) => (
-            <SwiperSlide key={idx}>
-              <div ref={anchorRef}>{item.productId}</div>
-            </SwiperSlide>
-          ))} */}
-          </Swiper>
-        </CityContent>
 
         <h2>베스트 여행을 확인해보세요! -{'>'} 회원의 경우 이자리에 추천...?</h2>
         <BestContent>
@@ -136,12 +119,6 @@ export default Home;
 // }
 
 const HomeContent = styled.div`
-  .banner {
-    background-color: #999;
-    height: 550px;
-    margin-bottom: 5rem;
-    width: 100%;
-  }
   h2 {
     font-size: 2rem;
     margin-bottom: 20px;
@@ -196,17 +173,6 @@ const TestContent = styled.div`
     }
     h3 {
       font-size: 2.5rem;
-    }
-  }
-`;
-
-const CityContent = styled.div<{ width: number }>`
-  margin-bottom: 7rem;
-  .city {
-    .swiper-slide {
-      background-color: #999;
-      height: ${(props) => props.width}px;
-      border-radius: 50%;
     }
   }
 `;

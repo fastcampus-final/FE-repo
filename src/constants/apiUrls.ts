@@ -46,4 +46,5 @@ export const API_URLS = {
   },
   BANNERLIST: '/bannerlist',
   PRODUCT_BY_ID: (id: number) => `/products/detail/${id}`,
+  POPULAR_REGIONS: '/page/popular/regions',
 };

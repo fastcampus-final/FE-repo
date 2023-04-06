@@ -8,4 +8,10 @@ export const getBannerList = async () => {
 
 export const getProductDetail = async (id: number) => {
   const { data } = await instance.get(API_URLS.PRODUCT_BY_ID(id));
+  return data;
+};
+
+export const getPopularRegions = async () => {
+  const { data } = await instance.get(API_URLS.POPULAR_REGIONS);
+  return data;
 };
