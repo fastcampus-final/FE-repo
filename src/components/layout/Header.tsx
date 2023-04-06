@@ -86,8 +86,8 @@ const Menus = styled.div`
   align-items: center;
 `;
 
-const MenuList = styled.ul`
-  margin: 0 auto;
-  display: flex;
-  gap: 30px;
-`;
+// const MenuList = styled.ul`
+//   margin: 0 auto;
+//   display: flex;
+//   gap: 30px;
+// `;
