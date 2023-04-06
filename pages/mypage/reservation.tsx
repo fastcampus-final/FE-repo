@@ -1,4 +1,4 @@
-import { instance } from '@/api/instance';
+import { instance } from '@/apis/instance';
 import { API_URLS } from '@/constants/apiUrls';
 import { IOrder } from '@/interfaces/myorder';
 import { getCookie } from '@/utils/cookie';

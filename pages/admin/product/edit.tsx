@@ -76,7 +76,7 @@ const ProductEditForm = () => {
       type: 'A',
     };
     await addAdminProduct(formData);
-    router.push(ROUTES.ADMIN.PRODUCT_BY_ID(product?.productId));
+    router.push(ROUTES.ADMIN.PRODUCT_BY_ID(product!.productId!));
   };
 
   const handleThumbnail = () => {
