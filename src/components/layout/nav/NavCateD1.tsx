@@ -3,7 +3,6 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { layoutRoutes } from '@/constants/layoutRoutes';
-// import NavCateD2 from './NavCateD2';
 
 interface IProps {
   categoryId: number;
