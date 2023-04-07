@@ -8,8 +8,7 @@ import { useDispatch } from 'react-redux';
 import Logo from './header/Logo';
 import MyCartHeader from './header/MyCartHeader';
 import MenuList from './header/MenuList';
-import Link from 'next/link';
-import { ROUTES } from '@/constants/routes';
+import Navbar from './Navbar';
 
 const Header = () => {
   const [cookies, setCookies, removeCookies] = useCookies();
@@ -25,41 +24,21 @@ const Header = () => {
 
   return (
     <Container>
-      <Logo />
-      {router.asPath !== '/login' ? (
-        <Menus>
-          {router.asPath !== '/search' ? <Search /> : <div></div>}
-          <MyCartHeader />
-          <MenuList />
-        </Menus>
-      ) : (
-        <div></div>
-      )}
-      <List>
-        <li>
-          <Link href={ROUTES.SIGNUP}>회원가입</Link>
-        </li>
-        <li>
-          <Link href={ROUTES.SURVEY}>테스트</Link>
-        </li>
-        <li>
-          <Link href={ROUTES.CART}>장바구니</Link>
-        </li>
-        <li>
-          <Link href={ROUTES.REVIEW}>커뮤니티</Link>
-        </li>
-        <li>
-          <Link href={ROUTES.MYPAGE.MAIN}>마이페이지</Link>
-        </li>
-        <li
-          onClick={() => {
-            setCookies('isAdmin', true);
-            setCookies('tokens', {});
-          }}
-        >
-          <Link href={ROUTES.ADMIN.MAIN}>[임시]관리자페이지</Link>
-        </li>
-      </List>
+      <HeaderContainer>
+        <Logo />
+        {router.asPath !== '/login' ? (
+          <Menus>
+            {router.asPath !== '/search' ? <Search /> : <div></div>}
+            <MyCartHeader />
+            <MenuList />
+          </Menus>
+        ) : (
+          <div></div>
+        )}
+      </HeaderContainer>
+      <NavContainer>
+        <Navbar />
+      </NavContainer>
     </Container>
   );
 };
@@ -67,8 +46,18 @@ const Header = () => {
 export default Header;
 
 const Container = styled.div`
+  background-color: white;
+  height: 120px;
+  position: fixed;
+  z-index: 9999;
+  @media (max-width: 1200px) {
+    height: fit-content;
+  }
+`;
+
+const HeaderContainer = styled.div`
   box-sizing: border-box;
-  width: 1200px;
+  height: 58px;
   margin: 0 auto;
   padding: 30px;
   gap: 80px;
@@ -78,9 +67,8 @@ const Container = styled.div`
   }
   display: flex;
   justify-content: space-between;
-  position: fixed;
   background-color: white;
-  z-index: 9999;
+  width: 100vw;
 `;
 
 const Menus = styled.div`
@@ -88,8 +76,10 @@ const Menus = styled.div`
   align-items: center;
 `;
 
-const List = styled.ul`
-  margin: 0 auto;
+const NavContainer = styled.ul`
   display: flex;
-  gap: 30px;
+  padding: 0 30px;
+  @media (max-width: 1200px) {
+    display: none;
+  }
 `;

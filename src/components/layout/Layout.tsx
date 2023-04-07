@@ -41,7 +41,6 @@ const Layout = ({ children }: Props) => {
       ) : (
         <>
           <Header />
-          <Navbar />
           <Main>{children}</Main>
           <Footer />
           <ScrollTop />
@@ -66,6 +65,10 @@ const Container = styled.div`
 const Main = styled.div`
   /* padding: 30px; */
   margin-bottom: 90px;
+  padding-top: 130px;
+  @media (max-width: 1200px) {
+    padding-top: 70px;
+  }
 `;
 
 const AdminMain = styled.div`
