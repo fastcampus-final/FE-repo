@@ -4,5 +4,5 @@ export interface IInputProps {
   id: string;
   type: string;
   placeholder?: string;
-  label?: string;
+  label: string;
 }

@@ -1,42 +1,21 @@
+// import { ROUTES } from '@/constants/routes';
+import React from 'react';
 import styled from '@emotion/styled';
-import React, { useEffect, useState } from 'react';
-import Depth3 from './nav/Depth3';
-import AsideNav from './nav/AsideNav';
-import { instance } from '@/apis/instance';
-import NavCateD1 from './nav/NavCateD1';
-
-const datas = {
-  categoryId: 101,
-  categoryName: '여행준비',
-  children: [
-    { categoryId: 101, categoryName: '커뮤니티', children: [] },
-    { categoryId: 102, categoryName: '마이페이지', children: [] },
-  ],
-};
+import { group } from '@/constants/navGroup';
+import FlexGroup from './nav/FlexGroup';
 
 const Navbar = () => {
-  const [categories, setCategories] = useState([{ categoryName: '', children: [], categoryId: 0 }]);
-
-  useEffect(() => {
-    instance({
-      method: 'GET',
-      url: 'https://www.go-together.store:443/categories',
-    })
-      .then((res) => {
-        // console.log(res.data);
-        setCategories(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
   return (
     <Container>
-      <NavCateD1 data={datas} />
-      {categories.map((data) => (
-        <NavCateD1 data={data} key={data.categoryId} />
-      ))}
+      <div>
+        <FlexUl>
+          {group.map((flexGroup) => (
+            <li key={flexGroup.title}>
+              <FlexGroup flexgroup={flexGroup} />
+            </li>
+          ))}
+        </FlexUl>
+      </div>
     </Container>
   );
 };
@@ -45,4 +24,16 @@ export default Navbar;
 
 const Container = styled.div`
   display: flex;
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+`;
+
+const FlexUl = styled.ul`
+  display: flex;
+  margin: 0 auto;
+  padding: 30px;
+`;
+
+const HoverUl = styled.ul`
+  display: none;
 `;

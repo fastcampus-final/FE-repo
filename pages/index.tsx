@@ -1,22 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
+import { GetServerSidePropsContext } from 'next';
+import { ILike } from '@/interfaces/like';
+import { instance } from '../src/apis/instance';
 import { useRouter } from 'next/router';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Autoplay } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 
 import styled from '@emotion/styled';
-import Banner from '@/components/Main/Banner';
-import PopularRegion from '@/components/Main/PopularRegion';
-import BestProducts from '@/components/Main/BestProducts';
-import TestBanner from '@/../public/main.svg';
-import { ROUTES } from '@/constants/routes';
-
-import { isMobile } from 'react-device-detect';
-import { useCookies } from 'react-cookie';
-import { getUserInfo } from '@/apis/main';
-import GroupProduct from '@/components/Main/GroupProduct';
-import GroupTrip from '@/components/Main/GroupTrip';
 
 interface Props {
   posts: {
@@ -28,89 +23,117 @@ interface Props {
 }
 
 const Home = ({ posts }: Props) => {
+  const [cityWidth, setCityWidth] = useState(0);
+  const anchorRef = useRef<any>(0);
   const router = useRouter();
-  const [cookies, setCookies] = useCookies();
-  const [userType, setUserType] = useState('');
-  const [userName, setUserName] = useState('');
 
   useEffect(() => {
-    if (cookies.accessToken) {
-      (async () => {
-        const data = await getUserInfo();
-        setUserName(data.userName);
-        setUserType(data.userType);
-      })();
-    }
-  }, []);
-
-  const name = userName.slice(-2);
-
-  // 카카오 지도
-  useEffect(() => {
-    const mapScript = document.createElement('script');
-
-    mapScript.async = true;
-    mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_APPKEY}&autoload=false`;
-
-    document.head.appendChild(mapScript);
-
-    const onLoadKakaoMap = () => {
-      window.kakao.maps.load(() => {
-        const container = document.getElementById('map');
-        const options = {
-          center: new window.kakao.maps.LatLng(37.5685382, 126.981834),
-          level: 3,
-        };
-        const map = new window.kakao.maps.Map(container, options);
-        const markerPosition = new window.kakao.maps.LatLng(37.5685382, 126.981834);
-        const marker = new window.kakao.maps.Marker({
-          position: markerPosition,
-        });
-        marker.setMap(map);
-      });
-    };
-    mapScript.addEventListener('load', onLoadKakaoMap);
-
-    return () => mapScript.removeEventListener('load', onLoadKakaoMap);
-  }, []);
+    setCityWidth(anchorRef.current.offsetWidth);
+  }, [cityWidth]);
 
   return (
-    <HomeContent mobile={isMobile.toString()}>
+    <HomeContent>
       <Head>
         <title>고투게더</title>
       </Head>
-      <Banner />
+      <Swiper
+        modules={[Pagination, Autoplay]}
+        spaceBetween={50}
+        slidesPerView={1}
+        loop={true}
+        autoplay={{
+          delay: 3000,
+        }}
+        speed={5000}
+        pagination={{ clickable: true }}
+        className="banner"
+      >
+        {/* {likeList?.content.map((item: ILike, idx: number) => (
+          <SwiperSlide key={idx}>
+            <p>{idx + 1}</p>
+          </SwiperSlide>
+        ))} */}
+      </Swiper>
 
       <ContentWrap>
-        <h2>추천 그룹 여행</h2>
-        <GroupTrip />
+        <h2>그룹 추천 여행</h2>
+        <GroupContent>
+          <div className="group">
+            <div>
+              <p>active SENIOR</p>
+            </div>
+            <div>
+              <p>with ANYONE</p>
+            </div>
+          </div>
+          <div className="group">
+            <div>
+              <p>WOMEN only</p>
+            </div>
+            <div>
+              <p>MEN only</p>
+            </div>
+            <div>
+              <p>with ANYONE</p>
+            </div>
+          </div>
+        </GroupContent>
 
-        {cookies.accessToken ? (
-          <>
-            <h2>
-              {userType}유형인 {name}님, 여행지 추천해드려요
-            </h2>
-            <GroupProduct />
-          </>
-        ) : null}
-
-        <h2>요즘 사람들이 많이 찾는 인기 여행지</h2>
-        <PopularRegion />
-
-        <h2>베스트 여행을 확인해보세요!</h2>
-        <BestProducts />
-
-        <h2>나는 어떤 여행 유형일까?</h2>
-        <TestContent onClick={() => router.push(ROUTES.SURVEY)} mobile={isMobile.toString()}>
-          <TestBanner />
+        <TestContent onClick={() => router.push('/')}>
+          <div className="text">
+            <p>나의 여행 유형이 궁금하다면?</p>
+            <h3>여행 유형 테스트 하러가기</h3>
+          </div>
         </TestContent>
 
-        <h2>오시는 길</h2>
-        <MapContent id="map" mobile={isMobile.toString()} />
-        <MapInfo mobile={isMobile.toString()}>
-          <p className="title">더 샤이니</p>
-          <p className="adress">서울특별시 중구 청계천로40, 한국관광공사 서울센터 818</p>
-        </MapInfo>
+        <h2>인기 도시</h2>
+        <CityContent width={cityWidth}>
+          <Swiper
+            modules={[Autoplay]}
+            spaceBetween={15}
+            slidesPerView={5}
+            loop={true}
+            autoplay={{
+              delay: 3000,
+            }}
+            speed={5000}
+            className="city"
+          >
+            {/* {likeList?.content.map((item: ILike, idx: number) => (
+            <SwiperSlide key={idx}>
+              <div ref={anchorRef}>{item.productId}</div>
+            </SwiperSlide>
+          ))} */}
+          </Swiper>
+        </CityContent>
+
+        <h2>베스트 여행을 확인해보세요! -{'>'} 회원의 경우 이자리에 추천...?</h2>
+        <BestContent>
+          <Swiper
+            modules={[Autoplay]}
+            spaceBetween={15}
+            slidesPerView={4}
+            loop={true}
+            autoplay={{
+              delay: 3000,
+            }}
+            speed={5000}
+            className="best"
+          >
+            {/* {likeList?.content.map((item: ILike, idx: number) => (
+            <SwiperSlide key={idx}>
+              <div>{item.productId}</div>
+            </SwiperSlide>
+          ))} */}
+          </Swiper>
+        </BestContent>
+
+        <TestContent onClick={() => router.push('/')}>
+          <div className="text">
+            <p>드디어 산티아고 오픈!</p>
+            <h3>산티아고 순례길 여행설명회가 열립니다</h3>
+          </div>
+        </TestContent>
       </ContentWrap>
     </HomeContent>
   );
@@ -128,10 +151,15 @@ export default Home;
 //   };
 // }
 
-const HomeContent = styled.div<{ mobile: string }>`
+const HomeContent = styled.div`
+  .banner {
+    background-color: #999;
+    height: 550px;
+    margin-bottom: 5rem;
+    width: 100%;
+  }
   h2 {
-    font-size: ${(props) => (props.mobile === 'true' ? '1.3rem' : '1.8rem')};
-    font-weight: 600;
+    font-size: 2rem;
     margin-bottom: 20px;
   }
 `;
@@ -145,28 +173,67 @@ const ContentWrap = styled.div`
   }
 `;
 
-const TestContent = styled.div<{ mobile: string }>`
-  margin-bottom: ${(props) => (props.mobile === 'true' ? '3rem' : '7rem')};
-  svg {
-    width: 100%;
-  }
-`;
-
-const MapContent = styled.div<{ mobile: string }>`
-  width: 100%;
-  aspect-ratio: ${(props) => (props.mobile === 'true' ? '1 / 1' : '8 / 3')};
-  margin-bottom: 1rem;
-`;
-
-const MapInfo = styled.div<{ mobile: string }>`
+const GroupContent = styled.div`
   display: flex;
-  gap: ${(props) => (props.mobile === 'true' ? '0.5rem' : '1rem')};
-  .title {
-    font-weight: 600;
-    font-size: ${(props) => (props.mobile === 'true' ? '1rem' : '1.5rem')};
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 7rem;
+  .group {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: space-between;
+    div {
+      width: 100%;
+      height: 13rem;
+      background-color: #999;
+      position: relative;
+      p {
+        font-size: 1.3rem;
+        position: absolute;
+        bottom: 10%;
+        left: 5%;
+      }
+    }
   }
-  .adress {
-    margin: auto 0;
-    font-size: ${(props) => (props.mobile === 'true' ? '12px' : '1.2rem')};
+`;
+
+const TestContent = styled.div`
+  height: 15rem;
+  width: 100%;
+  background-color: #999;
+  margin-bottom: 7rem;
+  .text {
+    margin: 5rem 8rem 0;
+    display: inline-block;
+    p {
+      font-size: 1.7rem;
+      line-height: 2;
+    }
+    h3 {
+      font-size: 2.5rem;
+    }
+  }
+`;
+
+const CityContent = styled.div<{ width: number }>`
+  margin-bottom: 7rem;
+  .city {
+    .swiper-slide {
+      background-color: #999;
+      height: ${(props) => props.width}px;
+      border-radius: 50%;
+    }
+  }
+`;
+
+const BestContent = styled.div`
+  margin-bottom: 7rem;
+  .best {
+    .swiper-slide {
+      background-color: #999;
+      border-radius: 10px;
+      height: 20rem;
+    }
   }
 `;
