@@ -1,5 +1,4 @@
 import { getPopularRegions } from '@/apis/main';
-import { getProductList } from '@/apis/product';
 import { IRegions } from '@/interfaces/main';
 import { getStorage, setStorage } from '@/utils/storage';
 import styled from '@emotion/styled';
