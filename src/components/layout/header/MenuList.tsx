@@ -1,5 +1,5 @@
+import Image from '@/components/common/Image';
 import styled from '@emotion/styled';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import AsideNav from '../nav/AsideNav';
 
@@ -38,7 +38,7 @@ const MenuList = () => {
           }
         }}
       >
-        <Image src="/icons/HeaderMenu.svg" alt="메뉴" width={24} height={24} />
+        <Image src="/icons/HeaderMenu.svg" alt="메뉴" width="24" height="24" cursorPointer={true} />
       </Container>
       {open && (
         <Background height={asideHeight} width={windowW}>

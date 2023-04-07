@@ -1,4 +1,5 @@
 import { layoutRoutes } from '@/constants/layoutRoutes';
+import { ROUTES } from '@/constants/routes';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -18,7 +19,7 @@ const Depth3 = ({ data }: IProps) => {
   return (
     <ThreeDepth
       onClick={() => {
-        router.push(layoutRoutes[data.categoryId]);
+        router.push({ pathname: ROUTES.PRODUCT, query: { categoryId: data.categoryId } });
       }}
     >
       {data.categoryName}
@@ -31,11 +32,9 @@ export default Depth3;
 const ThreeDepth = styled.div`
   height: 40px;
   display: flex;
-  justify-content: center;
+  padding-left: 30px;
   align-items: center;
-  color: #f45d2e;
   font-size: 16px;
-  font-weight: bold;
   &:hover {
     background-color: #f7f7f7;
   }

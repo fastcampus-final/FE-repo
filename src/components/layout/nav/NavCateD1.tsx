@@ -77,6 +77,7 @@ const Inner = styled.div`
   align-items: center;
   flex-direction: column;
   width: 200px;
+  cursor: pointer;
 `;
 const Div = styled.div`
   display: flex;
@@ -85,7 +86,7 @@ const Div = styled.div`
   box-sizing: border-box;
   height: 60px;
   padding: 15px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
   width: 200px;
   &:hover {
@@ -95,10 +96,10 @@ const Div = styled.div`
 const TwoDepth = styled.div`
   height: 60px;
   display: flex;
-  justify-content: center;
+  padding-left: 30px;
   align-items: center;
   color: #0cb1f3;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   &:hover {
     background-color: #e7f7fe;
@@ -111,11 +112,9 @@ const TwoDepth = styled.div`
 const ThreeDepth = styled.div`
   height: 40px;
   display: flex;
-  justify-content: center;
+  padding-left: 30px;
   align-items: center;
-  color: #f45d2e;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 16px;
   &:hover {
     background-color: #e7f7fe;
   }
