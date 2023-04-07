@@ -50,13 +50,15 @@ const Product = () => {
             people,
             dateOption ? dayjs(dateOption).format('YYYY-MM-DD') : '',
           );
+        } else {
+          return;
         }
-        return;
       }
       setProduct(data.content);
       setPage(1);
       setTotalPage(data.totalPages);
       setTotalCount(data.totalElements);
+      setShowProduct(true);
     })();
   }, [router, sort, people, dateOption]);
 

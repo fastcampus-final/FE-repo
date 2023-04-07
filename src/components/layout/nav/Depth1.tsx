@@ -32,12 +32,12 @@ const Depth1 = ({ data }: { data: IDataProps }) => {
 export default Depth1;
 
 const OneDepth = styled.div`
-  height: 40px;
+  height: 50px;
   display: flex;
-  justify-content: center;
+  padding-left: 30px;
   align-items: center;
   color: #0cb1f3;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   &:hover {
     background-color: #f7f7f7;

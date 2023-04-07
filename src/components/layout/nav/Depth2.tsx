@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Depth3 from './Depth3';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { layoutRoutes } from '@/constants/layoutRoutes';
+import { ROUTES } from '@/constants/routes';
 
 interface IDataProps {
   categoryName: string;
@@ -22,7 +23,7 @@ const Depth2 = ({ data }: { data: IDataProps }) => {
         onClick={() => {
           setOpen(!open);
           if (data.children.length === 0) {
-            router.push(layoutRoutes[data.categoryId]);
+            router.push({ pathname: ROUTES.PRODUCT, query: { categoryId: data.categoryId } });
           }
         }}
       >
@@ -39,12 +40,11 @@ const Depth2 = ({ data }: { data: IDataProps }) => {
 export default Depth2;
 
 const TwoDepth = styled.div`
-  height: 40px;
+  height: 50px;
   display: flex;
-  justify-content: center;
+  padding-left: 30px;
   align-items: center;
-  color: black;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: semi-bold;
   &:hover {
     background-color: #f7f7f7;

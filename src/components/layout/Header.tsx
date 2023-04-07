@@ -26,14 +26,12 @@ const Header = () => {
     <Container>
       <HeaderContainer>
         <Logo />
-        {router.asPath !== '/login' ? (
+        {router.asPath !== '/login' && (
           <Menus>
-            {router.asPath !== '/search' ? <Search /> : <div></div>}
+            {router.asPath !== '/search' && <Search />}
             <MyCartHeader />
             <MenuList />
           </Menus>
-        ) : (
-          <div></div>
         )}
       </HeaderContainer>
       <NavContainer>
@@ -47,7 +45,8 @@ export default Header;
 
 const Container = styled.div`
   background-color: white;
-  height: 120px;
+  width: 100%;
+  height: 150px;
   position: fixed;
   z-index: 9999;
   @media (max-width: 1200px) {
@@ -56,29 +55,32 @@ const Container = styled.div`
 `;
 
 const HeaderContainer = styled.div`
-  box-sizing: border-box;
-  height: 58px;
+  width: 1200px;
+  height: 80px;
   margin: 0 auto;
-  padding: 30px;
-  gap: 80px;
+  box-sizing: border-box;
+  display: flex;
+  gap: 30px;
   align-items: center;
+  justify-content: space-between;
+  background-color: white;
   @media (max-width: 1200px) {
     padding: 16px;
   }
-  display: flex;
-  justify-content: space-between;
-  background-color: white;
-  width: 100vw;
 `;
 
 const Menus = styled.div`
   display: flex;
   align-items: center;
+  width: 1200px;
+  margin: 0 auto;
 `;
 
 const NavContainer = styled.ul`
   display: flex;
   padding: 0 30px;
+  width: 1200px;
+  margin: 0 auto;
   @media (max-width: 1200px) {
     display: none;
   }
