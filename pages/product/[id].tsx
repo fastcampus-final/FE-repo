@@ -28,6 +28,10 @@ import { isMobile } from 'react-device-detect';
 import Parser from 'html-react-parser';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/pagination';
+
 interface IItemOption {
   optionDate: string;
   optionId: number;
@@ -381,6 +385,7 @@ const ProductDetail = () => {
           </ButtonContent>
         </TextContent>
       </Simple>
+
       <MainContent isViewMore={isViewMore}>
         {productDetail && Parser(productDetail?.detail)}
       </MainContent>
@@ -390,6 +395,7 @@ const ProductDetail = () => {
       </ViewMoreContent>
 
       <RelatedContent>
+        <p className="subTitle">관련상품</p>
         <Swiper
           modules={[Pagination]}
           slidesPerView={isMobile ? 2 : 4}
@@ -400,7 +406,7 @@ const ProductDetail = () => {
             ? relatedProduct.map((item) => (
                 <RelatedList key={item.productId} imageUrl={item.thumbnail}>
                   <div className="image" />
-                  <p className="title">{item.name}</p>
+                  <p className="name">{item.name}</p>
                 </RelatedList>
               ))
             : null}
@@ -412,7 +418,9 @@ const ProductDetail = () => {
 
 export default ProductDetail;
 
-const DetailContent = styled.div``;
+const DetailContent = styled.div`
+  margin: 0 auto;
+`;
 
 const Simple = styled.div`
   display: flex;
@@ -556,7 +564,14 @@ const ViewMoreContent = styled.div<{ isViewMore: boolean }>`
 `;
 
 const RelatedContent = styled.div`
-  margin-top: 4rem;
+  margin-top: 5rem;
+  padding: 0 15rem;
+  .subTitle {
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+  }
 `;
 
 const RelatedList = styled(SwiperSlide)<{ imageUrl: string }>`
@@ -564,9 +579,12 @@ const RelatedList = styled(SwiperSlide)<{ imageUrl: string }>`
   .image {
     aspect-ratio: 3/2;
     background-image: url(${(props) => props.imageUrl});
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center center;
     border-radius: 8px;
   }
-  p {
+  .name {
     margin-top: 1rem;
   }
 `;
