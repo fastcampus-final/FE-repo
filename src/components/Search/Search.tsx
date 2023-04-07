@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { IoSearchOutline } from 'react-icons/io5';
-import Product from '../product';
 import { getStorage, setStorage, removeStorage, deleteStorageItem } from '@/utils/storage';
 import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
@@ -9,56 +8,47 @@ import { MESSAGES } from '@/constants/messages';
 import PageTitle from '@/components/common/PageTitle';
 import { Chip, TextField, Button, Divider } from '@mui/material';
 import { useCookies } from 'react-cookie';
-import { getCookie } from '@/utils/cookie';
+import { getProduct, getProductRecommend } from '@/apis/product';
+import { IRecommend } from '../../interfaces/product';
 
-const recommendKeywords = [
-  '싱가포르',
-  '프랑스',
-  '산티아고',
-  '일본',
-  '이탈리아',
-  '산티아고',
-  '싱가포르',
-  '프랑스',
-  '이탈리아',
-  '일본',
-];
+interface Props {
+  setPage: any;
+  setTotalPage: any;
+  setProduct: any;
+  keyword: string;
+  setKeyword: any;
+  setTotalCount: any;
+  showProduct: boolean;
+  setShowProduct: any;
+}
 
-const Search = () => {
+const Search = ({
+  setPage,
+  setTotalPage,
+  setProduct,
+  keyword,
+  setKeyword,
+  setTotalCount,
+  showProduct,
+  setShowProduct,
+}: Props) => {
   const dispatch = useDispatch();
-  const [cookies, setCookies] = useCookies();
-  const [isSaveRecentKeyword, setIsSaveRecentKeyword] = useState(true);
-  const [showProduct, setShowProduct] = useState(false);
-  const [showKeyword, setShowkeyword] = useState(true);
+  const [cookies, setCookies, removeCookies] = useCookies();
+  const [isSaveRecentKeyword, setIsSaveRecentKeyword] = useState(cookies.isSaveRecentKeyword);
+  const [showKeyword, setShowKeyword] = useState(true);
   const [recentKeywords, setRecentKeywords] = useState([]);
-  const [keyword, setKeyword] = useState('');
-  const keywordRef = useRef<any>(null);
+  const [recommendKeywords, setRecommendKeywords] = useState<IRecommend[]>([]);
 
   useEffect(() => {
-    if (cookies.isSaveRecentKeyword === undefined) {
-      setCookies('isSaveRecentKeyword', true);
-      setIsSaveRecentKeyword(true);
-    }
-
-    setStorage('recentKeywords', '골프');
-    setStorage('recentKeywords', '가족');
-    setStorage('recentKeywords', '유럽');
-    setStorage('recentKeywords', '프랑스');
-    setStorage('recentKeywords', '바다');
-    setStorage('recentKeywords', '낚시');
-
     setRecentKeywords(getStorage('recentKeywords'));
-    return () => {
-      removeStorage('recentKeywords');
-    };
+    (async () => {
+      const data = await getProductRecommend();
+      setRecommendKeywords(data);
+    })();
   }, []);
 
-  useEffect(() => {
-    setCookies('isSaveRecentKeyword', isSaveRecentKeyword);
-  }, [isSaveRecentKeyword]);
-
-  const handleClickSearch = (keyword?: string) => {
-    if (!keyword && !keywordRef.current.value) {
+  const handleClickSearch = async () => {
+    if (!keyword) {
       return dispatch(
         setModal({
           isOpen: true,
@@ -67,16 +57,36 @@ const Search = () => {
         }),
       );
     }
-
     setShowProduct(true);
-    setShowkeyword(false);
-    setKeyword(keyword ? keyword : keywordRef.current.value);
+    setShowKeyword(false);
+
+    const data = await getProduct(keyword);
+    setProduct(data.content);
+    setPage(1);
+    setTotalPage(data.totalPages);
+    setTotalCount(data.totalElements);
 
     if (isSaveRecentKeyword) {
-      setStorage('recentKeywords', keyword ? keyword : keywordRef.current.value);
+      setStorage('recentKeywords', keyword);
       setRecentKeywords(getStorage('recentKeywords'));
     }
-    keywordRef.current.blur();
+  };
+
+  const handleClickKeyword = async (item: string) => {
+    setShowProduct(true);
+    setShowKeyword(false);
+    setKeyword(item);
+
+    const data = await getProduct(item);
+    setProduct(data.content);
+    setPage(1);
+    setTotalPage(data.totalPages);
+    setTotalCount(data.totalElements);
+
+    if (isSaveRecentKeyword) {
+      setStorage('recentKeywords', item);
+      setRecentKeywords(getStorage('recentKeywords'));
+    }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -86,7 +96,7 @@ const Search = () => {
   };
 
   const handleFocusSearch = () => {
-    setShowkeyword(true);
+    setShowKeyword(true);
     setShowProduct(false);
   };
 
@@ -101,7 +111,12 @@ const Search = () => {
   };
 
   const onToggleSaveKeyword = () => {
-    setIsSaveRecentKeyword((prev) => !prev);
+    if (isSaveRecentKeyword) {
+      removeCookies('isSaveRecentKeyword');
+    } else {
+      setCookies('isSaveRecentKeyword', true);
+    }
+    setIsSaveRecentKeyword((prev: boolean) => !prev);
   };
 
   return (
@@ -111,9 +126,12 @@ const Search = () => {
         <TextField
           placeholder="검색어를 입력해 주세요."
           size="small"
-          ref={keywordRef}
           value={keyword}
-          onChange={(event) => setKeyword(event.target.value)}
+          onChange={(event) => {
+            if (showProduct) setShowProduct(false);
+            if (!showKeyword) setShowKeyword(true);
+            setKeyword(event.target.value);
+          }}
           onFocus={handleFocusSearch}
           onKeyDown={handleKeyDown}
           fullWidth
@@ -147,7 +165,7 @@ const Search = () => {
                       label={item}
                       variant="outlined"
                       onDelete={() => onDeleteKeyword(item)}
-                      onClick={() => handleClickSearch(item)}
+                      onClick={() => handleClickKeyword(item)}
                     />
                   ))
                 ) : (
@@ -163,17 +181,21 @@ const Search = () => {
               <p>추천 검색어</p>
             </KeywordsHeader>
             <Keywords>
-              {recommendKeywords.map((item, idx) => (
-                <Button key={idx} variant="contained" onClick={() => handleClickSearch(item)}>
-                  {item}
-                </Button>
-              ))}
+              {recommendKeywords &&
+                recommendKeywords.map((item, idx) => (
+                  <Button
+                    key={idx}
+                    variant="contained"
+                    onClick={() => handleClickKeyword(item.regionName)}
+                  >
+                    {item.regionName}
+                  </Button>
+                ))}
             </Keywords>
           </RecommendKeywords>
         </>
       )}
       <Divider />
-      {showProduct && <Product />}
     </Container>
   );
 };
@@ -184,7 +206,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
-  padding: 16px;
+  max-width: 1200px;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 auto;
+  padding: 16px 0;
 `;
 
 const SearchInputWrap = styled.div`

@@ -11,8 +11,14 @@ export const API_URLS = {
     dateOption: string | null = '',
   ) =>
     `/products/search?keyword=${keyword}&page=${page}&sort=${sort}&people=${people}&dateOption=${dateOption}`,
-  SEARCH_BY_CATEGORY: (category: string, page: number) =>
-    `/products/categories/${category}?page=${page}`,
+  SEARCH_BY_CATEGORY: (
+    category: string,
+    page: number,
+    sort = 'recent',
+    people = 1,
+    dateOption: string | null = '',
+  ) =>
+    `/products/categories/${category}?page=${page}&sort=${sort}&people=${people}&dateOption=${dateOption}`,
   DETAIL: (id: string) => `/products/details/${id}`,
   BUY: (id: string) => `/buy/${id}`,
   BUY_LIST: (page: number) => `/buy/${page}`,
