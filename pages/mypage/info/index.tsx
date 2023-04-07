@@ -101,8 +101,7 @@ const MyInfo = () => {
               error={errors.passwordConfirmation?.message as string}
               register={register('passwordConfirmation', {
                 required: MESSAGES.INPUT.CHECK.CONFIRM_PASSWORD,
-                validate: (value) =>
-                  value === watch('changePassword') || MESSAGES.LOGIN.CHECK_PASSWORD,
+                validate: (value) => value === watch('changePassword') || MESSAGES.LOGIN.CHECK,
               })}
               id="passwordConfirmation"
               type="password"
