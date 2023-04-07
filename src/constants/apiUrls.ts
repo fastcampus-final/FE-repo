@@ -27,7 +27,7 @@ export const API_URLS = {
   WISHLIST: '/wishlist',
   BOARD: (type: string, pageNumber: number) => `/board?type=${type}&pageNumber=${pageNumber}`,
   BOARD_AUTH: (id: string) => `/board/authority/${id}`,
-  BOARD_DETAIL: (id: number) => `/board/detail/${id}`,
+  BOARD_DETAIL: (id: number) => `/board/${id}`,
   BOARD_SEARCH: (type: string, keyword: string, pageNumber: number) =>
     `/board/search?type=${type}&keyword=${keyword}&pageNumber=${pageNumber}`,
   BOARD_ADD: '/board',
@@ -53,6 +53,7 @@ export const API_URLS = {
   },
   BANNERLIST: '/bannerlist',
   PRODUCT_BY_ID: (id: number) => `/products/detail/${id}`,
+  RELATED_PRODUCTS: (id: number) => `/products/related/${id}`,
   POPULAR_REGIONS: '/page/popular/regions',
   POPULAR_PRODUCTS: (id: number | undefined) =>
     id ? `/page/popular/products?categoryId=${id}` : '/page/popular/products',

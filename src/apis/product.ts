@@ -37,3 +37,8 @@ export const getProductDetail = async (id: string) => {
   const { data } = await instance.get(API_URLS.DETAIL(id));
   return data;
 };
+
+export const getRelatedProducts = async (id: number) => {
+  const { data } = await instance.get(API_URLS.RELATED_PRODUCTS(id));
+  return data;
+};

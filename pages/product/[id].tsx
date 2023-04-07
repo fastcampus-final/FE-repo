@@ -14,7 +14,8 @@ import { getWishList, postAddCart } from '@/apis/wishlist';
 
 import WishData from '@/dummydata/wishList.json';
 import DetailData from '@/dummydata/productDetail.json';
-import { getProductDetail } from '@/apis/product';
+import RelatedData from '@/dummydata/relatedProducts.json';
+import { getProductDetail, getRelatedProducts } from '@/apis/product';
 import product from '../admin/product';
 import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
@@ -22,7 +23,11 @@ import { MESSAGES } from '@/constants/messages';
 import { ROUTES } from '@/constants/routes';
 import { useCookies } from 'react-cookie';
 import reservation from '../mypage/reservation';
+import { isMobile } from 'react-device-detect';
 
+import Parser from 'html-react-parser';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper';
 interface IItemOption {
   optionDate: string;
   optionId: number;
@@ -38,6 +43,7 @@ const ProductDetail = () => {
   const [cookies, setCookies] = useCookies();
 
   const [productDetail, setProductDetail] = useState<IProductDetail>();
+  const [relatedProduct, setRelatedProduct] = useState<IProductDetail[]>([]);
 
   const [single, setSingle] = useState('');
   const [singleCount, setSingleCount] = useState(0);
@@ -51,7 +57,7 @@ const ProductDetail = () => {
   const [wishList, setWishList] = useState<Array<IWishList>>([]);
   const [wishClick, setWishClick] = useState(false);
 
-  // const [reservationData, setReservationData] = useState([]);
+  const [isViewMore, setIsViewMore] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -62,6 +68,10 @@ const ProductDetail = () => {
       // const wishData = await getWishList();
       // setWishList(wishData);
       setWishList(WishData);
+
+      // const relatedData = await getRelatedProducts(Number(router.query.id));
+      // setRelatedProduct(relatedData);
+      setRelatedProduct(RelatedData);
 
       if (wishList.findIndex((e) => e.productId === Number(router.query.id))) {
         setWishClick(true);
@@ -244,6 +254,10 @@ const ProductDetail = () => {
     }
   };
 
+  const ViewMoreClick = () => {
+    setIsViewMore(!isViewMore);
+  };
+
   return (
     <DetailContent>
       <Simple>
@@ -367,6 +381,31 @@ const ProductDetail = () => {
           </ButtonContent>
         </TextContent>
       </Simple>
+      <MainContent isViewMore={isViewMore}>
+        {productDetail && Parser(productDetail?.detail)}
+      </MainContent>
+
+      <ViewMoreContent isViewMore={isViewMore}>
+        <button onClick={ViewMoreClick}>{isViewMore ? '상품정보 접기' : '상품정보 더보기'}</button>
+      </ViewMoreContent>
+
+      <RelatedContent>
+        <Swiper
+          modules={[Pagination]}
+          slidesPerView={isMobile ? 2 : 4}
+          spaceBetween={10}
+          pagination={{ clickable: true }}
+        >
+          {relatedProduct && relatedProduct.length > 0
+            ? relatedProduct.map((item) => (
+                <RelatedList key={item.productId} imageUrl={item.thumbnail}>
+                  <div className="image" />
+                  <p className="title">{item.name}</p>
+                </RelatedList>
+              ))
+            : null}
+        </Swiper>
+      </RelatedContent>
     </DetailContent>
   );
 };
@@ -464,7 +503,7 @@ const ButtonContent = styled.div`
   button {
     border-radius: 8px;
     width: 40%;
-    height: 2rem;
+    height: 2.5rem;
     font-weight: 600;
     border: 1px solid #0cb1f3;
   }
@@ -478,5 +517,56 @@ const ButtonContent = styled.div`
   }
   svg {
     color: #0cb1f3;
+    margin: auto;
+  }
+`;
+
+const MainContent = styled.div<{ isViewMore: boolean }>`
+  margin-top: 5rem;
+  text-align: center;
+  max-height: ${(props) => (props.isViewMore ? '' : '400px')};
+  overflow: hidden;
+`;
+
+const ViewMoreContent = styled.div<{ isViewMore: boolean }>`
+  position: relative;
+  text-align: center;
+  & ::before {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 100%;
+    height: ${(props) => (props.isViewMore ? '' : '50px')};
+    background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 90%);
+    content: '';
+  }
+  button {
+    border: 1px solid rgba(33, 37, 41, 0.2);
+    background-color: transparent;
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    padding: 0.7rem 2.5rem;
+    border-radius: 8px;
+    margin-top: 20px;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      border: 1px solid #0cb1f3;
+    }
+  }
+`;
+
+const RelatedContent = styled.div`
+  margin-top: 4rem;
+`;
+
+const RelatedList = styled(SwiperSlide)<{ imageUrl: string }>`
+  text-align: center;
+  .image {
+    aspect-ratio: 3/2;
+    background-image: url(${(props) => props.imageUrl});
+    border-radius: 8px;
+  }
+  p {
+    margin-top: 1rem;
   }
 `;
