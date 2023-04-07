@@ -22,9 +22,12 @@ export const login = async (data: any, dispatch: any, router: any, setCookies: a
         await alterModal(MESSAGES.LOGIN.ADMIN_LOGIN, dispatch);
         await router.push('/admin');
       } else if (res.status === 401) {
-        await alterModal(MESSAGES.LOGIN.WITHDRAWAL, dispatch);
+        await alterModal('탈퇴된 계정입니다. 다른 이메일로 로그인해주세요.', dispatch);
       } else if (res.status === 404) {
-        await alterModal(MESSAGES.LOGIN.CHECK, dispatch);
+        await alterModal(
+          '존재하지 않는 이메일이이거나 비밀번호가 틀렸습니다. 다시 확인해주세요.',
+          dispatch,
+        );
       } else {
         await alterModal(MESSAGES.LOGIN.ERROR_LOGIN, dispatch);
       }
