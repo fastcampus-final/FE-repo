@@ -24,6 +24,7 @@ export const API_URLS = {
   BUY_LIST: (page: number) => `/buy/${page}`,
   CART: '/cart',
   ORDER: '/order',
+  WISHLIST: '/wishlist',
   BOARD: (type: string, pageNumber: number) => `/board?type=${type}&pageNumber=${pageNumber}`,
   BOARD_AUTH: (id: string) => `/board/authority/${id}`,
   BOARD_DETAIL: (id: number) => `/board/detail/${id}`,

@@ -28,6 +28,10 @@ export const MESSAGES = {
     ERROR_GET_PRODUCT: '상품 조회 중\n에러가 발생하였습니다.',
     ERROR_GET_DETAIL: '상품상세 조회 중\n에러가 발생하였습니다.',
   },
+  PRODUCT_DETAIL: {
+    ADD_CART: '관심상품에 추가되었습니다. \n관심상품으로 이동하시겠습니까?',
+    OPTION_ERROR: '필수옵션이 선택되어 있지 않습니다.',
+  },
   INPUT: {
     CHECK: {
       PASSWORD: '비밀번호는 필수 입력입니다.',
