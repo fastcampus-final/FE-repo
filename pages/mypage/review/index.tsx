@@ -3,7 +3,7 @@ import MyPageNavbar from '@/components/layout/MyPageNavbar';
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 
-import ReviewData from '@/dummydata/MyReviewList.json';
+import ReviewData from '@/dummydata/myReviewList.json';
 import { IMyReview } from '@/interfaces/myReview';
 import ReviewList from '@/components/Mypage/Review/ReviewList';
 import { getMyReviewList } from '@/apis/mypage/review';

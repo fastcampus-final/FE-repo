@@ -12,6 +12,12 @@ import { ThemeProvider } from '@mui/material';
 import { theme } from '@/styles/muiTheme';
 import { CookiesProvider } from 'react-cookie';
 
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
 export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient({
     defaultOptions: {

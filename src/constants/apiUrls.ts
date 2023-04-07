@@ -50,4 +50,11 @@ export const API_URLS = {
     RECOMMEND_PAGE: (page = 1) => `/page/popular/regions?page=${page}`,
     RECOMMEND_BY_ID: (id: string) => `/admin/regions/${id}`,
   },
+  BANNERLIST: '/bannerlist',
+  PRODUCT_BY_ID: (id: number) => `/products/detail/${id}`,
+  POPULAR_REGIONS: '/page/popular/regions',
+  POPULAR_PRODUCTS: (id: number | undefined) =>
+    id ? `/page/popular/products?categoryId=${id}` : '/page/popular/products',
+  GROUP_PRODUCTS: '/page/group/products',
+  USER_INFO: '/user/info',
 };

@@ -15,7 +15,6 @@ interface IProps {
 
 const Tab = ({ href, src, alt, ko, now, include }: IProps) => {
   const router = useRouter();
-  console.log(ko, router.asPath.includes(include as string));
 
   return (
     <div>
