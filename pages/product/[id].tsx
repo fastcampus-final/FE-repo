@@ -76,10 +76,6 @@ const ProductDetail = () => {
       // const relatedData = await getRelatedProducts(Number(router.query.id));
       // setRelatedProduct(relatedData);
       setRelatedProduct(RelatedData);
-
-      if (wishList.findIndex((e) => e.productId === Number(router.query.id))) {
-        setWishClick(true);
-      }
     })();
   }, []);
 
@@ -381,7 +377,11 @@ const ProductDetail = () => {
             >
               관심상품
             </button>
-            {wishClick ? <AiFillHeart size={25} /> : <AiOutlineHeart size={25} />}
+            {wishList.findIndex((e) => e.productId === Number(router.query.id)) === 0 ? (
+              <AiFillHeart size={25} />
+            ) : (
+              <AiOutlineHeart size={25} />
+            )}
           </ButtonContent>
         </TextContent>
       </Simple>
@@ -404,7 +404,21 @@ const ProductDetail = () => {
         >
           {relatedProduct && relatedProduct.length > 0
             ? relatedProduct.map((item) => (
-                <RelatedList key={item.productId} imageUrl={item.thumbnail}>
+                <RelatedList
+                  key={item.productId}
+                  imageUrl={item.thumbnail}
+                  onClick={() =>
+                    router.push(
+                      {
+                        pathname: ROUTES.PRODUCT_BY_ID(String(item.productId)),
+                        query: {
+                          id: item.productId,
+                        },
+                      },
+                      ROUTES.PRODUCT_BY_ID(String(item.productId)),
+                    )
+                  }
+                >
                   <div className="image" />
                   <p className="name">{item.name}</p>
                 </RelatedList>
