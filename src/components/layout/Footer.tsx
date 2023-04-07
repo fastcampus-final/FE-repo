@@ -11,7 +11,6 @@ const Footer = () => {
         alt="홈으로"
         ko="홈"
         src="/icons/FooterHome.svg"
-        aside={false}
       />
       <Tab
         href="/search"
@@ -20,7 +19,6 @@ const Footer = () => {
         ko="검색"
         src="/icons/FooterSearch.svg"
         include="search"
-        aside={false}
       />
       <Tab
         href="/community/review"
@@ -29,7 +27,6 @@ const Footer = () => {
         ko="커뮤니티"
         src="/icons/FooterCommunity.svg"
         include="community"
-        aside={false}
       />
       <Tab
         href="/mypage"
@@ -38,7 +35,6 @@ const Footer = () => {
         ko="마이"
         src="/icons/FooterMy.svg"
         include="mypage"
-        aside={false}
       />
     </Container>
   );

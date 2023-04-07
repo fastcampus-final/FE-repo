@@ -94,7 +94,7 @@ const Login = () => {
         >
           비밀번호 찾기
         </GotoButton>
-        {modal && <PasswordModal setmodal={setmodal} modal={modal} />}
+        {modal && <PasswordModal setmodal={setmodal} />}
       </Goto>
     </Container>
   );
