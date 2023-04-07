@@ -35,6 +35,7 @@ export const API_URLS = {
   },
   ADMIN: {
     PRODUCT: '/admin/products',
+    PRODUCT_BY_ID: (id: string) => `/admin/products/${id}`,
     PRODUCT_PAGE: (page = 1) => `/admin/products?page=${page}`,
     PRODUCT_DETAIL: (id: string) => `/admin/products/detail/${id}`,
     CATEGORY: '/categories',

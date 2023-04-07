@@ -3,6 +3,7 @@ export interface IProduct {
   productName: string;
   productPrice: number;
   productThumbnail: string;
+  productStatus?: string;
 }
 
 export interface IProductDetail {

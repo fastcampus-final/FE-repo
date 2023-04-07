@@ -1,6 +1,6 @@
 import React from 'react';
 import Lottie from 'lottie-react';
-import lottieData from '@/../public/404page.json';
+import lottieData from '@/../public/lotties/404page.json';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';

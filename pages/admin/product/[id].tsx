@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Table, TableRow, TableCell, Button, Chip, TableBody } from '@mui/material';
 import { ROUTES } from '@/constants/routes';
-import { getAdminProductDetail } from '@/apis/admin/product';
+import { deleteProduct, getAdminProductDetail } from '@/apis/admin/product';
 import { IProductDetail } from '@/interfaces/product';
 import Image from '@/components/common/Image';
 import { formatPrice, formatProductStatus, formatProductType } from '@/utils/format';
@@ -22,6 +22,11 @@ const ProductDetail = () => {
       setProduct(data);
     })();
   }, []);
+
+  const handleDelete = async (id: string) => {
+    await deleteProduct(id);
+    router.push(ROUTES.ADMIN.PRODUCT);
+  };
 
   return (
     <Container>
@@ -105,7 +110,7 @@ const ProductDetail = () => {
                     ))
                   ) : (
                     <TableRow>
-                      <TableCell colSpan={3}>
+                      <TableCell colSpan={4}>
                         <EmptyText>등록된 상품 옵션이 없습니다.</EmptyText>
                       </TableCell>
                     </TableRow>
@@ -122,7 +127,9 @@ const ProductDetail = () => {
           </TableRow>
         </Table>
         <ButtonWrap>
-          <Button variant="outlined">삭제</Button>
+          <Button variant="outlined" onClick={() => handleDelete(product!.productId!)}>
+            삭제
+          </Button>
           <Button
             variant="contained"
             onClick={() =>
@@ -159,7 +166,6 @@ const ButtonWrap = styled.div`
 
 const EmptyText = styled.p`
   width: 100%;
-  font-size: 16px;
   display: flex;
   justify-content: center;
 `;
