@@ -1,7 +1,6 @@
 export const MESSAGES = {
   LOGIN: {
-    CHECK_EMAIL: '이메일이 존재하지 않습니다.',
-    CHECK_PASSWORD: '비밀번호가 일치하지 않습니다.',
+    CHECK: '존재하지 않는 이메일이이거나 비밀번호가 틀렸습니다. 다시 확인해주세요.',
     ERROR_LOGIN: '로그인 중\n에러가 발생하였습니다.',
     COMPLETE_LOGIN: '로그인이 완료되었습니다.',
     ADMIN_LOGIN: '관리자 계정으로\n로그인 되었습니다.',

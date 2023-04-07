@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { ROUTES } from '@/constants/routes';
 import { getAdminProduct } from '@/apis/admin/product';
 import { IProduct } from '@/interfaces/product';
-import { formatPrice } from '@/utils/format';
+import { formatPrice, formatProductStatus } from '@/utils/format';
 
 const Product = () => {
   const router = useRouter();
@@ -36,7 +36,7 @@ const Product = () => {
       <PageTitle title="상품 관리" fontSize="20px" padding="10px" />
       <TableWrap>
         <Table>
-          <AdminTableHead titles={['번호', '제목', '가격']} />
+          <AdminTableHead titles={['번호', '제목', '가격', '상품상태']} />
           <TableBody>
             {product && product.length > 0 ? (
               product.map((item, idx) => (
@@ -51,11 +51,12 @@ const Product = () => {
                   </TableCell>
                   <TableCell align="center">{item.productName}</TableCell>
                   <TableCell align="center">{formatPrice(item.productPrice)}</TableCell>
+                  <TableCell align="center">{formatProductStatus(item.productStatus!)}</TableCell>
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={3}>
+                <TableCell colSpan={4}>
                   <EmptyText>등록된 상품이 없습니다.</EmptyText>
                 </TableCell>
               </TableRow>
