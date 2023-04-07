@@ -9,8 +9,6 @@ import Logo from './header/Logo';
 import MyCartHeader from './header/MyCartHeader';
 import MenuList from './header/MenuList';
 import Navbar from './Navbar';
-import NavAside from './nav/NavAside';
-import AsideNav from './nav/AsideNav';
 
 const Header = () => {
   const [cookies, setCookies, removeCookies] = useCookies();

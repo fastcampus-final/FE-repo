@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import Depth3 from './Depth3';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { layoutRoutes } from '@/constants/layoutRoutes';
 
 interface IDataProps {
   categoryName: string;
@@ -12,6 +14,7 @@ interface IDataProps {
 const Depth2 = ({ data }: { data: IDataProps }) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  console.log(data);
 
   return (
     <>
@@ -19,10 +22,11 @@ const Depth2 = ({ data }: { data: IDataProps }) => {
         onClick={() => {
           setOpen(!open);
           if (data.children.length === 0) {
-            router.push('/login');
+            router.push(layoutRoutes[data.categoryId]);
           }
         }}
       >
+        {data.children.length !== 0 && <KeyboardArrowDownIcon />}
         {data.categoryName}
       </TwoDepth>
       {open &&

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import Depth2 from './Depth2';
-import { useRouter } from 'next/router';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 interface IDataProps {
   categoryName: string;
@@ -11,18 +11,15 @@ interface IDataProps {
 
 const Depth1 = ({ data }: { data: IDataProps }) => {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
 
   return (
     <>
       <OneDepth
         onClick={() => {
           setOpen(!open);
-          if (data.children.length === 0) {
-            router.push('/login');
-          }
         }}
       >
+        <KeyboardArrowDownIcon />
         {data.categoryName}
       </OneDepth>
       {open &&

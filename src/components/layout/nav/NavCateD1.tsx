@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { layoutRoutes } from '@/constants/layoutRoutes';
 // import NavCateD2 from './NavCateD2';
 
 interface IProps {
@@ -14,8 +15,6 @@ const NavCateD1 = ({ data }: { data: IProps }) => {
   const [open, setOpen] = useState(false);
   const [reOpen, setReOpen] = useState(0);
   const router = useRouter();
-
-  console.log(open);
 
   return (
     <Inner>
@@ -34,7 +33,7 @@ const NavCateD1 = ({ data }: { data: IProps }) => {
             <TwoDepth
               onClick={() => {
                 if (data.children.length === 0) {
-                  router.push('/login');
+                  router.push(layoutRoutes[data.categoryId]);
                 } else {
                   setOpen(true);
                   if (reOpen === data.categoryId) {
@@ -103,7 +102,6 @@ const TwoDepth = styled.div`
   background-color: white;
   box-sizing: border-box;
   width: 200px;
-  border: 3px solid #e7f7fe;
 `;
 
 const ThreeDepth = styled.div`
@@ -120,5 +118,4 @@ const ThreeDepth = styled.div`
   background-color: white;
   box-sizing: border-box;
   width: 200px;
-  background-color: #f7f7f7;
 `;

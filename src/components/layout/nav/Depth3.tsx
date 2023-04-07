@@ -1,3 +1,4 @@
+import { layoutRoutes } from '@/constants/layoutRoutes';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -17,7 +18,7 @@ const Depth3 = ({ data }: IProps) => {
   return (
     <ThreeDepth
       onClick={() => {
-        router.push('/login');
+        router.push(layoutRoutes[data.categoryId]);
       }}
     >
       {data.categoryName}
