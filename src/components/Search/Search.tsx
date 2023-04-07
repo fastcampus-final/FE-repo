@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { IoSearchOutline } from 'react-icons/io5';
-import Product from '../product';
 import { getStorage, setStorage, removeStorage, deleteStorageItem } from '@/utils/storage';
 import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
@@ -9,50 +8,47 @@ import { MESSAGES } from '@/constants/messages';
 import PageTitle from '@/components/common/PageTitle';
 import { Chip, TextField, Button, Divider } from '@mui/material';
 import { useCookies } from 'react-cookie';
-import { useRouter } from 'next/router';
-import { getProductList } from '@/apis/product';
-import { ROUTES } from '@/constants/routes';
-import { RootState } from '@/store';
-import dayjs from 'dayjs';
+import { getProduct, getProductRecommend } from '@/apis/product';
+import { IRecommend } from '../../interfaces/product';
 
-const recommendKeywords = [
-  '싱가포르',
-  '프랑스',
-  '산티아고',
-  '일본',
-  '이탈리아',
-  '산티아고',
-  '싱가포르',
-  '프랑스',
-  '이탈리아',
-  '일본',
-];
+interface Props {
+  setPage: any;
+  setTotalPage: any;
+  setProduct: any;
+  keyword: string;
+  setKeyword: any;
+  setTotalCount: any;
+  showProduct: boolean;
+  setShowProduct: any;
+}
 
-const Search = () => {
+const Search = ({
+  setPage,
+  setTotalPage,
+  setProduct,
+  keyword,
+  setKeyword,
+  setTotalCount,
+  showProduct,
+  setShowProduct,
+}: Props) => {
   const dispatch = useDispatch();
-  const router = useRouter();
   const [cookies, setCookies, removeCookies] = useCookies();
   const [isSaveRecentKeyword, setIsSaveRecentKeyword] = useState(cookies.isSaveRecentKeyword);
-  const [showProduct, setShowProduct] = useState(false);
   const [showKeyword, setShowKeyword] = useState(true);
   const [recentKeywords, setRecentKeywords] = useState([]);
-  const [keyword, setKeyword] = useState('');
-  const [page, setPage] = useState(1);
-  const [sort, setSort] = useState('recent');
-  const [dateOption, setDateOption] = useState<Date | null>(null);
-  const [people, setPeople] = useState(1);
-  const [product, setProduct] = useState([]);
+  const [recommendKeywords, setRecommendKeywords] = useState<IRecommend[]>([]);
 
   useEffect(() => {
     setRecentKeywords(getStorage('recentKeywords'));
+    (async () => {
+      const data = await getProductRecommend();
+      setRecommendKeywords(data);
+    })();
   }, []);
 
-  useEffect(() => {
-    if (keyword) handleClickSearch();
-  }, [sort, people, dateOption]);
-
-  const handleClickSearch = async (item?: string) => {
-    if (!item && !keyword) {
+  const handleClickSearch = async () => {
+    if (!keyword) {
       return dispatch(
         setModal({
           isOpen: true,
@@ -63,22 +59,34 @@ const Search = () => {
     }
     setShowProduct(true);
     setShowKeyword(false);
-    setKeyword(item ? item : keyword);
 
-    const data = await getProductList(
-      item ? item : keyword,
-      page,
-      sort,
-      people,
-      dateOption ? dayjs(dateOption).format('YYYY-MM-DD') : '',
-    );
+    const data = await getProduct(keyword);
     setProduct(data.content);
+    setPage(1);
+    setTotalPage(data.totalPages);
+    setTotalCount(data.totalElements);
 
     if (isSaveRecentKeyword) {
-      setStorage('recentKeywords', item ? item : keyword);
+      setStorage('recentKeywords', keyword);
       setRecentKeywords(getStorage('recentKeywords'));
     }
-    // router.push(ROUTES.SEARCH_BY_KEYWORD(item ? item : keyword, 1));
+  };
+
+  const handleClickKeyword = async (item: string) => {
+    setShowProduct(true);
+    setShowKeyword(false);
+    setKeyword(item);
+
+    const data = await getProduct(item);
+    setProduct(data.content);
+    setPage(1);
+    setTotalPage(data.totalPages);
+    setTotalCount(data.totalElements);
+
+    if (isSaveRecentKeyword) {
+      setStorage('recentKeywords', item);
+      setRecentKeywords(getStorage('recentKeywords'));
+    }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -157,7 +165,7 @@ const Search = () => {
                       label={item}
                       variant="outlined"
                       onDelete={() => onDeleteKeyword(item)}
-                      onClick={() => handleClickSearch(item)}
+                      onClick={() => handleClickKeyword(item)}
                     />
                   ))
                 ) : (
@@ -173,28 +181,21 @@ const Search = () => {
               <p>인기 여행지</p>
             </KeywordsHeader>
             <Keywords>
-              {recommendKeywords.map((item, idx) => (
-                <Button key={idx} variant="contained" onClick={() => handleClickSearch(item)}>
-                  {item}
-                </Button>
-              ))}
+              {recommendKeywords &&
+                recommendKeywords.map((item, idx) => (
+                  <Button
+                    key={idx}
+                    variant="contained"
+                    onClick={() => handleClickKeyword(item.regionName)}
+                  >
+                    {item.regionName}
+                  </Button>
+                ))}
             </Keywords>
           </RecommendKeywords>
         </>
       )}
       <Divider />
-      {showProduct && (
-        <Product
-          type="search"
-          data={product}
-          sort={sort}
-          people={people}
-          dateOption={dateOption}
-          setSort={setSort}
-          setPeople={setPeople}
-          setDateOption={setDateOption}
-        />
-      )}
     </Container>
   );
 };
@@ -206,11 +207,10 @@ const Container = styled.div`
   flex-direction: column;
   gap: 30px;
   max-width: 1200px;
+  box-sizing: border-box;
+  width: 100%;
   margin: 0 auto;
   padding: 16px 0;
-  @media (max-width: 1200px) {
-    padding: 16px;
-  }
 `;
 
 const SearchInputWrap = styled.div`
