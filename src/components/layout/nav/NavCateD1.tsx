@@ -3,6 +3,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { layoutRoutes } from '@/constants/layoutRoutes';
+import { ROUTES } from '@/constants/routes';
 
 interface IProps {
   categoryId: number;
@@ -32,7 +33,8 @@ const NavCateD1 = ({ data }: { data: IProps }) => {
             <TwoDepth
               onClick={() => {
                 if (data.children.length === 0) {
-                  router.push(layoutRoutes[data.categoryId]);
+                  router.push({ pathname: ROUTES.PRODUCT, query: { categoryId: data.categoryId } });
+                  setOpen(false);
                 } else {
                   setOpen(true);
                   if (reOpen === data.categoryId) {
@@ -51,7 +53,10 @@ const NavCateD1 = ({ data }: { data: IProps }) => {
                 <ThreeDepth
                   key={data.categoryId}
                   onClick={() => {
-                    router.push('/login');
+                    router.push({
+                      pathname: ROUTES.PRODUCT,
+                      query: { categoryId: data.categoryId },
+                    });
                     setReOpen(0);
                     setOpen(false);
                   }}

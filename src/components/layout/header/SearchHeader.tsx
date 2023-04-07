@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 const Search = () => {
   return (
-    <Link href={ROUTES.SEARCH}>
+    <Link href={{ pathname: ROUTES.PRODUCT }}>
       <Container>
         <TextContainer>
           <Input />
