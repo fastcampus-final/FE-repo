@@ -19,10 +19,9 @@ const PopularRegion = () => {
       setRegions(data);
     })();
   }, []);
-  console.log(isMobile);
 
   return (
-    <RegionContent>
+    <RegionContent mobile={isMobile.toString()}>
       <Swiper
         modules={[Autoplay]}
         spaceBetween={0}
@@ -62,8 +61,8 @@ const PopularRegion = () => {
 
 export default PopularRegion;
 
-const RegionContent = styled.div`
-  margin-bottom: 7rem;
+const RegionContent = styled.div<{ mobile: string }>`
+  margin-bottom: ${(props) => (props.mobile === 'true' ? '4rem' : '7rem')};
 `;
 
 const SwiperContent = styled(SwiperSlide)<{ image: string; mobile: string }>`
