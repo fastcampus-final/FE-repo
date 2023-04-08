@@ -33,16 +33,31 @@ const MyOrderDetail = () => {
     return dispatch(
       setModal({
         isOpen: true,
-        text: MESSAGES.MYPAGE.DELETE_REVERVATION,
-        onClick: () => {
-          deleteReservation(Number(detailData?.reservationDetailId));
-          dispatch(
-            setModal({
-              isOpen: false,
-            }),
-          );
-          router.push(ROUTES.MYPAGE.ORDER);
+        onClickOk: async () => {
+          const deleteData = await deleteReservation(Number(detailData?.reservationDetailId));
+          if (deleteData === 'ERR_BAD_REQUEST') {
+            return dispatch(
+              setModal({
+                isOpen: true,
+                onClickOk: () => dispatch(setModal({ isOpen: false })),
+                text: MESSAGES.MYPAGE.DELETE_REVERVATION_ERROR,
+              }),
+            );
+          } else {
+            return dispatch(
+              setModal({
+                isOpen: true,
+                onClickOk: () => {
+                  dispatch(setModal({ isOpen: false }));
+                  router.push(ROUTES.REVIEW);
+                },
+                text: MESSAGES.MYPAGE.DELETE_REVERVATION_COMPLETE,
+              }),
+            );
+          }
         },
+        onClickCancel: () => dispatch(setModal({ isOpen: false })),
+        text: MESSAGES.MYPAGE.DELETE_REVERVATION_CONFIRM,
       }),
     );
   };

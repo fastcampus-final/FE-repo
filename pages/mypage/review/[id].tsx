@@ -27,33 +27,39 @@ const MyReviewDetail = () => {
     })();
   });
 
-  const deleteHandler = async () => {
-    const deleteData = await deleteBoard(Number(detailData?.boardId));
-    if ((await deleteData) === 'ERR_BAD_REQUEST') {
-      return dispatch(
-        setModal({
-          isOpen: true,
-          onClickOk: () => dispatch(setModal({ isOpen: false })),
-          text: MESSAGES.COMMUNITY.ERROR_DELETE,
-        }),
-      );
-    } else {
-      return dispatch(
-        setModal({
-          isOpen: true,
-          text: MESSAGES.COMMUNITY.COMPLETE_DELETE,
-          onClickOk: () => {
-            dispatch(
+  const deleteHandler = () => {
+    return dispatch(
+      setModal({
+        isOpen: true,
+        onClickOk: async () => {
+          const deleteData = await deleteBoard(Number(detailData?.boardId));
+          if (deleteData === 'ERR_BAD_REQUEST') {
+            return dispatch(
               setModal({
-                isOpen: false,
+                isOpen: true,
+                onClickOk: () => dispatch(setModal({ isOpen: false })),
+                text: MESSAGES.COMMUNITY.ERROR_DELETE,
               }),
-            ),
-              router.push(ROUTES.REVIEW);
-          },
-        }),
-      );
-    }
+            );
+          } else {
+            return dispatch(
+              setModal({
+                isOpen: true,
+                onClickOk: () => {
+                  dispatch(setModal({ isOpen: false }));
+                  router.push(ROUTES.REVIEW);
+                },
+                text: MESSAGES.COMMUNITY.COMPLETE_DELETE,
+              }),
+            );
+          }
+        },
+        onClickCancel: () => dispatch(setModal({ isOpen: false })),
+        text: MESSAGES.COMMUNITY.CONFIRM_DELETE,
+      }),
+    );
   };
+
   return (
     <Container>
       <MyPageNavbar />

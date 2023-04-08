@@ -57,7 +57,7 @@ const ReviewAddForm = () => {
 
   const onSubmit = () => {
     const data = {
-      boardContent: JSON.stringify(editValue),
+      boardContent: editValue,
       boardThumbnail: fileUrl,
       boardTitle: keyword,
       boardType: '여행후기',

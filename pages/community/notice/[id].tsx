@@ -5,8 +5,8 @@ import { formatUserName } from '@/utils/format';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
 import { SlArrowUp, SlArrowDown } from 'react-icons/sl';
+import Parser from 'html-react-parser';
 
 const NoticeDetail = () => {
   const [detailData, setDetailData] = useState<IReviewDetail>();
@@ -20,12 +20,6 @@ const NoticeDetail = () => {
 
     getData();
   }, []);
-
-  // const markUp = () => {
-  //   if (detailData?.boardContent !== undefined) {
-  //     return { __html: JSON.parse(detailData?.boardContent) };
-  //   }
-  // };
 
   return (
     <DetailContent>
@@ -44,8 +38,7 @@ const NoticeDetail = () => {
       </SummaryContent>
 
       <MainContent>
-        {/* <div dangerouslySetInnerHTML={markUp()}></div> */}
-        <div>{detailData?.boardContent}</div>
+        <div>{detailData && Parser(detailData?.boardContent)}</div>
       </MainContent>
 
       {router.query.i !== '0' ? (

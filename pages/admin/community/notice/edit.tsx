@@ -22,7 +22,7 @@ const NoticeEditForm = () => {
 
   const onSubmit = () => {
     const data = {
-      boardContent: JSON.stringify(editValue),
+      boardContent: editValue,
       boardThumbnail: '',
       boardTitle: keyword,
       boardType: '알려드려요',

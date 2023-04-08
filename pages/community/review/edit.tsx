@@ -98,7 +98,7 @@ const ReviewEdit = () => {
           className="blue"
           onClick={() => {
             const data = {
-              boardContent: JSON.stringify(editValue),
+              boardContent: editValue,
               boardThumbnail: fileUrl,
               boardTitle: keyword,
             };
