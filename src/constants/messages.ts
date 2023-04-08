@@ -1,6 +1,6 @@
 export const MESSAGES = {
   LOGIN: {
-    CHECK: '존재하지 않는 이메일이이거나 비밀번호가 틀렸습니다. 다시 확인해주세요.',
+    CHECK: '존재하지 않는 이메일이이거나 비밀번호가 틀렸습니다',
     ERROR_LOGIN: '로그인 중\n에러가 발생하였습니다.',
     COMPLETE_LOGIN: '로그인이 완료되었습니다.',
     ADMIN_LOGIN: '관리자 계정으로\n로그인 되었습니다.',
@@ -18,7 +18,8 @@ export const MESSAGES = {
     CHECK_EMAIL_DUPLICATE: '이미 존재하는 이메일입니다.',
     ERROR_SIGNUP: '회원 가입 중\n에러가 발생하였습니다.',
     COMPLETE_SIGNUP: '회원 가입이\n완료되었습니다.',
-    SUBMIT_CHECK: '회원가입을 하시면 비밀번호와 전화번호만 변경가능 합니다. 회원가입 하시겠습니까?',
+    SUBMIT_CHECK:
+      '회원가입을 하시면 비밀번호와 전화번호만 변경가능 합니다.\n회원가입 하시겠습니까?',
     INPUT_ERROR: '회원가입란을 다시 한번 확인해주세요.',
     USED_EMAIL: '사용불가능한 이메일입니다.',
     UNUSED_EMAIL: '사용가능한 이메일입니다.',
