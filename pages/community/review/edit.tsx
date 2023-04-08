@@ -10,6 +10,7 @@ const Editor = dynamic(() => import('@/components/common/Editor'), { ssr: false 
 
 import dayjs from 'dayjs';
 import { patchBoardEdit } from '@/apis/community';
+import { uploadImage } from '@/apis/common';
 
 const ReviewEdit = () => {
   const router = useRouter();
@@ -23,20 +24,29 @@ const ReviewEdit = () => {
 
   const boardId = router.query.id;
 
-  const onUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const onUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return;
     }
-    setFileName(e.target.files[0]?.name);
-    setFileUrl(URL.createObjectURL(e.target.files[0]));
-  }, []);
 
-  const onUploadImageButtonClick = useCallback(() => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onloadend = async () => {
+      const res = await uploadImage(file as unknown as string, 'review');
+      setFileUrl(res);
+    };
+
+    setFileName(e.target.files[0]?.name);
+  };
+
+  const onUploadImageButtonClick = async () => {
     if (!inputRef.current) {
       return;
     }
     inputRef.current.click();
-  }, []);
+  };
 
   const deleteFileImage = () => {
     URL.revokeObjectURL(fileUrl);
@@ -89,7 +99,7 @@ const ReviewEdit = () => {
           onClick={() => {
             const data = {
               boardContent: JSON.stringify(editValue),
-              boardThumbnail: JSON.stringify(fileUrl),
+              boardThumbnail: fileUrl,
               boardTitle: keyword,
             };
             patchBoardEdit(Number(boardId), data);

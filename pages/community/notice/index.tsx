@@ -7,7 +7,7 @@ import { Pagination, TextField } from '@mui/material';
 import SearchIcon from '@/../public/icons/Group.svg';
 import CommunityRouter from '@/components/Community/CommunityRouter';
 import NoticeItem from '@/components/Community/NoticeItem';
-import { getBoardList, getBoardSearchList } from '@/apis/community';
+import { getBoardList } from '@/apis/community';
 
 const Notice = () => {
   const router = useRouter();
@@ -18,14 +18,17 @@ const Notice = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await getBoardList('NOTICE', page);
+      const data =
+        keyword !== ''
+          ? await getBoardList('NOTICE', page)
+          : await getBoardList('NOTICE', page, keyword);
       setNoticeData(data?.content);
       setTotalPage(data.totalPages);
     })();
   }, [page]);
 
   const getSearchData = async () => {
-    const searchData = await getBoardSearchList('NOTICE', keyword, 1);
+    const searchData = await getBoardList('NOTICE', 1, keyword);
     setNoticeData(searchData?.content);
   };
 

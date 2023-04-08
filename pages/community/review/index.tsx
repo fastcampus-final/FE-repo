@@ -9,7 +9,7 @@ import SearchIcon from '@/../public/icons/Group.svg';
 import ReviewItem from '@/components/Community/ReviewItem';
 import CommunityRouter from '@/components/Community/CommunityRouter';
 import { ROUTES } from '@/constants/routes';
-import { getBoardList, getBoardSearchList } from '@/apis/community';
+import { getBoardList } from '@/apis/community';
 import { useDispatch } from 'react-redux';
 import { useCookies } from 'react-cookie';
 import { setModal } from '@/store/modal';
@@ -27,14 +27,17 @@ const Review = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await getBoardList('TRAVEL_REVIEW', page);
+      const data =
+        keyword !== ''
+          ? await getBoardList('TRAVEL_REVIEW', page)
+          : await getBoardList('TRAVEL_REVIEW', page, keyword);
       setReviewData(data?.content);
       setTotalPage(data.totalPages);
     })();
   }, [page]);
 
   const getSearchData = async () => {
-    const searchData = await getBoardSearchList('TRAVEL_REVIEW', keyword, 1);
+    const searchData = await getBoardList('TRAVEL_REVIEW', 1, keyword);
     setReviewData(searchData?.content);
   };
 
@@ -53,7 +56,7 @@ const Review = () => {
   };
 
   const moveLogin = () => {
-    if (cookies.accessToken && cookies.length > 0) {
+    if (cookies.accessToken) {
       router.push(ROUTES.REVIEW_ADD);
     } else {
       return dispatch(
