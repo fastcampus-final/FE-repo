@@ -30,17 +30,17 @@ const Editor = ({ htmlStr, setHtmlStr }: IEditor) => {
     setHtmlStr(draftToHtml(convertToRaw(editorState.getCurrentContent())));
   };
 
-  const uploadCallback = (file: Blob | string) => {
+  const uploadCallback = (file: Blob) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
 
       reader.onloadend = async () => {
-        const res = await uploadImage(file as string, 'review');
+        const url = await uploadImage(file, 'review');
 
-        resolve({ data: { link: res.data } });
+        resolve({ data: { link: url } });
       };
 
-      reader.readAsDataURL(file as Blob);
+      reader.readAsDataURL(file);
     });
   };
 

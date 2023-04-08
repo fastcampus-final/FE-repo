@@ -59,5 +59,5 @@ export const API_URLS = {
   POPULAR_PRODUCTS: (id: number | undefined) =>
     id ? `/page/popular/products?categoryId=${id}` : '/page/popular/products',
   GROUP_PRODUCTS: '/page/group/products',
-  USER_INFO: '/user/info',
+  USER_INFO: '/user/myInfo',
 };
