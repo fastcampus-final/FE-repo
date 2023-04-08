@@ -79,7 +79,7 @@ const ProductDetail = () => {
     })();
   }, []);
 
-  const productPrice = productDetail?.price as number;
+  const productPrice = Number(productDetail?.price);
 
   const SingleOption = [
     {
@@ -89,9 +89,9 @@ const ProductDetail = () => {
   ];
 
   const dateSelect = (option: any) => {
-    const optionDate = option?.label as string;
-    const optionId = option.id as number;
-    const count = option?.value as number;
+    const optionDate = option?.label;
+    const optionId = option.id;
+    const count = 1;
 
     if (items.some((item) => item.optionDate === optionDate)) {
       alert('이미 선택하신 옵션입니다.');
@@ -276,10 +276,10 @@ const ProductDetail = () => {
 
           <Select
             onChange={dateSelect}
-            options={productDetail?.productOptions?.map((item) => {
+            options={productDetail?.productOptions?.map((item, idx) => {
               return {
                 label: `${item.startDate} 출발 ~ ${item.endDate} 도착`,
-                value: 1,
+                value: idx,
                 id: item.productOptionId,
               };
             })}
