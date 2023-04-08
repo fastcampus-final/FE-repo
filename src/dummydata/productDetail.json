@@ -5,35 +5,52 @@
       "categoryId": 4
     },
     {
+      "categoryName": "누구든지",
+      "categoryId": 8
+    },
+    {
+      "categoryName": "유럽",
+      "categoryId": 23
+    },
+    {
       "categoryName": "문화탐방",
       "categoryId": 29
     },
     {
-      "categoryName": "트레킹",
-      "categoryId": 32
+      "categoryName": "휴양지",
+      "categoryId": 31
     }
   ],
   "productOptions": [
     {
-      "startDate": "2023-05-30",
-      "endDate": "2023-06-13",
+      "startDate": "2023-04-20",
+      "endDate": "2023-04-19",
       "maxPeople": 20,
-      "maxSingleRoom": 15,
-      "productOptionId": 2,
-      "presentPeopleNumber": 3,
-      "presentSingleRoomNumber": 3
+      "maxSingleRoom": 0,
+      "productOptionId": 48,
+      "presentPeopleNumber": 0,
+      "presentSingleRoomNumber": 0
+    },
+    {
+      "startDate": "2023-07-06",
+      "endDate": "2023-07-15",
+      "maxPeople": 20,
+      "maxSingleRoom": 0,
+      "productOptionId": 49,
+      "presentPeopleNumber": 0,
+      "presentSingleRoomNumber": 0
     }
   ],
-  "productId": 2,
-  "name": "중앙아시아 3국 15일",
-  "summary": "5070 누구나 참가하는 중앙아시아 3국 일주 여행. 3국 중 가장 아름다운 키르키즈스탄 특화 여행상품. 힘들지 않는 가벼운 트레킹 및 하이킹 포함 일정",
-  "area": "카자흐스탄/키르키즈스탄/우즈베키스탄",
-  "feature": "#자가격리없는테마여행#문화탐방#트레킹#오지탐험",
-  "airplane": "인천-알마티In/타쉬켄트Out/중앙아시아 내 항공 이동 2회",
-  "singleRoomPrice": 100000,
-  "price": 5790000,
-  "type": "A",
-  "thumbnail": "https://cdn.imweb.me/upload/S202107158604372051740/1aff0ed81798d.png",
-  "detail": "키르키즈스탄 카자흐스탄 우즈베키스탄",
+  "productId": 22,
+  "name": "어른스러움의 프랑스 보르도 와인 로드 10일",
+  "summary": "#프랑스 #보르도 #생테밀리옹 #메독 #꼬냑 #라로셀 #투르 #르망 #몽생미셀 #파리 #고성호텔 #몽생미셀 #와인 #샴페인 #와이너리 #스파클링 와인",
+  "area": "프랑스 보르도 (최소 4인 출발)",
+  "feature": "No팁/No쇼핑",
+  "airplane": "에어 프랑스 (매주 목요일 출발)",
+  "singleRoomPrice": 0,
+  "price": 7490000,
+  "type": null,
+  "thumbnail": "https://gotogetherpictureupload.s3.ap-northeast-2.amazonaws.com/product/%ED%94%84%EB%9E%91%EC%8A%A410%EC%9D%BC_1680847069370.jpg",
+  "detail": "<h5 style=\"text-align:center;\"><span style=\"color: inherit;background-color: rgb(255,255,255);font-size: 14px;font-family: Raleway, \"Noto Sans KR\", sans-serif;\"><strong>여   행   정   보</strong></span></h5>\n<p style=\"text-align:left;\"></p>\n<div style=\"text-align:none;\"><img src=\"https://cdn.imweb.me/upload/S202107158604372051740/fe0b06932518a.jpg\" alt=\"\" style=\"height: ;width: \"/></div>\n<p style=\"text-align:left;\"></p>\n<div style=\"text-align:none;\"><img src=\"https://cdn.imweb.me/upload/S202107158604372051740/f5f2c26bf6708.jpg\" alt=\"\" style=\"height: ;width: \"/></div>\n<p style=\"text-align:left;\"></p>\n<div style=\"text-align:none;\"><img src=\"https://cdn.imweb.me/upload/S202107158604372051740/f5158180c6eee.jpg\" alt=\"\" style=\"height: ;width: \"/></div>\n<p style=\"text-align:left;\"></p>\n<div style=\"text-align:none;\"><img src=\"https://cdn.imweb.me/upload/S202107158604372051740/00f838456434b.jpg\" alt=\"\" style=\"height: ;width: \"/></div>\n<p style=\"text-align:left;\"></p>\n<div style=\"text-align:none;\"><img src=\"https://cdn.imweb.me/upload/S202107158604372051740/db37fc284cfcf.jpg\" alt=\"\" style=\"height: ;width: \"/></div>\n<p style=\"text-align:left;\"></p>\n<div style=\"text-align:none;\"><img src=\"https://cdn.imweb.me/upload/S202107158604372051740/ec1f201670850.jpg\" alt=\"\" style=\"height: ;width: \"/></div>\n<p style=\"text-align:left;\"></p>\n<div style=\"text-align:none;\"><img src=\"https://cdn.imweb.me/upload/S202107158604372051740/18079ffedefd8.jpg\" alt=\"\" style=\"height: ;width: \"/></div>\n<p style=\"text-align:left;\"></p>\n<div style=\"text-align:none;\"><img src=\"https://cdn.imweb.me/upload/S202107158604372051740/99f508570bd5f.jpg\" alt=\"\" style=\"height: ;width: \"/></div>\n<p style=\"text-align:left;\"></p>\n<div style=\"text-align:none;\"><img src=\"https://cdn.imweb.me/upload/S202107158604372051740/0373ee6c48098.jpg\" alt=\"\" style=\"height: ;width: \"/></div>\n<p style=\"text-align:left;\"></p>\n<div style=\"text-align:none;\"><img src=\"https://cdn.imweb.me/upload/S202107158604372051740/c9de0d3ca0307.jpg\" alt=\"\" style=\"height: ;width: \"/></div>\n<p style=\"text-align:left;\"></p>\n<div style=\"text-align:none;\"><img src=\"https://cdn.imweb.me/upload/S202107158604372051740/d1d728120629e.jpg\" alt=\"\" style=\"height: ;width: \"/></div>\n<h5 style=\"text-align:center;\"></h5>\n",
   "productStatus": "FOR_SALE"
 }
