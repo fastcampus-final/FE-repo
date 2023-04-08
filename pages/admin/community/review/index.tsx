@@ -114,7 +114,7 @@ const Review = () => {
           </TableBody>
         </Table>
         <BottomArea>
-          {totalPage && (
+          {totalPage > 1 && (
             <Pagination count={totalPage} color="primary" page={page} onChange={pageChange} />
           )}
           <Button
