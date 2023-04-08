@@ -29,7 +29,6 @@ export const getProductByCategory = async (
 
 export const getProductRecommend = async () => {
   const { data } = await instance.get(API_URLS.ADMIN.RECOMMEND);
-
   return data;
 };
 
@@ -40,5 +39,10 @@ export const getProductDetail = async (id: string) => {
 
 export const getRelatedProducts = async (id: number) => {
   const { data } = await instance.get(API_URLS.RELATED_PRODUCTS(id));
+  return data;
+};
+
+export const getProductByType = async () => {
+  const { data } = await instance.get(API_URLS.PRODUCT_TYPE);
   return data;
 };

@@ -35,6 +35,8 @@ export const API_URLS = {
   CATEGORY: '/categories',
   CATEGORY_DETAIL: (id: string) => `/categories/${id}`,
   UPLOAD_IMAGE: (category: string) => `/image?category=${category}`,
+  USER_TYPE: '/user/type',
+  PRODUCT_TYPE: '/page/group/products',
   MYPAGE: {
     RESERVATIONS: '/reservations',
     RESERVATIONS_BY_ID: (id: number) => `/reservations/${id}`,
