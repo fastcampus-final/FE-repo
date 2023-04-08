@@ -11,8 +11,11 @@ import SSRSuspense from '@/components/common/SSRSuspense';
 import { ThemeProvider } from '@mui/material';
 import { theme } from '@/styles/muiTheme';
 import { CookiesProvider } from 'react-cookie';
+import { useRouter } from 'next/router';
+import { ROUTES } from '@/constants/routes';
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -32,9 +35,13 @@ export default function App({ Component, pageProps }: AppProps) {
             <CookiesProvider>
               <SSRSuspense fallback={<Loading />}>
                 <GlobalStyle />
-                <Layout>
+                {router.asPath === ROUTES.PRODUCT ? (
                   <Component {...pageProps} />
-                </Layout>
+                ) : (
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                )}
               </SSRSuspense>
             </CookiesProvider>
           </Provider>
