@@ -27,8 +27,8 @@ export const signUpLogin = async (data: any, dispatch: any, router: any, setCook
     method: 'POST',
     url: 'https://www.go-together.store:443/auth/login',
     data: {
-      email: data.userEmail,
-      password: data.userPassword,
+      userEmail: data.userEmail,
+      userPassword: data.userPassword,
     },
   })
     .then(async (res) => {
@@ -39,9 +39,9 @@ export const signUpLogin = async (data: any, dispatch: any, router: any, setCook
         router.push('/signup/success');
         await alterModal(MESSAGES.SIGNUP.COMPLETE_SIGNUP, dispatch);
       } else if (res.status === 401) {
-        await alterModal('이미 탈퇴한 회원입니다.', dispatch);
+        await alterModal(MESSAGES.SIGNUP.WITHDRAWAL, dispatch);
       } else {
-        await alterModal('비밀번호나 이메일이 바르지 않습니다. 다시 확인해주세요.', dispatch);
+        await alterModal(MESSAGES.SIGNUP.MISS, dispatch);
       }
     })
     .catch(async (error) => {

@@ -20,7 +20,7 @@ export const login = async (data: any, dispatch: any, router: any, setCookies: a
         await setCookies('refreshToken', res.data.refreshToken as string);
         await setCookies('isAdmin', res.data.role);
         await alterModal(MESSAGES.LOGIN.ADMIN_LOGIN, dispatch);
-        await router.push('/admin');
+        await router.push('/admin/user');
       } else if (res.status === 401) {
         await alterModal(MESSAGES.LOGIN.WITHDRAWAL, dispatch);
       } else if (res.status === 404) {
