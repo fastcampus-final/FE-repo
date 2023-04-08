@@ -7,7 +7,6 @@ import Loading from '../common/Loading';
 import Modal from '../common/Modal';
 import Footer from './Footer';
 import Header from './Header';
-import Navbar from './Navbar';
 import AdminHeader from './admin/AdminHeader';
 import AdminNavbar from './admin/AdminNavbar';
 import { useCookies } from 'react-cookie';
@@ -63,9 +62,8 @@ const Container = styled.div`
 `;
 
 const Main = styled.div`
-  /* padding: 30px; */
   margin-bottom: 90px;
-  padding-top: 130px;
+  padding-top: 150px;
   @media (max-width: 1200px) {
     padding-top: 70px;
   }

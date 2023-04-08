@@ -9,7 +9,7 @@ interface Props {
   data: IProduct;
 }
 
-const ProductCard = ({ data }: Props) => {
+const SurveyProductCard = ({ data }: Props) => {
   const router = useRouter();
 
   const handleClick = () => {
@@ -25,26 +25,26 @@ const ProductCard = ({ data }: Props) => {
   );
 };
 
-export default ProductCard;
+export default SurveyProductCard;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   cursor: pointer;
   gap: 10px;
-  width: 386px;
+  width: 23vw;
   @media (max-width: 1200px) {
-    width: 43vw;
+    width: 35vw;
   }
 `;
 
 const ProductImg = styled.img`
-  width: 386px;
-  height: 386px;
+  width: 23vw;
+  height: 23vw;
   border-radius: 10px;
   @media (max-width: 1200px) {
-    width: 43vw;
-    height: 43vw;
+    width: 35vw;
+    height: 35vw;
   }
 `;
 
@@ -55,10 +55,10 @@ const Title = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 334px;
+  width: 23vw;
   @media (max-width: 1200px) {
-    font-size: 1.1rem;
-    width: 43vw;
+    width: 30vw;
+    font-size: 0.9rem;
   }
 `;
 
@@ -66,6 +66,6 @@ const Price = styled.p`
   font-size: 1.3rem;
   font-weight: 600;
   @media (max-width: 1200px) {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
   }
 `;

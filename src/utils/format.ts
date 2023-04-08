@@ -24,7 +24,7 @@ export const formatProductStatus = (value: string) => {
   }
 };
 
-export const formatProductType = (value: string) => {
+export const formatTypeToMbti = (value: string) => {
   switch (value) {
     case 'A':
       return 'ESFJ / INFJ / INFP';
@@ -42,3 +42,32 @@ export const formatProductType = (value: string) => {
       return '해당없음';
   }
 };
+
+// export const formatMbtiToType = (value: string) => {
+//   switch (value) {
+//     case 'ESFJ':
+//     case 'INFJ':
+//     case 'INFP':
+//       return 'A';
+//     case 'ENTP':
+//     case 'INTJ':
+//       return 'B';
+//     case 'ESTJ':
+//     case 'ISTP':
+//       return 'C';
+//     case 'ESFP':
+//     case 'ESTP':
+//     case 'INTP':
+//     case 'ISFP':
+//       return 'D';
+//     case 'ENFJ':
+//     case 'ENTJ':
+//       return 'E';
+//     case 'ENFP':
+//     case 'ISFJ':
+//     case 'ISTJ':
+//       return 'F';
+//     default:
+//       return '';
+//   }
+// };

@@ -27,6 +27,13 @@ interface Props {
   };
 }
 
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+const NEXT_PUBLIC_KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAOMAP_APPKEY;
+
 const Home = ({ posts }: Props) => {
   const router = useRouter();
   const [cookies, setCookies] = useCookies();
@@ -50,7 +57,7 @@ const Home = ({ posts }: Props) => {
     const mapScript = document.createElement('script');
 
     mapScript.async = true;
-    mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_APPKEY}&autoload=false`;
+    mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${NEXT_PUBLIC_KAKAO_KEY}&autoload=false`;
 
     document.head.appendChild(mapScript);
 

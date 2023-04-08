@@ -40,7 +40,13 @@ const Product = () => {
     (async () => {
       let data = [];
       if (router.query.categoryId) {
-        data = await getProductByCategory(router.query.categoryId as string, page);
+        data = await getProductByCategory(
+          router.query.categoryId as string,
+          page,
+          sort,
+          people,
+          dateOption ? dayjs(dateOption).format('YYYY-MM-DD') : '',
+        );
       } else {
         if (keyword) {
           data = await getProduct(
@@ -50,13 +56,15 @@ const Product = () => {
             people,
             dateOption ? dayjs(dateOption).format('YYYY-MM-DD') : '',
           );
+        } else {
+          return;
         }
-        return;
       }
       setProduct(data.content);
       setPage(1);
       setTotalPage(data.totalPages);
       setTotalCount(data.totalElements);
+      setShowProduct(true);
     })();
   }, [router, sort, people, dateOption]);
 
@@ -74,6 +82,9 @@ const Product = () => {
       data = await getProductByCategory(
         router.query.categoryId as string,
         Number(target.outerText),
+        sort,
+        people,
+        dateOption ? dayjs(dateOption).format('YYYY-MM-DD') : '',
       );
     } else {
       data = await getProduct(

@@ -24,9 +24,10 @@ export const API_URLS = {
   BUY_LIST: (page: number) => `/buy/${page}`,
   CART: '/cart',
   ORDER: '/order',
+  WISHLIST: '/wishlist',
   BOARD: (type: string, pageNumber: number) => `/board?type=${type}&pageNumber=${pageNumber}`,
   BOARD_AUTH: (id: string) => `/board/authority/${id}`,
-  BOARD_DETAIL: (id: number) => `/board/detail/${id}`,
+  BOARD_DETAIL: (id: number) => `/board/${id}`,
   BOARD_SEARCH: (type: string, keyword: string, pageNumber: number) =>
     `/board/search?type=${type}&keyword=${keyword}&pageNumber=${pageNumber}`,
   BOARD_ADD: '/board',
@@ -34,6 +35,8 @@ export const API_URLS = {
   CATEGORY: '/categories',
   CATEGORY_DETAIL: (id: string) => `/categories/${id}`,
   UPLOAD_IMAGE: (category: string) => `/image?category=${category}`,
+  USER_TYPE: '/user/type',
+  PRODUCT_TYPE: '/page/group/products',
   MYPAGE: {
     RESERVATIONS: '/reservations',
     RESERVATIONS_BY_ID: (id: number) => `/reservations/${id}`,
@@ -52,6 +55,7 @@ export const API_URLS = {
   },
   BANNERLIST: '/bannerlist',
   PRODUCT_BY_ID: (id: number) => `/products/detail/${id}`,
+  RELATED_PRODUCTS: (id: number) => `/products/related/${id}`,
   POPULAR_REGIONS: '/page/popular/regions',
   POPULAR_PRODUCTS: (id: number | undefined) =>
     id ? `/page/popular/products?categoryId=${id}` : '/page/popular/products',
