@@ -8,7 +8,7 @@ import { ROUTES } from '@/constants/routes';
 import { deleteProduct, getAdminProductDetail } from '@/apis/admin/product';
 import { IProductDetail } from '@/interfaces/product';
 import Image from '@/components/common/Image';
-import { formatPrice, formatProductStatus, formatProductType } from '@/utils/format';
+import { formatPrice, formatProductStatus, formatTypeToMbti } from '@/utils/format';
 import Parser from 'html-react-parser';
 import AdminTableHead from '@/components/common/AdminTableHead';
 
@@ -85,7 +85,7 @@ const ProductDetail = () => {
             <TableCell align="center">특징</TableCell>
             <TableCell align="left">{product && product.feature}</TableCell>
             <TableCell align="center">추천유형</TableCell>
-            <TableCell align="left">{product && formatProductType(product.type!)}</TableCell>
+            <TableCell align="left">{product && formatTypeToMbti(product.type!)}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="center">요약정보</TableCell>
