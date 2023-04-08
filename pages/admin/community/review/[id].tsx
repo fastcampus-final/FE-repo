@@ -13,6 +13,7 @@ import { ROUTES } from '@/constants/routes';
 import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
 import { MESSAGES } from '@/constants/messages';
+import Image from '@/components/common/Image';
 
 const ReviewDetail = () => {
   const router = useRouter();
@@ -59,6 +60,16 @@ const ReviewDetail = () => {
       <PageTitle title="후기 상세 정보" fontSize="20px" padding="10px" />
       <DetailContent>
         <Table>
+          <TableRow>
+            <TableCell align="center">썸네일</TableCell>
+            <TableCell align="left" colSpan={3}>
+              <Image
+                src={router.query.image && String(router.query.image)}
+                alt={detailData && detailData.boardTitle}
+                width="330px"
+              />
+            </TableCell>
+          </TableRow>
           <TableRow>
             <TableCell align="center" width="15%">
               후기 제목

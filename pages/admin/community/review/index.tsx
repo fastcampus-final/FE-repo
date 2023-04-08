@@ -90,6 +90,7 @@ const Review = () => {
                         pathname: ROUTES.ADMIN.REVIEW_BY_ID(String(item.boardId)),
                         query: {
                           id: item.boardId,
+                          image: item.boardThumbnail,
                         },
                       },
                       ROUTES.ADMIN.REVIEW_BY_ID(String(item.boardId)),
