@@ -114,7 +114,9 @@ const Review = () => {
       </BottomArea>
 
       <PageContent>
-        <Pagination count={totalPage} color="primary" page={page} onChange={pageChange} />
+        {totalPage > 1 && (
+          <Pagination count={totalPage} color="primary" page={page} onChange={pageChange} />
+        )}
       </PageContent>
     </ReviewContent>
   );
