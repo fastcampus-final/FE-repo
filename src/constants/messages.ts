@@ -1,6 +1,6 @@
 export const MESSAGES = {
   LOGIN: {
-    CHECK: '존재하지 않는 이메일이이거나 비밀번호가 틀렸습니다. 다시 확인해주세요.',
+    CHECK: '존재하지 않는 이메일이이거나 비밀번호가 틀렸습니다',
     ERROR_LOGIN: '로그인 중\n에러가 발생하였습니다.',
     COMPLETE_LOGIN: '로그인이 완료되었습니다.',
     ADMIN_LOGIN: '관리자 계정으로\n로그인 되었습니다.',
@@ -18,10 +18,14 @@ export const MESSAGES = {
     CHECK_EMAIL_DUPLICATE: '이미 존재하는 이메일입니다.',
     ERROR_SIGNUP: '회원 가입 중\n에러가 발생하였습니다.',
     COMPLETE_SIGNUP: '회원 가입이\n완료되었습니다.',
-    SUBMIT_CHECK: '회원가입을 하시면 비밀번호와 전화번호만 변경가능 합니다. 회원가입 하시겠습니까?',
+    SUBMIT_CHECK:
+      '회원가입을 하시면 비밀번호와 전화번호만 변경가능 합니다.\n회원가입 하시겠습니까?',
     INPUT_ERROR: '회원가입란을 다시 한번 확인해주세요.',
-    USED_EMAIL: '사용불가능한 이메일입니다. 다른 이메일로 바꿔주세요.',
+    USED_EMAIL: '사용불가능한 이메일입니다.',
     UNUSED_EMAIL: '사용가능한 이메일입니다.',
+    WITHDRAWAL: '이미 탈퇴한 회원입니다.',
+    MISS: '비밀번호나 이메일이 바르지 않습니다.',
+    CONFIRM_PASSWORD: '비밀번호가 일치하지 않습니다.',
   },
   PRODUCT: {
     CHECK_KEYWORD: '검색어를 입력해 주세요.',
@@ -42,15 +46,18 @@ export const MESSAGES = {
       BIRTH: '생년월일은 필수 입력입니다.',
       SEX: '성별은 필수 입력입니다.',
       AGREE: '약관동의는 필수입니다.',
+      PASSPORT: '여권 이름은 필수 입력입니다.',
     },
     ERROR: {
       PASSWORD_MIN: '8자리 이상 비밀번호를 사용하세요.',
+      PASSWORD_MAX: '16자리 이하 비밀번호를 사용하세요.',
       PASSWORD_PATTERN: '적합한 비밀번호가 아닙니다.',
       PHONE_PATTERN: '전화번호 형식에 맞지 않습니다.',
       PHONE_MAX: '전화번호는 11자리 이하입니다.',
       NAME_PATTERN: '이름 형식에 맞지 않습니다.',
       NAME_MAX: '이름은 3자리 이상 4자리 이하입니다.',
       EMAIL_PATTERN: '이메일 형식에 맞지 않습니다.',
+      BIRTH_PATTERN: '생년월일 형식에 맞지 않습니다.',
     },
   },
   ORDER: {

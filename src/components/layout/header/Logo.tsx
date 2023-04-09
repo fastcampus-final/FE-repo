@@ -6,7 +6,7 @@ import Image from 'next/image';
 const Logo = () => {
   return (
     <Link href={ROUTES.HOME}>
-      <Image src="/logo.svg" alt="고투게더 로고" width={154} height={154} />
+      <Image src="/logo.svg" alt="고투게더 로고" width={154} height={26} />
     </Link>
   );
 };
