@@ -65,17 +65,14 @@ const ProductDetail = () => {
 
   useEffect(() => {
     (async () => {
-      // const productData = await getProductDetail(String(router.query.id));
-      // setProductDetail(productData);
-      setProductDetail(DetailData);
+      const productData = await getProductDetail(String(router.query.id));
+      setProductDetail(productData);
 
-      // const wishData = await getWishList();
-      // setWishList(wishData);
-      setWishList(WishData);
+      const wishData = await getWishList();
+      setWishList(wishData);
 
-      // const relatedData = await getRelatedProducts(Number(router.query.id));
-      // setRelatedProduct(relatedData);
-      setRelatedProduct(RelatedData);
+      const relatedData = await getRelatedProducts(Number(router.query.id));
+      setRelatedProduct(relatedData);
     })();
   }, []);
 

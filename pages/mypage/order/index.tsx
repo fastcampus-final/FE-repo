@@ -15,8 +15,9 @@ const MyOrder = () => {
   useEffect(() => {
     (async () => {
       const data = await getReservationList();
-      setScheduledData(data.scheduledTravel.content);
-      setPastData(data.pastTravel.content);
+      console.log(data);
+      setScheduledData(data && data.scheduledTravel.content);
+      setPastData(data && data.pastTravel.content);
     })();
   });
   return (
