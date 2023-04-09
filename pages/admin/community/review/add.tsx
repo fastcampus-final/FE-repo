@@ -1,5 +1,5 @@
 import withAuth from '@/components/common/PrivateRouter';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { Button, TextField } from '@mui/material';
@@ -11,21 +11,56 @@ import dayjs from 'dayjs';
 import { ROUTES } from '@/constants/routes';
 
 import dynamic from 'next/dynamic';
+import { uploadImage } from '@/apis/common';
 
 const Editor = dynamic(() => import('@/components/common/Editor'), { ssr: false });
 
-const NoticeAddForm = () => {
+const ReviewAddForm = () => {
   const router = useRouter();
   const [keyword, setKeyword] = useState('');
 
   const [editValue, setEditValue] = useState<string>('');
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const [fileName, setFileName] = useState('');
+  const [fileUrl, setFileUrl] = useState('');
+
+  const onUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
+
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onloadend = async () => {
+      const res = await uploadImage(file as unknown as string, 'review');
+      setFileUrl(res);
+    };
+
+    setFileName(e.target.files[0]?.name);
+  };
+
+  const onUploadImageButtonClick = async () => {
+    if (!inputRef.current) {
+      return;
+    }
+    inputRef.current.click();
+  };
+
+  const deleteFileImage = () => {
+    URL.revokeObjectURL(fileUrl);
+    setFileUrl('');
+    setFileName('');
+  };
 
   const onSubmit = () => {
     const data = {
       boardContent: editValue,
-      boardThumbnail: '',
+      boardThumbnail: fileUrl,
       boardTitle: keyword,
-      boardType: '알려드려요',
+      boardType: '여행후기',
     };
 
     postBoardAdd(data);
@@ -39,7 +74,7 @@ const NoticeAddForm = () => {
     <AddContent>
       <BackRouter onClick={() => router.back()}>
         <ArrowLeft />
-        <p>공지사항 관리</p>
+        <p>여행 후기 관리</p>
       </BackRouter>
 
       <TitleContent>
@@ -51,6 +86,19 @@ const NoticeAddForm = () => {
           onChange={(event) => setKeyword(event.target.value)}
         />
       </TitleContent>
+
+      <TitleImage>
+        <Button onClick={onUploadImageButtonClick}>제목 이미지 업로드</Button>
+        <input
+          type="file"
+          accept="image/*"
+          ref={inputRef}
+          style={{ display: 'none' }}
+          onChange={onUploadImage}
+        />
+        {fileName}
+        {fileName !== '' ? <Button onClick={() => deleteFileImage()}>지우기</Button> : null}
+      </TitleImage>
 
       <UserContent>
         <span className="user">관리자</span>
@@ -78,7 +126,7 @@ const NoticeAddForm = () => {
   );
 };
 
-export default withAuth(NoticeAddForm);
+export default withAuth(ReviewAddForm);
 
 const AddContent = styled.div`
   width: 100%;
@@ -120,6 +168,8 @@ const TitleContent = styled.div`
     }
   }
 `;
+
+const TitleImage = styled.div``;
 
 const UserContent = styled.div`
   color: #878787;

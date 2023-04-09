@@ -12,54 +12,59 @@ import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
 import { MESSAGES } from '@/constants/messages';
+import Parser from 'html-react-parser';
+import { getUserInfo } from '@/apis/main';
 
 const ReviewDetail = () => {
   const [detailData, setDetailData] = useState<IReviewDetail>();
   const router = useRouter();
   const dispatch = useDispatch();
   const [cookies, setCookies] = useCookies();
+  const [user, setUser] = useState('');
 
   useEffect(() => {
-    const getData = async () => {
+    (async () => {
       const data = await getBoardDetail(Number(router.query.id));
       setDetailData(data);
-    };
 
-    getData();
+      if (cookies.accessToken) {
+        const userData = await getUserInfo();
+        setUser(userData.userName);
+      }
+    })();
   }, []);
 
-  const markUp = () => {
-    if (detailData?.boardContent !== undefined) {
-      return { __html: JSON.parse(detailData?.boardContent) };
-    }
-  };
-
-  const deleteHandler = async () => {
-    const deleteData = await deleteBoard(Number(detailData?.boardId));
-    if ((await deleteData) === 'ERR_BAD_REQUEST') {
-      return dispatch(
-        setModal({
-          isOpen: true,
-          onClickOk: () => dispatch(setModal({ isOpen: false })),
-          text: MESSAGES.COMMUNITY.ERROR_DELETE,
-        }),
-      );
-    } else {
-      return dispatch(
-        setModal({
-          isOpen: true,
-          text: MESSAGES.COMMUNITY.COMPLETE_DELETE,
-          onClickOk: () => {
-            dispatch(
+  const deleteHandler = () => {
+    return dispatch(
+      setModal({
+        isOpen: true,
+        onClickOk: async () => {
+          const deleteData = await deleteBoard(Number(detailData?.boardId));
+          if (deleteData === 'ERR_BAD_REQUEST') {
+            return dispatch(
               setModal({
-                isOpen: false,
+                isOpen: true,
+                onClickOk: () => dispatch(setModal({ isOpen: false })),
+                text: MESSAGES.COMMUNITY.ERROR_DELETE,
               }),
-            ),
-              router.push(ROUTES.REVIEW);
-          },
-        }),
-      );
-    }
+            );
+          } else {
+            return dispatch(
+              setModal({
+                isOpen: true,
+                onClickOk: () => {
+                  dispatch(setModal({ isOpen: false }));
+                  router.push(ROUTES.REVIEW);
+                },
+                text: MESSAGES.COMMUNITY.COMPLETE_DELETE,
+              }),
+            );
+          }
+        },
+        onClickCancel: () => dispatch(setModal({ isOpen: false })),
+        text: MESSAGES.COMMUNITY.CONFIRM_DELETE,
+      }),
+    );
   };
 
   const moveLogin = () => {
@@ -97,7 +102,7 @@ const ReviewDetail = () => {
             {detailData?.createdDate} | {detailData?.updatedDate}
           </p>
         </div>
-        {cookies.accessToken && cookies.length > 0 && detailData?.userName !== '관리자' ? (
+        {cookies.accessToken && detailData?.userName === user ? (
           <div>
             <button
               onClick={() =>
@@ -122,7 +127,7 @@ const ReviewDetail = () => {
       </SummaryContent>
 
       <MainContent>
-        <div dangerouslySetInnerHTML={markUp()}></div>
+        <div>{detailData?.boardContent && Parser(detailData.boardContent)}</div>
       </MainContent>
 
       {router.query.i !== '0' ? (

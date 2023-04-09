@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import ArrowLeft from '@/../public/icons/arrow-left.svg';
 import { Button, TextField } from '@mui/material';
@@ -12,6 +12,9 @@ const Editor = dynamic(() => import('@/components/common/Editor'), { ssr: false 
 import dayjs from 'dayjs';
 import { postBoardAdd } from '@/apis/community';
 import { ROUTES } from '@/constants/routes';
+import { uploadImage } from '@/apis/common';
+import { getUserInfo } from '@/apis/main';
+import { useCookies } from 'react-cookie';
 
 const ReviewAdd = () => {
   const router = useRouter();
@@ -23,13 +26,34 @@ const ReviewAdd = () => {
   const [fileName, setFileName] = useState('');
   const [fileUrl, setFileUrl] = useState('');
 
-  const onUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const [cookies, setCookies] = useCookies();
+  const [user, setUser] = useState('');
+
+  useEffect(() => {
+    (async () => {
+      if (cookies.accessToken) {
+        const userData = await getUserInfo();
+        setUser(userData.userName);
+      }
+    })();
+  }, []);
+
+  const onUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return;
     }
+
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onloadend = async () => {
+      const res = await uploadImage(file as unknown as string, 'review');
+      setFileUrl(res);
+    };
+
     setFileName(e.target.files[0]?.name);
-    setFileUrl(URL.createObjectURL(e.target.files[0]));
-  }, []);
+  };
 
   const onUploadImageButtonClick = useCallback(() => {
     if (!inputRef.current) {
@@ -72,7 +96,7 @@ const ReviewAdd = () => {
       </TitleImage>
 
       <UserContent>
-        <span className="user">{formatUserName('홍길동')}</span>
+        <span className="user">{formatUserName(user)}</span>
         <span>{date}</span>
       </UserContent>
 
@@ -88,12 +112,11 @@ const ReviewAdd = () => {
           className="blue"
           onClick={() => {
             const data = {
-              boardContent: JSON.stringify(editValue),
-              boardThumbnail: JSON.stringify(fileUrl),
+              boardContent: editValue,
+              boardThumbnail: fileUrl,
               boardTitle: keyword,
               boardType: '여행후기',
             };
-            console.log(data);
             postBoardAdd(data);
             router.push(ROUTES.REVIEW);
           }}

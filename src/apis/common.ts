@@ -1,7 +1,7 @@
 import { API_URLS } from '@/constants/apiUrls';
 import { instance } from './instance';
 
-export const uploadImage = async (image: string, category: string) => {
+export const uploadImage = async (image: string | Blob, category: string) => {
   const form = new FormData();
   form.append('file', image);
 

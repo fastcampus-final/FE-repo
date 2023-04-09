@@ -25,11 +25,12 @@ export const API_URLS = {
   CART: '/cart',
   ORDER: '/order',
   WISHLIST: '/wishlist',
-  BOARD: (type: string, pageNumber: number) => `/board?type=${type}&pageNumber=${pageNumber}`,
+  BOARD: (type: string, keyword: string | null = '', pageNumber: number) =>
+    keyword === null
+      ? `/board?type=${type}&pageNumber=${pageNumber}`
+      : `/board?type=${type}&keyword=${keyword}&pageNumber=${pageNumber}`,
   BOARD_AUTH: (id: string) => `/board/authority/${id}`,
   BOARD_DETAIL: (id: number) => `/board/${id}`,
-  BOARD_SEARCH: (type: string, keyword: string, pageNumber: number) =>
-    `/board/search?type=${type}&keyword=${keyword}&pageNumber=${pageNumber}`,
   BOARD_ADD: '/board',
   BOARD_EDIT: (boardId: number) => `/board/${boardId}`,
   CATEGORY: '/categories',
@@ -60,5 +61,5 @@ export const API_URLS = {
   POPULAR_PRODUCTS: (id: number | undefined) =>
     id ? `/page/popular/products?categoryId=${id}` : '/page/popular/products',
   GROUP_PRODUCTS: '/page/group/products',
-  USER_INFO: '/user/info',
+  USER_INFO: '/user/myInfo',
 };

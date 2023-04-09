@@ -62,10 +62,13 @@ export const MESSAGES = {
   MOVE_TO_SIGNUP: '계정이 없으신가요? 그렇다면 회원가입 페이지로 이동해 주세요.',
   COMMUNITY: {
     MOVE_TO_LOGIN: '회원 전용 메뉴입니다.\n로그인 후 이용해 주세요.',
-    ERROR_DELETE: '권한이 없어 삭제가 불가능합니다.',
+    ERROR_DELETE: '에러가 발생하였습니다.',
+    CONFIRM_DELETE: '삭제하시겠습니까?',
     COMPLETE_DELETE: '삭제가 완료되었습니다.',
   },
   MYPAGE: {
-    DELETE_REVERVATION: '삭제가 완료되었습니다.',
+    DELETE_REVERVATION_CONFIRM: '예약을 취소 하시겠습니까?',
+    DELETE_REVERVATION_COMPLETE: '취소가 완료되었습니다.',
+    DELETE_REVERVATION_ERROR: '에러가 발생하였습니다.',
   },
 };

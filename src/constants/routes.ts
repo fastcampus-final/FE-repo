@@ -60,6 +60,7 @@ export const ROUTES = {
     NOTICE_EDIT: '/admin/community/notice/edit',
     REVIEW: '/admin/community/review',
     REVIEW_BY_ID: (id: string) => `/admin/community/review/${id}`,
+    REVIEW_ADD: '/admin/community/review/add',
     REVIEW_EDIT: '/admin/community/review/edit',
     BANNER: '/admin/banner',
     BANNER_BY_ID: (id: string) => `/admin/banner/${id}`,

@@ -1,13 +1,8 @@
 import { API_URLS } from '@/constants/apiUrls';
 import { instance } from './instance';
 
-export const getBoardList = async (type: string, pageNumber: number) => {
-  const { data } = await instance.get(API_URLS.BOARD(type, pageNumber));
-  return data;
-};
-
-export const getBoardSearchList = async (type: string, keyword: string, pageNumber: number) => {
-  const { data } = await instance.get(API_URLS.BOARD_SEARCH(type, keyword, pageNumber));
+export const getBoardList = async (type: string, pageNumber: number, keyword?: string) => {
+  const { data } = await instance.get(API_URLS.BOARD(type, keyword, pageNumber));
   return data;
 };
 

@@ -4,6 +4,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { ContentState, convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
+import { uploadImage } from '@/apis/common';
 
 interface IEditor {
   htmlStr: string;
@@ -34,12 +35,9 @@ const Editor = ({ htmlStr, setHtmlStr }: IEditor) => {
       const reader = new FileReader();
 
       reader.onloadend = async () => {
-        const formData = new FormData();
-        formData.append('multipartFiles', file);
+        const url = await uploadImage(file, 'review');
 
-        const res = URL.createObjectURL(file);
-
-        resolve({ data: { link: res } });
+        resolve({ data: { link: url } });
       };
 
       reader.readAsDataURL(file);
