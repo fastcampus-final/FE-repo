@@ -24,8 +24,12 @@ import UserPlus from '@/../public/icons/survey/UserPlus.svg';
 import { setUserType } from '@/apis/user';
 import { getProductByType } from '@/apis/product';
 import SurveyProductCard from '@/components/Product/SurveyProductCard';
+import { useDispatch } from 'react-redux';
+import { setModal } from '@/store/modal';
+import { MESSAGES } from '@/constants/messages';
 
 const Servey = () => {
+  const dispatch = useDispatch();
   const [product, setProduct] = useState<IProduct[]>([]);
   const [isSelected, setIsSelected] = useState({ 1: false, 2: false });
   const [activeStep, setActiveStep] = useState(0);
@@ -62,6 +66,16 @@ const Servey = () => {
   }, [activeStep]);
 
   const handleNext = async (value: string) => {
+    if (!isSelected[1] && !isSelected[2]) {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.SURVEY.CHECK_ANSWER,
+        }),
+      );
+    }
+
     setAnswer((prev) => prev.concat(value));
     setIsSelected({ 1: false, 2: false });
     setActiveStep((prevActiveStep) => prevActiveStep + 1);

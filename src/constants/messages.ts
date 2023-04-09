@@ -63,6 +63,9 @@ export const MESSAGES = {
   ORDER: {
     EXPIRE: '결제시간이 초과되었습니다.\n다시 시도해주세요.',
   },
+  SURVEY: {
+    CHECK_ANSWER: '답변을 선택해 주세요.',
+  },
   INVALID_AUTH: '회원 전용 메뉴입니다.\n로그인 후 이용해 주세요.',
   VALID_AUTH: '로그인된 계정입니다.\n로그아웃 후 이용해주세요.',
   CHANGE_INFO: '정보수정이 완료되었습니다.',
