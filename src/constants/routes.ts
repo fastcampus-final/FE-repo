@@ -15,7 +15,7 @@ export const ROUTES = {
     `/search?keyword=${keyword}&page=${page}
     &sort=${sort}&people=${people}&dateOption=${dateOption ? dateOption : ''}`,
   PRODUCT: '/product',
-  PRODUCT_BY_ID: (id: string) => `/product/${id}`,
+  PRODUCT_BY_ID: (id: number) => `/product/${id}`,
   CART: '/cart',
   ORDER: '/order',
   REVIEW: '/community/review',
