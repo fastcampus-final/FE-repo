@@ -7,8 +7,11 @@ import { isMobile } from 'react-device-detect';
 import { IPopolarProduct } from '@/interfaces/main';
 import { formatPrice } from '@/utils/format';
 import { css } from '@emotion/react';
+import { useRouter } from 'next/router';
+import { ROUTES } from '@/constants/routes';
 
 const BestProducts = () => {
+  const router = useRouter();
   const [category, setCategory] = useState<Array<ICategory>>([]);
   const [categoryDetail, setCategoryDetail] = useState<Array<ICategory>>([]);
   const [product, setProduct] = useState<Array<IPopolarProduct>>([]);
@@ -66,6 +69,17 @@ const BestProducts = () => {
               key={item.productId}
               image={item.productThumbnail}
               mobile={isMobile.toString()}
+              onClick={() =>
+                router.push(
+                  {
+                    pathname: ROUTES.PRODUCT_BY_ID(String(item.productId)),
+                    query: {
+                      id: item.productId,
+                    },
+                  },
+                  ROUTES.PRODUCT_BY_ID(String(item.productId)),
+                )
+              }
             >
               <div className="image" />
               {item.categories.map((item) => (

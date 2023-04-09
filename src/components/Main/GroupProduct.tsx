@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 
-import ProductData from '@/dummydata/groupProduct.json';
 import { IPopolarProduct } from '@/interfaces/main';
 import { getUserInfo } from '@/apis/main';
 import styled from '@emotion/styled';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { isMobile } from 'react-device-detect';
 import { formatPrice } from '@/utils/format';
+import { useRouter } from 'next/router';
+import { ROUTES } from '@/constants/routes';
 
 const GroupProduct = () => {
+  const router = useRouter();
   const [product, setProduct] = useState<Array<IPopolarProduct>>([]);
 
   useEffect(() => {
@@ -26,6 +28,17 @@ const GroupProduct = () => {
               key={item.productId}
               image={item.productThumbnail}
               mobile={isMobile.toString()}
+              onClick={() =>
+                router.push(
+                  {
+                    pathname: ROUTES.PRODUCT_BY_ID(String(item.productId)),
+                    query: {
+                      id: item.productId,
+                    },
+                  },
+                  ROUTES.PRODUCT_BY_ID(String(item.productId)),
+                )
+              }
             >
               <div className="image" />
               {item.categories.map((item) => (
