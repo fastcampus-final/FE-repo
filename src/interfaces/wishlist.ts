@@ -2,6 +2,6 @@ export interface IWishList {
   wishlistId: number;
   productId: number;
   productName: string;
-  productThubnail: string;
+  productThumbnail: string;
   productFeature: string;
 }
