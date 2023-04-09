@@ -19,6 +19,7 @@ const ReviewDetail = () => {
   const router = useRouter();
   const [detailData, setDetailData] = useState<IReviewDetail>();
   const dispatch = useDispatch();
+
   useEffect(() => {
     (async () => {
       // const data = await getBoardDetail(Number(router.query.id));
@@ -102,7 +103,20 @@ const ReviewDetail = () => {
           </TableRow>
         </Table>
         <ButtonContent>
-          <button className="white" onClick={() => router.push(ROUTES.ADMIN.REVIEW_EDIT)}>
+          <button
+            className="white"
+            onClick={() =>
+              router.push(
+                {
+                  pathname: ROUTES.ADMIN.REVIEW_EDIT,
+                  query: {
+                    id: detailData?.boardId,
+                  },
+                },
+                ROUTES.ADMIN.REVIEW_EDIT,
+              )
+            }
+          >
             수정
           </button>
           <button className="blue" onClick={() => deleteHandler()}>

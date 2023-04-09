@@ -68,6 +68,8 @@ export const MESSAGES = {
   CHANGE_INFO: '정보수정이 완료되었습니다.',
   MOVE_TO_SIGNUP: '계정이 없으신가요? 그렇다면 회원가입 페이지로 이동해 주세요.',
   COMMUNITY: {
+    COMPLETE_ADD: '추가가 완료되었습니다.',
+    COMPLETE_EDIT: '수정이 완료되었습니다.',
     MOVE_TO_LOGIN: '회원 전용 메뉴입니다.\n로그인 후 이용해 주세요.',
     ERROR_DELETE: '에러가 발생하였습니다.',
     CONFIRM_DELETE: '삭제하시겠습니까?',
