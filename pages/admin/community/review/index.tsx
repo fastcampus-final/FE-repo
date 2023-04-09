@@ -18,8 +18,6 @@ import {
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
-import ReviewList from '@/dummydata/CommunityReview.json';
-
 const Review = () => {
   const router = useRouter();
   const [review, setReview] = useState<Array<IReview>>([]);
@@ -29,14 +27,12 @@ const Review = () => {
 
   useEffect(() => {
     (async () => {
-      // const reviewData =
-      //   keyword !== ''
-      //     ? await getBoardList('TRAVEL_REVIEW', page)
-      //     : await getBoardList('TRAVEL_REVIEW', page, keyword);
-      // setReview(reviewData?.content);
-      // setTotalPage(reviewData.totalPages);
-      setReview(ReviewList.content);
-      setTotalPage(ReviewList.totalPages);
+      const reviewData =
+        keyword !== ''
+          ? await getBoardList('TRAVEL_REVIEW', page)
+          : await getBoardList('TRAVEL_REVIEW', page, keyword);
+      setReview(reviewData?.content);
+      setTotalPage(reviewData.totalPages);
     })();
   }, []);
 

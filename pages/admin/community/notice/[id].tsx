@@ -1,7 +1,6 @@
 import withAuth from '@/components/common/PrivateRouter';
 import React, { useEffect, useState } from 'react';
 
-import DetailData from '@/dummydata/reviewDetail.json';
 import { IReviewDetail } from '@/interfaces/community';
 import { useRouter } from 'next/router';
 import { deleteBoard, getBoardDetail } from '@/apis/community';
@@ -21,9 +20,8 @@ const NoticeDetail = () => {
 
   useEffect(() => {
     (async () => {
-      // const data = await getBoardDetail(Number(router.query.id));
-      // setDetailData(data);
-      setDetailData(DetailData);
+      const data = await getBoardDetail(Number(router.query.id));
+      setDetailData(data);
     })();
   }, []);
 

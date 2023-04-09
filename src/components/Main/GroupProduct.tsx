@@ -13,9 +13,8 @@ const GroupProduct = () => {
 
   useEffect(() => {
     (async () => {
-      // const productData = await getUserInfo();
-      // setProduct(productData);
-      setProduct(ProductData);
+      const productData = await getUserInfo();
+      setProduct(productData);
     })();
   }, []);
   return (

@@ -58,7 +58,7 @@ export const API_URLS = {
     BANNER_ADD: '/admin/page/banner',
     BANNER_EDIT: (id: number) => `/admin/page/banner/${id}`,
   },
-  BANNERLIST: '/bannerlist',
+  BANNERLIST: '/page/banners',
   PRODUCT_BY_ID: (id: number) => `/products/detail/${id}`,
   RELATED_PRODUCTS: (id: number) => `/products/related/${id}`,
   POPULAR_REGIONS: '/page/popular/regions',
