@@ -1,10 +1,17 @@
 import React from 'react';
-import { Editor as WysiwygEditor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { ContentState, convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import { uploadImage } from '@/apis/common';
+import dynamic from 'next/dynamic';
+import { EditorProps } from 'react-draft-wysiwyg';
+const WysiwygEditor = dynamic<EditorProps>(
+  () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
+  {
+    ssr: false,
+  },
+);
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 interface IEditor {
   htmlStr: string;
