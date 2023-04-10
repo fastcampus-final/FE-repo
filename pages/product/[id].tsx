@@ -10,24 +10,18 @@ import { RxCrossCircled } from 'react-icons/rx';
 
 import Select, { OnChangeValue } from 'react-select';
 import { IWishList } from '@/interfaces/wishlist';
-import { getWishList, postAddCart } from '@/apis/wishlist';
+import { deleteWishList, getWishList, postAddCart, postWishList } from '@/apis/wishlist';
 
-import WishData from '@/dummydata/wishList.json';
-import DetailData from '@/dummydata/productDetail.json';
-import RelatedData from '@/dummydata/relatedProducts.json';
 import { getProductDetail, getRelatedProducts } from '@/apis/product';
-import product from '../admin/product';
 import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
 import { MESSAGES } from '@/constants/messages';
 import { ROUTES } from '@/constants/routes';
 import { useCookies } from 'react-cookie';
-import reservation from '../mypage/reservation';
 import { isMobile } from 'react-device-detect';
 
 import Parser from 'html-react-parser';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
@@ -65,7 +59,10 @@ const ProductDetail = () => {
 
   useEffect(() => {
     (async () => {
-      const productData = await getProductDetail(String(router.query.id));
+      const productId = window.location.pathname.slice(9);
+      const productData = await getProductDetail(
+        Object(router.query).length > 0 ? String(router.query.id) : String(productId),
+      );
       setProductDetail(productData);
 
       if (cookies.accessToken) {
@@ -73,7 +70,9 @@ const ProductDetail = () => {
         setWishList(wishData);
       }
 
-      const relatedData = await getRelatedProducts(Number(router.query.id));
+      const relatedData = await getRelatedProducts(
+        Object(router.query).length > 0 ? Number(router.query.id) : Number(productId),
+      );
       setRelatedProduct(relatedData);
     })();
   }, []);
@@ -83,7 +82,7 @@ const ProductDetail = () => {
   const SingleOption = [
     {
       value: 1,
-      label: `1인 싱글룸 사용시 추가 ${formatPrice(DetailData.singleRoomPrice)}`,
+      label: `1인 싱글룸 사용시 추가 ${formatPrice(Number(productDetail?.singleRoomPrice))}`,
     },
   ];
 
@@ -114,11 +113,11 @@ const ProductDetail = () => {
   const singleSelect = (option: OnChangeValue<{ value: number; label: string }, false>) => {
     if (single !== '') {
       setSingleCount(singleCount + 1);
-      setTotalPrice(totalPrice + DetailData.singleRoomPrice);
+      setTotalPrice(totalPrice + Number(productDetail?.singleRoomPrice));
     } else {
       setSingle(option?.label as string);
       setSingleCount(option?.value as number);
-      setTotalPrice(totalPrice + DetailData.singleRoomPrice);
+      setTotalPrice(totalPrice + Number(productDetail?.singleRoomPrice));
     }
   };
 
@@ -257,6 +256,41 @@ const ProductDetail = () => {
     setIsViewMore(!isViewMore);
   };
 
+  const addWish = () => {
+    const params = {
+      productId: productDetail?.productId,
+    };
+    if (cookies.accessToken) {
+      postWishList(params);
+      setWishClick(true);
+    } else {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          text: MESSAGES.INVALID_AUTH,
+          onClickOk: () => {
+            dispatch(
+              setModal({
+                isOpen: false,
+              }),
+            ),
+              router.push(ROUTES.LOGIN);
+          },
+        }),
+      );
+    }
+  };
+
+  const deleteWish = () => {
+    let id;
+    wishList && wishList.findIndex((e) => (id = e.wishlistId));
+    const params = {
+      wishlistId: id,
+    };
+    deleteWishList(params);
+    setWishClick(false);
+  };
+
   return (
     <DetailContent>
       <Simple>
@@ -329,7 +363,9 @@ const ProductDetail = () => {
                 {single}{' '}
                 <RxCrossCircled
                   onClick={() => {
-                    setTotalPrice(totalPrice - DetailData.singleRoomPrice * singleCount);
+                    setTotalPrice(
+                      totalPrice - Number(productDetail?.singleRoomPrice) * singleCount,
+                    );
                     setSingle('');
                   }}
                 />
@@ -338,7 +374,7 @@ const ProductDetail = () => {
                 onClick={() => {
                   if (singleCount > 1) {
                     setSingleCount(singleCount - 1);
-                    setTotalPrice(totalPrice - DetailData.singleRoomPrice);
+                    setTotalPrice(totalPrice - Number(productDetail?.singleRoomPrice));
                   }
                 }}
               >
@@ -348,12 +384,14 @@ const ProductDetail = () => {
               <button
                 onClick={() => {
                   setSingleCount(singleCount + 1);
-                  setTotalPrice(totalPrice + DetailData.singleRoomPrice);
+                  setTotalPrice(totalPrice + Number(productDetail?.singleRoomPrice));
                 }}
               >
                 +
               </button>
-              <p className="itemPrice">{formatPrice(DetailData.singleRoomPrice * singleCount)}</p>
+              <p className="itemPrice">
+                {formatPrice(Number(productDetail?.singleRoomPrice) * singleCount)}
+              </p>
             </ItemContent>
           ) : null}
 
@@ -376,10 +414,12 @@ const ProductDetail = () => {
             >
               장바구니
             </button>
-            {wishList.findIndex((e) => e.productId === Number(router.query.id)) === 0 ? (
-              <AiFillHeart size={25} />
+            {(wishList &&
+              wishList.findIndex((e) => e.productId === Number(productDetail?.productId)) === 0) ||
+            wishClick === true ? (
+              <AiFillHeart size={25} onClick={() => deleteWish()} />
             ) : (
-              <AiOutlineHeart size={25} />
+              <AiOutlineHeart size={25} onClick={() => addWish()} />
             )}
           </ButtonContent>
         </TextContent>
