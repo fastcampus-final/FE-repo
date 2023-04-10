@@ -77,6 +77,13 @@ const ProductDetail = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    if (wishList) {
+      wishList.findIndex((e) => e.productId === Number(productDetail?.productId)) === 1 &&
+        setWishClick(true);
+    }
+  }, []);
+
   const productPrice = Number(productDetail?.price);
 
   const SingleOption = [
@@ -261,8 +268,24 @@ const ProductDetail = () => {
       productId: productDetail?.productId,
     };
     if (cookies.accessToken) {
-      postWishList(params);
-      setWishClick(true);
+      try {
+        postWishList(params);
+      } catch (error) {
+        return dispatch(
+          setModal({
+            isOpen: true,
+            text: MESSAGES.ERROR,
+            onClickOk: () =>
+              dispatch(
+                setModal({
+                  isOpen: false,
+                }),
+              ),
+          }),
+        );
+      } finally {
+        setWishClick(true);
+      }
     } else {
       return dispatch(
         setModal({
@@ -284,11 +307,24 @@ const ProductDetail = () => {
   const deleteWish = () => {
     let id;
     wishList && wishList.findIndex((e) => (id = e.wishlistId));
-    const params = {
-      wishlistId: id,
-    };
-    deleteWishList(params);
-    setWishClick(false);
+    try {
+      deleteWishList(Number(id));
+    } catch (error) {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          text: MESSAGES.ERROR,
+          onClickOk: () =>
+            dispatch(
+              setModal({
+                isOpen: false,
+              }),
+            ),
+        }),
+      );
+    } finally {
+      setWishClick(false);
+    }
   };
 
   return (

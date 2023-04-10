@@ -67,6 +67,7 @@ export const MESSAGES = {
   VALID_AUTH: '로그인된 계정입니다.\n로그아웃 후 이용해주세요.',
   CHANGE_INFO: '정보수정이 완료되었습니다.',
   MOVE_TO_SIGNUP: '계정이 없으신가요? 그렇다면 회원가입 페이지로 이동해 주세요.',
+  ERROR: '에러가 발생하였습니다.',
   COMMUNITY: {
     COMPLETE_ADD: '추가가 완료되었습니다.',
     COMPLETE_EDIT: '수정이 완료되었습니다.',

@@ -11,10 +11,8 @@ export const postWishList = async (params: { productId: number | undefined }) =>
   return data;
 };
 
-export const deleteWishList = async (params: { wishlistId: number | undefined }) => {
-  const { data } = await instance.delete(API_URLS.WISHLIST, {
-    data: params,
-  });
+export const deleteWishList = async (id: number) => {
+  const { data } = await instance.delete(API_URLS.WISHLIST_DELETE(id));
   return data;
 };
 
