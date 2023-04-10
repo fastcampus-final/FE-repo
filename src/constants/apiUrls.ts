@@ -23,6 +23,7 @@ export const API_URLS = {
   BUY: (id: string) => `/buy/${id}`,
   BUY_LIST: (page: number) => `/buy/${page}`,
   CART: '/cart',
+  CART_BY_ID: (id: number) => `/cart/${id}`,
   ORDER: '/order',
   WISHLIST: '/wishlist',
   BOARD: (type: string, keyword: string | null = '', pageNumber: number) =>

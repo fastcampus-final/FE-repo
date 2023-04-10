@@ -1,11 +1,18 @@
 export interface ICart {
-  productId: string;
+  cartId: number;
+  productId: number;
   productName: string;
   productPrice: number;
   productThumbnail: string;
-  reservationNumber?: string;
-  reservationSingleNumber?: string;
-  singleRoomPrice?: string;
-  totalAmount?: string;
-  travelDate?: string;
+  numberOfPeople: number;
+  singleRoomNumber: number;
+  singleRoomPrice: number;
+  option: ICartOption;
+  productOptions: ICartOption[];
+}
+
+export interface ICartOption {
+  productOptionId: number;
+  startDate: string;
+  endDate: string;
 }
