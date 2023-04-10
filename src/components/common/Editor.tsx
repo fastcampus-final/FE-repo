@@ -65,6 +65,10 @@ const Editor = ({ htmlStr, setHtmlStr }: IEditor) => {
     locale: 'ko',
   };
 
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
   return (
     <WysiwygEditor
       editorClassName="editor" // Editor 적용 클래스
