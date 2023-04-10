@@ -415,7 +415,7 @@ const ProductDetail = () => {
               장바구니
             </button>
             {(wishList &&
-              wishList.findIndex((e) => e.productId === Number(productDetail?.productId)) === 0) ||
+              wishList.findIndex((e) => e.productId === Number(productDetail?.productId)) === 1) ||
             wishClick === true ? (
               <AiFillHeart size={25} onClick={() => deleteWish()} />
             ) : (
