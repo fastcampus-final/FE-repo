@@ -60,6 +60,12 @@ export const MESSAGES = {
       BIRTH_PATTERN: '생년월일 형식에 맞지 않습니다.',
     },
   },
+  CART: {
+    CHECK_PEOPLE: '최소 인원은 1인 입니다.',
+    COMPLETE_EDIT: '저장이 완료되었습니다.',
+    ERROR_NOT_CHECK: '선택하신 상품이 없습니다.',
+    COMPLETE_DELETE: '삭제가 완료되었습니다.',
+  },
   ORDER: {
     EXPIRE: '결제시간이 초과되었습니다.\n다시 시도해주세요.',
   },
