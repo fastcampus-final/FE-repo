@@ -68,8 +68,10 @@ const ProductDetail = () => {
       const productData = await getProductDetail(String(router.query.id));
       setProductDetail(productData);
 
-      const wishData = await getWishList();
-      setWishList(wishData);
+      if (cookies.accessToken) {
+        const wishData = await getWishList();
+        setWishList(wishData);
+      }
 
       const relatedData = await getRelatedProducts(Number(router.query.id));
       setRelatedProduct(relatedData);
@@ -393,12 +395,7 @@ const ProductDetail = () => {
 
       <RelatedContent>
         <p className="subTitle">관련상품</p>
-        <Swiper
-          modules={[Pagination]}
-          slidesPerView={isMobile ? 2 : 4}
-          spaceBetween={10}
-          pagination={{ clickable: true }}
-        >
+        <Swiper slidesPerView={isMobile ? 2 : 4} spaceBetween={10}>
           {relatedProduct && relatedProduct.length > 0
             ? relatedProduct.map((item) => (
                 <RelatedList
