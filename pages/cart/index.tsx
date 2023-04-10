@@ -2,6 +2,8 @@ import { deleteCart, getCart } from '@/apis/cart';
 import CartCard from '@/components/Cart/CartCard';
 import PageTitle from '@/components/common/PageTitle';
 import { MESSAGES } from '@/constants/messages';
+import withAuth from '@/components/common/PrivateRouter';
+
 import { ROUTES } from '@/constants/routes';
 import { ICart } from '@/interfaces/cart';
 import { RootState } from '@/store';
@@ -134,7 +136,7 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default withAuth(Cart);
 
 const Container = styled.div`
   display: flex;

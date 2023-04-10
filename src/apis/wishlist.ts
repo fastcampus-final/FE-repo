@@ -6,6 +6,16 @@ export const getWishList = async () => {
   return data;
 };
 
+export const postWishList = async (params: { productId: number | undefined }) => {
+  const { data } = await instance.post(API_URLS.WISHLIST, params);
+  return data;
+};
+
+export const deleteWishList = async (id: number) => {
+  const { data } = await instance.delete(API_URLS.WISHLIST_DELETE(id));
+  return data;
+};
+
 export const postAddCart = async (params: {
   numberOfPeople: number;
   productId: number | undefined;

@@ -22,7 +22,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-const Editor = dynamic(() => import('@/components/common/Editor'), { ssr: false });
+const Editor = dynamic(async () => await import('@/components/common/Editor'), { ssr: false });
 
 const ProductEditForm = () => {
   const router = useRouter();
@@ -76,7 +76,7 @@ const ProductEditForm = () => {
       type: 'A',
     };
     await addAdminProduct(formData);
-    router.push(ROUTES.ADMIN.PRODUCT_BY_ID(product!.productId!));
+    router.push(ROUTES.ADMIN.PRODUCT_BY_ID(product!.productId));
   };
 
   const handleThumbnail = () => {

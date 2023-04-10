@@ -18,12 +18,12 @@ const ProductDetail = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await getAdminProductDetail(router.query.id as string);
+      const data = await getAdminProductDetail(Number(router.query.id));
       setProduct(data);
     })();
   }, []);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: number) => {
     await deleteProduct(id);
     router.push(ROUTES.ADMIN.PRODUCT);
   };

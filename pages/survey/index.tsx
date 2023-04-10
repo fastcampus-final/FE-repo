@@ -27,6 +27,7 @@ import SurveyProductCard from '@/components/Product/SurveyProductCard';
 import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
 import { MESSAGES } from '@/constants/messages';
+import withAuth from '@/components/common/PrivateRouter';
 
 const Servey = () => {
   const dispatch = useDispatch();
@@ -194,7 +195,7 @@ const Servey = () => {
   );
 };
 
-export default Servey;
+export default withAuth(Servey);
 
 const Container = styled.div`
   margin: 0 auto;

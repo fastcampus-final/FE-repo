@@ -26,6 +26,7 @@ export const API_URLS = {
   CART_BY_ID: (id: number) => `/cart/${id}`,
   ORDER: '/order',
   WISHLIST: '/wishlist',
+  WISHLIST_DELETE: (id: number) => `/wishlist/${id}`,
   BOARD: (type: string, keyword: string | null = '', pageNumber: number) =>
     keyword === null
       ? `/board?type=${type}&pageNumber=${pageNumber}`
@@ -48,14 +49,14 @@ export const API_URLS = {
   },
   ADMIN: {
     PRODUCT: '/admin/products',
-    PRODUCT_BY_ID: (id: string) => `/admin/products/${id}`,
+    PRODUCT_BY_ID: (id: number) => `/admin/products/${id}`,
     PRODUCT_PAGE: (page = 1) => `/admin/products?page=${page}`,
-    PRODUCT_DETAIL: (id: string) => `/admin/products/detail/${id}`,
+    PRODUCT_DETAIL: (id: number) => `/admin/products/detail/${id}`,
     CATEGORY: '/categories',
-    CATEGORY_BY_ID: (id: string) => `/categories/${id}`,
+    CATEGORY_BY_ID: (id: number) => `/categories/${id}`,
     RECOMMEND: '/page/popular/regions',
     RECOMMEND_PAGE: (page = 1) => `/page/popular/regions?page=${page}`,
-    RECOMMEND_BY_ID: (id: string) => `/admin/regions/${id}`,
+    RECOMMEND_BY_ID: (id: number) => `/admin/regions/${id}`,
     BANNERLIST: '/admin/page/bannerlist',
     BANNER_BY_ID: (id: number) => `/admin/page/banner/${id}`,
     BANNER_ADD: '/admin/page/banner',

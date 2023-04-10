@@ -7,7 +7,8 @@ import { Button, TextField } from '@mui/material';
 import { ROUTES } from '@/constants/routes';
 import { patchBoardEdit } from '@/apis/community';
 import dayjs from 'dayjs';
-import Editor from '@/components/common/Editor';
+import dynamic from 'next/dynamic';
+const Editor = dynamic(async () => await import('@/components/common/Editor'), { ssr: false });
 
 const ReviewEditForm = () => {
   const router = useRouter();
