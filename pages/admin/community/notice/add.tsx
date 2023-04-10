@@ -12,7 +12,7 @@ import { ROUTES } from '@/constants/routes';
 
 import dynamic from 'next/dynamic';
 
-const Editor = dynamic(() => import('@/components/common/Editor'), { ssr: false });
+const Editor = dynamic(async () => await import('@/components/common/Editor'), { ssr: false });
 
 const NoticeAddForm = () => {
   const router = useRouter();
