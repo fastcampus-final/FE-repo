@@ -25,6 +25,7 @@ export const API_URLS = {
   CART: '/cart',
   ORDER: '/order',
   WISHLIST: '/wishlist',
+  WISHLIST_DELETE: (id: number) => `/wishlist/${id}`,
   BOARD: (type: string, keyword: string | null = '', pageNumber: number) =>
     keyword === null
       ? `/board?type=${type}&pageNumber=${pageNumber}`
