@@ -2,24 +2,22 @@ import { getBannerList } from '@/apis/main';
 import { IBanner } from '@/interfaces/main';
 import React, { useEffect, useState } from 'react';
 
-import BannerListData from '@/dummydata/bannerList.json';
 import styled from '@emotion/styled';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper';
-import BannerList from './BannerList';
+import { useRouter } from 'next/router';
+import { ROUTES } from '@/constants/routes';
 
 const Banner = () => {
+  const router = useRouter();
   const [bannerList, setBannerList] = useState<Array<IBanner>>([]);
 
   useEffect(() => {
     (async () => {
-      // const data = await getBannerList();
-      // setBannerList(data);
-      setBannerList(BannerListData);
+      const data = await getBannerList();
+      setBannerList(data);
     })();
   }, []);
-
-  console.log(bannerList);
 
   return (
     <BannerContent>
@@ -36,9 +34,11 @@ const Banner = () => {
         className="banner"
       >
         {bannerList.map((item) => (
-          <SwiperContent key={item.bannerId} image={item.image}>
-            <BannerList data={item} />
-          </SwiperContent>
+          <SwiperContent
+            key={item.bannerId}
+            image={item.image}
+            onClick={() => router.push(ROUTES.PRODUCT_BY_ID(String(item.productId)))}
+          ></SwiperContent>
         ))}
       </Swiper>
     </BannerContent>

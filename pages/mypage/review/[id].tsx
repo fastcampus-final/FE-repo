@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
-import DetailData from '@/dummydata/reviewDetail.json';
 import { IMyReviewDetail } from '@/interfaces/myReview';
 import styled from '@emotion/styled';
 import MyPageNavbar from '@/components/layout/MyPageNavbar';
@@ -21,9 +20,8 @@ const MyReviewDetail = () => {
 
   useEffect(() => {
     (async () => {
-      // const data = await getBoardDetail(Number(router.query.id));
-      // setDetailData(data);
-      setDetailData(DetailData);
+      const data = await getBoardDetail(Number(router.query.id));
+      setDetailData(data);
     })();
   });
 

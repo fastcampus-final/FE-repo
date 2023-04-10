@@ -15,7 +15,15 @@ const WishCard = ({ data }: Props) => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(ROUTES.PRODUCT_BY_ID(data.productId));
+    router.push(
+      {
+        pathname: ROUTES.PRODUCT_BY_ID(data.productId),
+        query: {
+          id: data.productId,
+        },
+      },
+      ROUTES.PRODUCT_BY_ID(data.productId),
+    );
   };
 
   const handleDeleteWish = async (id: number) => {

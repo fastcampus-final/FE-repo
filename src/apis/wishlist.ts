@@ -12,6 +12,6 @@ export const postAddCart = async (params: {
   productOptionId: number;
   singleRoomNumber: number;
 }) => {
-  const data = await instance.post(API_URLS.WISHLIST, params);
+  const data = await instance.post(API_URLS.CART, params);
   return data;
 };

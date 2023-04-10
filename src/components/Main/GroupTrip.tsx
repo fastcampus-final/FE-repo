@@ -1,45 +1,53 @@
+import { ROUTES } from '@/constants/routes';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 import { isMobile } from 'react-device-detect';
 
 const GroupTrip = () => {
+  const router = useRouter();
   return (
     <GroupContent mobile={isMobile.toString()}>
       <div className="groupTop">
         <GroupWrap
           mobile={isMobile.toString()}
-          image="https://gotogetherpictureupload.s3.ap-northeast-2.amazonaws.com/main/5070_1680797230105.svg"
+          image="https://gotogetherpictureupload.s3.ap-northeast-2.amazonaws.com/main/5070_1681036315752.png"
+          onClick={() => router.push({ pathname: ROUTES.PRODUCT, query: { categoryId: 4 } })}
         >
-          <p>액티브 시니어</p>
+          <p>actice SENIOR</p>
         </GroupWrap>
         <GroupWrap
           mobile={isMobile.toString()}
-          image="https://gotogetherpictureupload.s3.ap-northeast-2.amazonaws.com/main/greece_1680797247227.svg"
+          image="https://gotogetherpictureupload.s3.ap-northeast-2.amazonaws.com/main/anyone_1681036696171.png"
+          onClick={() => router.push({ pathname: ROUTES.PRODUCT, query: { categoryId: 8 } })}
         >
-          <p>지중해 여행</p>
+          <p>with ANYONE</p>
         </GroupWrap>
       </div>
       <div className="groupBottom">
         <GroupWrap
           mobile={isMobile.toString()}
-          image="https://gotogetherpictureupload.s3.ap-northeast-2.amazonaws.com/main/domestic_1680797213741.svg"
+          image="https://gotogetherpictureupload.s3.ap-northeast-2.amazonaws.com/main/men_1681036829691.png"
+          onClick={() => router.push({ pathname: ROUTES.PRODUCT, query: { categoryId: 5 } })}
         >
-          <p>국내 여행</p>
+          <p>MEN only</p>
         </GroupWrap>
         <GroupWrap
           mobile={isMobile.toString()}
-          image="https://gotogetherpictureupload.s3.ap-northeast-2.amazonaws.com/main/woman_1680797187921.svg"
+          image="https://gotogetherpictureupload.s3.ap-northeast-2.amazonaws.com/main/women_1681037000284.png"
+          onClick={() => router.push({ pathname: ROUTES.PRODUCT, query: { categoryId: 6 } })}
         >
-          <p>여자들만 함께</p>
+          <p>WOMEN only</p>
         </GroupWrap>
         {isMobile ? null : (
           <GroupWrap
             mobile={isMobile.toString()}
-            image="https://gotogetherpictureupload.s3.ap-northeast-2.amazonaws.com/main/spring_1680845444037.svg"
+            image="https://gotogetherpictureupload.s3.ap-northeast-2.amazonaws.com/main/family_1681036959719.png"
+            onClick={() => router.push({ pathname: ROUTES.PRODUCT, query: { categoryId: 7 } })}
           >
-            <p>봄 나들이</p>
+            <p>with FAMILY</p>
           </GroupWrap>
         )}
       </div>
@@ -79,8 +87,7 @@ const GroupWrap = styled.div<{ image: string; mobile: string }>`
   text-align: center;
   background-image: url(${(props) => props.image});
   background-position: center center;
-  background-size: 100% 160%;
-  /* background-size: cover; */
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   box-shadow: inset 0 -80px 100px rgba(51, 51, 51, 0.5);
 

@@ -25,7 +25,6 @@ const NoticeEditForm = () => {
       boardContent: editValue,
       boardThumbnail: '',
       boardTitle: keyword,
-      boardType: '알려드려요',
     };
 
     patchBoardEdit(Number(router.query.id), data);

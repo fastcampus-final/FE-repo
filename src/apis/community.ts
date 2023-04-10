@@ -10,7 +10,6 @@ export const postBoardAdd = async (data: {
   boardContent: string;
   boardThumbnail: string;
   boardTitle: string;
-  boardType: string;
 }) => {
   const res = await instance.post(API_URLS.BOARD_ADD, data);
   return res;

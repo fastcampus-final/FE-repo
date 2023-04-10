@@ -50,8 +50,8 @@ const Notice = () => {
     <NoticeContent>
       <TopArea>
         <p>
-          생생한 <span className="textBold">여행후기</span>를 남겨주시고{' '}
-          <span className="textBold">커피 한 잔</span>의 행운을 누려보세요.
+          고투게더의 <span className="textBold">공지사항</span>과
+          <span className="textBold">이벤트 정보</span>를 확인해보세요.
         </p>
         <InputArea>
           <TextField

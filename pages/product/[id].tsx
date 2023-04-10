@@ -65,17 +65,16 @@ const ProductDetail = () => {
 
   useEffect(() => {
     (async () => {
-      // const productData = await getProductDetail(String(router.query.id));
-      // setProductDetail(productData);
-      setProductDetail(DetailData);
+      const productData = await getProductDetail(String(router.query.id));
+      setProductDetail(productData);
 
-      // const wishData = await getWishList();
-      // setWishList(wishData);
-      setWishList(WishData);
+      if (cookies.accessToken) {
+        const wishData = await getWishList();
+        setWishList(wishData);
+      }
 
-      // const relatedData = await getRelatedProducts(Number(router.query.id));
-      // setRelatedProduct(relatedData);
-      setRelatedProduct(RelatedData);
+      const relatedData = await getRelatedProducts(Number(router.query.id));
+      setRelatedProduct(relatedData);
     })();
   }, []);
 
@@ -261,7 +260,7 @@ const ProductDetail = () => {
   return (
     <DetailContent>
       <Simple>
-        <Image src={productDetail?.thumbnail} alt="product image" width="525" height="525" />
+        <Image src={productDetail?.thumbnail} alt="product image" />
         <TextContent>
           <h2>{productDetail?.name}</h2>
           <p className="price">{formatPrice(productPrice)}</p>
@@ -375,7 +374,7 @@ const ProductDetail = () => {
                 addCart();
               }}
             >
-              관심상품
+              장바구니
             </button>
             {wishList.findIndex((e) => e.productId === Number(router.query.id)) === 0 ? (
               <AiFillHeart size={25} />
@@ -396,12 +395,7 @@ const ProductDetail = () => {
 
       <RelatedContent>
         <p className="subTitle">관련상품</p>
-        <Swiper
-          modules={[Pagination]}
-          slidesPerView={isMobile ? 2 : 4}
-          spaceBetween={10}
-          pagination={{ clickable: true }}
-        >
+        <Swiper slidesPerView={isMobile ? 2 : 4} spaceBetween={10}>
           {relatedProduct && relatedProduct.length > 0
             ? relatedProduct.map((item) => (
                 <RelatedList
@@ -433,17 +427,33 @@ const ProductDetail = () => {
 export default ProductDetail;
 
 const DetailContent = styled.div`
-  margin: 0 auto;
+  margin: 3rem auto 0;
+  @media (max-width: 1000px) {
+    padding: 1rem;
+    margin: 1rem auto 0;
+  }
 `;
 
 const Simple = styled.div`
+  @media (max-width: 1000px) {
+    display: block;
+    img {
+      width: 100%;
+      aspect-ratio: 2 / 1.5;
+      margin-bottom: 1.5rem;
+    }
+  }
   display: flex;
-  gap: 100px;
+  gap: 3rem;
   justify-content: center;
 `;
 
 const TextContent = styled.div`
-  width: 450px;
+  @media (max-width: 1000px) {
+    width: 80%;
+    margin: auto;
+  }
+  width: 30%;
   h2 {
     font-size: 1.5rem;
     font-weight: 500;
@@ -548,6 +558,12 @@ const MainContent = styled.div<{ isViewMore: boolean }>`
   text-align: center;
   max-height: ${(props) => (props.isViewMore ? '' : '400px')};
   overflow: hidden;
+  img {
+    width: 100%;
+    @media (min-width: 1000px) {
+      width: 60%;
+    }
+  }
 `;
 
 const ViewMoreContent = styled.div<{ isViewMore: boolean }>`
@@ -580,6 +596,9 @@ const ViewMoreContent = styled.div<{ isViewMore: boolean }>`
 const RelatedContent = styled.div`
   margin-top: 5rem;
   padding: 0 15rem;
+  @media (max-width: 1000px) {
+    padding: 0 3rem;
+  }
   .subTitle {
     margin-bottom: 1.5rem;
     font-size: 1.4rem;
