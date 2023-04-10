@@ -480,12 +480,12 @@ const ProductDetail = () => {
                   onClick={() =>
                     router.push(
                       {
-                        pathname: ROUTES.PRODUCT_BY_ID(item.productId),
+                        pathname: ROUTES.PRODUCT_BY_ID(Number(item.productId)),
                         query: {
                           id: item.productId,
                         },
                       },
-                      ROUTES.PRODUCT_BY_ID(item.productId),
+                      ROUTES.PRODUCT_BY_ID(Number(item.productId)),
                     )
                   }
                 >
