@@ -35,13 +35,9 @@ export default function App({ Component, pageProps }: AppProps) {
             <CookiesProvider>
               <SSRSuspense fallback={<Loading />}>
                 <GlobalStyle />
-                {router.asPath === ROUTES.PRODUCT ? (
+                <Layout>
                   <Component {...pageProps} />
-                ) : (
-                  <Layout>
-                    <Component {...pageProps} />
-                  </Layout>
-                )}
+                </Layout>
               </SSRSuspense>
             </CookiesProvider>
           </Provider>
