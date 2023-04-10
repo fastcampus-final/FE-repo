@@ -4,7 +4,6 @@ import { formatPrice } from '@/utils/format';
 import { useRouter } from 'next/router';
 import React from 'react';
 import styled from '@emotion/styled';
-import Image from '../common/Image';
 
 interface Props {
   data: IProduct;

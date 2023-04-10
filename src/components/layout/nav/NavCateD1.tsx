@@ -33,7 +33,16 @@ const NavCateD1 = ({ data }: { data: IProps }) => {
             <TwoDepth
               onClick={() => {
                 if (data.children.length === 0) {
-                  router.push({ pathname: ROUTES.PRODUCT, query: { categoryId: data.categoryId } });
+                  if (data.categoryId === 101 || data.categoryId === 102) {
+                    router.push({
+                      pathname: layoutRoutes[data.categoryId],
+                    });
+                  } else {
+                    router.push({
+                      pathname: ROUTES.PRODUCT,
+                      query: { categoryId: data.categoryId },
+                    });
+                  }
                   setOpen(false);
                 } else {
                   setOpen(true);
@@ -53,10 +62,16 @@ const NavCateD1 = ({ data }: { data: IProps }) => {
                 <ThreeDepth
                   key={data.categoryId}
                   onClick={() => {
-                    router.push({
-                      pathname: ROUTES.PRODUCT,
-                      query: { categoryId: data.categoryId },
-                    });
+                    if (data.categoryId === 101 || data.categoryId === 102) {
+                      router.push({
+                        pathname: layoutRoutes[data.categoryId],
+                      });
+                    } else {
+                      router.push({
+                        pathname: ROUTES.PRODUCT,
+                        query: { categoryId: data.categoryId },
+                      });
+                    }
                     setReOpen(0);
                     setOpen(false);
                   }}

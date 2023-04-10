@@ -11,14 +11,11 @@ import SSRSuspense from '@/components/common/SSRSuspense';
 import { ThemeProvider } from '@mui/material';
 import { theme } from '@/styles/muiTheme';
 import { CookiesProvider } from 'react-cookie';
-
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
+import { useRouter } from 'next/router';
+import { ROUTES } from '@/constants/routes';
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {

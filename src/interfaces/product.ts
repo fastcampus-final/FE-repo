@@ -7,7 +7,7 @@ export interface IProduct {
 }
 
 export interface IProductDetail {
-  productId: string;
+  productId: number;
   name: string;
   summary: string;
   price: number;
@@ -15,7 +15,7 @@ export interface IProductDetail {
   feature?: string;
   airplane?: string;
   singleRoomPrice?: number;
-  type?: string;
+  type?: string | null;
   thumbnail: any;
   detail: string;
   productStatus?: string;
@@ -53,6 +53,8 @@ export interface IProductOption {
   endDate: string;
   maxPeople: number;
   maxSingleRoom: number;
+  presentPeopleNumber?: number;
+  presentSingleRoomNumber?: number;
 }
 
 export interface IRecommend {
@@ -60,4 +62,11 @@ export interface IRecommend {
   regionName: string;
   rate: number;
   image: string;
+}
+
+export interface IReservation {
+  productId: number | undefined;
+  productOptionId: number;
+  reservationPeopleNumber: number;
+  reservationSingleRoomNumber: number;
 }

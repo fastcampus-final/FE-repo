@@ -1,25 +1,38 @@
 import Image from '@/components/common/Image';
 import { ROUTES } from '@/constants/routes';
-import { IProduct } from '@/interfaces/product';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import React from 'react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { IWishList } from '@/interfaces/wishlist';
+import { deleteMyWish } from '@/apis/mypage/wish';
 
 interface Props {
-  data: IProduct;
+  data: IWishList;
 }
 
 const WishCard = ({ data }: Props) => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(ROUTES.PRODUCT_BY_ID(data.productId));
+    router.push(
+      {
+        pathname: ROUTES.PRODUCT_BY_ID(data.productId),
+        query: {
+          id: data.productId,
+        },
+      },
+      ROUTES.PRODUCT_BY_ID(data.productId),
+    );
+  };
+
+  const handleDeleteWish = async (id: number) => {
+    await deleteMyWish({ wishlistId: id });
   };
 
   return (
     <Container onClick={handleClick}>
-      <WishButton>
+      <WishButton onClick={() => handleDeleteWish(data.productId)}>
         <FavoriteIcon color="secondary" />
       </WishButton>
       <Image
@@ -31,7 +44,7 @@ const WishCard = ({ data }: Props) => {
         borderRadius="10px"
         isCover={true}
       />
-      <Title> {data.productName}</Title>
+      <Title>{data.productName}</Title>
     </Container>
   );
 };
@@ -66,4 +79,9 @@ const WishButton = styled.div`
   top: 10px;
   right: 10px;
   cursor: pointer;
+  z-index: 100;
+  transition: all 0.3s ease;
+  &:hover {
+    scale: 1.3;
+  }
 `;

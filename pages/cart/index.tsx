@@ -1,3 +1,4 @@
+import { getCart } from '@/apis/cart';
 import CartCard from '@/components/Cart/CartCard';
 import PageTitle from '@/components/common/PageTitle';
 import { ROUTES } from '@/constants/routes';
@@ -9,56 +10,21 @@ import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
-const tempData: ICart[] = [
-  {
-    productId: '1',
-    productName: '호주 시드니 8일',
-    productPrice: 2699000,
-    reservationNumber: '1',
-    productThumbnail: 'https://picsum.photos/id/10/350/350',
-    travelDate: '20230316~20230321',
-  },
-  {
-    productId: '2',
-    productName: '다낭 골프팩 3박 5일',
-    productPrice: 1000000,
-    reservationNumber: '1',
-    productThumbnail: 'https://picsum.photos/id/20/350/350',
-    travelDate: '20230316~20230321',
-  },
-  {
-    productId: '3',
-    productName: '나고야 골프팩 4일',
-    productPrice: 1863000,
-    reservationNumber: '1',
-    productThumbnail: 'https://picsum.photos/id/30/350/350',
-    travelDate: '20230316~20230321',
-  },
-  {
-    productId: '1',
-    productName: '호주 시드니 8일',
-    productPrice: 2699000,
-    reservationNumber: '1',
-    productThumbnail: 'https://picsum.photos/id/10/350/350',
-    travelDate: '20230316~20230321',
-  },
-  {
-    productId: '2',
-    productName: '다낭 골프팩 3박 5일',
-    productPrice: 1000000,
-    reservationNumber: '1',
-    productThumbnail: 'https://picsum.photos/id/20/350/350',
-    travelDate: '20230316~20230321',
-  },
-];
-
 const Cart = () => {
   const router = useRouter();
   const [amount, setAmount] = useState('');
+  const [product, setProduct] = useState<ICart[]>([]);
 
   useEffect(() => {
-    const tempAmount = formatPrice(tempData.reduce((acc, cur) => acc + cur.productPrice, 0));
-    setAmount(tempAmount);
+    (async () => {
+      const data = await getCart();
+      setProduct(data);
+    })();
+  }, []);
+
+  useEffect(() => {
+    const amount = formatPrice(product.reduce((acc, cur) => acc + cur.productPrice, 0));
+    setAmount(amount);
   }, []);
 
   return (
@@ -66,9 +32,7 @@ const Cart = () => {
       <PageTitle title="장바구니" />
       <CartWrap>
         <CartList>
-          {tempData?.map((item, idx) => (
-            <CartCard key={idx} data={item} />
-          ))}
+          {product && product.map((item, idx) => <CartCard key={idx} data={item} />)}
         </CartList>
         <AmountWrap>
           <PriceText>
@@ -91,7 +55,7 @@ const Cart = () => {
                   pathname: ROUTES.ORDER,
                   query: {
                     amount: amount,
-                    items: JSON.stringify(tempData),
+                    items: JSON.stringify(product),
                   },
                 },
                 '/order',

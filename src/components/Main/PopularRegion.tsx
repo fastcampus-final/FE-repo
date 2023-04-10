@@ -1,6 +1,5 @@
 import { getPopularRegions } from '@/apis/main';
 import { IRegions } from '@/interfaces/main';
-import { getStorage, setStorage } from '@/utils/storage';
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import { Autoplay } from 'swiper';

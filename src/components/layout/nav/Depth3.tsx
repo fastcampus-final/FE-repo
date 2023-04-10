@@ -19,7 +19,16 @@ const Depth3 = ({ data }: IProps) => {
   return (
     <ThreeDepth
       onClick={() => {
-        router.push({ pathname: ROUTES.PRODUCT, query: { categoryId: data.categoryId } });
+        if (data.categoryId === 101 || data.categoryId === 102) {
+          router.push({
+            pathname: layoutRoutes[data.categoryId],
+          });
+        } else {
+          router.push({
+            pathname: ROUTES.PRODUCT,
+            query: { categoryId: data.categoryId },
+          });
+        }
       }}
     >
       {data.categoryName}

@@ -15,7 +15,7 @@ export const ROUTES = {
     `/search?keyword=${keyword}&page=${page}
     &sort=${sort}&people=${people}&dateOption=${dateOption ? dateOption : ''}`,
   PRODUCT: '/product',
-  PRODUCT_BY_ID: (id: string) => `/product/${id}`,
+  PRODUCT_BY_ID: (id: number) => `/product/${id}`,
   CART: '/cart',
   ORDER: '/order',
   REVIEW: '/community/review',
@@ -60,6 +60,7 @@ export const ROUTES = {
     NOTICE_EDIT: '/admin/community/notice/edit',
     REVIEW: '/admin/community/review',
     REVIEW_BY_ID: (id: string) => `/admin/community/review/${id}`,
+    REVIEW_ADD: '/admin/community/review/add',
     REVIEW_EDIT: '/admin/community/review/edit',
     BANNER: '/admin/banner',
     BANNER_BY_ID: (id: string) => `/admin/banner/${id}`,

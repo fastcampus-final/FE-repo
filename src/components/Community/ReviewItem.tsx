@@ -47,6 +47,9 @@ const ItemContent = styled.div<{ image: string }>`
   aspect-ratio: 1 / 1;
   filter: brightness(80%);
   background-image: url(${(props) => props.image});
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
   padding: 2rem;
   position: relative;
   &:hover {

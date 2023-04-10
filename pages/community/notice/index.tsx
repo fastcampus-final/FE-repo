@@ -7,7 +7,7 @@ import { Pagination, TextField } from '@mui/material';
 import SearchIcon from '@/../public/icons/Group.svg';
 import CommunityRouter from '@/components/Community/CommunityRouter';
 import NoticeItem from '@/components/Community/NoticeItem';
-import { getBoardList, getBoardSearchList } from '@/apis/community';
+import { getBoardList } from '@/apis/community';
 
 const Notice = () => {
   const router = useRouter();
@@ -18,14 +18,17 @@ const Notice = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await getBoardList('NOTICE', page);
+      const data =
+        keyword !== ''
+          ? await getBoardList('NOTICE', page)
+          : await getBoardList('NOTICE', page, keyword);
       setNoticeData(data?.content);
       setTotalPage(data.totalPages);
     })();
   }, [page]);
 
   const getSearchData = async () => {
-    const searchData = await getBoardSearchList('NOTICE', keyword, 1);
+    const searchData = await getBoardList('NOTICE', 1, keyword);
     setNoticeData(searchData?.content);
   };
 
@@ -47,8 +50,8 @@ const Notice = () => {
     <NoticeContent>
       <TopArea>
         <p>
-          생생한 <span className="textBold">여행후기</span>를 남겨주시고{' '}
-          <span className="textBold">커피 한 잔</span>의 행운을 누려보세요.
+          고투게더의 <span className="textBold">공지사항</span>과
+          <span className="textBold">이벤트 정보</span>를 확인해보세요.
         </p>
         <InputArea>
           <TextField
@@ -75,7 +78,9 @@ const Notice = () => {
       </BottomArea>
 
       <PageContent>
-        <Pagination count={totalPage} color="primary" page={page} onChange={pageChange} />
+        {totalPage > 1 && (
+          <Pagination count={totalPage} color="primary" page={page} onChange={pageChange} />
+        )}
       </PageContent>
     </NoticeContent>
   );

@@ -1,30 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import Image from '@/../../src/components/common/Image';
-import { IProductDetail } from '@/interfaces/product';
+import { IProductDetail, IReservation } from '@/interfaces/product';
 import { formatPrice } from '@/utils/format';
 
-import { AiOutlineHeart } from 'react-icons/ai';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { RxCrossCircled } from 'react-icons/rx';
 
 import Select, { OnChangeValue } from 'react-select';
+import { IWishList } from '@/interfaces/wishlist';
+import { getWishList, postAddCart } from '@/apis/wishlist';
 
-const tempData: IProductDetail = {
-  productId: '1',
-  name: '호주 시드니 8일',
-  price: 2699000,
-  thumbnail: 'https://picsum.photos/id/10/350/350',
-  summary:
-    '4050 여성들 누구나 참가하는 조지아 일주 여행 코카서스의 백미 조지아를 샅샅히 둘러보는 상품 패키지의 안전함과 자유여행의 즐거움을 동시에~',
-  area: '트빌리시/카즈베기/바르지아/보르조미/쿠타이시/메스티아/바투미/고리/우플리시케/시그나기/크바렐리',
-  feature: '포함투어 12개(타사상품 비교必)/No팁/No쇼핑/No옵션',
-  airplane: '인천-트빌리시 왕복 항공',
-  detail: '',
-};
+import WishData from '@/dummydata/wishList.json';
+import DetailData from '@/dummydata/productDetail.json';
+import RelatedData from '@/dummydata/relatedProducts.json';
+import { getProductDetail, getRelatedProducts } from '@/apis/product';
+import product from '../admin/product';
+import { useDispatch } from 'react-redux';
+import { setModal } from '@/store/modal';
+import { MESSAGES } from '@/constants/messages';
+import { ROUTES } from '@/constants/routes';
+import { useCookies } from 'react-cookie';
+import reservation from '../mypage/reservation';
+import { isMobile } from 'react-device-detect';
+
+import Parser from 'html-react-parser';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/pagination';
 
 interface IItemOption {
   optionDate: string;
+  optionId: number;
 }
 
 interface ICountType {
@@ -33,9 +43,14 @@ interface ICountType {
 
 const ProductDetail = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const [cookies, setCookies] = useCookies();
+
+  const [productDetail, setProductDetail] = useState<IProductDetail>();
+  const [relatedProduct, setRelatedProduct] = useState<IProductDetail[]>([]);
 
   const [single, setSingle] = useState('');
-  const [singleCount, setSingleCount] = useState(1);
+  const [singleCount, setSingleCount] = useState(0);
 
   const [items, setItems] = useState<Array<IItemOption>>([]);
   const [itemCounts, setItemCounts] = useState<Array<ICountType>>([]);
@@ -43,43 +58,46 @@ const ProductDetail = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalMember, setTotalMember] = useState(0);
 
-  const productPrice = Number(tempData.price);
+  const [wishList, setWishList] = useState<Array<IWishList>>([]);
+  const [wishClick, setWishClick] = useState(false);
 
-  const DateOptions = [
-    {
-      value: 1,
-      label: '2023/05/30(화)출발 ~ 06/13(화)도착',
-    },
-    {
-      value: 1,
-      label: '2023/06/13(화)출발 ~ 06/27(화)도착',
-    },
-    {
-      value: 1,
-      label: '2023/09/12(화)출발 ~ 09/13(화)도착',
-    },
-    {
-      value: 1,
-      label: '2023/09/26(화)출발 ~ 10/10(화)도착',
-    },
-  ];
+  const [isViewMore, setIsViewMore] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const productData = await getProductDetail(String(router.query.id));
+      setProductDetail(productData);
+
+      if (cookies.accessToken) {
+        const wishData = await getWishList();
+        setWishList(wishData);
+      }
+
+      const relatedData = await getRelatedProducts(Number(router.query.id));
+      setRelatedProduct(relatedData);
+    })();
+  }, []);
+
+  const productPrice = Number(productDetail?.price);
 
   const SingleOption = [
     {
       value: 1,
-      label: `1인 싱글룸 사용시 추가 ${formatPrice(540000)}`,
+      label: `1인 싱글룸 사용시 추가 ${formatPrice(DetailData.singleRoomPrice)}`,
     },
   ];
 
-  const dateSelect = (option: OnChangeValue<{ value: number; label: string }, false>) => {
-    const optionDate = option?.label as string;
-    const count = option?.value as number;
+  const dateSelect = (option: any) => {
+    const optionDate = option?.label;
+    const optionId = option.id;
+    const count = 1;
 
     if (items.some((item) => item.optionDate === optionDate)) {
       alert('이미 선택하신 옵션입니다.');
     } else {
       const newItem = {
         optionDate,
+        optionId,
       };
 
       const newCount = {
@@ -96,11 +114,11 @@ const ProductDetail = () => {
   const singleSelect = (option: OnChangeValue<{ value: number; label: string }, false>) => {
     if (single !== '') {
       setSingleCount(singleCount + 1);
-      setTotalPrice(totalPrice + 540000);
+      setTotalPrice(totalPrice + DetailData.singleRoomPrice);
     } else {
       setSingle(option?.label as string);
       setSingleCount(option?.value as number);
-      setTotalPrice(totalPrice + 540000);
+      setTotalPrice(totalPrice + DetailData.singleRoomPrice);
     }
   };
 
@@ -135,25 +153,135 @@ const ProductDetail = () => {
     setItemCounts([...countRemove]);
   };
 
+  const addCart = () => {
+    if (items.length > 0) {
+      items.map((item) => {
+        const params = {
+          numberOfPeople: totalMember,
+          productId: productDetail?.productId,
+          productOptionId: item.optionId,
+          singleRoomNumber: singleCount,
+        };
+        postAddCart(params);
+      });
+      return dispatch(
+        setModal({
+          isOpen: true,
+          text: MESSAGES.PRODUCT_DETAIL.ADD_CART,
+          onClickOk: () => {
+            dispatch(
+              setModal({
+                isOpen: false,
+              }),
+            ),
+              router.push(ROUTES.CART);
+          },
+          onClickCancel: () =>
+            dispatch(
+              setModal({
+                isOpen: false,
+              }),
+            ),
+        }),
+      );
+    } else {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          text: MESSAGES.PRODUCT_DETAIL.OPTION_ERROR,
+          onClickOk: () =>
+            dispatch(
+              setModal({
+                isOpen: false,
+              }),
+            ),
+        }),
+      );
+    }
+  };
+
+  const addReservation = () => {
+    const reservationData: IReservation[] = [];
+
+    if (items.length > 0 && cookies.accessToken && cookies.accessToken.length > 0) {
+      items.map((item) => {
+        const params = {
+          reservationPeopleNumber: totalMember,
+          productId: productDetail?.productId,
+          productOptionId: item.optionId,
+          reservationSingleRoomNumber: singleCount,
+        };
+        reservationData.push(params);
+      });
+      router.push(
+        {
+          pathname: ROUTES.ORDER,
+          query: {
+            data: JSON.stringify(reservationData),
+          },
+        },
+        ROUTES.ORDER,
+      );
+    } else if (!cookies.accessToken) {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          text: MESSAGES.INVALID_AUTH,
+          onClickOk: () => {
+            dispatch(
+              setModal({
+                isOpen: false,
+              }),
+            ),
+              router.push(ROUTES.LOGIN);
+          },
+        }),
+      );
+    } else if (items.length === 0) {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          text: MESSAGES.PRODUCT_DETAIL.OPTION_ERROR,
+          onClickOk: () =>
+            dispatch(
+              setModal({
+                isOpen: false,
+              }),
+            ),
+        }),
+      );
+    }
+  };
+
+  const ViewMoreClick = () => {
+    setIsViewMore(!isViewMore);
+  };
+
   return (
     <DetailContent>
       <Simple>
-        <Image src={tempData?.thumbnail} alt="product image" width="525" height="525" />
+        <Image src={productDetail?.thumbnail} alt="product image" />
         <TextContent>
-          <h2>{tempData?.name}</h2>
-          <p className="price">{formatPrice(tempData?.price)}</p>
-          <p className="summary">{tempData?.summary}</p>
+          <h2>{productDetail?.name}</h2>
+          <p className="price">{formatPrice(productPrice)}</p>
+          <p className="summary">{productDetail?.summary}</p>
           <p className="title">여행 지역</p>
-          <p className="detail">{tempData?.area}</p>
+          <p className="detail">{productDetail?.area}</p>
           <p className="title">여행 특징</p>
-          <p className="detail">{tempData?.feature}</p>
+          <p className="detail">{productDetail?.feature}</p>
           <p className="title">여행 항공</p>
-          <p className="detail">{tempData?.airplane}</p>
+          <p className="detail">{productDetail?.airplane}</p>
           <p className="dropTitle">출발일</p>
 
           <Select
             onChange={dateSelect}
-            options={DateOptions}
+            options={productDetail?.productOptions?.map((item, idx) => {
+              return {
+                label: `${item.startDate} 출발 ~ ${item.endDate} 도착`,
+                value: idx,
+                id: item.productOptionId,
+              };
+            })}
             placeholder="출발일을 선택해 주세요 (필수)"
           />
 
@@ -201,7 +329,7 @@ const ProductDetail = () => {
                 {single}{' '}
                 <RxCrossCircled
                   onClick={() => {
-                    setTotalPrice(totalPrice - 540000 * singleCount);
+                    setTotalPrice(totalPrice - DetailData.singleRoomPrice * singleCount);
                     setSingle('');
                   }}
                 />
@@ -210,7 +338,7 @@ const ProductDetail = () => {
                 onClick={() => {
                   if (singleCount > 1) {
                     setSingleCount(singleCount - 1);
-                    setTotalPrice(totalPrice - 540000);
+                    setTotalPrice(totalPrice - DetailData.singleRoomPrice);
                   }
                 }}
               >
@@ -220,12 +348,12 @@ const ProductDetail = () => {
               <button
                 onClick={() => {
                   setSingleCount(singleCount + 1);
-                  setTotalPrice(totalPrice + 540000);
+                  setTotalPrice(totalPrice + DetailData.singleRoomPrice);
                 }}
               >
                 +
               </button>
-              <p className="itemPrice">{formatPrice(540000 * singleCount)}</p>
+              <p className="itemPrice">{formatPrice(DetailData.singleRoomPrice * singleCount)}</p>
             </ItemContent>
           ) : null}
 
@@ -236,29 +364,96 @@ const ProductDetail = () => {
             </TotalContent>
           ) : null}
 
-          <button>예약하기</button>
-          <button>관심상품</button>
-          <button>
-            <AiOutlineHeart />
-          </button>
+          <ButtonContent>
+            <button className="blue" onClick={() => addReservation()}>
+              예약하기
+            </button>
+            <button
+              className="white"
+              onClick={() => {
+                addCart();
+              }}
+            >
+              장바구니
+            </button>
+            {wishList.findIndex((e) => e.productId === Number(router.query.id)) === 0 ? (
+              <AiFillHeart size={25} />
+            ) : (
+              <AiOutlineHeart size={25} />
+            )}
+          </ButtonContent>
         </TextContent>
       </Simple>
+
+      <MainContent isViewMore={isViewMore}>
+        {productDetail && Parser(productDetail?.detail)}
+      </MainContent>
+
+      <ViewMoreContent isViewMore={isViewMore}>
+        <button onClick={ViewMoreClick}>{isViewMore ? '상품정보 접기' : '상품정보 더보기'}</button>
+      </ViewMoreContent>
+
+      <RelatedContent>
+        <p className="subTitle">관련상품</p>
+        <Swiper slidesPerView={isMobile ? 2 : 4} spaceBetween={10}>
+          {relatedProduct && relatedProduct.length > 0
+            ? relatedProduct.map((item) => (
+                <RelatedList
+                  key={item.productId}
+                  imageUrl={item.thumbnail}
+                  onClick={() =>
+                    router.push(
+                      {
+                        pathname: ROUTES.PRODUCT_BY_ID(String(item.productId)),
+                        query: {
+                          id: item.productId,
+                        },
+                      },
+                      ROUTES.PRODUCT_BY_ID(String(item.productId)),
+                    )
+                  }
+                >
+                  <div className="image" />
+                  <p className="name">{item.name}</p>
+                </RelatedList>
+              ))
+            : null}
+        </Swiper>
+      </RelatedContent>
     </DetailContent>
   );
 };
 
 export default ProductDetail;
 
-const DetailContent = styled.div``;
+const DetailContent = styled.div`
+  margin: 3rem auto 0;
+  @media (max-width: 1000px) {
+    padding: 1rem;
+    margin: 1rem auto 0;
+  }
+`;
 
 const Simple = styled.div`
+  @media (max-width: 1000px) {
+    display: block;
+    img {
+      width: 100%;
+      aspect-ratio: 2 / 1.5;
+      margin-bottom: 1.5rem;
+    }
+  }
   display: flex;
-  gap: 100px;
+  gap: 3rem;
   justify-content: center;
 `;
 
 const TextContent = styled.div`
-  width: 450px;
+  @media (max-width: 1000px) {
+    width: 80%;
+    margin: auto;
+  }
+  width: 30%;
   h2 {
     font-size: 1.5rem;
     font-weight: 500;
@@ -330,5 +525,99 @@ const TotalContent = styled.div`
   .totalPrice {
     color: #4581f8;
     font-size: 1.4rem;
+  }
+`;
+
+const ButtonContent = styled.div`
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+  button {
+    border-radius: 8px;
+    width: 40%;
+    height: 2.5rem;
+    font-weight: 600;
+    border: 1px solid #0cb1f3;
+  }
+  .white {
+    color: #0cb1f3;
+    background-color: #fff;
+  }
+  .blue {
+    color: #fff;
+    background-color: #0cb1f3;
+  }
+  svg {
+    color: #0cb1f3;
+    margin: auto;
+  }
+`;
+
+const MainContent = styled.div<{ isViewMore: boolean }>`
+  margin-top: 5rem;
+  text-align: center;
+  max-height: ${(props) => (props.isViewMore ? '' : '400px')};
+  overflow: hidden;
+  img {
+    width: 100%;
+    @media (min-width: 1000px) {
+      width: 60%;
+    }
+  }
+`;
+
+const ViewMoreContent = styled.div<{ isViewMore: boolean }>`
+  position: relative;
+  text-align: center;
+  & ::before {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 100%;
+    height: ${(props) => (props.isViewMore ? '' : '50px')};
+    background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 90%);
+    content: '';
+  }
+  button {
+    border: 1px solid rgba(33, 37, 41, 0.2);
+    background-color: transparent;
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    padding: 0.7rem 2.5rem;
+    border-radius: 8px;
+    margin-top: 20px;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      border: 1px solid #0cb1f3;
+    }
+  }
+`;
+
+const RelatedContent = styled.div`
+  margin-top: 5rem;
+  padding: 0 15rem;
+  @media (max-width: 1000px) {
+    padding: 0 3rem;
+  }
+  .subTitle {
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+  }
+`;
+
+const RelatedList = styled(SwiperSlide)<{ imageUrl: string }>`
+  text-align: center;
+  .image {
+    aspect-ratio: 3/2;
+    background-image: url(${(props) => props.imageUrl});
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center center;
+    border-radius: 8px;
+  }
+  .name {
+    margin-top: 1rem;
   }
 `;
