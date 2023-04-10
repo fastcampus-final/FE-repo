@@ -6,7 +6,7 @@ import { formatUserName } from '@/utils/format';
 import styled from '@emotion/styled';
 
 import dynamic from 'next/dynamic';
-const Editor = dynamic(() => import('@/components/common/Editor'), { ssr: false });
+const Editor = dynamic(async () => await import('@/components/common/Editor'), { ssr: false });
 
 import dayjs from 'dayjs';
 import { patchBoardEdit } from '@/apis/community';

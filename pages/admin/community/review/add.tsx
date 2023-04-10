@@ -13,7 +13,7 @@ import { ROUTES } from '@/constants/routes';
 import dynamic from 'next/dynamic';
 import { uploadImage } from '@/apis/common';
 
-const Editor = dynamic(() => import('@/components/common/Editor'), { ssr: false });
+const Editor = dynamic(async () => await import('@/components/common/Editor'), { ssr: false });
 
 const ReviewAddForm = () => {
   const router = useRouter();
