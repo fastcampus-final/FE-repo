@@ -42,7 +42,7 @@ const RecommendProduct = () => {
                   key={idx}
                   style={{ cursor: 'pointer' }}
                   hover
-                  onClick={() => router.push(ROUTES.ADMIN.PRODUCT_BY_ID(String(item.regionId)))}
+                  onClick={() => router.push(ROUTES.ADMIN.PRODUCT_BY_ID(item.regionId))}
                 >
                   <TableCell align="center" width="200px">
                     {idx + 1}

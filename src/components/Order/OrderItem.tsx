@@ -26,7 +26,7 @@ const OrderItem = ({ item }: { item: ICart }) => {
       </div>
       <div>
         <div>{item.productName}</div>
-        <div>{formatPeriod(item.travelDate as string)}</div>
+        <div>{formatPeriod(item.option.startDate, item.option.endDate)}</div>
         <div>{formatPrice(item.productPrice)}</div>
       </div>
     </div>
