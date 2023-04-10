@@ -33,7 +33,7 @@ export const MESSAGES = {
     ERROR_GET_DETAIL: '상품상세 조회 중\n에러가 발생하였습니다.',
   },
   PRODUCT_DETAIL: {
-    ADD_CART: '관심상품에 추가되었습니다. \n관심상품으로 이동하시겠습니까?',
+    ADD_CART: '장바구니에 추가되었습니다. \n장바구니로 이동하시겠습니까?',
     OPTION_ERROR: '필수옵션이 선택되어 있지 않습니다.',
   },
   INPUT: {
@@ -71,6 +71,8 @@ export const MESSAGES = {
   CHANGE_INFO: '정보수정이 완료되었습니다.',
   MOVE_TO_SIGNUP: '계정이 없으신가요? 그렇다면 회원가입 페이지로 이동해 주세요.',
   COMMUNITY: {
+    COMPLETE_ADD: '추가가 완료되었습니다.',
+    COMPLETE_EDIT: '수정이 완료되었습니다.',
     MOVE_TO_LOGIN: '회원 전용 메뉴입니다.\n로그인 후 이용해 주세요.',
     ERROR_DELETE: '에러가 발생하였습니다.',
     CONFIRM_DELETE: '삭제하시겠습니까?',

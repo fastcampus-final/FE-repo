@@ -17,7 +17,6 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import NoticeList from '@/dummydata/CommunityNotice.json';
 
 const Notice = () => {
   const router = useRouter();
@@ -28,14 +27,12 @@ const Notice = () => {
 
   useEffect(() => {
     (async () => {
-      // const noticeData =
-      //   keyword !== ''
-      //     ? await getBoardList('NOTICE', page)
-      //     : await getBoardList('NOTICE', page, keyword);
-      // setNotice(noticeData?.content);
-      // setTotalPage(noticeData.totalPages);
-      setNotice(NoticeList.content);
-      setTotalPage(NoticeList.totalPages);
+      const noticeData =
+        keyword !== ''
+          ? await getBoardList('NOTICE', page)
+          : await getBoardList('NOTICE', page, keyword);
+      setNotice(noticeData?.content);
+      setTotalPage(noticeData.totalPages);
     })();
   }, []);
 

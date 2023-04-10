@@ -10,6 +10,7 @@ const CommunityRouter = ({ pathname }: Props) => {
   const router = useRouter();
   const [routerReview, setRouterReview] = useState(false);
   const [routerNotice, setRouterNotice] = useState(false);
+
   useEffect(() => {
     if (pathname.includes('review')) {
       setRouterReview(true);
@@ -17,6 +18,7 @@ const CommunityRouter = ({ pathname }: Props) => {
       setRouterNotice(true);
     }
   }, []);
+
   return (
     <RouterContent>
       <RouterButton isRouter={routerReview} onClick={() => router.push('/community/review')}>

@@ -19,7 +19,6 @@ const ReviewEditForm = () => {
       boardContent: editValue,
       boardThumbnail: '',
       boardTitle: keyword,
-      boardType: '여행후기',
     };
 
     patchBoardEdit(Number(router.query.id), data);

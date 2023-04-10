@@ -23,7 +23,16 @@ const Depth2 = ({ data }: { data: IDataProps }) => {
         onClick={() => {
           setOpen(!open);
           if (data.children.length === 0) {
-            router.push({ pathname: ROUTES.PRODUCT, query: { categoryId: data.categoryId } });
+            if (data.categoryId === 101 || data.categoryId === 102) {
+              router.push({
+                pathname: layoutRoutes[data.categoryId],
+              });
+            } else {
+              router.push({
+                pathname: ROUTES.PRODUCT,
+                query: { categoryId: data.categoryId },
+              });
+            }
           }
         }}
       >
