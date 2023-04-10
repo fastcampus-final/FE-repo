@@ -50,13 +50,19 @@ const headerLogout = async (router: any, dispatch: any, cookies: any, removeCook
         await alterModal('이미 로그아웃이 된 계정입니다.', dispatch);
         router.push('/');
       } else {
+        await removeCookies('accessToken');
+        await removeCookies('refreshToken');
+        await removeCookies('isAdmin');
         await alterModal(
           '서버 장애로 인해 로그아웃이 되지 않았습니다. 다시 시도해주세요.',
           dispatch,
         );
       }
     })
-    .catch((error) => {
+    .catch(async (error) => {
+      await removeCookies('accessToken');
+      await removeCookies('refreshToken');
+      await removeCookies('isAdmin');
       console.log(error);
       alterModal('서버 장애로 인해 로그아웃이 되지 않았습니다. 다시 시도해주세요.', dispatch);
     });

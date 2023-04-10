@@ -3,28 +3,35 @@ import PageTitle from '@/components/common/PageTitle';
 import MyPageNavbar from '@/components/layout/MyPageNavbar';
 import WishCard from '@/components/Mypage/Wish/WishCard';
 import { IWishList } from '@/interfaces/wishlist';
+import { RootState } from '@/store';
+import { setWishState } from '@/store/wish';
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 const MyWish = () => {
+  const dispatch = useDispatch();
   const [product, setProduct] = useState<IWishList[]>([]);
+  const favorList: IWishList[] = useSelector((state: RootState) => state.wish);
 
   useEffect(() => {
     (async () => {
       const data = await getMyWishList();
-      setProduct(data);
+      dispatch(setWishState(data));
     })();
   }, []);
 
   return (
     <Container>
-      {/* <NavbarWrap> */}
       <MyPageNavbar />
-      {/* </NavbarWrap> */}
       <MypageWrap>
         <PageTitle title="나의 관심 상품" />
         <CardContainer>
-          {product && product.map((item) => <WishCard key={item.productId} data={item} />)}
+          {favorList.length > 0 ? (
+            favorList.map((item) => <WishCard key={item.productId} data={item} />)
+          ) : (
+            <p>관심 상품이 없습니다.</p>
+          )}
         </CardContainer>
       </MypageWrap>
     </Container>
@@ -56,11 +63,5 @@ const MypageWrap = styled.div`
   width: 80%;
   @media (max-width: 1200px) {
     width: 100%;
-  }
-`;
-
-const NavbarWrap = styled.div`
-  @media (max-width: 1200px) {
-    /* display: none; */
   }
 `;

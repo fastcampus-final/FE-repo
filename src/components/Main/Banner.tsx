@@ -8,6 +8,8 @@ import { Pagination, Autoplay } from 'swiper';
 import { useRouter } from 'next/router';
 import { ROUTES } from '@/constants/routes';
 
+import { isMobile } from 'react-device-detect';
+
 const Banner = () => {
   const router = useRouter();
   const [bannerList, setBannerList] = useState<Array<IBanner>>([]);
@@ -20,7 +22,7 @@ const Banner = () => {
   }, []);
 
   return (
-    <BannerContent>
+    <BannerContent mobile={isMobile.toString()}>
       <Swiper
         modules={[Pagination, Autoplay]}
         spaceBetween={0}
@@ -37,7 +39,7 @@ const Banner = () => {
           <SwiperContent
             key={item.bannerId}
             image={item.image}
-            onClick={() => router.push(ROUTES.PRODUCT_BY_ID(String(item.productId)))}
+            onClick={() => router.push(ROUTES.PRODUCT_BY_ID(item.productId))}
           ></SwiperContent>
         ))}
       </Swiper>
@@ -47,9 +49,9 @@ const Banner = () => {
 
 export default Banner;
 
-const BannerContent = styled.div`
+const BannerContent = styled.div<{ mobile: string }>`
   .banner {
-    height: 550px;
+    height: ${(props) => (props.mobile === 'true' ? '17rem' : '35rem')};
     margin-bottom: 5rem;
     width: 100%;
   }
