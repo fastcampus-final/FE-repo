@@ -9,7 +9,7 @@ const cart = createSlice({
       return (state = action.payload);
     },
     deleteCartState(state, action) {
-      return (state = state.filter((item: ICart) => item.productId !== action.payload));
+      return (state = state.filter((item: ICart) => item.cartId !== action.payload));
     },
   },
 });

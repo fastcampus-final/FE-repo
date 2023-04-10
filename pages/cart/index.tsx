@@ -1,15 +1,19 @@
-import { getCart } from '@/apis/cart';
+import { deleteCart, getCart } from '@/apis/cart';
 import CartCard from '@/components/Cart/CartCard';
 import PageTitle from '@/components/common/PageTitle';
+import { MESSAGES } from '@/constants/messages';
 import withAuth from '@/components/common/PrivateRouter';
+
 import { ROUTES } from '@/constants/routes';
 import { ICart } from '@/interfaces/cart';
 import { RootState } from '@/store';
-import { setCartState } from '@/store/cart';
+import { deleteCartState, setCartState } from '@/store/cart';
+import { setModal } from '@/store/modal';
 import { COLORS } from '@/styles/colors';
 import { formatPrice } from '@/utils/format';
 import styled from '@emotion/styled';
-import { Button } from '@mui/material';
+import { CheckBox } from '@mui/icons-material';
+import { Button, Checkbox, InputLabel } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,28 +21,89 @@ import { useDispatch, useSelector } from 'react-redux';
 const Cart = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [amount, setAmount] = useState('');
-  const cartList: ICart[] = useSelector((state: RootState) => state.cart);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const cart: ICart[] = useSelector((state: RootState) => state.cart);
+  const [checkId, setCheckId] = useState<number[]>([]);
+  const [allChecked, setAllChecked] = useState(false);
 
   useEffect(() => {
     (async () => {
       const data = await getCart();
       dispatch(setCartState(data));
-      setAmount(formatPrice(data.reduce((acc: number, cur: ICart) => acc + cur.productPrice, 0)));
     })();
   }, []);
+
+  const handleCheck = (checked: HTMLInputElement['checked'], id: number) => {
+    if (checked) {
+      setCheckId((prev) => [...prev, id]);
+    } else {
+      setCheckId(checkId.filter((checkedId) => checkedId !== id));
+    }
+  };
+
+  const handleAllCheck = () => {
+    if (!allChecked) {
+      const idArray: Array<number> = [];
+      cart.forEach((item) => idArray.push(item.cartId));
+      setCheckId(idArray);
+    } else {
+      setCheckId([]);
+    }
+    setAllChecked((prev) => !prev);
+  };
+
+  const handleDelete = async () => {
+    if (checkId.length === 0) {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          text: MESSAGES.CART.ERROR_NOT_CHECK,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+        }),
+      );
+    } else {
+      await deleteCart(checkId);
+      setCheckId(checkId.filter((item) => !checkId.includes(item)));
+      dispatch(deleteCartState(checkId));
+      return dispatch(
+        setModal({
+          isOpen: true,
+          text: MESSAGES.CART.COMPLETE_DELETE,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+        }),
+      );
+    }
+  };
 
   return (
     <Container>
       <PageTitle title="장바구니" />
+      <CartButtonWrap>
+        <Button variant="outlined" onClick={handleAllCheck}>
+          전체 선택 ({checkId.length}/{cart.length})
+        </Button>
+        <Button variant="text" onClick={handleDelete}>
+          선택 삭제
+        </Button>
+      </CartButtonWrap>
       <CartWrap>
         <CartList>
-          {cartList && cartList.map((item, idx) => <CartCard key={idx} data={item} />)}
+          {cart &&
+            cart.map((item, idx) => (
+              <CartCard
+                key={idx}
+                data={item}
+                setTotalAmount={setTotalAmount}
+                handleCheck={handleCheck}
+                checkId={checkId}
+                setCheckId={setCheckId}
+              />
+            ))}
         </CartList>
         <AmountWrap>
           <PriceText>
             <p>예약 금액</p>
-            <p>{amount}</p>
+            <p>{formatPrice(totalAmount)}</p>
           </PriceText>
           <PriceText>
             <p>할인 금액</p>
@@ -46,7 +111,7 @@ const Cart = () => {
           </PriceText>
           <PriceText>
             <p>총 예약 금액</p>
-            <p>{amount}</p>
+            <p>{formatPrice(totalAmount)}</p>
           </PriceText>
           <Button
             variant="contained"
@@ -55,8 +120,8 @@ const Cart = () => {
                 {
                   pathname: ROUTES.ORDER,
                   query: {
-                    amount: amount,
-                    items: JSON.stringify(cartList),
+                    amount: totalAmount,
+                    items: JSON.stringify(cart),
                   },
                 },
                 '/order',
@@ -85,9 +150,15 @@ const Container = styled.div`
   }
 `;
 
+const CartButtonWrap = styled.div`
+  display: flex;
+  gap: 10px;
+  margin: 10px 0 20px;
+`;
+
 const CartWrap = styled.div`
   display: flex;
-  gap: 40px;
+  gap: 30px;
   width: 100%;
   @media (max-width: 1200px) {
     flex-direction: column;
