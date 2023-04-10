@@ -9,7 +9,6 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import styled from '@emotion/styled';
 import { Button, Checkbox, Divider, InputLabel, MenuItem, Select } from '@mui/material';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
-import withAuth from '../common/PrivateRouter';
 
 interface Props {
   data: ICart;
@@ -130,7 +129,7 @@ const CartItem = ({ data }: Props) => {
   );
 };
 
-export default withAuth(CartItem);
+export default CartItem;
 
 const Container = styled.div`
   display: flex;
