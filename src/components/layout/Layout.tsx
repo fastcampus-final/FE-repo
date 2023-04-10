@@ -1,5 +1,5 @@
 import { hideLoading, showLoading } from '@/store/loading';
-import { Router } from 'next/router';
+import { Router, useRouter } from 'next/router';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
@@ -19,6 +19,7 @@ interface Props {
 const Layout = ({ children }: Props) => {
   const dispatch = useDispatch();
   const [cookies, setCookies] = useCookies();
+  const router = useRouter();
 
   Router.events.on('routeChangeStart', () => dispatch(showLoading()));
   Router.events.on('routeChangeComplete', () => dispatch(hideLoading()));
@@ -39,7 +40,15 @@ const Layout = ({ children }: Props) => {
         </>
       ) : (
         <>
-          <Header />
+          {router.asPath === '/product' ? (
+            <Product>
+              <Header />
+            </Product>
+          ) : (
+            <div>
+              <Header />
+            </div>
+          )}
           <Main>{children}</Main>
           <Footer />
           <ScrollTop />
@@ -78,4 +87,9 @@ const AdminMain = styled.div`
 const AdminWrap = styled.div`
   display: flex;
   width: 100%;
+`;
+const Product = styled.div`
+  @media (max-width: 1200px) {
+    display: none;
+  }
 `;

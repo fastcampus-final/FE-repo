@@ -27,7 +27,7 @@ const Input = ({ error, register, id, type, placeholder, label }: IInputProps) =
       <LableContainer>
         <Label htmlFor={id}>
           {label}
-          <Required>(필수)</Required>
+          {router.asPath === '/signup' && <Required>(필수)</Required>}
         </Label>
       </LableContainer>
       <InputContainer

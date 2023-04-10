@@ -18,7 +18,7 @@ const Header = () => {
     if (cookies.accessToken && cookies.refreshToken) {
       await tokenRefresh(router, dispatch, cookies, removeCookies, setCookies);
     }
-  }, 1500000);
+  }, 1000000);
 
   const router = useRouter();
 
@@ -28,7 +28,7 @@ const Header = () => {
         <Logo />
         {router.asPath !== '/login' && (
           <Menus>
-            {router.asPath !== '/search' && <Search />}
+            {router.asPath !== '/product' && <Search />}
             <MyCartHeader />
             <MenuList />
           </Menus>
