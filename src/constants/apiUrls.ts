@@ -43,6 +43,7 @@ export const API_URLS = {
     RESERVATIONS_BY_ID: (id: number) => `/reservations/${id}`,
     REVIEW: '/board/myreviews',
     WISH: '/wishlist',
+    WISH_BY_ID: (id: number) => `/wishlist/${id}`,
   },
   ADMIN: {
     PRODUCT: '/admin/products',

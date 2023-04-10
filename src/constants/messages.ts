@@ -80,5 +80,8 @@ export const MESSAGES = {
     DELETE_REVERVATION_CONFIRM: '예약을 취소 하시겠습니까?',
     DELETE_REVERVATION_COMPLETE: '취소가 완료되었습니다.',
     DELETE_REVERVATION_ERROR: '에러가 발생하였습니다.',
+    WISH: {
+      DELETE: '관심상품이 해제되었습니다.',
+    },
   },
 };

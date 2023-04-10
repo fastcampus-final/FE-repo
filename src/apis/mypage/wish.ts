@@ -6,6 +6,6 @@ export const getMyWishList = async () => {
   return data;
 };
 
-export const deleteMyWish = async (id: object) => {
-  await instance.delete(API_URLS.MYPAGE.WISH, id);
+export const deleteMyWish = async (id: number) => {
+  await instance.delete(API_URLS.MYPAGE.WISH_BY_ID(id));
 };

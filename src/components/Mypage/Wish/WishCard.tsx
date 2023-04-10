@@ -6,6 +6,10 @@ import React from 'react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { IWishList } from '@/interfaces/wishlist';
 import { deleteMyWish } from '@/apis/mypage/wish';
+import { useDispatch } from 'react-redux';
+import { setModal } from '@/store/modal';
+import { MESSAGES } from '@/constants/messages';
+import { deleteWishState } from '@/store/wish';
 
 interface Props {
   data: IWishList;
@@ -13,18 +17,28 @@ interface Props {
 
 const WishCard = ({ data }: Props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleClick = () => {
-    router.push(ROUTES.PRODUCT_BY_ID(data.productId));
+    router.push(ROUTES.PRODUCT_BY_ID(data.wishlistId));
   };
 
   const handleDeleteWish = async (id: number) => {
-    await deleteMyWish({ wishlistId: id });
+    await deleteMyWish(id);
+    dispatch(deleteWishState(id));
+
+    return dispatch(
+      setModal({
+        isOpen: true,
+        onClickOk: () => dispatch(setModal({ isOpen: false })),
+        text: MESSAGES.MYPAGE.WISH.DELETE,
+      }),
+    );
   };
 
   return (
-    <Container onClick={handleClick}>
-      <WishButton onClick={() => handleDeleteWish(data.productId)}>
+    <Container>
+      <WishButton onClick={() => handleDeleteWish(data.wishlistId)}>
         <FavoriteIcon color="secondary" />
       </WishButton>
       <Image
@@ -36,7 +50,7 @@ const WishCard = ({ data }: Props) => {
         borderRadius="10px"
         isCover={true}
       />
-      <Title>{data.productName}</Title>
+      <Title onClick={handleClick}>{data.productName}</Title>
     </Container>
   );
 };
@@ -59,7 +73,7 @@ const Title = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 334px;
+  /* width: 334px; */
   @media (max-width: 1200px) {
     font-size: 14px;
     width: 43vw;
