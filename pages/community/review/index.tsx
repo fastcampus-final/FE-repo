@@ -186,6 +186,10 @@ const BottomArea = styled.div`
   flex-wrap: wrap;
   gap: 25px;
   justify-content: center;
+  h3 {
+    margin-top: 50px;
+    text-align: center;
+  }
 `;
 
 const PageContent = styled.div`
