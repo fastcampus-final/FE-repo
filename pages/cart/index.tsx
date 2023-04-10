@@ -3,28 +3,28 @@ import CartCard from '@/components/Cart/CartCard';
 import PageTitle from '@/components/common/PageTitle';
 import { ROUTES } from '@/constants/routes';
 import { ICart } from '@/interfaces/cart';
+import { RootState } from '@/store';
+import { setCartState } from '@/store/cart';
 import { COLORS } from '@/styles/colors';
 import { formatPrice } from '@/utils/format';
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Cart = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const [amount, setAmount] = useState('');
-  const [product, setProduct] = useState<ICart[]>([]);
+  const cartList: ICart[] = useSelector((state: RootState) => state.cart);
 
   useEffect(() => {
     (async () => {
       const data = await getCart();
-      setProduct(data);
+      dispatch(setCartState(data));
+      setAmount(formatPrice(data.reduce((acc: number, cur: ICart) => acc + cur.productPrice, 0)));
     })();
-  }, []);
-
-  useEffect(() => {
-    const amount = formatPrice(product.reduce((acc, cur) => acc + cur.productPrice, 0));
-    setAmount(amount);
   }, []);
 
   return (
@@ -32,7 +32,7 @@ const Cart = () => {
       <PageTitle title="장바구니" />
       <CartWrap>
         <CartList>
-          {product && product.map((item, idx) => <CartCard key={idx} data={item} />)}
+          {cartList && cartList.map((item, idx) => <CartCard key={idx} data={item} />)}
         </CartList>
         <AmountWrap>
           <PriceText>
@@ -55,7 +55,7 @@ const Cart = () => {
                   pathname: ROUTES.ORDER,
                   query: {
                     amount: amount,
-                    items: JSON.stringify(product),
+                    items: JSON.stringify(cartList),
                   },
                 },
                 '/order',
@@ -94,7 +94,7 @@ const CartWrap = styled.div`
 `;
 
 const AmountWrap = styled.div`
-  width: 30%;
+  width: 40%;
   box-sizing: border-box;
   height: fit-content;
   display: flex;
@@ -108,7 +108,7 @@ const AmountWrap = styled.div`
 `;
 
 const CartList = styled.div`
-  width: 70%;
+  width: 60%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
