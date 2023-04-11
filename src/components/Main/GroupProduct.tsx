@@ -104,4 +104,5 @@ const ProductContent = styled(SwiperSlide)<{ image: string; mobile: string }>`
   .status {
     font-size: 0.9rem;
   }
+  cursor: pointer;
 `;

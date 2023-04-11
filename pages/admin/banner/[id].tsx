@@ -19,7 +19,8 @@ const BannerDetail = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await getAdminBannerDetail(Number(router.query.id));
+      const bannerId = window.location.pathname.slice(14);
+      const data = await getAdminBannerDetail(Number(router.query.id) | Number(bannerId));
       setDetail(data);
     })();
   }, []);
@@ -76,6 +77,22 @@ const BannerDetail = () => {
             </TableCell>
             <TableCell align="center">관련 상품</TableCell>
             <TableCell align="left">{router.query.product && router.query.product}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center" width="15%">
+              제목
+            </TableCell>
+            <TableCell align="left" width="30%">
+              {detail && detail.title}
+            </TableCell>
+            <TableCell align="center">소제목</TableCell>
+            <TableCell align="left">{detail && detail.subtitle}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">태그</TableCell>
+            <TableCell align="left" colSpan={3}>
+              {detail && detail.tag}
+            </TableCell>
           </TableRow>
         </Table>
         <ButtonContent>
