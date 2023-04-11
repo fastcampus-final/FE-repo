@@ -51,7 +51,7 @@ const Notice = () => {
       <TopArea>
         <p>
           고투게더의 <span className="textBold">공지사항</span>과
-          <span className="textBold">이벤트 정보</span>를 확인해보세요.
+          <span className="textBold"> 이벤트 정보</span>를 확인해보세요.
         </p>
         <InputArea>
           <TextField
