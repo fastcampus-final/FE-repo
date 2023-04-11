@@ -10,7 +10,7 @@ import { RxCrossCircled } from 'react-icons/rx';
 
 import Select, { OnChangeValue } from 'react-select';
 import { IWish } from '@/interfaces/wish';
-import { deleteWishList, getWishList, postAddCart, postWishList } from '@/apis/wishlist';
+import { deleteWishList, getWishList, postWishList } from '@/apis/wish';
 
 import { getProductDetail, getRelatedProducts } from '@/apis/product';
 import { useDispatch } from 'react-redux';
@@ -25,6 +25,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
+import { addCart } from '@/apis/cart';
+import { ICartAdd } from '@/interfaces/cart';
 
 interface IItemOption {
   optionDate: string;
@@ -159,16 +161,16 @@ const ProductDetail = () => {
     setItemCounts([...countRemove]);
   };
 
-  const addCart = () => {
+  const addCartItem = () => {
     if (items.length > 0) {
       items.map((item) => {
-        const params = {
+        const params: ICartAdd = {
           numberOfPeople: totalMember,
-          productId: productDetail?.productId,
+          productId: productDetail!.productId,
           productOptionId: item.optionId,
           singleRoomNumber: singleCount,
         };
-        postAddCart(params);
+        addCart(params);
       });
       return dispatch(
         setModal({
@@ -445,7 +447,7 @@ const ProductDetail = () => {
             <button
               className="white"
               onClick={() => {
-                addCart();
+                addCartItem();
               }}
             >
               장바구니
