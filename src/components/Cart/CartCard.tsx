@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { Button, Checkbox, Divider, InputLabel, MenuItem, Select } from '@mui/material';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import { deleteCart, editCartOption } from '@/apis/cart';
-import { deleteCartState } from '@/store/cart';
+import { deleteCartState, editCartState } from '@/store/cart';
 import { useDispatch } from 'react-redux';
 import { MESSAGES } from '@/constants/messages';
 import { setModal } from '@/store/modal';
@@ -34,6 +34,10 @@ const CartItem = ({ data, setTotalAmount, handleCheck, checkId, setCheckId }: Pr
   const [singleRoomAmount, setSingleRoomAmount] = useState(singleRoomCount * data.singleRoomPrice);
 
   useEffect(() => {
+    setTotalAmount((prev: number) => prev + peopleAmount + singleRoomAmount);
+  }, []);
+
+  useEffect(() => {
     setPeopleAmount(peopleCount * data.productPrice);
   }, [peopleCount]);
 
@@ -43,7 +47,6 @@ const CartItem = ({ data, setTotalAmount, handleCheck, checkId, setCheckId }: Pr
 
   useEffect(() => {
     setAmount(peopleAmount + singleRoomAmount);
-    setTotalAmount((prev: number) => prev + peopleAmount + singleRoomAmount);
   }, [peopleAmount, singleRoomAmount]);
 
   const handleClick = () => {
@@ -54,6 +57,7 @@ const CartItem = ({ data, setTotalAmount, handleCheck, checkId, setCheckId }: Pr
     try {
       await deleteCart([id]);
       dispatch(deleteCartState(id));
+      setTotalAmount((prev: number) => prev - amount);
       return dispatch(
         setModal({
           isOpen: true,
@@ -79,6 +83,14 @@ const CartItem = ({ data, setTotalAmount, handleCheck, checkId, setCheckId }: Pr
         singleRoomNumber: singleRoomCount,
         productOptionId: dateOptionId,
       });
+      dispatch(
+        editCartState({
+          cartId: data.cartId,
+          numberOfPeople: peopleCount,
+          singleRoomNumber: singleRoomCount,
+          productOptionId: dateOptionId,
+        }),
+      );
       return dispatch(
         setModal({
           isOpen: true,
@@ -110,6 +122,11 @@ const CartItem = ({ data, setTotalAmount, handleCheck, checkId, setCheckId }: Pr
     );
   };
 
+  const handlePeoplePlus = () => {
+    setPeopleCount((prev) => prev + 1);
+    setTotalAmount((prev: number) => prev + data.productPrice);
+  };
+
   const handlePeopleMinus = () => {
     if (peopleCount === 1) {
       return dispatch(
@@ -121,12 +138,19 @@ const CartItem = ({ data, setTotalAmount, handleCheck, checkId, setCheckId }: Pr
       );
     } else {
       setPeopleCount((prev) => prev - 1);
+      setTotalAmount((prev: number) => prev - data.productPrice);
     }
+  };
+
+  const handleSingleRoomPlus = () => {
+    setSingleRoomCount((prev) => prev + 1);
+    setTotalAmount((prev: number) => prev + data.singleRoomPrice);
   };
 
   const handleSingleRoomMinus = () => {
     if (singleRoomCount > 0) {
       setSingleRoomCount((prev) => prev - 1);
+      setTotalAmount((prev: number) => prev - data.singleRoomPrice);
     }
   };
 
@@ -190,11 +214,7 @@ const CartItem = ({ data, setTotalAmount, handleCheck, checkId, setCheckId }: Pr
             </InputLabel>
             <RemoveCircleIcon cursor="pointer" color="primary" onClick={handlePeopleMinus} />
             {peopleCount}
-            <AddCircleIcon
-              cursor="pointer"
-              color="primary"
-              onClick={() => setPeopleCount((prev) => prev + 1)}
-            />
+            <AddCircleIcon cursor="pointer" color="primary" onClick={handlePeoplePlus} />
           </FlexWrap>
           <p>{formatPrice(peopleAmount)}</p>
         </Count>
@@ -205,11 +225,7 @@ const CartItem = ({ data, setTotalAmount, handleCheck, checkId, setCheckId }: Pr
             </InputLabel>
             <RemoveCircleIcon cursor="pointer" color="primary" onClick={handleSingleRoomMinus} />
             {singleRoomCount}
-            <AddCircleIcon
-              cursor="pointer"
-              color="primary"
-              onClick={() => setSingleRoomCount((prev) => prev + 1)}
-            />
+            <AddCircleIcon cursor="pointer" color="primary" onClick={handleSingleRoomPlus} />
           </FlexWrap>
           <p>{formatPrice(singleRoomAmount)}</p>
         </Count>
