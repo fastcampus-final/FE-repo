@@ -28,7 +28,7 @@ export const getProductByCategory = async (
 };
 
 export const getProductRecommend = async () => {
-  const { data } = await instance.get(API_URLS.ADMIN.RECOMMEND);
+  const { data } = await instance.get(API_URLS.ADMIN.RECOMMEND_LIST);
   return data;
 };
 
