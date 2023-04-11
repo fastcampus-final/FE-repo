@@ -71,7 +71,15 @@ const Notice = () => {
 
       <BottomArea>
         {noticeData && noticeData.length > 0 ? (
-          noticeData.map((item) => <NoticeItem key={item.boardId} data={item} />)
+          noticeData.map((item, i) => (
+            <NoticeItem
+              key={item.boardId}
+              data={item}
+              prev={noticeData[i - 1]?.boardId ? noticeData[i - 1]?.boardId : undefined}
+              next={noticeData[i + 1]?.boardId ? noticeData[i + 1]?.boardId : undefined}
+              length={noticeData.length}
+            />
+          ))
         ) : (
           <h3>공지사항이 존재하지 않습니다.</h3>
         )}
@@ -107,20 +115,6 @@ const TopArea = styled.div`
     margin: auto;
     grid-area: text;
   }
-  button {
-    background-color: #0cb1f3;
-    border: 1px solid #0cb1f3;
-    border-radius: 8px;
-    color: #fff;
-    height: 50%;
-    margin: auto;
-    grid-area: button;
-    span {
-      margin-left: 5px;
-      font-size: 1rem;
-      z-index: 1;
-    }
-  }
 `;
 
 const InputArea = styled.div`
@@ -136,6 +130,7 @@ const InputArea = styled.div`
     }
   }
   svg {
+    cursor: pointer;
     position: absolute;
     right: 20%;
     width: 30px;
@@ -150,7 +145,16 @@ const BottomArea = styled.div`
     text-align: center;
   }
   @media screen and (min-width: 1200px) {
+    width: 1200px;
+    margin: auto;
+  }
+
+  @media screen and (max-width: 1200px) {
     padding: 0 10rem;
+  }
+
+  @media screen and (max-width: 500px) {
+    padding: 0 18px;
   }
 `;
 

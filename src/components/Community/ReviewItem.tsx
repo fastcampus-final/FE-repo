@@ -7,11 +7,12 @@ import React from 'react';
 
 interface Props {
   data: IReview;
-  i: number;
+  prev: number | undefined;
+  next: number | undefined;
   length: number;
 }
 
-const ReviewItem = ({ data, i, length }: Props) => {
+const ReviewItem = ({ data, prev, next, length }: Props) => {
   const router = useRouter();
   const imageUrl = data.boardThumbnail;
 
@@ -24,7 +25,8 @@ const ReviewItem = ({ data, i, length }: Props) => {
             pathname: ROUTES.REVIEW_BY_ID(data.boardId),
             query: {
               id: data.boardId,
-              i: i,
+              prev: prev,
+              next: next,
               length: length,
             },
           },
@@ -42,6 +44,7 @@ const ReviewItem = ({ data, i, length }: Props) => {
 export default ReviewItem;
 
 const ItemContent = styled.div<{ image: string }>`
+  cursor: pointer;
   border-radius: 8px;
   width: 22%;
   aspect-ratio: 1 / 1;
