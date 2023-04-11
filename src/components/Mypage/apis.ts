@@ -18,7 +18,7 @@ export const patchMyInfo = async (
     .then(async (res) => {
       console.log(res);
       if (res.status === 200) {
-        await setPatchInfo({ ...patchInfo, phone: data.userPhoneNumber });
+        await setPatchInfo({ ...patchInfo, userPhoneNumber: data.userPhoneNumber });
         await setChangeInfo(false);
         await alterModal(MESSAGES.CHANGE_INFO, dispatch);
       } else if (res.status === 400) {
