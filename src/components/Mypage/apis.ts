@@ -122,13 +122,22 @@ export const mypageLogout = async (
         await alterModal(MESSAGES.LOGOUT.COMPLETE_LOGOUT, dispatch);
         router.push('/');
       } else if (res.status === 401) {
+        await removeCookies('accessToken');
+        await removeCookies('refreshToken');
+        await removeCookies('isAdmin');
         await alterModal('이 계정은 이미 로그아웃된 계정입니다.', dispatch);
       } else {
+        await removeCookies('accessToken');
+        await removeCookies('refreshToken');
+        await removeCookies('isAdmin');
         await alterModal(MESSAGES.LOGOUT.ERROR_LOGOUT, dispatch);
       }
     })
-    .catch((error) => {
+    .catch(async (error) => {
       console.log(error);
+      await removeCookies('accessToken');
+      await removeCookies('refreshToken');
+      await removeCookies('isAdmin');
       alterModal(MESSAGES.LOGOUT.ERROR_LOGOUT, dispatch);
     });
 };
