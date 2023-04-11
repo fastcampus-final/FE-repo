@@ -6,9 +6,12 @@ import React from 'react';
 
 interface Props {
   data: IReview;
+  prev: number | undefined;
+  next: number | undefined;
+  length: number;
 }
 
-const NoticeItem = ({ data }: Props) => {
+const NoticeItem = ({ data, prev, next, length }: Props) => {
   const router = useRouter();
 
   return (
@@ -19,6 +22,9 @@ const NoticeItem = ({ data }: Props) => {
             pathname: ROUTES.NOTICE_BY_ID(data.boardId),
             query: {
               id: data.boardId,
+              prev: prev,
+              next: next,
+              length: length,
             },
           },
           ROUTES.NOTICE_BY_ID(data.boardId),
@@ -36,6 +42,8 @@ const NoticeItem = ({ data }: Props) => {
 export default NoticeItem;
 
 const ItemContent = styled.div`
+  cursor: pointer;
+
   height: 3rem;
   margin: auto;
   border-bottom: 1px solid #b7b7b7;

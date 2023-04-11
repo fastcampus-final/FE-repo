@@ -24,7 +24,8 @@ const ReviewDetail = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await getBoardDetail(Number(router.query.id));
+      const reviewId = window.location.pathname.slice(18);
+      const data = await getBoardDetail(Number(router.query.id) | Number(reviewId));
       setDetailData(data);
 
       if (cookies.accessToken) {
@@ -32,7 +33,9 @@ const ReviewDetail = () => {
         setUser(userData.userName);
       }
     })();
-  }, []);
+  }, [window.location.pathname]);
+
+  console.log(router.query);
 
   const deleteHandler = () => {
     return dispatch(
@@ -130,19 +133,19 @@ const ReviewDetail = () => {
         <div>{detailData?.boardContent && Parser(detailData.boardContent)}</div>
       </MainContent>
 
-      {router.query.i !== '0' ? (
+      {router.query.prev !== '' ? (
         <PrevNextContent>
           <SlArrowUp size={20} />
-          <p onClick={() => router.push(ROUTES.REVIEW_BY_ID(Number(router.query.id) - 1))}>
+          <p onClick={() => router.push(ROUTES.REVIEW_BY_ID(Number(router.query.prev)))}>
             이전 후기 보기
           </p>
         </PrevNextContent>
       ) : null}
 
-      {Number(router.query.i) !== Number(router.query.length) - 1 ? (
+      {router.query.next !== '' ? (
         <PrevNextContent>
           <SlArrowDown size={20} />
-          <p onClick={() => router.push(ROUTES.REVIEW_BY_ID(Number(router.query.id) + 1))}>
+          <p onClick={() => router.push(ROUTES.REVIEW_BY_ID(Number(router.query.next)))}>
             다음 후기 보기
           </p>
         </PrevNextContent>

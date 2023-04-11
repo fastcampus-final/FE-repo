@@ -14,7 +14,8 @@ const NoticeDetail = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const data = await getBoardDetail(Number(router.query.id));
+      const noticeId = window.location.pathname.slice(18);
+      const data = await getBoardDetail(Number(router.query.id) | Number(noticeId));
       setDetailData(data);
     };
 
@@ -41,19 +42,19 @@ const NoticeDetail = () => {
         <div>{detailData && Parser(detailData?.boardContent)}</div>
       </MainContent>
 
-      {router.query.i !== '0' ? (
+      {router.query.prev !== '' ? (
         <PrevNextContent>
           <SlArrowUp size={20} />
-          <p onClick={() => router.push(ROUTES.REVIEW_BY_ID(Number(router.query.id) - 1))}>
+          <p onClick={() => router.push(ROUTES.REVIEW_BY_ID(Number(router.query.prev)))}>
             이전 자료 보기
           </p>
         </PrevNextContent>
       ) : null}
 
-      {Number(router.query.i) !== Number(router.query.length) - 1 ? (
+      {router.query.next !== '' ? (
         <PrevNextContent>
           <SlArrowDown size={20} />
-          <p onClick={() => router.push(ROUTES.REVIEW_BY_ID(Number(router.query.id) + 1))}>
+          <p onClick={() => router.push(ROUTES.REVIEW_BY_ID(Number(router.query.next)))}>
             다음 지료 보기
           </p>
         </PrevNextContent>
