@@ -58,12 +58,12 @@ const ProductRecommendEditForm = () => {
     try {
       const image =
         data.image.length > 0 ? await uploadImage(data.image[0], 'region') : product?.image;
-      let formData = {
+      const formData = {
         rate: data.rate,
         regionName: data.regionName,
         image,
       };
-      if (image) formData = Object.assign(formData, { image: image });
+      // if (image) formData = Object.assign(formData, { image: image });
       await putAdminRecommendProduct(product!.regionId!, formData);
       router.push(ROUTES.ADMIN.RECOMMEND);
       return dispatch(
@@ -90,7 +90,7 @@ const ProductRecommendEditForm = () => {
 
   return (
     <Container>
-      <PageTitle title="추천 상품 등록" fontSize="20px" padding="10px" />
+      <PageTitle title="추천 상품 수정" fontSize="20px" padding="10px" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Table>
           <TableRow>
