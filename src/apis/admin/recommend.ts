@@ -6,7 +6,7 @@ export const getAdminRecommendProduct = async (page: number) => {
   return data;
 };
 
-export const getAdminRecommendProductDetail = async (id: string) => {
+export const getAdminRecommendProductDetail = async (id: number) => {
   const { data } = await instance.get(API_URLS.ADMIN.RECOMMEND_BY_ID(id));
   return data;
 };

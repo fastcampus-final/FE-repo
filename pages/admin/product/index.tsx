@@ -44,7 +44,7 @@ const Product = () => {
                   key={idx}
                   style={{ cursor: 'pointer' }}
                   hover
-                  onClick={() => router.push(ROUTES.ADMIN.PRODUCT_BY_ID(String(item.productId)))}
+                  onClick={() => router.push(ROUTES.ADMIN.PRODUCT_BY_ID(item.productId))}
                 >
                   <TableCell align="center" width="200px">
                     {(page - 1) * 10 + idx + 1}

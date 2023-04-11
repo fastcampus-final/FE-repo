@@ -51,30 +51,50 @@ const CartItem = ({ data, setTotalAmount, handleCheck, checkId, setCheckId }: Pr
   };
 
   const handleDeleteCart = async (id: number) => {
-    await deleteCart([id]);
-    dispatch(deleteCartState(id));
-    return dispatch(
-      setModal({
-        isOpen: true,
-        onClickOk: () => dispatch(setModal({ isOpen: false })),
-        text: MESSAGES.CART.COMPLETE_DELETE,
-      }),
-    );
+    try {
+      await deleteCart([id]);
+      dispatch(deleteCartState(id));
+      return dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.CART.COMPLETE_DELETE,
+        }),
+      );
+    } catch {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.CART.ERROR_DELETE,
+        }),
+      );
+    }
   };
 
   const handleEditCart = async () => {
-    await editCartOption(data.cartId, {
-      numberOfPeople: peopleCount,
-      singleRoomNumber: singleRoomCount,
-      productOptionId: dateOptionId,
-    });
-    return dispatch(
-      setModal({
-        isOpen: true,
-        onClickOk: () => dispatch(setModal({ isOpen: false })),
-        text: MESSAGES.CART.COMPLETE_EDIT,
-      }),
-    );
+    try {
+      await editCartOption(data.cartId, {
+        numberOfPeople: peopleCount,
+        singleRoomNumber: singleRoomCount,
+        productOptionId: dateOptionId,
+      });
+      return dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.CART.COMPLETE_EDIT,
+        }),
+      );
+    } catch {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.CART.ERROR_EDIT,
+        }),
+      );
+    }
   };
 
   const handleOrder = () => {

@@ -37,7 +37,7 @@ const Banner = () => {
           <SwiperContent
             key={item.bannerId}
             image={item.image}
-            onClick={() => router.push(ROUTES.PRODUCT_BY_ID(String(item.productId)))}
+            onClick={() => router.push(ROUTES.PRODUCT_BY_ID(item.productId))}
           ></SwiperContent>
         ))}
       </Swiper>

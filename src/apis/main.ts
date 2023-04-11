@@ -21,7 +21,7 @@ export const getProductCategory = async () => {
   return data;
 };
 
-export const getProductCategoryDetail = async (id: string) => {
+export const getProductCategoryDetail = async (id: number) => {
   const { data } = await instance.get(API_URLS.CATEGORY_DETAIL(id));
   return data;
 };

@@ -9,7 +9,7 @@ import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { RxCrossCircled } from 'react-icons/rx';
 
 import Select, { OnChangeValue } from 'react-select';
-import { IWishList } from '@/interfaces/wishlist';
+import { IWish } from '@/interfaces/wish';
 import { getWishList, postAddCart } from '@/apis/wishlist';
 
 import WishData from '@/dummydata/wishList.json';
@@ -58,14 +58,14 @@ const ProductDetail = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalMember, setTotalMember] = useState(0);
 
-  const [wishList, setWishList] = useState<Array<IWishList>>([]);
+  const [wishList, setWishList] = useState<Array<IWish>>([]);
   const [wishClick, setWishClick] = useState(false);
 
   const [isViewMore, setIsViewMore] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const productData = await getProductDetail(String(router.query.id));
+      const productData = await getProductDetail(Number(router.query.id));
       setProductDetail(productData);
 
       if (cookies.accessToken) {
@@ -404,12 +404,12 @@ const ProductDetail = () => {
                   onClick={() =>
                     router.push(
                       {
-                        pathname: ROUTES.PRODUCT_BY_ID(String(item.productId)),
+                        pathname: ROUTES.PRODUCT_BY_ID(item.productId),
                         query: {
                           id: item.productId,
                         },
                       },
-                      ROUTES.PRODUCT_BY_ID(String(item.productId)),
+                      ROUTES.PRODUCT_BY_ID(item.productId),
                     )
                   }
                 >

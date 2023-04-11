@@ -6,7 +6,7 @@ export const getAdminProductCategory = async () => {
   return data;
 };
 
-export const getAdminProductCategoryDetail = async (id: string) => {
+export const getAdminProductCategoryDetail = async (id: number) => {
   const { data } = await instance.get(API_URLS.ADMIN.CATEGORY_BY_ID(id));
   return data;
 };

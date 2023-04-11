@@ -32,7 +32,7 @@ export const getProductRecommend = async () => {
   return data;
 };
 
-export const getProductDetail = async (id: string) => {
+export const getProductDetail = async (id: number) => {
   const { data } = await instance.get(API_URLS.DETAIL(id));
   return data;
 };
