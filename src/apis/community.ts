@@ -2,7 +2,7 @@ import { API_URLS } from '@/constants/apiUrls';
 import { instance } from './instance';
 
 export const getBoardList = async (type: string, pageNumber: number, keyword?: string) => {
-  const { data } = await instance.get(API_URLS.BOARD(type, keyword, pageNumber));
+  const { data } = await instance.get(API_URLS.BOARD.BOARD_BY_TYPE(type, keyword, pageNumber));
   return data;
 };
 
@@ -11,7 +11,7 @@ export const postBoardAdd = async (data: {
   boardThumbnail: string;
   boardTitle: string;
 }) => {
-  const res = await instance.post(API_URLS.BOARD_ADD, data);
+  const res = await instance.post(API_URLS.BOARD.BOARD, data);
   return res;
 };
 
@@ -23,13 +23,13 @@ export const patchBoardEdit = async (
     boardTitle: string;
   },
 ) => {
-  const res = await instance.patch(API_URLS.BOARD_EDIT(boardId), data);
+  const res = await instance.patch(API_URLS.BOARD.BOARD_BY_ID(boardId), data);
   return res;
 };
 
 export const deleteBoard = async (boardID: number) => {
   try {
-    const res = await instance.delete(API_URLS.BOARD_EDIT(boardID));
+    const res = await instance.delete(API_URLS.BOARD.BOARD_BY_ID(boardID));
     return res;
   } catch (e: any) {
     return e.code;
@@ -37,6 +37,6 @@ export const deleteBoard = async (boardID: number) => {
 };
 
 export const getBoardDetail = async (boardId: number) => {
-  const { data } = await instance.get(API_URLS.BOARD_DETAIL(boardId));
+  const { data } = await instance.get(API_URLS.BOARD.BOARD_BY_ID(boardId));
   return data;
 };

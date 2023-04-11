@@ -1,4 +1,4 @@
-import { ICartEditOption } from './../interfaces/cart';
+import { ICartAdd, ICartEditOption } from './../interfaces/cart';
 import { ICart } from '@/interfaces/cart';
 import { API_URLS } from '@/constants/apiUrls';
 import { instance } from './instance';
@@ -8,7 +8,7 @@ export const getCart = async () => {
   return data;
 };
 
-export const addCart = async (cartData: ICart) => {
+export const addCart = async (cartData: ICartAdd) => {
   const { data } = await instance.post(API_URLS.CART, cartData);
   return data;
 };

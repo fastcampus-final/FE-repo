@@ -22,3 +22,10 @@ export interface ICartEditOption {
   productOptionId: number;
   singleRoomNumber: number;
 }
+
+export interface ICartAdd {
+  numberOfPeople: number;
+  productId: number;
+  productOptionId: number;
+  singleRoomNumber: number;
+}
