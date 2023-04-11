@@ -8,7 +8,6 @@ import {
   Button,
   Collapse,
   FormControl,
-  IconButton,
   InputLabel,
   List,
   ListItemButton,
@@ -22,9 +21,6 @@ import {
   TextField,
 } from '@mui/material';
 import { ICategory } from '@/interfaces/product';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import { useForm } from 'react-hook-form';
 
@@ -51,29 +47,7 @@ const ProductCategory = () => {
   };
 
   const onSubmit = async () => {
-    // const thumbnail = await uploadImage(data.thumbnail[0], 'product');
-    // let formData = {
-    //   airplane: data.airplane,
-    //   area: data.area,
-    //   categoryIdList: categoryChip.map((item) => item.categoryId),
-    //   detail,
-    //   feature: data.feature,
-    //   name: data.name,
-    //   price: data.price,
-    //   productStatus: data.productStatus,
-    //   singleRoomPrice: data.singleRoomPrice,
-    //   summary: data.summary,
-    //   thumbnail,
-    //   options: productOption.map((item) => ({
-    //     startDate: item.startDate,
-    //     endDate: item.endDate,
-    //     maxPeople: item.maxPeople,
-    //     maxSingleRoom: item.maxSingleRoom,
-    //   })),
-    // };
-    // if (data.type) formData = Object.assign(formData, { type: data.type });
-    // await addAdminProduct(formData);
-    // router.push(ROUTES.ADMIN.PRODUCT);
+    //
   };
 
   return (

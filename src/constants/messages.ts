@@ -53,6 +53,12 @@ export const MESSAGES = {
     CHECK_KEYWORD: '검색어를 입력해 주세요.',
     ERROR_GET_PRODUCT: '상품 목록 조회 중\n에러가 발생하였습니다.',
     ERROR_GET_RECOMMEND: '추천 검색어 조회 중\n에러가 발생하였습니다.',
+    ERROR_ADD_PRODUCT: '상품 등록 중\n에러가 발생하였습니다.',
+    ERROR_EDIT_PRODUCT: '상품 수정 중\n에러가 발생하였습니다.',
+    ERROR_DELETE_PRODUCT: '상품 삭제 중\n에러가 발생하였습니다.',
+    COMPLETE_ADD_PRODUCT: '상품이 등록되었습니다.',
+    COMPLETE_EDIT_PRODUCT: '상품이 수정되었습니다.',
+    COMPLETE_DELETE_PRODUCT: '상품이 삭제되었습니다.',
   },
   PRODUCT_DETAIL: {
     ERROR_GET_DETAIL: '상품 상세 조회 중\n에러가 발생하였습니다.',

@@ -93,18 +93,20 @@ const ProductEditForm = () => {
               썸네일
             </TableCell>
             <TableCell align="left" colSpan={3}>
-              {imagePreview && <Image src={imagePreview} alt="thumbnail" width="330px" />}
-              <File
-                type="file"
-                {...register('thumbnail')}
-                ref={(event) => {
-                  ref(event);
-                  thumbnailRef.current = event;
-                }}
-              />
-              <Button variant="contained" onClick={handleThumbnail}>
-                파일 선택
-              </Button>
+              <ImageWrap>
+                {imagePreview && <Image src={imagePreview} alt="thumbnail" width="600px" />}
+                <File
+                  type="file"
+                  {...register('thumbnail')}
+                  ref={(event) => {
+                    ref(event);
+                    thumbnailRef.current = event;
+                  }}
+                />
+                <Button variant="contained" onClick={handleThumbnail}>
+                  파일 선택
+                </Button>
+              </ImageWrap>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -290,4 +292,10 @@ const ButtonWrap = styled.div`
 
 const File = styled.input`
   display: none;
+`;
+
+const ImageWrap = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
 `;
