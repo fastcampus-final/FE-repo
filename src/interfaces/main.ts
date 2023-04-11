@@ -2,6 +2,9 @@ export interface IBanner {
   bannerId: number;
   image: string;
   productId: number;
+  tag: string;
+  title: string;
+  subtitle: string;
 }
 
 export interface IRegions {

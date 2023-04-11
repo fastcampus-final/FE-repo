@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import 'swiper/css';
@@ -154,6 +154,7 @@ const ContentWrap = styled.div`
 
 const TestContent = styled.div<{ mobile: string }>`
   margin-bottom: ${(props) => (props.mobile === 'true' ? '3rem' : '7rem')};
+  cursor: pointer;
   svg {
     width: 100%;
   }
