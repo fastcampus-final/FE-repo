@@ -3,7 +3,6 @@ import CartCard from '@/components/Cart/CartCard';
 import PageTitle from '@/components/common/PageTitle';
 import { MESSAGES } from '@/constants/messages';
 import withAuth from '@/components/common/PrivateRouter';
-
 import { ROUTES } from '@/constants/routes';
 import { ICart } from '@/interfaces/cart';
 import { RootState } from '@/store';
@@ -20,8 +19,8 @@ import { useDispatch, useSelector } from 'react-redux';
 const Cart = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [totalAmount, setTotalAmount] = useState(0);
   const cart: ICart[] = useSelector((state: RootState) => state.cart);
+  const [totalAmount, setTotalAmount] = useState(0);
   const [checkId, setCheckId] = useState<number[]>([]);
   const [allChecked, setAllChecked] = useState(false);
 
@@ -74,7 +73,18 @@ const Cart = () => {
       try {
         await deleteCart(checkId);
         setCheckId(checkId.filter((item) => !checkId.includes(item)));
-        dispatch(deleteCartState(checkId));
+        checkId.map((item) => dispatch(deleteCartState(item)));
+        setTotalAmount(
+          cart
+            .filter((item) => item && !checkId.includes(item.cartId))
+            .reduce(
+              (acc: number, cur: ICart) =>
+                acc +
+                (cur.productPrice * cur.numberOfPeople +
+                  cur.singleRoomPrice * cur.singleRoomNumber),
+              0,
+            ),
+        );
         return dispatch(
           setModal({
             isOpen: true,
@@ -107,7 +117,7 @@ const Cart = () => {
       </CartButtonWrap>
       <CartWrap>
         <CartList>
-          {cart &&
+          {cart.length > 0 ? (
             cart.map((item, idx) => (
               <CartCard
                 key={idx}
@@ -117,9 +127,16 @@ const Cart = () => {
                 checkId={checkId}
                 setCheckId={setCheckId}
               />
-            ))}
+            ))
+          ) : (
+            <p>담으신 상품이 없습니다.</p>
+          )}
         </CartList>
         <AmountWrap>
+          <PriceText>
+            <p>총 상품</p>
+            <p>{cart.length} 개</p>
+          </PriceText>
           <PriceText>
             <p>예약 금액</p>
             <p>{formatPrice(totalAmount)}</p>
