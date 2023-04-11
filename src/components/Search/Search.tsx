@@ -42,8 +42,18 @@ const Search = ({
   useEffect(() => {
     setRecentKeywords(getStorage('recentKeywords'));
     (async () => {
-      const data = await getProductRecommend();
-      setRecommendKeywords(data);
+      try {
+        const data = await getProductRecommend();
+        setRecommendKeywords(data);
+      } catch {
+        return dispatch(
+          setModal({
+            isOpen: true,
+            onClickOk: () => dispatch(setModal({ isOpen: false })),
+            text: MESSAGES.PRODUCT.ERROR_GET_RECOMMEND,
+          }),
+        );
+      }
     })();
   }, []);
 
@@ -57,18 +67,28 @@ const Search = ({
         }),
       );
     }
-    setShowProduct(true);
-    setShowKeyword(false);
+    try {
+      setShowProduct(true);
+      setShowKeyword(false);
 
-    const data = await getProduct(keyword);
-    setProduct(data.content);
-    setPage(1);
-    setTotalPage(data.totalPages);
-    setTotalCount(data.totalElements);
+      const data = await getProduct(keyword);
+      setProduct(data.content);
+      setPage(1);
+      setTotalPage(data.totalPages);
+      setTotalCount(data.totalElements);
 
-    if (isSaveRecentKeyword) {
-      setStorage('recentKeywords', keyword);
-      setRecentKeywords(getStorage('recentKeywords'));
+      if (isSaveRecentKeyword) {
+        setStorage('recentKeywords', keyword);
+        setRecentKeywords(getStorage('recentKeywords'));
+      }
+    } catch {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.PRODUCT.ERROR_GET_PRODUCT,
+        }),
+      );
     }
   };
 
