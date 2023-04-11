@@ -40,7 +40,7 @@ const MyOrderDetail = () => {
               setModal({
                 isOpen: true,
                 onClickOk: () => dispatch(setModal({ isOpen: false })),
-                text: MESSAGES.MYPAGE.DELETE_REVERVATION_ERROR,
+                text: MESSAGES.MYPAGE.ORDER.ERROR_CANCEL_ORDER,
               }),
             );
           } else {
@@ -51,13 +51,13 @@ const MyOrderDetail = () => {
                   dispatch(setModal({ isOpen: false }));
                   router.push(ROUTES.REVIEW);
                 },
-                text: MESSAGES.MYPAGE.DELETE_REVERVATION_COMPLETE,
+                text: MESSAGES.MYPAGE.ORDER.COMPLETE_CANCEL_ORDER,
               }),
             );
           }
         },
         onClickCancel: () => dispatch(setModal({ isOpen: false })),
-        text: MESSAGES.MYPAGE.DELETE_REVERVATION_CONFIRM,
+        text: MESSAGES.MYPAGE.ORDER.CONFIRM_CANCEL_ORDER,
       }),
     );
   };

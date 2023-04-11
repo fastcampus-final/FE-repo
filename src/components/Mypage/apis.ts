@@ -20,7 +20,7 @@ export const patchMyInfo = async (
       if (res.status === 200) {
         await setPatchInfo({ ...patchInfo, phone: data.userPhoneNumber });
         await setChangeInfo(false);
-        await alterModal(MESSAGES.CHANGE_INFO, dispatch);
+        await alterModal(MESSAGES.MYPAGE.INFO.COMPLETE_INFO, dispatch);
       } else if (res.status === 400) {
         await alterModal('비밀번호가 일치하지 않습니다. 다시 확인해주세요.', dispatch);
       } else {
@@ -71,7 +71,7 @@ export const deleteMyAccount = async (
         await removeCookies('accessToken');
         await removeCookies('refreshToken');
         await removeCookies('isAdmin');
-        await alterModal(MESSAGES.WITHDRAWAL.COMPLETE, dispatch);
+        await alterModal(MESSAGES.MYPAGE.WITHDRAWAL.COMPLETE, dispatch);
         await router.push('/');
       } else {
         await alterModal('비밀번호가 일치하지 않거나 올바른 사용자가 아닙니다.', dispatch);

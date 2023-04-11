@@ -56,7 +56,7 @@ const PasswordModal = ({ setmodal }: IPasswordModal) => {
           ) : (
             <Form
               onSubmit={handleSubmit(async (data) => {
-                if (confirm(MESSAGES.WITHDRAWAL.CONFIRM)) {
+                if (confirm(MESSAGES.MYPAGE.WITHDRAWAL.CONFIRM)) {
                   await deleteMyAccount(data, dispatch, router, removeCookies);
                 }
               })}
