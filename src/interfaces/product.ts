@@ -21,13 +21,6 @@ export interface IProductDetail {
   productStatus?: string;
   categories?: ICategory[];
   productOptions?: IProductOption[];
-  // startDate: string;
-  // endDate: string;
-  // maxPeople: number;
-  // presentSingleRoomNumber: number;
-  // maxSingleRoom: number;
-  // presentPeopleNumber: number;
-  // productOptionId: number;
 }
 
 export interface IProductDetailForm extends IProductDetail {

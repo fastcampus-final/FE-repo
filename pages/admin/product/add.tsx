@@ -1,5 +1,5 @@
 import { getAdminProductCategory } from '@/apis/admin/category';
-import { addAdminProduct } from '@/apis/admin/product';
+import { postAdminProduct } from '@/apis/admin/product';
 import { uploadImage } from '@/apis/common';
 import Image from '@/components/common/Image';
 import PageTitle from '@/components/common/PageTitle';
@@ -76,7 +76,7 @@ const ProductAddForm = () => {
       })),
     };
     if (data.type) formData = Object.assign(formData, { type: data.type });
-    await addAdminProduct(formData);
+    await postAdminProduct(formData);
     router.push(ROUTES.ADMIN.PRODUCT);
   };
 

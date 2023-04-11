@@ -9,7 +9,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import styled from '@emotion/styled';
 import { Button, Checkbox, Divider, InputLabel, MenuItem, Select } from '@mui/material';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
-import { deleteCart, editCartOption } from '@/apis/cart';
+import { deleteCart, patchCartOption } from '@/apis/cart';
 import { deleteCartState, editCartState } from '@/store/cart';
 import { useDispatch } from 'react-redux';
 import { MESSAGES } from '@/constants/messages';
@@ -78,7 +78,7 @@ const CartItem = ({ data, setTotalAmount, handleCheck, checkId, setCheckId }: Pr
 
   const handleEditCart = async () => {
     try {
-      await editCartOption(data.cartId, {
+      await patchCartOption(data.cartId, {
         numberOfPeople: peopleCount,
         singleRoomNumber: singleRoomCount,
         productOptionId: dateOptionId,

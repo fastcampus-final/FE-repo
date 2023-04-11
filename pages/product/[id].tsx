@@ -25,7 +25,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
-import { addCart } from '@/apis/cart';
+import { postCart } from '@/apis/cart';
 import { ICartAdd } from '@/interfaces/cart';
 
 interface IItemOption {
@@ -170,7 +170,7 @@ const ProductDetail = () => {
           productOptionId: item.optionId,
           singleRoomNumber: singleCount,
         };
-        addCart(params);
+        postCart(params);
       });
       return dispatch(
         setModal({

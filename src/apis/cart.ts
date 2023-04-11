@@ -8,12 +8,12 @@ export const getCart = async () => {
   return data;
 };
 
-export const addCart = async (cartData: ICartAdd) => {
+export const postCart = async (cartData: ICartAdd) => {
   const { data } = await instance.post(API_URLS.CART, cartData);
   return data;
 };
 
-export const editCartOption = async (id: number, cartOption: ICartEditOption) => {
+export const patchCartOption = async (id: number, cartOption: ICartEditOption) => {
   const { data } = await instance.patch(API_URLS.CART_BY_ID(id), cartOption);
   return data;
 };
