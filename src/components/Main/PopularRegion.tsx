@@ -66,7 +66,7 @@ const RegionContent = styled.div<{ mobile: string }>`
 const SwiperContent = styled(SwiperSlide)<{ image: string; mobile: string }>`
   aspect-ratio: 1 / 1;
   text-align: center;
-
+  cursor: pointer;
   .image {
     width: ${(props) => (props.mobile === 'true' ? '95%' : '85%')};
     aspect-ratio: 1 / 1;

@@ -22,7 +22,7 @@ const BestProducts = () => {
       const categoryData = await getProductCategory();
       setCategory(categoryData);
 
-      const categoryDetailData = await getProductCategoryDetail('3');
+      const categoryDetailData = await getProductCategoryDetail(3);
       setCategoryDetail(categoryDetailData.children);
 
       const productData = await getPopularProduct();
@@ -72,12 +72,12 @@ const BestProducts = () => {
               onClick={() =>
                 router.push(
                   {
-                    pathname: ROUTES.PRODUCT_BY_ID(String(item.productId)),
+                    pathname: ROUTES.PRODUCT_BY_ID(item.productId),
                     query: {
                       id: item.productId,
                     },
                   },
-                  ROUTES.PRODUCT_BY_ID(String(item.productId)),
+                  ROUTES.PRODUCT_BY_ID(item.productId),
                 )
               }
             >
@@ -165,4 +165,5 @@ const ProductContent = styled(SwiperSlide)<{ image: string; mobile: string }>`
   .status {
     font-size: 0.9rem;
   }
+  cursor: pointer;
 `;

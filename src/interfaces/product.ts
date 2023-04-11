@@ -1,5 +1,5 @@
 export interface IProduct {
-  productId: string;
+  productId: number;
   productName: string;
   productPrice: number;
   productThumbnail: string;
@@ -21,13 +21,6 @@ export interface IProductDetail {
   productStatus?: string;
   categories?: ICategory[];
   productOptions?: IProductOption[];
-  // startDate: string;
-  // endDate: string;
-  // maxPeople: number;
-  // presentSingleRoomNumber: number;
-  // maxSingleRoom: number;
-  // presentPeopleNumber: number;
-  // productOptionId: number;
 }
 
 export interface IProductDetailForm extends IProductDetail {
@@ -58,10 +51,10 @@ export interface IProductOption {
 }
 
 export interface IRecommend {
-  regionId: number;
+  regionId?: number;
   regionName: string;
   rate: number;
-  image: string;
+  image: any;
 }
 
 export interface IReservation {

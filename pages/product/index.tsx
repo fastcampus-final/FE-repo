@@ -12,9 +12,13 @@ import { useRouter } from 'next/router';
 import { getProduct, getProductByCategory } from '@/apis/product';
 import Search from '@/components/Search/Search';
 import dayjs from 'dayjs';
+import { useDispatch } from 'react-redux';
+import { setModal } from '@/store/modal';
+import { MESSAGES } from '@/constants/messages';
 
 const Product = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [product, setProduct] = useState<IProduct[]>([]);
   const [sort, setSort] = useState('recent');
   const [dateOption, setDateOption] = useState<Date | null>(null);
@@ -38,33 +42,43 @@ const Product = () => {
 
   useEffect(() => {
     (async () => {
-      let data = [];
-      if (router.query.categoryId) {
-        data = await getProductByCategory(
-          router.query.categoryId as string,
-          page,
-          sort,
-          people,
-          dateOption ? dayjs(dateOption).format('YYYY-MM-DD') : '',
-        );
-      } else {
-        if (keyword) {
-          data = await getProduct(
-            keyword,
+      try {
+        let data = [];
+        if (router.query.categoryId) {
+          data = await getProductByCategory(
+            router.query.categoryId as string,
             page,
             sort,
             people,
             dateOption ? dayjs(dateOption).format('YYYY-MM-DD') : '',
           );
         } else {
-          return;
+          if (keyword) {
+            data = await getProduct(
+              keyword,
+              page,
+              sort,
+              people,
+              dateOption ? dayjs(dateOption).format('YYYY-MM-DD') : '',
+            );
+          } else {
+            return;
+          }
         }
+        setProduct(data.content);
+        setPage(1);
+        setTotalPage(data.totalPages);
+        setTotalCount(data.totalElements);
+        setShowProduct(true);
+      } catch {
+        return dispatch(
+          setModal({
+            isOpen: true,
+            onClickOk: () => dispatch(setModal({ isOpen: false })),
+            text: MESSAGES.PRODUCT.ERROR_GET_PRODUCT,
+          }),
+        );
       }
-      setProduct(data.content);
-      setPage(1);
-      setTotalPage(data.totalPages);
-      setTotalCount(data.totalElements);
-      setShowProduct(true);
     })();
   }, [router, sort, people, dateOption]);
 
@@ -75,27 +89,37 @@ const Product = () => {
   };
 
   const handlePagination = async (event: MouseEvent<HTMLElement>) => {
-    const target = event.target as HTMLElement;
-    setPage(Number(target.outerText));
-    let data = [];
-    if (router.query.categoryId) {
-      data = await getProductByCategory(
-        router.query.categoryId as string,
-        Number(target.outerText),
-        sort,
-        people,
-        dateOption ? dayjs(dateOption).format('YYYY-MM-DD') : '',
-      );
-    } else {
-      data = await getProduct(
-        keyword,
-        Number(target.outerText),
-        sort,
-        people,
-        dateOption ? dayjs(dateOption).format('YYYY-MM-DD') : '',
+    try {
+      const target = event.target as HTMLElement;
+      setPage(Number(target.outerText));
+      let data = [];
+      if (router.query.categoryId) {
+        data = await getProductByCategory(
+          router.query.categoryId as string,
+          Number(target.outerText),
+          sort,
+          people,
+          dateOption ? dayjs(dateOption).format('YYYY-MM-DD') : '',
+        );
+      } else {
+        data = await getProduct(
+          keyword,
+          Number(target.outerText),
+          sort,
+          people,
+          dateOption ? dayjs(dateOption).format('YYYY-MM-DD') : '',
+        );
+      }
+      setProduct(data.content);
+    } catch {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.CART.CHECK_PEOPLE,
+        }),
       );
     }
-    setProduct(data.content);
   };
 
   return (

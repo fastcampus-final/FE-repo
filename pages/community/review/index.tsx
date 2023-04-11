@@ -62,7 +62,7 @@ const Review = () => {
       return dispatch(
         setModal({
           isOpen: true,
-          text: MESSAGES.COMMUNITY.MOVE_TO_LOGIN,
+          text: MESSAGES.INVALID_AUTH,
           onClickOk: () => {
             dispatch(
               setModal({
@@ -106,7 +106,13 @@ const Review = () => {
       <BottomArea>
         {reviewData && reviewData.length > 0 ? (
           reviewData.map((item, i) => (
-            <ReviewItem key={item.boardId} data={item} i={i} length={reviewData.length} />
+            <ReviewItem
+              key={item.boardId}
+              data={item}
+              prev={reviewData[i - 1]?.boardId ? reviewData[i - 1]?.boardId : undefined}
+              next={reviewData[i + 1]?.boardId ? reviewData[i + 1]?.boardId : undefined}
+              length={reviewData.length}
+            />
           ))
         ) : (
           <h3>후기가 존재하지 않습니다.</h3>
@@ -144,6 +150,7 @@ const TopArea = styled.div`
     grid-area: text;
   }
   button {
+    cursor: pointer;
     background-color: #0cb1f3;
     border: 1px solid #0cb1f3;
     border-radius: 8px;
@@ -177,18 +184,33 @@ const InputArea = styled.div`
     width: 30px;
     height: 30px;
     margin-top: 5px;
+    cursor: pointer;
   }
 `;
 
 const BottomArea = styled.div`
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
   display: flex;
-  margin: 20px 0;
   flex-wrap: wrap;
   gap: 25px;
   justify-content: center;
   h3 {
     margin-top: 50px;
     text-align: center;
+  }
+
+  @media screen and (min-width: 1200px) {
+    width: 1200px;
+    margin: auto;
+  }
+
+  @media screen and (max-width: 1200px) {
+    padding: 0 8rem;
+  }
+
+  @media screen and (max-width: 500px) {
+    padding: 0 18px;
   }
 `;
 

@@ -21,12 +21,13 @@ import Rice from '@/../public/icons/survey/Rice.svg';
 import Saving from '@/../public/icons/survey/Saving.svg';
 import UserMinus from '@/../public/icons/survey/UserMinus.svg';
 import UserPlus from '@/../public/icons/survey/UserPlus.svg';
-import { setUserType } from '@/apis/user';
+import { patchUserType } from '@/apis/user';
 import { getProductByType } from '@/apis/product';
 import SurveyProductCard from '@/components/Product/SurveyProductCard';
 import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
 import { MESSAGES } from '@/constants/messages';
+import withAuth from '@/components/common/PrivateRouter';
 
 const Servey = () => {
   const dispatch = useDispatch();
@@ -82,12 +83,22 @@ const Servey = () => {
   };
 
   const handleUserType = async () => {
-    const type = answer.join('');
-    const reqData = { userType: type };
-    await setUserType(reqData);
+    try {
+      const type = answer.join('');
+      const reqData = { userType: type };
+      await patchUserType(reqData);
 
-    const data = await getProductByType();
-    setProduct(data);
+      const data = await getProductByType();
+      setProduct(data);
+    } catch {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          text: MESSAGES.SURVEY.ERROR_GET_PRODUCT,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+        }),
+      );
+    }
   };
 
   const handleBack = () => {
@@ -194,7 +205,7 @@ const Servey = () => {
   );
 };
 
-export default Servey;
+export default withAuth(Servey);
 
 const Container = styled.div`
   margin: 0 auto;

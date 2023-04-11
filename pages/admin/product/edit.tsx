@@ -1,5 +1,5 @@
 import { getAdminProductCategory } from '@/apis/admin/category';
-import { addAdminProduct } from '@/apis/admin/product';
+import { postAdminProduct } from '@/apis/admin/product';
 import { uploadImage } from '@/apis/common';
 import Image from '@/components/common/Image';
 import PageTitle from '@/components/common/PageTitle';
@@ -22,7 +22,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-const Editor = dynamic(() => import('@/components/common/Editor'), { ssr: false });
+const Editor = dynamic(async () => await import('@/components/common/Editor'), { ssr: false });
 
 const ProductEditForm = () => {
   const router = useRouter();
@@ -75,8 +75,8 @@ const ProductEditForm = () => {
       thumbnail,
       type: 'A',
     };
-    await addAdminProduct(formData);
-    router.push(ROUTES.ADMIN.PRODUCT_BY_ID(product!.productId!));
+    await postAdminProduct(formData);
+    router.push(ROUTES.ADMIN.PRODUCT_BY_ID(product!.productId));
   };
 
   const handleThumbnail = () => {
@@ -93,18 +93,20 @@ const ProductEditForm = () => {
               썸네일
             </TableCell>
             <TableCell align="left" colSpan={3}>
-              {imagePreview && <Image src={imagePreview} alt="thumbnail" width="330px" />}
-              <File
-                type="file"
-                {...register('thumbnail')}
-                ref={(event) => {
-                  ref(event);
-                  thumbnailRef.current = event;
-                }}
-              />
-              <Button variant="contained" onClick={handleThumbnail}>
-                파일 선택
-              </Button>
+              <ImageWrap>
+                {imagePreview && <Image src={imagePreview} alt="thumbnail" width="600px" />}
+                <File
+                  type="file"
+                  {...register('thumbnail')}
+                  ref={(event) => {
+                    ref(event);
+                    thumbnailRef.current = event;
+                  }}
+                />
+                <Button variant="contained" onClick={handleThumbnail}>
+                  파일 선택
+                </Button>
+              </ImageWrap>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -290,4 +292,10 @@ const ButtonWrap = styled.div`
 
 const File = styled.input`
   display: none;
+`;
+
+const ImageWrap = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
 `;

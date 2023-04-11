@@ -108,4 +108,5 @@ const GroupWrap = styled.div<{ image: string; mobile: string }>`
     color: #fff;
     font-weight: 600;
   }
+  cursor: pointer;
 `;

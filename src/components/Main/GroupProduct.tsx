@@ -31,12 +31,12 @@ const GroupProduct = () => {
               onClick={() =>
                 router.push(
                   {
-                    pathname: ROUTES.PRODUCT_BY_ID(String(item.productId)),
+                    pathname: ROUTES.PRODUCT_BY_ID(item.productId),
                     query: {
                       id: item.productId,
                     },
                   },
-                  ROUTES.PRODUCT_BY_ID(String(item.productId)),
+                  ROUTES.PRODUCT_BY_ID(item.productId),
                 )
               }
             >
@@ -104,4 +104,5 @@ const ProductContent = styled(SwiperSlide)<{ image: string; mobile: string }>`
   .status {
     font-size: 0.9rem;
   }
+  cursor: pointer;
 `;

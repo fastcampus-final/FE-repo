@@ -9,18 +9,32 @@ import { ROUTES } from '@/constants/routes';
 import { getAdminProduct } from '@/apis/admin/product';
 import { IProduct } from '@/interfaces/product';
 import { formatPrice, formatProductStatus } from '@/utils/format';
+import { useDispatch } from 'react-redux';
+import { setModal } from '@/store/modal';
+import { MESSAGES } from '@/constants/messages';
 
 const Product = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [product, setProduct] = useState<IProduct[]>([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
 
   useEffect(() => {
     (async () => {
-      const data = await getAdminProduct(1);
-      setProduct(data.content);
-      setTotalPage(data.totalPages);
+      try {
+        const data = await getAdminProduct(1);
+        setProduct(data.content);
+        setTotalPage(data.totalPages);
+      } catch {
+        return dispatch(
+          setModal({
+            isOpen: true,
+            onClickOk: () => dispatch(setModal({ isOpen: false })),
+            text: MESSAGES.PRODUCT.ERROR_GET_PRODUCT,
+          }),
+        );
+      }
     })();
   }, []);
 
@@ -44,7 +58,7 @@ const Product = () => {
                   key={idx}
                   style={{ cursor: 'pointer' }}
                   hover
-                  onClick={() => router.push(ROUTES.ADMIN.PRODUCT_BY_ID(String(item.productId)))}
+                  onClick={() => router.push(ROUTES.ADMIN.PRODUCT_BY_ID(item.productId))}
                 >
                   <TableCell align="center" width="200px">
                     {(page - 1) * 10 + idx + 1}

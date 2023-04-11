@@ -15,7 +15,7 @@ const BannerList = ({ data }: Props) => {
 
   useEffect(() => {
     (async () => {
-      const product = await getProductDetail(String(data.productId));
+      const product = await getProductDetail(data.productId);
       setProductName(product.name);
     })();
   }, []);
@@ -27,13 +27,13 @@ const BannerList = ({ data }: Props) => {
       onClick={() =>
         router.push(
           {
-            pathname: ROUTES.ADMIN.BANNER_BY_ID(String(data.bannerId)),
+            pathname: ROUTES.ADMIN.BANNER_BY_ID(data.bannerId),
             query: {
               id: data.bannerId,
               product: productName,
             },
           },
-          ROUTES.ADMIN.BANNER_BY_ID(String(data.bannerId)),
+          ROUTES.ADMIN.BANNER_BY_ID(data.bannerId),
         )
       }
     >

@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import ArrowLeft from '@/../public/icons/arrow-left.svg';
 import PageTitle from '@/components/common/PageTitle';
 import { useRouter } from 'next/router';
-import { Button, Table, TableCell, TableRow } from '@mui/material';
+import { Button, Table, TableCell, TableRow, TextField } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { IProduct } from '@/interfaces/product';
 import { getAdminProduct } from '@/apis/admin/product';
@@ -14,10 +14,14 @@ import { MESSAGES } from '@/constants/messages';
 import { ROUTES } from '@/constants/routes';
 import Select from 'react-select';
 import { putAdminBanner } from '@/apis/admin/banner';
+import { IBannerForm } from '@/interfaces/banner';
+import { useForm } from 'react-hook-form';
 
 const BannerEditForm = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+
+  const { register, handleSubmit } = useForm<IBannerForm>();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -79,13 +83,16 @@ const BannerEditForm = () => {
     setItems(optionData);
   };
 
-  const addBanner = async () => {
-    const params = {
+  const onSubmit = async (data: IBannerForm) => {
+    const formData = {
       image: fileUrl,
       productId: items?.value,
+      subtitle: data.subtitle,
+      tag: data.tag,
+      title: data.title,
     };
 
-    const addData = await putAdminBanner(Number(router.query.id), params);
+    const addData = await putAdminBanner(Number(router.query.id), formData);
     if (addData === 'ERR_BAD_REQUEST') {
       return dispatch(
         setModal({
@@ -117,51 +124,67 @@ const BannerEditForm = () => {
         <PageTitle title="배너 관리" />
       </BackRouter>
 
-      <Table>
-        <TableRow>
-          <TableCell align="center">배너 이미지</TableCell>
-          <TableCell align="left" colSpan={1}>
-            <TitleImage>
-              <Button onClick={onUploadImageButtonClick}>이미지 선택</Button>
-              <input
-                type="file"
-                accept="image/*"
-                ref={inputRef}
-                style={{ display: 'none' }}
-                onChange={onUploadImage}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Table>
+          <TableRow>
+            <TableCell align="center">배너 이미지</TableCell>
+            <TableCell align="left" colSpan={1}>
+              <TitleImage>
+                <Button onClick={onUploadImageButtonClick}>이미지 선택</Button>
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={inputRef}
+                  style={{ display: 'none' }}
+                  onChange={onUploadImage}
+                />
+                {fileName}
+                {fileName !== '' ? <Button onClick={() => deleteFileImage()}>지우기</Button> : null}
+              </TitleImage>
+            </TableCell>
+            <TableCell align="center">관련 상품</TableCell>
+            <TableCell align="left">
+              <Select
+                onChange={optionSelect}
+                options={
+                  option &&
+                  option.map((item) => {
+                    return {
+                      label: item.productName,
+                      value: item.productId,
+                    };
+                  })
+                }
+                placeholder="상품을 선택해 주세요"
               />
-              {fileName}
-              {fileName !== '' ? <Button onClick={() => deleteFileImage()}>지우기</Button> : null}
-            </TitleImage>
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell align="center">관련 상품</TableCell>
-          <TableCell align="left" width="500px" colSpan={1}>
-            <Select
-              onChange={optionSelect}
-              options={
-                option &&
-                option.map((item) => {
-                  return {
-                    label: item.productName,
-                    value: item.productId,
-                  };
-                })
-              }
-              placeholder="상품을 선택해 주세요"
-            />
-          </TableCell>
-        </TableRow>
-      </Table>
-      <ButtonContent>
-        <button className="white" onClick={() => router.back()}>
-          취소
-        </button>
-        <button className="blue" onClick={() => addBanner()}>
-          저장
-        </button>
-      </ButtonContent>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">제목</TableCell>
+            <TableCell align="left">
+              <TextField size="small" fullWidth type="string" {...register('title')} />
+            </TableCell>
+            <TableCell align="center">소제목</TableCell>
+            <TableCell align="left">
+              <TextField type="string" size="small" fullWidth {...register('subtitle')} />
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="center">태그</TableCell>
+            <TableCell align="left" colSpan={3}>
+              <TextField size="small" fullWidth type="string" {...register('tag')} />
+            </TableCell>
+          </TableRow>
+        </Table>
+        <ButtonContent>
+          <button className="white" onClick={() => router.back()}>
+            취소
+          </button>
+          <button className="blue" type="submit">
+            저장
+          </button>
+        </ButtonContent>
+      </form>
     </EditContent>
   );
 };

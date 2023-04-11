@@ -16,3 +16,16 @@ export interface ICartOption {
   startDate: string;
   endDate: string;
 }
+
+export interface ICartEditOption {
+  numberOfPeople: number;
+  productOptionId: number;
+  singleRoomNumber: number;
+}
+
+export interface ICartAdd {
+  numberOfPeople: number;
+  productId: number;
+  productOptionId: number;
+  singleRoomNumber: number;
+}

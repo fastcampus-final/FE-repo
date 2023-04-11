@@ -1,5 +1,5 @@
 import { getAdminProductCategory } from '@/apis/admin/category';
-import { addAdminProduct } from '@/apis/admin/product';
+import { postAdminProduct } from '@/apis/admin/product';
 import { uploadImage } from '@/apis/common';
 import Image from '@/components/common/Image';
 import PageTitle from '@/components/common/PageTitle';
@@ -23,7 +23,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-const Editor = dynamic(() => import('@/components/common/Editor'), { ssr: false });
+const Editor = dynamic(async () => await import('@/components/common/Editor'), { ssr: false });
 
 const ProductAddForm = () => {
   const router = useRouter();
@@ -76,7 +76,7 @@ const ProductAddForm = () => {
       })),
     };
     if (data.type) formData = Object.assign(formData, { type: data.type });
-    await addAdminProduct(formData);
+    await postAdminProduct(formData);
     router.push(ROUTES.ADMIN.PRODUCT);
   };
 
@@ -112,7 +112,7 @@ const ProductAddForm = () => {
 
   return (
     <Container>
-      <PageTitle title="상품 수정" fontSize="20px" padding="10px" />
+      <PageTitle title="상품 등록" fontSize="20px" padding="10px" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Table>
           <TableRow>
@@ -120,18 +120,20 @@ const ProductAddForm = () => {
               썸네일
             </TableCell>
             <TableCell align="left" colSpan={3}>
-              {imagePreview && <Image src={imagePreview} alt="thumbnail" width="330px" />}
-              <File
-                type="file"
-                {...register('thumbnail')}
-                ref={(event) => {
-                  ref(event);
-                  thumbnailRef.current = event;
-                }}
-              />
-              <Button variant="contained" onClick={handleThumbnail}>
-                파일 선택
-              </Button>
+              <ImageWrap>
+                {imagePreview && <Image src={imagePreview} alt="thumbnail" width="600px" />}
+                <File
+                  type="file"
+                  {...register('thumbnail')}
+                  ref={(event) => {
+                    ref(event);
+                    thumbnailRef.current = event;
+                  }}
+                />
+                <Button variant="contained" onClick={handleThumbnail}>
+                  파일 선택
+                </Button>
+              </ImageWrap>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -454,5 +456,11 @@ const SelectWrap = styled.div`
 const ChipWrap = styled.div`
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
+`;
+
+const ImageWrap = styled.div`
+  display: flex;
+  align-items: flex-end;
   gap: 10px;
 `;

@@ -9,8 +9,8 @@ import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { RxCrossCircled } from 'react-icons/rx';
 
 import Select, { OnChangeValue } from 'react-select';
-import { IWishList } from '@/interfaces/wishlist';
-import { deleteWishList, getWishList, postAddCart, postWishList } from '@/apis/wishlist';
+import { IWish } from '@/interfaces/wish';
+import { deleteWishList, getWishList, postWishList } from '@/apis/wish';
 
 import { getProductDetail, getRelatedProducts } from '@/apis/product';
 import { useDispatch } from 'react-redux';
@@ -25,6 +25,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
+import { postCart } from '@/apis/cart';
+import { ICartAdd } from '@/interfaces/cart';
 
 interface IItemOption {
   optionDate: string;
@@ -52,7 +54,7 @@ const ProductDetail = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalMember, setTotalMember] = useState(0);
 
-  const [wishList, setWishList] = useState<Array<IWishList>>([]);
+  const [wishList, setWishList] = useState<Array<IWish>>([]);
   const [wishClick, setWishClick] = useState(false);
 
   const [isViewMore, setIsViewMore] = useState(false);
@@ -61,7 +63,7 @@ const ProductDetail = () => {
     (async () => {
       const productId = window.location.pathname.slice(9);
       const productData = await getProductDetail(
-        Object(router.query).length > 0 ? String(router.query.id) : String(productId),
+        Object(router.query).length > 0 ? Number(router.query.id) : Number(productId),
       );
       setProductDetail(productData);
 
@@ -159,16 +161,16 @@ const ProductDetail = () => {
     setItemCounts([...countRemove]);
   };
 
-  const addCart = () => {
+  const addCartItem = () => {
     if (items.length > 0) {
       items.map((item) => {
-        const params = {
+        const params: ICartAdd = {
           numberOfPeople: totalMember,
-          productId: productDetail?.productId,
+          productId: productDetail!.productId,
           productOptionId: item.optionId,
           singleRoomNumber: singleCount,
         };
-        postAddCart(params);
+        postCart(params);
       });
       return dispatch(
         setModal({
@@ -445,7 +447,7 @@ const ProductDetail = () => {
             <button
               className="white"
               onClick={() => {
-                addCart();
+                addCartItem();
               }}
             >
               장바구니
@@ -480,12 +482,12 @@ const ProductDetail = () => {
                   onClick={() =>
                     router.push(
                       {
-                        pathname: ROUTES.PRODUCT_BY_ID(String(item.productId)),
+                        pathname: ROUTES.PRODUCT_BY_ID(Number(item.productId)),
                         query: {
                           id: item.productId,
                         },
                       },
-                      ROUTES.PRODUCT_BY_ID(String(item.productId)),
+                      ROUTES.PRODUCT_BY_ID(Number(item.productId)),
                     )
                   }
                 >
