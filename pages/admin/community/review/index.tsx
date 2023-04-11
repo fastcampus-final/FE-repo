@@ -83,13 +83,13 @@ const Review = () => {
                   onClick={() =>
                     router.push(
                       {
-                        pathname: ROUTES.ADMIN.REVIEW_BY_ID(String(item.boardId)),
+                        pathname: ROUTES.ADMIN.REVIEW_BY_ID(item.boardId),
                         query: {
                           id: item.boardId,
                           image: item.boardThumbnail,
                         },
                       },
-                      ROUTES.ADMIN.REVIEW_BY_ID(String(item.boardId)),
+                      ROUTES.ADMIN.REVIEW_BY_ID(item.boardId),
                     )
                   }
                 >

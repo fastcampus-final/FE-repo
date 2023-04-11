@@ -8,33 +8,47 @@ import { Button, Pagination, Table, TableBody, TableCell, TableRow } from '@mui/
 import { ROUTES } from '@/constants/routes';
 import AdminTableHead from '@/components/common/AdminTableHead';
 import { IRecommend } from '@/interfaces/product';
+import { useDispatch } from 'react-redux';
+import { setModal } from '@/store/modal';
+import { MESSAGES } from '@/constants/messages';
 
 const RecommendProduct = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [recomment, setRecommend] = useState<IRecommend[]>([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
 
   useEffect(() => {
     (async () => {
-      const data = await getAdminRecommendProduct(1);
-      setRecommend(data.content);
+      try {
+        const data = await getAdminRecommendProduct();
+        setRecommend(data);
+      } catch {
+        return dispatch(
+          setModal({
+            isOpen: true,
+            onClickOk: () => dispatch(setModal({ isOpen: false })),
+            text: MESSAGES.PRODUCT.ERROR_GET_PRODUCT,
+          }),
+        );
+      }
     })();
   }, []);
 
-  const handlePagination = async (event: MouseEvent<HTMLElement>) => {
-    const target = event.target as HTMLElement;
-    setPage(Number(target.outerText));
-    const data = await getAdminRecommendProduct(Number(target.outerText));
-    setRecommend(data.content);
-  };
+  // const handlePagination = async (event: MouseEvent<HTMLElement>) => {
+  //   const target = event.target as HTMLElement;
+  //   setPage(Number(target.outerText));
+  //   const data = await getAdminRecommendProduct(Number(target.outerText));
+  //   setRecommend(data.content);
+  // };
 
   return (
     <Container>
       <PageTitle title="추천 상품 관리" fontSize="20px" padding="10px" />
       <TableWrap>
         <Table>
-          <AdminTableHead titles={['번호', '상품명', '노출단계']} />
+          <AdminTableHead titles={['번호', '상품명', '우선순위']} />
           <TableBody>
             {recomment && recomment.length > 0 ? (
               recomment.map((item, idx) => (
@@ -42,7 +56,7 @@ const RecommendProduct = () => {
                   key={idx}
                   style={{ cursor: 'pointer' }}
                   hover
-                  onClick={() => router.push(ROUTES.ADMIN.PRODUCT_BY_ID(item.regionId))}
+                  onClick={() => router.push(ROUTES.ADMIN.RECOMMEND_BY_ID(item.regionId!))}
                 >
                   <TableCell align="center" width="200px">
                     {idx + 1}
@@ -62,10 +76,15 @@ const RecommendProduct = () => {
         </Table>
         <ButtonWrap>
           <CenterWrap>
-            <Pagination count={totalPage} color="primary" onClick={handlePagination} page={page} />
+            {/* <Pagination
+              count={totalPage}
+              color="primary"
+              // onClick={handlePagination}
+              page={page}
+            /> */}
           </CenterWrap>
           <RightWrap>
-            <Button variant="contained" onClick={() => router.push(ROUTES.ADMIN.PRODUCT_ADD)}>
+            <Button variant="contained" onClick={() => router.push(ROUTES.ADMIN.RECOMMEND_ADD)}>
               등록
             </Button>
           </RightWrap>

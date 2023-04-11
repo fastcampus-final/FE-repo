@@ -22,7 +22,7 @@ const BestProducts = () => {
       const categoryData = await getProductCategory();
       setCategory(categoryData);
 
-      const categoryDetailData = await getProductCategoryDetail('3');
+      const categoryDetailData = await getProductCategoryDetail(3);
       setCategoryDetail(categoryDetailData.children);
 
       const productData = await getPopularProduct();
@@ -165,4 +165,5 @@ const ProductContent = styled(SwiperSlide)<{ image: string; mobile: string }>`
   .status {
     font-size: 0.9rem;
   }
+  cursor: pointer;
 `;

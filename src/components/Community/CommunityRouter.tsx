@@ -47,4 +47,5 @@ const RouterButton = styled.button<{ isRouter: boolean }>`
   border: none;
   font-size: 1.5rem;
   color: ${(props) => (props.isRouter ? '#0CB1F3' : '#b7b7b7')};
+  cursor: pointer;
 `;

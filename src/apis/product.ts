@@ -9,7 +9,7 @@ export const getProduct = async (
   dateOption?: string | null,
 ) => {
   const { data } = await instance.get(
-    API_URLS.SEARCH_BY_KEYWORD(keyword, page, sort, people, dateOption),
+    API_URLS.PRODUCT.SEARCH_BY_KEYWORD(keyword, page, sort, people, dateOption),
   );
   return data;
 };
@@ -22,7 +22,7 @@ export const getProductByCategory = async (
   dateOption?: string | null,
 ) => {
   const { data } = await instance.get(
-    API_URLS.SEARCH_BY_CATEGORY(categoryId, page, sort, people, dateOption),
+    API_URLS.PRODUCT.SEARCH_BY_CATEGORY(categoryId, page, sort, people, dateOption),
   );
   return data;
 };
@@ -32,17 +32,17 @@ export const getProductRecommend = async () => {
   return data;
 };
 
-export const getProductDetail = async (id: string) => {
-  const { data } = await instance.get(API_URLS.DETAIL(id));
+export const getProductDetail = async (id: number) => {
+  const { data } = await instance.get(API_URLS.PRODUCT.PRODUCT_BY_ID(id));
   return data;
 };
 
 export const getRelatedProducts = async (id: number) => {
-  const { data } = await instance.get(API_URLS.RELATED_PRODUCTS(id));
+  const { data } = await instance.get(API_URLS.PRODUCT.PRODUCT_BY_RELATED(id));
   return data;
 };
 
 export const getProductByType = async () => {
-  const { data } = await instance.get(API_URLS.PRODUCT_TYPE);
+  const { data } = await instance.get(API_URLS.PRODUCT.PRODUCT_BY_GROUP);
   return data;
 };
