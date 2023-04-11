@@ -83,12 +83,22 @@ const Servey = () => {
   };
 
   const handleUserType = async () => {
-    const type = answer.join('');
-    const reqData = { userType: type };
-    await setUserType(reqData);
+    try {
+      const type = answer.join('');
+      const reqData = { userType: type };
+      await setUserType(reqData);
 
-    const data = await getProductByType();
-    setProduct(data);
+      const data = await getProductByType();
+      setProduct(data);
+    } catch {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          text: MESSAGES.SURVEY.ERROR_GET_PRODUCT,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+        }),
+      );
+    }
   };
 
   const handleBack = () => {

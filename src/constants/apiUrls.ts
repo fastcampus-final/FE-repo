@@ -19,8 +19,8 @@ export const API_URLS = {
     dateOption: string | null = '',
   ) =>
     `/products/categories/${category}?page=${page}&sort=${sort}&people=${people}&dateOption=${dateOption}`,
-  DETAIL: (id: string) => `/products/detail/${id}`,
-  BUY: (id: string) => `/buy/${id}`,
+  DETAIL: (id: number) => `/products/detail/${id}`,
+  BUY: (id: number) => `/buy/${id}`,
   BUY_LIST: (page: number) => `/buy/${page}`,
   CART: '/cart',
   CART_BY_ID: (id: number) => `/cart/${id}`,
@@ -31,12 +31,12 @@ export const API_URLS = {
     keyword === null
       ? `/board?type=${type}&pageNumber=${pageNumber}`
       : `/board?type=${type}&keyword=${keyword}&pageNumber=${pageNumber}`,
-  BOARD_AUTH: (id: string) => `/board/authority/${id}`,
+  BOARD_AUTH: (id: number) => `/board/authority/${id}`,
   BOARD_DETAIL: (id: number) => `/board/${id}`,
   BOARD_ADD: '/board',
   BOARD_EDIT: (boardId: number) => `/board/${boardId}`,
   CATEGORY: '/categories',
-  CATEGORY_DETAIL: (id: string) => `/categories/${id}`,
+  CATEGORY_DETAIL: (id: number) => `/categories/${id}`,
   UPLOAD_IMAGE: (category: string) => `/image?category=${category}`,
   USER_TYPE: '/user/type',
   PRODUCT_TYPE: '/page/group/products',

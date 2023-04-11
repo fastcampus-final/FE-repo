@@ -1,4 +1,4 @@
-export interface IWishList {
+export interface IWish {
   wishlistId: number;
   productId: number;
   productName: string;

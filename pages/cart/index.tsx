@@ -12,8 +12,7 @@ import { setModal } from '@/store/modal';
 import { COLORS } from '@/styles/colors';
 import { formatPrice } from '@/utils/format';
 import styled from '@emotion/styled';
-import { CheckBox } from '@mui/icons-material';
-import { Button, Checkbox, InputLabel } from '@mui/material';
+import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,8 +27,18 @@ const Cart = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await getCart();
-      dispatch(setCartState(data));
+      try {
+        const data = await getCart();
+        dispatch(setCartState(data));
+      } catch {
+        return dispatch(
+          setModal({
+            isOpen: true,
+            text: MESSAGES.CART.ERROR_GET_CART,
+            onClickOk: () => dispatch(setModal({ isOpen: false })),
+          }),
+        );
+      }
     })();
   }, []);
 
@@ -62,16 +71,26 @@ const Cart = () => {
         }),
       );
     } else {
-      await deleteCart(checkId);
-      setCheckId(checkId.filter((item) => !checkId.includes(item)));
-      dispatch(deleteCartState(checkId));
-      return dispatch(
-        setModal({
-          isOpen: true,
-          text: MESSAGES.CART.COMPLETE_DELETE,
-          onClickOk: () => dispatch(setModal({ isOpen: false })),
-        }),
-      );
+      try {
+        await deleteCart(checkId);
+        setCheckId(checkId.filter((item) => !checkId.includes(item)));
+        dispatch(deleteCartState(checkId));
+        return dispatch(
+          setModal({
+            isOpen: true,
+            text: MESSAGES.CART.COMPLETE_DELETE,
+            onClickOk: () => dispatch(setModal({ isOpen: false })),
+          }),
+        );
+      } catch {
+        return dispatch(
+          setModal({
+            isOpen: true,
+            text: MESSAGES.CART.ERROR_DELETE,
+            onClickOk: () => dispatch(setModal({ isOpen: false })),
+          }),
+        );
+      }
     }
   };
 

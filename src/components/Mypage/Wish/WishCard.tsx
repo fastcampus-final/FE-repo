@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import React from 'react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { IWishList } from '@/interfaces/wishlist';
+import { IWish } from '@/interfaces/wish';
 import { deleteMyWish } from '@/apis/mypage/wish';
 import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
@@ -12,7 +12,7 @@ import { MESSAGES } from '@/constants/messages';
 import { deleteWishState } from '@/store/wish';
 
 interface Props {
-  data: IWishList;
+  data: IWish;
 }
 
 const WishCard = ({ data }: Props) => {
@@ -24,16 +24,26 @@ const WishCard = ({ data }: Props) => {
   };
 
   const handleDeleteWish = async (id: number) => {
-    await deleteMyWish(id);
-    dispatch(deleteWishState(id));
+    try {
+      await deleteMyWish(id);
+      dispatch(deleteWishState(id));
 
-    return dispatch(
-      setModal({
-        isOpen: true,
-        onClickOk: () => dispatch(setModal({ isOpen: false })),
-        text: MESSAGES.MYPAGE.WISH.DELETE,
-      }),
-    );
+      return dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.MYPAGE.WISH.COMPLETE_DELETE,
+        }),
+      );
+    } catch {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          text: MESSAGES.MYPAGE.WISH.ERROR_DELETE_WISH,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+        }),
+      );
+    }
   };
 
   return (

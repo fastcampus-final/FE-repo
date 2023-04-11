@@ -61,16 +61,20 @@ export const MESSAGES = {
     },
   },
   CART: {
+    ERROR_GET_CART: '장바구니 목록 조회 중 에러가 발생하였습니다.',
     CHECK_PEOPLE: '최소 인원은 1인 입니다.',
     COMPLETE_EDIT: '저장이 완료되었습니다.',
+    ERROR_EDIT: '장바구니 저장 중 에러가 발생하였습니다.',
     ERROR_NOT_CHECK: '선택하신 상품이 없습니다.',
     COMPLETE_DELETE: '삭제가 완료되었습니다.',
+    ERROR_DELETE: '장바구니 삭제 중 에러가 발생하였습니다.',
   },
   ORDER: {
     EXPIRE: '결제시간이 초과되었습니다.\n다시 시도해주세요.',
   },
   SURVEY: {
     CHECK_ANSWER: '답변을 선택해 주세요.',
+    ERROR_GET_PRODUCT: '상품 목록 조회 중 에러가 발생하였습니다.',
   },
   INVALID_AUTH: '회원 전용 메뉴입니다.\n로그인 후 이용해 주세요.',
   VALID_AUTH: '로그인된 계정입니다.\n로그아웃 후 이용해주세요.',
@@ -90,7 +94,9 @@ export const MESSAGES = {
     DELETE_REVERVATION_COMPLETE: '취소가 완료되었습니다.',
     DELETE_REVERVATION_ERROR: '에러가 발생하였습니다.',
     WISH: {
-      DELETE: '관심상품이 해제되었습니다.',
+      COMPLETE_DELETE: '관심상품이 해제되었습니다.',
+      ERROR_GET_WISH: '관심상품 조회 중 에러가 발생하였습니다.',
+      ERROR_DELETE_WISH: '관심상품 해제 중 에러가 발생하였습니다.',
     },
   },
 };

@@ -9,7 +9,7 @@ import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { RxCrossCircled } from 'react-icons/rx';
 
 import Select, { OnChangeValue } from 'react-select';
-import { IWishList } from '@/interfaces/wishlist';
+import { IWish } from '@/interfaces/wish';
 import { deleteWishList, getWishList, postAddCart, postWishList } from '@/apis/wishlist';
 
 import { getProductDetail, getRelatedProducts } from '@/apis/product';
@@ -52,7 +52,7 @@ const ProductDetail = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalMember, setTotalMember] = useState(0);
 
-  const [wishList, setWishList] = useState<Array<IWishList>>([]);
+  const [wishList, setWishList] = useState<Array<IWish>>([]);
   const [wishClick, setWishClick] = useState(false);
 
   const [isViewMore, setIsViewMore] = useState(false);
@@ -61,7 +61,7 @@ const ProductDetail = () => {
     (async () => {
       const productId = window.location.pathname.slice(9);
       const productData = await getProductDetail(
-        Object(router.query).length > 0 ? String(router.query.id) : String(productId),
+        Object(router.query).length > 0 ? Number(router.query.id) : Number(productId),
       );
       setProductDetail(productData);
 
