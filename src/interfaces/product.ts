@@ -51,10 +51,10 @@ export interface IProductOption {
 }
 
 export interface IRecommend {
-  regionId: number;
+  regionId?: number;
   regionName: string;
   rate: number;
-  image: string;
+  image: any;
 }
 
 export interface IReservation {
