@@ -34,10 +34,11 @@ export interface IProductDetailForm extends IProductDetail {
 }
 
 export interface ICategory {
-  categoryId: number;
+  categoryId?: number;
   categoryName: string;
-  categoryDepth?: number;
+  categoryDepth: number;
   children?: ICategory[];
+  categoryParent?: number;
 }
 
 export interface IProductOption {

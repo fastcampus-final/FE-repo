@@ -88,6 +88,16 @@ export const MESSAGES = {
     COMPLETE_DELETE: '삭제가 완료되었습니다.',
     ERROR_DELETE: '게시물 삭제 중 에러가 발생하였습니다.',
   },
+  CATEGORY: {
+    ERROR_GET_CATEGORY: '카테고리 조회 중\n에러가 발생하였습니다.',
+    COMPLETE_ADD: '카테고리 등록이 완료되었습니다.',
+    COMPLETE_EDIT: '카테고리 수정이 완료되었습니다.',
+    COMPLETE_DELETE: '카테고리가 삭제되었습니다.',
+    ERROR_ADD: '카테고리 등록 중\n에러가 발생하였습니다.',
+    ERROR_EDIT: '카테고리 수정 중\n에러가 발생하였습니다.',
+    ERROR_DELETE: '카테고리 삭제 중\n에러가 발생하였습니다.',
+    ERROR_DELETE_PARENT: '하위 카테고리를\n먼저 삭제해 주세요.',
+  },
   MYPAGE: {
     INFO: {
       COMPLETE_INFO: '정보 수정이 완료되었습니다.',
