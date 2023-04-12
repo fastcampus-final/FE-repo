@@ -6,17 +6,25 @@ import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import { getMyInfo } from './apis';
 import Avatar from 'boring-avatars';
+import { globalAge } from './function';
 
 const GetMyinfo = () => {
   const router = useRouter();
 
   const [myinfo, setMyinfo] = useState({
-    birth: '',
-    email: '',
-    name: '',
-    password: '',
-    phone: '',
+    passportFirstName: '',
+    passportLastName: '',
+    userGender: '',
+    userBirth: '',
+    userEmail: '',
+    userName: '',
+    userType: '',
+    userPhoneNumber: '',
   });
+  const [windowW, setWindowW] = useState(window.screen.width);
+  window.onresize = () => {
+    setWindowW(window.screen.width);
+  };
 
   useEffect(() => {
     getMyInfo(setMyinfo);
@@ -25,19 +33,19 @@ const GetMyinfo = () => {
   return (
     <Container>
       <Avatar
-        size={120}
+        size={windowW > 1200 ? 155 : 80}
         // name={myinfo.email}
         name={String(Math.random())}
         variant="beam"
         colors={['#0CB1F3', '#63d3ff', '#bdecff', '#fff8c6', '#fff18c']}
       />
       <InfoWrap>
-        <p>혼자 여행도 마다하지 않는 인싸</p>
+        <p>{myinfo.userType || ''}</p>
         <UserName>
-          {/* {myinfo.name} */}
-          <span>김선자</span>
-          {/* (여, {globalAge(myinfo)}세 )*/}
-          <span>(여, 50세)</span>
+          <Name>{myinfo.userName}</Name>
+          <span>
+            ({myinfo.userGender === 'male' ? '남' : '여'}, 만 {globalAge(myinfo)}세 )
+          </span>
         </UserName>
         {router.asPath === '/mypage' && (
           <MyInfoWrap>
@@ -69,8 +77,10 @@ const Container = styled.div`
   box-sizing: border-box;
   padding: 30px;
   max-width: 100%;
+  height: 266px;
   @media (max-width: 1200px) {
     width: 100%;
+    height: 136px;
   }
 `;
 
@@ -95,4 +105,10 @@ const GoMyInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+  font-size: 15px;
+  font-weight: bold;
+`;
+const Name = styled.span`
+  font-size: 15px;
+  font-weight: semibold;
 `;
