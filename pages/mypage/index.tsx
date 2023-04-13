@@ -19,15 +19,6 @@ const Mypage = () => {
 
 export default withAuth(Mypage);
 
-export async function getServerSideProps() {
-  const layout = 'mypage';
-  return {
-    props: {
-      layout,
-    },
-  };
-}
-
 const Container = styled.div`
   display: flex;
   margin: 0 auto;

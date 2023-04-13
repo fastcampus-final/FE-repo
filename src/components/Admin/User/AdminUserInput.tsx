@@ -1,5 +1,5 @@
-import { instance } from '@/apis/instance';
-import { alterModal } from '@/components/SignIn/function';
+import { getUserAdminData, putUserAdminData } from '@/apis/admin/user';
+import { alterModal } from '@/utils/check';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -18,16 +18,7 @@ const AdminUserInput = ({ id, label, type, test }: IProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    instance({
-      method: 'GET',
-      url: `https://www.go-together.store:443/admin/user/${router.query.id}`,
-    })
-      .then((res) => {
-        setUserData(res.data[`${id}`]);
-      })
-      .catch(() => {
-        alterModal('서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요', dispatch);
-      });
+    getUserAdminData({ router, setUserData, id, dispatch });
   }, []);
 
   return (
@@ -54,22 +45,7 @@ const AdminUserInput = ({ id, label, type, test }: IProps) => {
         <button
           onClick={async () => {
             if (new RegExp(test).test(userData)) {
-              await instance({
-                method: 'PUT',
-                url: `https://www.go-together.store:443/admin/userDetail/${router.query.id}`,
-                data: {
-                  [id]: userData,
-                },
-              })
-                .then((res) => {
-                  return res;
-                })
-                .catch(() => {
-                  alterModal(
-                    '서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요',
-                    dispatch,
-                  );
-                });
+              await putUserAdminData({ router, id, userData, dispatch });
               await setDisabled(true);
             } else {
               alterModal('형식에 맞지 않습니다. 바꿔주십시오', dispatch);

@@ -1,4 +1,3 @@
-import { instance } from '@/apis/instance';
 import PageTitle from '@/components/common/PageTitle';
 import withAuth from '@/components/common/PrivateRouter';
 import { Button } from '@mui/material';
@@ -10,9 +9,8 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import styled from '@emotion/styled';
 import { orderColumns } from '@/components/Admin/Order/orderColumns';
 import AdminOrderTable from '@/components/Admin/Order/AdminOrderTable';
-import { formatPrice } from '@/utils/format';
-import { alterModal } from '@/components/SignIn/function';
 import { useDispatch } from 'react-redux';
+import { getOrderData } from '@/apis/admin/order';
 
 const Order = () => {
   const dispatch = useDispatch();
@@ -40,16 +38,7 @@ const Order = () => {
   });
 
   useEffect(() => {
-    instance({
-      method: 'GET',
-      url: `https://www.go-together.store:443/admin/reservations?page=${page}`,
-    })
-      .then((res) => {
-        setdatas(res.data);
-      })
-      .catch(() =>
-        alterModal('서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요', dispatch),
-      );
+    getOrderData({ setdatas, page, dispatch });
   }, [page]);
 
   const columns = useMemo(() => orderColumns, []);

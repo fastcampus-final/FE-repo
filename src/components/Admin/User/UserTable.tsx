@@ -1,4 +1,3 @@
-import { instance } from '@/apis/instance';
 import React, { useEffect, useMemo, useState } from 'react';
 import AdminTable from './AdminTable';
 import { userColumns } from './userColumns';
@@ -8,8 +7,8 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import styled from '@emotion/styled';
-import { alterModal } from '@/components/SignIn/function';
 import { useDispatch } from 'react-redux';
+import { getUserTable } from '@/apis/admin/user';
 
 const UserTable = () => {
   const dispatch = useDispatch();
@@ -28,16 +27,7 @@ const UserTable = () => {
   });
 
   useEffect(() => {
-    instance({
-      method: 'GET',
-      url: `https://www.go-together.store:443/admin/userList?page=${page}`,
-    })
-      .then((res) => {
-        setDatas(res.data);
-      })
-      .catch(() => {
-        alterModal('서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요', dispatch);
-      });
+    getUserTable({ page, setDatas, dispatch });
   }, [page]);
 
   const columns = useMemo(() => userColumns, []);

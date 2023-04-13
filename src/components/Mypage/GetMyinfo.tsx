@@ -4,9 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { ArrowForwardIos } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
-import { getMyInfo } from './apis';
+import { getMyInfo } from '../../apis/mypage/info';
 import Avatar from 'boring-avatars';
-import { globalAge } from './function';
+import { globalAge } from '../../utils/globalAge';
 import { useDispatch } from 'react-redux';
 
 const GetMyinfo = () => {

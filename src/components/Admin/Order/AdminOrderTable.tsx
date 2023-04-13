@@ -1,6 +1,5 @@
 import React from 'react';
 import { useGlobalFilter, useSortBy, useTable } from 'react-table';
-import { useRouter } from 'next/router';
 import {
   Button,
   Paper,
@@ -14,9 +13,11 @@ import {
 import { formatPrice } from '@/utils/format';
 
 const AdminOrderTable = ({ columns, data }: any) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, setGlobalFilter } =
-    useTable({ columns, data }, useGlobalFilter, useSortBy);
-  const router = useRouter();
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
+    { columns, data },
+    useGlobalFilter,
+    useSortBy,
+  );
 
   return (
     <TableContainer component={Paper}>

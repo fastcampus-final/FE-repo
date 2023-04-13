@@ -1,5 +1,4 @@
-import { instance } from '@/apis/instance';
-import { alterModal } from '@/components/SignIn/function';
+import { getRoleUserData, patchRoleAdmin, patchRoleUser } from '@/apis/admin/user';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -12,17 +11,7 @@ const RoleChange = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    instance({
-      method: 'GET',
-      url: `https://www.go-together.store:443/admin/user/${router.query.id}`,
-    })
-      .then((res) => {
-        setUserData(res.data.role);
-        setUserEmail(res.data.email);
-      })
-      .catch(() => {
-        alterModal('서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요', dispatch);
-      });
+    getRoleUserData({ router, setUserData, setUserEmail, dispatch });
   }, []);
 
   return (
@@ -63,33 +52,9 @@ const RoleChange = () => {
         <button
           onClick={async () => {
             if (userData === 'ROLE_ADMIN') {
-              instance({
-                method: 'PATCH',
-                url: `https://www.go-together.store:443/admin/setAdmin/${userEmail}`,
-              })
-                .then(async () => {
-                  await setDisabled(true);
-                })
-                .catch(() => {
-                  alterModal(
-                    '서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요',
-                    dispatch,
-                  );
-                });
+              patchRoleAdmin({ userEmail, setDisabled, dispatch });
             } else if (userData === 'ROLE_USER') {
-              instance({
-                method: 'PATCH',
-                url: `https://www.go-together.store:443/admin/deprivation/${userEmail}`,
-              })
-                .then(async () => {
-                  await setDisabled(true);
-                })
-                .catch(() => {
-                  alterModal(
-                    '서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요',
-                    dispatch,
-                  );
-                });
+              patchRoleUser({ userEmail, setDisabled, dispatch });
             }
           }}
         >

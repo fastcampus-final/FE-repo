@@ -1,11 +1,10 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
-import Depth3 from './nav/Depth3';
-import AsideNav from './nav/AsideNav';
 import { instance } from '@/apis/instance';
 import NavCateD1 from './nav/NavCateD1';
-import { alterModal } from '../SignIn/function';
+import { alterModal } from '../../utils/check';
 import { useDispatch } from 'react-redux';
+import { getNavBarData } from '@/apis/layout';
 
 const datas = {
   categoryId: 101,
@@ -21,16 +20,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    instance({
-      method: 'GET',
-      url: 'https://www.go-together.store:443/categories',
-    })
-      .then((res) => {
-        setCategories(res.data);
-      })
-      .catch(() => {
-        alterModal('서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요', dispatch);
-      });
+    getNavBarData({ setCategories, dispatch });
   }, []);
 
   return (

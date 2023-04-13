@@ -3,14 +3,14 @@ import styled from '@emotion/styled';
 import Search from './header/SearchHeader';
 import { useRouter } from 'next/router';
 import { useCookies } from 'react-cookie';
-import { tokenRefresh } from './header/apis';
+import { tokenRefresh } from '../../apis/layout';
 import { useDispatch } from 'react-redux';
 import Logo from './header/Logo';
 import MyCartHeader from './header/MyCartHeader';
 import MenuList from './header/MenuList';
 import Navbar from './Navbar';
 import { Button } from '@mui/material';
-import { mypageLogout } from '../Mypage/apis';
+import { mypageLogout } from '../../apis/mypage/info';
 import { ROUTES } from '@/constants/routes';
 
 const Header = () => {

@@ -1,7 +1,7 @@
 import { MESSAGES } from '@/constants/messages';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { signupEmailCheck } from './apis';
+import { signupEmailCheck } from '../../apis/signup';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';

@@ -1,7 +1,7 @@
 import { instance } from '@/apis/instance';
 import { MESSAGES } from '@/constants/messages';
 import { IPatchMyInfoProps } from '@/interfaces/myinfo';
-import { alterModal } from '../SignIn/function';
+import { alterModal } from '../../utils/check';
 
 export const patchMyInfo = async (
   data: any,

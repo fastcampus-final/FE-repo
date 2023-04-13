@@ -1,5 +1,4 @@
-import { instance } from '@/apis/instance';
-import { alterModal } from '@/components/SignIn/function';
+import { getRadioUserAdmin, putRadioUserAdmin } from '@/apis/admin/user';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -19,16 +18,7 @@ const AdminUserRadio = ({ name, id1, id2, label1, label2 }: IProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    instance({
-      method: 'GET',
-      url: `https://www.go-together.store:443/admin/user/${router.query.id}`,
-    })
-      .then((res) => {
-        setUserData(res.data[`${name}`]);
-      })
-      .catch(() => {
-        alterModal('서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요', dispatch);
-      });
+    getRadioUserAdmin({ router, setUserData, name, dispatch });
   }, []);
 
   return (
@@ -68,22 +58,7 @@ const AdminUserRadio = ({ name, id1, id2, label1, label2 }: IProps) => {
       ) : (
         <button
           onClick={async () => {
-            await instance({
-              method: 'PUT',
-              url: `https://www.go-together.store:443/admin/userDetail/${router.query.id}`,
-              data: {
-                [name]: userData,
-              },
-            })
-              .then((res) => {
-                return res;
-              })
-              .catch(() => {
-                alterModal(
-                  '서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요',
-                  dispatch,
-                );
-              });
+            putRadioUserAdmin({ router, name, userData, dispatch });
             await setDisabled(true);
           }}
         >

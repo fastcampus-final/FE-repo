@@ -1,6 +1,6 @@
 import { instance } from '@/apis/instance';
 import { MESSAGES } from '@/constants/messages';
-import { alterModal } from '../SignIn/function';
+import { alterModal } from '../utils/check';
 
 export const login = async (data: any, dispatch: any, router: any, setCookies: any) => {
   await instance({

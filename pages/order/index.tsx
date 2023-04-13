@@ -6,9 +6,9 @@ import { useState } from 'react';
 import { formatPrice } from '@/utils/format';
 import { useDispatch } from 'react-redux';
 import { MESSAGES } from '@/constants/messages';
-import { alterModal } from '@/components/SignIn/function';
+import { alterModal } from '@/utils/check';
 import styled from '@emotion/styled';
-import { instance } from '@/apis/instance';
+import { postOrder } from '@/apis/order';
 
 interface ICssProps {
   border: string;
@@ -135,26 +135,7 @@ const Order = () => {
             if (method === '') {
               await alterModal('입금방법을 선택해 주세요', dispatch);
             } else {
-              await instance({
-                method: 'POST',
-                url: 'https://www.go-together.store:443/reservations',
-                data: {
-                  paymentMethod: method,
-                  reservationList: data,
-                },
-              })
-                .then(() => {
-                  router.push({
-                    pathname: '/order/success',
-                    query: { items: JSON.stringify(items) },
-                  });
-                })
-                .catch(() => {
-                  alterModal(
-                    '서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요',
-                    dispatch,
-                  );
-                });
+              postOrder({ method, data, router, items, dispatch });
             }
           }}
         >

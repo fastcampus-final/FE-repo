@@ -1,6 +1,6 @@
 import { instance } from '@/apis/instance';
 import { MESSAGES } from '@/constants/messages';
-import { alterModal } from './function';
+import { alterModal } from '../utils/check';
 
 export const signUp = async (data: any, dispatch: any) => {
   await instance({
