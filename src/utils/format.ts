@@ -4,8 +4,16 @@ export const formatPrice = (value: number) => {
     .concat(' 원');
 };
 
+export const formatPriceRaw = (value: number) => {
+  return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
 export const formatPeriod = (startDate: string, endDate: string) => {
   return `${startDate} ~ ${endDate}`;
+};
+
+export const formatPeriodInput = (input: string) => {
+  return input.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
 };
 
 export const formatUserName = (value: string | undefined) => {

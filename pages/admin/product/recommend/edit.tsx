@@ -63,7 +63,6 @@ const ProductRecommendEditForm = () => {
         regionName: data.regionName,
         image,
       };
-      // if (image) formData = Object.assign(formData, { image: image });
       await putAdminRecommendProduct(product!.regionId!, formData);
       router.push(ROUTES.ADMIN.RECOMMEND);
       return dispatch(

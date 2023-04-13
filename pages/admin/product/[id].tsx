@@ -5,27 +5,58 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Table, TableRow, TableCell, Button, Chip, TableBody } from '@mui/material';
 import { ROUTES } from '@/constants/routes';
-import { deleteProduct, getAdminProductDetail } from '@/apis/admin/product';
+import { deleteAdminProduct, getAdminProductDetail } from '@/apis/admin/product';
 import { IProductDetail } from '@/interfaces/product';
 import Image from '@/components/common/Image';
 import { formatPrice, formatProductStatus, formatTypeToMbti } from '@/utils/format';
 import Parser from 'html-react-parser';
 import AdminTableHead from '@/components/common/AdminTableHead';
+import { useDispatch } from 'react-redux';
+import { setModal } from '@/store/modal';
+import { MESSAGES } from '@/constants/messages';
 
 const ProductDetail = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [product, setProduct] = useState<IProductDetail>();
 
   useEffect(() => {
     (async () => {
-      const data = await getAdminProductDetail(Number(router.query.id));
-      setProduct(data);
+      try {
+        const data = await getAdminProductDetail(Number(router.query.id));
+        setProduct(data);
+      } catch {
+        return dispatch(
+          setModal({
+            isOpen: true,
+            onClickOk: () => dispatch(setModal({ isOpen: false })),
+            text: MESSAGES.PRODUCT_DETAIL.ERROR_GET_DETAIL,
+          }),
+        );
+      }
     })();
   }, []);
 
   const handleDelete = async (id: number) => {
-    await deleteProduct(id);
-    router.push(ROUTES.ADMIN.PRODUCT);
+    try {
+      await deleteAdminProduct(id);
+      dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.PRODUCT.COMPLETE_DELETE_PRODUCT,
+        }),
+      );
+      router.push(ROUTES.ADMIN.PRODUCT);
+    } catch {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.PRODUCT.ERROR_DELETE_PRODUCT,
+        }),
+      );
+    }
   };
 
   return (
@@ -39,7 +70,7 @@ const ProductDetail = () => {
               <Image
                 src={product && product.thumbnail}
                 alt={product && product.name}
-                width="330px"
+                width="400px"
               />
             </TableCell>
           </TableRow>
@@ -128,13 +159,13 @@ const ProductDetail = () => {
         </Table>
         <ButtonWrap>
           <Button variant="outlined" onClick={() => handleDelete(product!.productId!)}>
-            삭제
+            숨김
           </Button>
           <Button
             variant="contained"
             onClick={() =>
               router.push(
-                { pathname: ROUTES.ADMIN.PRODUCT_EDIT, query: { data: JSON.stringify(product) } },
+                { pathname: ROUTES.ADMIN.PRODUCT_EDIT, query: { id: product?.productId } },
                 ROUTES.ADMIN.PRODUCT_EDIT,
               )
             }
