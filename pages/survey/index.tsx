@@ -28,6 +28,7 @@ import { useDispatch } from 'react-redux';
 import { setModal } from '@/store/modal';
 import { MESSAGES } from '@/constants/messages';
 import withAuth from '@/components/common/PrivateRouter';
+import { formatMbtiToText } from '@/utils/format';
 
 const Servey = () => {
   const dispatch = useDispatch();
@@ -140,6 +141,7 @@ const Servey = () => {
 
       {activeStep === steps.length ? (
         <CardContainer>
+          <TypeText>{formatMbtiToText(answer.join(''))}</TypeText>
           <SurveyCard>
             <SurveyText>
               {`고투게더가 추천해 드리는 상품들을 살펴보시고,\n여행 계획을 세워보세요.`}
@@ -147,8 +149,8 @@ const Servey = () => {
             <ProductWrap>
               <Swiper
                 modules={[Pagination, Navigation, Autoplay]}
-                spaceBetween={30}
-                slidesPerView={2}
+                spaceBetween={10}
+                slidesPerView={3}
                 loop={true}
                 autoplay={{
                   delay: 2000,
@@ -165,10 +167,7 @@ const Servey = () => {
               </Swiper>
             </ProductWrap>
           </SurveyCard>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleReset}>다시하기</Button>
-          </Box>
+          <Button onClick={handleReset}>다시하기</Button>
         </CardContainer>
       ) : (
         <CardContainer>
@@ -276,8 +275,13 @@ const QuestionText = styled.p`
   white-space: pre-wrap;
 `;
 
+const TypeText = styled.p`
+  font-size: 18px;
+  font-weight: 600;
+`;
+
 const ProductWrap = styled.div`
-  width: 920px;
+  width: 1000px;
   color: black;
   display: flex;
   align-items: center;

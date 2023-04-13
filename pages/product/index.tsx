@@ -30,10 +30,15 @@ const Product = () => {
   const [showProduct, setShowProduct] = useState(false);
 
   useEffect(() => {
-    return () => {
-      setProduct([]);
-    };
-  }, []);
+    setProduct([]);
+    setDateOption(null);
+    setPeople(0);
+    setSort('recent');
+    setKeyword('');
+    setShowProduct(false);
+    setTotalCount(0);
+    setTotalPage(0);
+  }, [router]);
 
   const CustomInput = (
     props: React.HTMLProps<HTMLInputElement>,

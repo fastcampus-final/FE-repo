@@ -74,6 +74,11 @@ const style = css`
   .react-datepicker__triangle {
     display: none !important;
   }
+
+  .ReactModalPortal {
+    position: relative;
+    z-index: 9999;
+  }
 `;
 
 const GlobalStyle = () => {

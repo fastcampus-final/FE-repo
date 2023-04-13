@@ -70,7 +70,6 @@ export default WishCard;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  cursor: pointer;
   gap: 10px;
   width: 100%;
   position: relative;
@@ -83,7 +82,6 @@ const Title = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* width: 334px; */
   @media (max-width: 1200px) {
     font-size: 14px;
     width: 43vw;

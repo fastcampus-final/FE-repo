@@ -18,7 +18,7 @@ export const patchMyInfo = async (
     .then(async (res) => {
       console.log(res);
       if (res.status === 200) {
-        await setPatchInfo({ ...patchInfo, phone: data.userPhoneNumber });
+        await setPatchInfo({ ...patchInfo, userPhoneNumber: data.userPhoneNumber });
         await setChangeInfo(false);
         await alterModal(MESSAGES.MYPAGE.INFO.COMPLETE_INFO, dispatch);
       } else if (res.status === 400) {
@@ -122,13 +122,22 @@ export const mypageLogout = async (
         await alterModal(MESSAGES.LOGOUT.COMPLETE_LOGOUT, dispatch);
         router.push('/');
       } else if (res.status === 401) {
+        await removeCookies('accessToken');
+        await removeCookies('refreshToken');
+        await removeCookies('isAdmin');
         await alterModal('이 계정은 이미 로그아웃된 계정입니다.', dispatch);
       } else {
+        await removeCookies('accessToken');
+        await removeCookies('refreshToken');
+        await removeCookies('isAdmin');
         await alterModal(MESSAGES.LOGOUT.ERROR_LOGOUT, dispatch);
       }
     })
-    .catch((error) => {
+    .catch(async (error) => {
       console.log(error);
+      await removeCookies('accessToken');
+      await removeCookies('refreshToken');
+      await removeCookies('isAdmin');
       alterModal(MESSAGES.LOGOUT.ERROR_LOGOUT, dispatch);
     });
 };

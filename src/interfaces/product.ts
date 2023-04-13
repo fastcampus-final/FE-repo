@@ -3,7 +3,12 @@ export interface IProduct {
   productName: string;
   productPrice: number;
   productThumbnail: string;
+  productSummary?: string;
   productStatus?: string;
+  categories?: {
+    categoryName: string;
+    categoryId: number;
+  }[];
 }
 
 export interface IProductDetail {
@@ -34,10 +39,11 @@ export interface IProductDetailForm extends IProductDetail {
 }
 
 export interface ICategory {
-  categoryId: number;
+  categoryId?: number;
   categoryName: string;
-  categoryDepth?: number;
+  categoryDepth: number;
   children?: ICategory[];
+  categoryParent?: number;
 }
 
 export interface IProductOption {

@@ -33,7 +33,8 @@ const NavCateD1 = ({ data }: { data: IProps }) => {
             <TwoDepth
               onClick={() => {
                 if (data.children.length === 0) {
-                  if (data.categoryId === 101 || data.categoryId === 102) {
+                  if (data.categoryId > 100) {
+                    console.log('hello');
                     router.push({
                       pathname: layoutRoutes[data.categoryId],
                     });
