@@ -11,7 +11,6 @@ const datas = {
   children: [
     { categoryId: 101, categoryName: '커뮤니티', children: [] },
     { categoryId: 102, categoryName: '마이페이지', children: [] },
-    { categoryId: 103, categoryName: '로그인', children: [] },
   ],
 };
 
