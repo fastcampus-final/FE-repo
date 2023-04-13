@@ -103,7 +103,7 @@ export const getUserAdminData = ({ router, setUserData, id, dispatch }: IProps) 
 export const putUserAdminData = async ({ router, id, userData, dispatch }: IPutProps) => {
   await instance({
     method: 'PUT',
-    url: `https://www.go-together.store:443/admin/userDetail/${router.query.id}`,
+    url: `https://www.go-together.store:443/admin/detail/${router.query.id}`,
     data: {
       [id]: userData,
     },
@@ -138,7 +138,7 @@ export const putPassportFirst = async ({
 }: IPutPassportFirst) => {
   await instance({
     method: 'PUT',
-    url: `https://www.go-together.store:443/admin/userDetail/${router.query.id}`,
+    url: `https://www.go-together.store:443/admin/detail/${router.query.id}`,
     data: {
       passportFirstName: userData.passportFirstName,
     },
@@ -158,7 +158,7 @@ export const putPassportLast = async ({
 }: IPutPassportLast) => {
   await instance({
     method: 'PATCH',
-    url: `https://www.go-together.store:443/admin/userDetail/${router.query.id}`,
+    url: `https://www.go-together.store:443/admin/detail/${router.query.id}`,
     data: {
       passportLastName: userData.passportLastName,
     },
@@ -190,7 +190,7 @@ export const putRadioUserAdmin = async ({
 }: IPutRadioUserAdmin) => {
   await instance({
     method: 'PUT',
-    url: `https://www.go-together.store:443/admin/userDetail/${router.query.id}`,
+    url: `https://www.go-together.store:443/admin/detail/${router.query.id}`,
     data: {
       [name]: userData,
     },
