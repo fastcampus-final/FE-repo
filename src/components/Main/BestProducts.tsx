@@ -52,9 +52,9 @@ const BestProducts = () => {
           <CategoryContnet
             key={item.categoryId}
             click={click}
-            value={item.categoryId as number}
+            value={item.categoryId!}
             onClick={() => {
-              setClick(item.categoryId as number);
+              setClick(item.categoryId!);
               bestProduct(item.categoryId);
             }}
           >

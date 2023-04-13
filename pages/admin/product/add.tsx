@@ -4,8 +4,11 @@ import { uploadImage } from '@/apis/common';
 import Image from '@/components/common/Image';
 import PageTitle from '@/components/common/PageTitle';
 import withAuth from '@/components/common/PrivateRouter';
+import { MESSAGES } from '@/constants/messages';
 import { ROUTES } from '@/constants/routes';
 import { ICategory, IProductDetailForm, IProductOption } from '@/interfaces/product';
+import { setModal } from '@/store/modal';
+import { formatPeriodInput } from '@/utils/format';
 import styled from '@emotion/styled';
 import {
   Table,
@@ -23,10 +26,12 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 const Editor = dynamic(async () => await import('@/components/common/Editor'), { ssr: false });
 
 const ProductAddForm = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [category, setCategory] = useState<ICategory[]>([]);
   const [selectCategory, setSelectCategory] = useState({ 1: 0, 2: 0, 3: 0 });
   const [categoryChip, setCategoryChip] = useState<ICategory[]>([]);
@@ -42,8 +47,18 @@ const ProductAddForm = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await getAdminProductCategory();
-      setCategory(data);
+      try {
+        const data = await getAdminProductCategory();
+        setCategory(data);
+      } catch {
+        return dispatch(
+          setModal({
+            isOpen: true,
+            onClickOk: () => dispatch(setModal({ isOpen: false })),
+            text: MESSAGES.CATEGORY.ERROR_GET_CATEGORY,
+          }),
+        );
+      }
     })();
   }, []);
 
@@ -55,29 +70,46 @@ const ProductAddForm = () => {
   }, [thumbnailWatch]);
 
   const onSubmit = async (data: IProductDetailForm) => {
-    const thumbnail = await uploadImage(data.thumbnail[0], 'product');
-    let formData = {
-      airplane: data.airplane,
-      area: data.area,
-      categoryIdList: categoryChip.map((item) => item.categoryId),
-      detail,
-      feature: data.feature,
-      name: data.name,
-      price: data.price,
-      productStatus: data.productStatus,
-      singleRoomPrice: data.singleRoomPrice,
-      summary: data.summary,
-      thumbnail,
-      options: productOption.map((item) => ({
-        startDate: item.startDate,
-        endDate: item.endDate,
-        maxPeople: item.maxPeople,
-        maxSingleRoom: item.maxSingleRoom,
-      })),
-    };
-    if (data.type) formData = Object.assign(formData, { type: data.type });
-    await postAdminProduct(formData);
-    router.push(ROUTES.ADMIN.PRODUCT);
+    try {
+      const thumbnail = await uploadImage(data.thumbnail[0], 'product');
+      let formData = {
+        airplane: data.airplane,
+        area: data.area,
+        categoryIdList: categoryChip.map((item) => item.categoryId),
+        detail,
+        feature: data.feature,
+        name: data.name,
+        price: data.price,
+        productStatus: data.productStatus,
+        singleRoomPrice: data.singleRoomPrice,
+        summary: data.summary,
+        thumbnail,
+        options: productOption.map((item) => ({
+          startDate: item.startDate,
+          endDate: item.endDate,
+          maxPeople: item.maxPeople,
+          maxSingleRoom: item.maxSingleRoom,
+        })),
+      };
+      if (data.type === 'NONE') formData = Object.assign(formData, { type: data.type });
+      await postAdminProduct(formData);
+      dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.PRODUCT.COMPLETE_ADD_PRODUCT,
+        }),
+      );
+      router.push(ROUTES.ADMIN.PRODUCT);
+    } catch {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.PRODUCT.ERROR_ADD_PRODUCT,
+        }),
+      );
+    }
   };
 
   const handleThumbnail = () => {
@@ -121,7 +153,7 @@ const ProductAddForm = () => {
             </TableCell>
             <TableCell align="left" colSpan={3}>
               <ImageWrap>
-                {imagePreview && <Image src={imagePreview} alt="thumbnail" width="600px" />}
+                {imagePreview && <Image src={imagePreview} alt="thumbnail" width="400px" />}
                 <File
                   type="file"
                   {...register('thumbnail')}
@@ -227,7 +259,7 @@ const ProductAddForm = () => {
                       <Chip
                         key={idx}
                         label={item.categoryName}
-                        onDelete={() => handleDeleteCategory(item.categoryId as number)}
+                        onDelete={() => handleDeleteCategory(item.categoryId!)}
                       />
                     ))}
                   </ChipWrap>
@@ -287,7 +319,7 @@ const ProductAddForm = () => {
               <FormControl size="small" fullWidth>
                 <InputLabel id="category">추천타입</InputLabel>
                 <Select {...register('type')} labelId="category" label="추천타입">
-                  <MenuItem value={0}>해당없음</MenuItem>
+                  <MenuItem value={'NONE'}>해당없음</MenuItem>
                   <MenuItem value={'A'}>ESFJ / INFJ / INFP</MenuItem>
                   <MenuItem value={'B'}>ENTP / INTJ</MenuItem>
                   <MenuItem value={'C'}>ESTJ / ISTP</MenuItem>
@@ -321,7 +353,7 @@ const ProductAddForm = () => {
                           setProductOption((prev) =>
                             prev.map((prevItem) =>
                               prevItem.productOptionId === item.productOptionId
-                                ? { ...prevItem, startDate: event.target.value }
+                                ? { ...prevItem, startDate: formatPeriodInput(event.target.value) }
                                 : prevItem,
                             ),
                           )
@@ -339,7 +371,7 @@ const ProductAddForm = () => {
                           setProductOption((prev) =>
                             prev.map((prevItem) =>
                               prevItem.productOptionId === item.productOptionId
-                                ? { ...prevItem, endDate: event.target.value }
+                                ? { ...prevItem, endDate: formatPeriodInput(event.target.value) }
                                 : prevItem,
                             ),
                           )

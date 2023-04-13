@@ -19,7 +19,7 @@ const Modal = () => {
       borderRadius: '10px',
       backgroundColor: 'white',
       boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
-      zIndex: '100',
+      zIndex: '9999',
     },
   };
 

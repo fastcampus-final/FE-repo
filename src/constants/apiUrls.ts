@@ -55,6 +55,7 @@ export const API_URLS = {
     PRODUCT_BY_ID: (id: number) => `/admin/products/${id}`,
     PRODUCT_PAGE: (page = 1) => `/admin/products?page=${page}`,
     PRODUCT_DETAIL: (id: number) => `/admin/products/detail/${id}`,
+    OPTION_BY_ID: (id: number) => `/productoptions/${id}`,
     CATEGORY: '/admin/categories/',
     CATEGORY_BY_ID: (id: number) => `/admin/categories/${id}`,
     RECOMMEND: '/admin/regions',
