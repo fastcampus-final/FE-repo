@@ -16,6 +16,7 @@ export default function Document() {
         <meta property="og:url" content="https://go-together.vercel.app/" />
         <meta property="og:site_name" content="고투게더" />
         <link rel="icon" href="/favicon.ico" />
+        <title>고투게더</title>
       </Head>
       <body>
         <Main />

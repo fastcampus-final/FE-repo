@@ -7,8 +7,8 @@ import React from 'react';
 const MyCartHeader = () => {
   return (
     <Container>
-      <Link href={ROUTES.MYPAGE.ORDER}>
-        <Image src="/icons/HeaderCart.svg" alt="예약확인페이지로 이동" width={24} height={24} />
+      <Link href={ROUTES.CART}>
+        <Image src="/icons/HeaderCart.svg" alt="장바구니" width={24} height={24} />
       </Link>
     </Container>
   );
