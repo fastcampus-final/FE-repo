@@ -8,7 +8,6 @@ import styled from '@emotion/styled';
 
 const success = () => {
   const router = useRouter();
-  console.log(router.query);
 
   return (
     <div>

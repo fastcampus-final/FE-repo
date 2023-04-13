@@ -16,14 +16,12 @@ export const tokenRefresh = async (
     },
   })
     .then((res) => {
-      console.log(res);
       if (res.status === 200) {
         removeCookies('accessToken');
         setCookies('accessToken', res.data.accessToken);
       } else headerLogout(router, dispatch, cookies, removeCookies);
     })
-    .catch((error) => {
-      console.log(error);
+    .catch(() => {
       headerLogout(router, dispatch, cookies, removeCookies);
     });
 };
@@ -59,11 +57,10 @@ const headerLogout = async (router: any, dispatch: any, cookies: any, removeCook
         );
       }
     })
-    .catch(async (error) => {
+    .catch(async () => {
       await removeCookies('accessToken');
       await removeCookies('refreshToken');
       await removeCookies('isAdmin');
-      console.log(error);
       alterModal('서버 장애로 인해 로그아웃이 되지 않았습니다. 다시 시도해주세요.', dispatch);
     });
 };

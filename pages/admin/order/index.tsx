@@ -11,8 +11,11 @@ import styled from '@emotion/styled';
 import { orderColumns } from '@/components/Admin/Order/orderColumns';
 import AdminOrderTable from '@/components/Admin/Order/AdminOrderTable';
 import { formatPrice } from '@/utils/format';
+import { alterModal } from '@/components/SignIn/function';
+import { useDispatch } from 'react-redux';
 
 const Order = () => {
+  const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [datas, setdatas] = useState({
     content: [
@@ -42,10 +45,11 @@ const Order = () => {
       url: `https://www.go-together.store:443/admin/reservations?page=${page}`,
     })
       .then((res) => {
-        console.log(res.data);
         setdatas(res.data);
       })
-      .catch((error) => console.log(error));
+      .catch(() =>
+        alterModal('서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요', dispatch),
+      );
   }, [page]);
 
   const columns = useMemo(() => orderColumns, []);

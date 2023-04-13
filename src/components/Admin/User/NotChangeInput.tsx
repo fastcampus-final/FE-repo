@@ -1,6 +1,8 @@
 import { instance } from '@/apis/instance';
+import { alterModal } from '@/components/SignIn/function';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 interface IProps {
   id: string;
@@ -11,7 +13,7 @@ interface IProps {
 const NotChangeInput = ({ id, label, type }: IProps) => {
   const [userData, setUserData] = useState('');
   const router = useRouter();
-  console.log(userData);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     instance({
@@ -19,11 +21,10 @@ const NotChangeInput = ({ id, label, type }: IProps) => {
       url: `https://www.go-together.store:443/admin/user/${router.query.id}`,
     })
       .then((res) => {
-        // console.log(res.data[`${id}`]);
         setUserData(res.data[`${id}`]);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        alterModal('서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요', dispatch);
       });
   }, []);
 

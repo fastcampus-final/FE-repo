@@ -51,7 +51,6 @@ const Login = () => {
       </Text>
       <form
         onSubmit={handleSubmit(async (data) => {
-          console.log(data);
           await login(data, dispatch, router, setCookies);
         })}
       >

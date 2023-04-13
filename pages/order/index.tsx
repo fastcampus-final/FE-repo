@@ -63,7 +63,6 @@ const Order = () => {
       (item.numberOfPeople * item.productPrice + item.singleRoomNumber * item.singleRoomPrice),
     0,
   );
-  console.log(items);
 
   const data = items.map((item) => {
     const dataItem = {
@@ -72,10 +71,8 @@ const Order = () => {
       reservationPeopleNumber: item.numberOfPeople,
       reservationSingleRoomNumber: item.singleRoomNumber,
     };
-    console.log(dataItem);
     return dataItem;
   });
-  console.log(data);
 
   return (
     <div>
@@ -146,15 +143,17 @@ const Order = () => {
                   reservationList: data,
                 },
               })
-                .then((res) => {
-                  console.log(res);
+                .then(() => {
                   router.push({
                     pathname: '/order/success',
                     query: { items: JSON.stringify(items) },
                   });
                 })
-                .catch((error) => {
-                  console.log(error);
+                .catch(() => {
+                  alterModal(
+                    '서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요',
+                    dispatch,
+                  );
                 });
             }
           }}

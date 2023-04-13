@@ -57,7 +57,6 @@ const EmailInput = ({ register, error, email, setEmailCheck, emailCheck }: IInpu
             <Button
               onClick={async () => {
                 await signupEmailCheck(email as string, setEmailCheck);
-                console.log(email, emailCheck);
               }}
             >
               중복확인

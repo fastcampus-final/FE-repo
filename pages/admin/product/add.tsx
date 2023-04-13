@@ -227,7 +227,7 @@ const ProductAddForm = () => {
                       <Chip
                         key={idx}
                         label={item.categoryName}
-                        onDelete={() => handleDeleteCategory(item.categoryId)}
+                        onDelete={() => handleDeleteCategory(item.categoryId as number)}
                       />
                     ))}
                   </ChipWrap>

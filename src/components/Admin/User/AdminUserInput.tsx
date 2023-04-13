@@ -23,11 +23,10 @@ const AdminUserInput = ({ id, label, type, test }: IProps) => {
       url: `https://www.go-together.store:443/admin/user/${router.query.id}`,
     })
       .then((res) => {
-        // console.log(res.data[`${id}`]);
         setUserData(res.data[`${id}`]);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        alterModal('서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요', dispatch);
       });
   }, []);
 
@@ -55,7 +54,6 @@ const AdminUserInput = ({ id, label, type, test }: IProps) => {
         <button
           onClick={async () => {
             if (new RegExp(test).test(userData)) {
-              console.log('hello');
               await instance({
                 method: 'PUT',
                 url: `https://www.go-together.store:443/admin/userDetail/${router.query.id}`,
@@ -64,10 +62,13 @@ const AdminUserInput = ({ id, label, type, test }: IProps) => {
                 },
               })
                 .then((res) => {
-                  console.log(res);
+                  return res;
                 })
-                .catch((error) => {
-                  console.log(error);
+                .catch(() => {
+                  alterModal(
+                    '서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요',
+                    dispatch,
+                  );
                 });
               await setDisabled(true);
             } else {

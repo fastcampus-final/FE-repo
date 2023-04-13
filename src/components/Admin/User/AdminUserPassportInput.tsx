@@ -20,7 +20,6 @@ const AdminUserPassportInput = ({ id, label, type }: IProps) => {
   const [lastDisabled, setlastDisabled] = useState(true);
   const router = useRouter();
   const dispatch = useDispatch();
-  // console.log(userData);
 
   useEffect(() => {
     instance({
@@ -28,14 +27,13 @@ const AdminUserPassportInput = ({ id, label, type }: IProps) => {
       url: `https://www.go-together.store:443/admin/user/${router.query.id}`,
     })
       .then((res) => {
-        // console.log(res.data[`${id}`]);
         setUserData({
           passportFirstName: res.data.passportFirstName,
           passportLastName: res.data.passportLastName,
         });
       })
       .catch((error) => {
-        console.log(error);
+        alterModal('서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요', dispatch);
       });
   }, []);
 
@@ -70,12 +68,14 @@ const AdminUserPassportInput = ({ id, label, type }: IProps) => {
                   passportFirstName: userData.passportFirstName,
                 },
               })
-                .then((res) => {
-                  console.log(res);
+                .then(() => {
                   setFirstDisabled(true);
                 })
-                .catch((error) => {
-                  console.log(error);
+                .catch(() => {
+                  alterModal(
+                    '서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요',
+                    dispatch,
+                  );
                 });
             } else {
               alterModal('형식에 맞지 않습니다. 바꿔주십시오', dispatch);
@@ -113,12 +113,14 @@ const AdminUserPassportInput = ({ id, label, type }: IProps) => {
                   passportLastName: userData.passportLastName,
                 },
               })
-                .then((res) => {
-                  console.log(res);
+                .then(() => {
                   setlastDisabled(true);
                 })
-                .catch((error) => {
-                  console.log(error);
+                .catch(() => {
+                  alterModal(
+                    '서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요',
+                    dispatch,
+                  );
                 });
             } else {
               alterModal('형식에 맞지 않습니다. 바꿔주십시오', dispatch);

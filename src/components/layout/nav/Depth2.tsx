@@ -15,7 +15,6 @@ interface IDataProps {
 const Depth2 = ({ data }: { data: IDataProps }) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  console.log(data);
 
   return (
     <>

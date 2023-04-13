@@ -8,8 +8,11 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import styled from '@emotion/styled';
+import { alterModal } from '@/components/SignIn/function';
+import { useDispatch } from 'react-redux';
 
 const UserTable = () => {
+  const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [datas, setDatas] = useState({
     content: [
@@ -30,19 +33,14 @@ const UserTable = () => {
       url: `https://www.go-together.store:443/admin/userList?page=${page}`,
     })
       .then((res) => {
-        console.log(res);
         setDatas(res.data);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        alterModal('서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요', dispatch);
       });
   }, [page]);
 
   const columns = useMemo(() => userColumns, []);
-  //   const data = useMemo(() => datas, []);
-
-  //   console.log(columns);
-  console.log(datas);
 
   return (
     <div>

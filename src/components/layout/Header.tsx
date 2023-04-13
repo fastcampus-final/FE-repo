@@ -25,17 +25,6 @@ const Header = () => {
 
   const router = useRouter();
 
-  // console.log(window.onload);
-  // window.onload = function () {
-  //   console.log('hello');
-  // };
-
-  // useEffect(() => {
-  //   window.onload = function () {
-  //     console.log('hello');
-  //   };
-  // }, []);
-
   return (
     <Container>
       <HeaderContainer>

@@ -47,8 +47,6 @@ const MyInfo = () => {
     formState: { isSubmitting, errors },
   } = useForm();
 
-  console.log(patchInfo);
-
   return (
     <Container>
       <MyPageNavbar />
@@ -71,7 +69,6 @@ const MyInfo = () => {
           {changeInfo ? (
             <form
               onSubmit={handleSubmit(async (data) => {
-                console.log(data);
                 await patchMyInfo(data, setPatchInfo, patchInfo, setChangeInfo, dispatch);
               })}
             >

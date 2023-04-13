@@ -1,6 +1,8 @@
 import { instance } from '@/apis/instance';
+import { alterModal } from '@/components/SignIn/function';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 interface IProps {
   name: string;
@@ -14,6 +16,7 @@ const AdminUserRadio = ({ name, id1, id2, label1, label2 }: IProps) => {
   const [userData, setUserData] = useState('');
   const [disabled, setDisabled] = useState(true);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     instance({
@@ -21,15 +24,12 @@ const AdminUserRadio = ({ name, id1, id2, label1, label2 }: IProps) => {
       url: `https://www.go-together.store:443/admin/user/${router.query.id}`,
     })
       .then((res) => {
-        console.log(res.data[`${name}`]);
         setUserData(res.data[`${name}`]);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        alterModal('서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요', dispatch);
       });
   }, []);
-
-  console.log(userData);
 
   return (
     <div>
@@ -76,10 +76,13 @@ const AdminUserRadio = ({ name, id1, id2, label1, label2 }: IProps) => {
               },
             })
               .then((res) => {
-                console.log(res);
+                return res;
               })
-              .catch((error) => {
-                console.log(error);
+              .catch(() => {
+                alterModal(
+                  '서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요',
+                  dispatch,
+                );
               });
             await setDisabled(true);
           }}

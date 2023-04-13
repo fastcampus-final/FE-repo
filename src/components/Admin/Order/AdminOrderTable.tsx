@@ -36,12 +36,7 @@ const AdminOrderTable = ({ columns, data }: any) => {
             prepareRow(row);
             return (
               // eslint-disable-next-line react/jsx-key
-              <TableRow
-                {...row.getRowProps()}
-                onClick={() => {
-                  console.log(row);
-                }}
-              >
+              <TableRow {...row.getRowProps()}>
                 {row.cells.map((cell: any) => (
                   // eslint-disable-next-line react/jsx-key
                   <TableCell {...cell.getCellProps()}>
@@ -56,7 +51,7 @@ const AdminOrderTable = ({ columns, data }: any) => {
                     {cell.value !== undefined &&
                       cell.column.id !== 'totalAmount' &&
                       cell.column.id !== 'reservationDate' && (
-                        <Button onClick={() => console.log(cell)}>{cell.render('Cell')}</Button>
+                        <Button>{cell.render('Cell')}</Button>
                       )}
                   </TableCell>
                 ))}
