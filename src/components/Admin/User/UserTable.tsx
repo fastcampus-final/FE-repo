@@ -36,7 +36,7 @@ const UserTable = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [page]);
 
   const columns = useMemo(() => userColumns, []);
   //   const data = useMemo(() => datas, []);
