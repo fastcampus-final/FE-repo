@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import Search from './header/SearchHeader';
 import { useRouter } from 'next/router';
@@ -9,6 +9,9 @@ import Logo from './header/Logo';
 import MyCartHeader from './header/MyCartHeader';
 import MenuList from './header/MenuList';
 import Navbar from './Navbar';
+import { Button } from '@mui/material';
+import { mypageLogout } from '../Mypage/apis';
+import { ROUTES } from '@/constants/routes';
 
 const Header = () => {
   const [cookies, setCookies, removeCookies] = useCookies();
@@ -22,6 +25,17 @@ const Header = () => {
 
   const router = useRouter();
 
+  // console.log(window.onload);
+  // window.onload = function () {
+  //   console.log('hello');
+  // };
+
+  // useEffect(() => {
+  //   window.onload = function () {
+  //     console.log('hello');
+  //   };
+  // }, []);
+
   return (
     <Container>
       <HeaderContainer>
@@ -31,6 +45,17 @@ const Header = () => {
             {router.asPath !== '/product' && <Search />}
             <MyCartHeader />
             <MenuList />
+            {cookies.accessToken && cookies.refreshToken ? (
+              <Button
+                onClick={() => {
+                  mypageLogout(dispatch, router, cookies, removeCookies);
+                }}
+              >
+                로그아웃
+              </Button>
+            ) : (
+              <Button onClick={() => router.push(ROUTES.LOGIN)}>로그인</Button>
+            )}
           </Menus>
         )}
       </HeaderContainer>

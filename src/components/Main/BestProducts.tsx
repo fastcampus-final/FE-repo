@@ -22,7 +22,7 @@ const BestProducts = () => {
       const categoryData = await getProductCategory();
       setCategory(categoryData);
 
-      const categoryDetailData = await getProductCategoryDetail('3');
+      const categoryDetailData = await getProductCategoryDetail(3);
       setCategoryDetail(categoryDetailData.children);
 
       const productData = await getPopularProduct();
@@ -52,9 +52,9 @@ const BestProducts = () => {
           <CategoryContnet
             key={item.categoryId}
             click={click}
-            value={item.categoryId}
+            value={item.categoryId!}
             onClick={() => {
-              setClick(item.categoryId);
+              setClick(item.categoryId!);
               bestProduct(item.categoryId);
             }}
           >

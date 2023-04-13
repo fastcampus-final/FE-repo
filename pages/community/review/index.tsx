@@ -62,7 +62,7 @@ const Review = () => {
       return dispatch(
         setModal({
           isOpen: true,
-          text: MESSAGES.COMMUNITY.MOVE_TO_LOGIN,
+          text: MESSAGES.INVALID_AUTH,
           onClickOk: () => {
             dispatch(
               setModal({

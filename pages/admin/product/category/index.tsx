@@ -1,14 +1,17 @@
-import { getAdminProductCategory } from '@/apis/admin/category';
+import {
+  getAdminProductCategory,
+  postAdminProductCategory,
+  patchAdminProductCategory,
+  deleteAdminProductCategory,
+} from '@/apis/admin/category';
 import PageTitle from '@/components/common/PageTitle';
 import withAuth from '@/components/common/PrivateRouter';
-import { useRouter } from 'next/router';
-import React, { MouseEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import {
   Button,
   Collapse,
   FormControl,
-  IconButton,
   InputLabel,
   List,
   ListItemButton,
@@ -22,158 +25,213 @@ import {
   TextField,
 } from '@mui/material';
 import { ICategory } from '@/interfaces/product';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
-import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { setModal } from '@/store/modal';
+import { MESSAGES } from '@/constants/messages';
 
 const ProductCategory = () => {
-  const router = useRouter();
+  const dispatch = useDispatch();
   const [category, setCategory] = useState<ICategory[]>([]);
-  const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(1);
-  const [selectCategory, setSelectCategory] = useState({ 1: 0, 2: 0, 3: 0 });
-  const { register, handleSubmit, watch } = useForm<ICategory>();
+  const [selectCategory, setSelectCategory] = useState({ 1: 0, 2: 0 });
+  const [data, setData] = useState<ICategory>({
+    categoryId: 0,
+    categoryParent: 0,
+    categoryName: '',
+    categoryDepth: 1,
+  });
 
   useEffect(() => {
     (async () => {
-      const data: ICategory[] = await getAdminProductCategory();
-      setCategory(data);
+      try {
+        const data: ICategory[] = await getAdminProductCategory();
+        setCategory(data);
+      } catch {
+        return dispatch(
+          setModal({
+            isOpen: true,
+            onClickOk: () => dispatch(setModal({ isOpen: false })),
+            text: MESSAGES.CATEGORY.ERROR_GET_CATEGORY,
+          }),
+        );
+      }
     })();
   }, []);
 
-  const handlePagination = async (event: MouseEvent<HTMLElement>) => {
-    const target = event.target as HTMLElement;
-    setPage(Number(target.outerText));
-    const data = await getAdminProductCategory();
-    setCategory(data.content);
+  const handleAddCategory = async () => {
+    try {
+      const formData =
+        selectCategory[2] > 0
+          ? {
+              categoryParent: selectCategory[2],
+              categoryName: data.categoryName,
+              categoryDepth: 3,
+            }
+          : selectCategory[1] > 0
+          ? {
+              categoryParent: selectCategory[1],
+              categoryName: data.categoryName,
+              categoryDepth: 2,
+            }
+          : {
+              categoryParent: 0,
+              categoryName: data.categoryName,
+              categoryDepth: 1,
+            };
+      await postAdminProductCategory(formData);
+      const category: ICategory[] = await getAdminProductCategory();
+      setCategory(category);
+      setSelectCategory({ 1: 0, 2: 0 });
+      setData({
+        categoryId: 0,
+        categoryParent: 0,
+        categoryName: '',
+        categoryDepth: 1,
+      });
+      return dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.CATEGORY.COMPLETE_ADD,
+        }),
+      );
+    } catch {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.CATEGORY.ERROR_ADD,
+        }),
+      );
+    }
   };
 
-  const onSubmit = async () => {
-    // const thumbnail = await uploadImage(data.thumbnail[0], 'product');
-    // let formData = {
-    //   airplane: data.airplane,
-    //   area: data.area,
-    //   categoryIdList: categoryChip.map((item) => item.categoryId),
-    //   detail,
-    //   feature: data.feature,
-    //   name: data.name,
-    //   price: data.price,
-    //   productStatus: data.productStatus,
-    //   singleRoomPrice: data.singleRoomPrice,
-    //   summary: data.summary,
-    //   thumbnail,
-    //   options: productOption.map((item) => ({
-    //     startDate: item.startDate,
-    //     endDate: item.endDate,
-    //     maxPeople: item.maxPeople,
-    //     maxSingleRoom: item.maxSingleRoom,
-    //   })),
-    // };
-    // if (data.type) formData = Object.assign(formData, { type: data.type });
-    // await addAdminProduct(formData);
-    // router.push(ROUTES.ADMIN.PRODUCT);
+  const handleEditCategory = async () => {
+    try {
+      await patchAdminProductCategory(data.categoryId!, { categoryName: data.categoryName });
+      const category: ICategory[] = await getAdminProductCategory();
+      setCategory(category);
+      return dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.CATEGORY.COMPLETE_EDIT,
+        }),
+      );
+    } catch {
+      return dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.CATEGORY.ERROR_EDIT,
+        }),
+      );
+    }
+  };
+
+  const handleDeleteCategory = async () => {
+    try {
+      await deleteAdminProductCategory(data.categoryId!);
+      const category: ICategory[] = await getAdminProductCategory();
+      setCategory(category);
+      setSelectCategory({ 1: 0, 2: 0 });
+      setData({
+        categoryId: 0,
+        categoryParent: 0,
+        categoryName: '',
+        categoryDepth: 1,
+      });
+      return dispatch(
+        setModal({
+          isOpen: true,
+          onClickOk: () => dispatch(setModal({ isOpen: false })),
+          text: MESSAGES.CATEGORY.COMPLETE_DELETE,
+        }),
+      );
+    } catch (error: any) {
+      if (error!.response!.status === 406) {
+        return dispatch(
+          setModal({
+            isOpen: true,
+            onClickOk: () => dispatch(setModal({ isOpen: false })),
+            text: MESSAGES.CATEGORY.ERROR_DELETE_PARENT,
+          }),
+        );
+      } else {
+        return dispatch(
+          setModal({
+            isOpen: true,
+            onClickOk: () => dispatch(setModal({ isOpen: false })),
+            text: MESSAGES.CATEGORY.ERROR_DELETE,
+          }),
+        );
+      }
+    }
   };
 
   return (
     <Container>
       <PageTitle title="상품 카테고리 관리" fontSize="20px" padding="10px" />
       <TableWrap>
-        <List sx={{ width: '40%', height: '70vh', overflow: 'auto' }}>
+        <List sx={{ width: '30%', height: '70vh', overflow: 'auto' }}>
           {category && category.length > 0 ? (
             category.map((item1, idx) => (
               <div key={idx}>
-                <ListItemButton key={idx}>
+                <ListItemButton
+                  key={idx}
+                  onClick={() =>
+                    setData({
+                      categoryId: item1.categoryId,
+                      categoryParent: 0,
+                      categoryName: item1.categoryName,
+                      categoryDepth: item1.categoryDepth,
+                    })
+                  }
+                >
                   <ListItemIcon>
                     <FmdGoodIcon />
                   </ListItemIcon>
                   <ListItemText primary={item1.categoryName} />
-                  {/* <IconWrap>
-                    <IconButton
-                      edge="end"
-                      aria-label="delete"
-                      color="primary"
-                      sx={{ cursor: 'pointer' }}
-                    >
-                      <AddCircleIcon />
-                    </IconButton>
-                    <IconButton
-                      edge="end"
-                      aria-label="delete"
-                      color="primary"
-                      sx={{ cursor: 'pointer' }}
-                    >
-                      <ModeEditIcon />
-                    </IconButton>
-                    <IconButton edge="end" aria-label="delete" sx={{ cursor: 'pointer' }}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </IconWrap> */}
                 </ListItemButton>
                 {item1.children?.map((item2, idx) => (
                   <Collapse key={idx} in={true} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                      <ListItemButton sx={{ pl: 6 }}>
+                      <ListItemButton
+                        sx={{ pl: 6 }}
+                        key={idx}
+                        onClick={() =>
+                          setData({
+                            categoryId: item2.categoryId,
+                            categoryParent: 0,
+                            categoryName: item2.categoryName,
+                            categoryDepth: item2.categoryDepth,
+                          })
+                        }
+                      >
                         <ListItemIcon>
                           <FmdGoodIcon color="primary" />
                         </ListItemIcon>
                         <ListItemText primary={item2.categoryName} />
-                        {/* <IconWrap>
-                          <IconButton
-                            edge="end"
-                            aria-label="delete"
-                            color="primary"
-                            sx={{ cursor: 'pointer' }}
-                          >
-                            <AddCircleIcon />
-                          </IconButton>
-                          <IconButton
-                            edge="end"
-                            aria-label="delete"
-                            color="primary"
-                            sx={{ cursor: 'pointer' }}
-                          >
-                            <ModeEditIcon />
-                          </IconButton>
-                          <IconButton edge="end" aria-label="delete" sx={{ cursor: 'pointer' }}>
-                            <DeleteIcon />
-                          </IconButton>
-                        </IconWrap> */}
                       </ListItemButton>
                       {item2.children?.map((item3, idx) => (
                         <Collapse key={idx} in={true} timeout="auto" unmountOnExit>
                           <List component="div" disablePadding>
-                            <ListItemButton sx={{ pl: 10 }}>
+                            <ListItemButton
+                              sx={{ pl: 10 }}
+                              key={idx}
+                              onClick={() =>
+                                setData({
+                                  categoryId: item3.categoryId,
+                                  categoryParent: 0,
+                                  categoryName: item3.categoryName,
+                                  categoryDepth: item3.categoryDepth,
+                                })
+                              }
+                            >
                               <ListItemIcon>
                                 <FmdGoodIcon color="secondary" />
                               </ListItemIcon>
                               <ListItemText primary={item3.categoryName} />
-                              {/* <IconWrap>
-                                <IconButton
-                                  edge="end"
-                                  aria-label="delete"
-                                  color="primary"
-                                  sx={{ cursor: 'pointer' }}
-                                >
-                                  <AddCircleIcon />
-                                </IconButton>
-                                <IconButton
-                                  edge="end"
-                                  aria-label="delete"
-                                  color="primary"
-                                  sx={{ cursor: 'pointer' }}
-                                >
-                                  <ModeEditIcon />
-                                </IconButton>
-                                <IconButton
-                                  edge="end"
-                                  aria-label="delete"
-                                  sx={{ cursor: 'pointer' }}
-                                >
-                                  <DeleteIcon />
-                                </IconButton>
-                              </IconWrap> */}
                             </ListItemButton>
                           </List>
                         </Collapse>
@@ -191,89 +249,105 @@ const ProductCategory = () => {
             </TableRow>
           )}
         </List>
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form>
           <Table>
-            <TableRow>
-              <TableCell align="center">카테고리</TableCell>
-              <TableCell align="left">
-                <CategoryWrap>
-                  <SelectWrap>
-                    <FormControl size="small" fullWidth>
-                      <InputLabel>대분류</InputLabel>
-                      <Select
-                        label="대분류"
-                        defaultValue={''}
-                        onChange={(event) =>
-                          setSelectCategory((prev) => ({ ...prev, 1: Number(event.target.value) }))
-                        }
-                      >
-                        {category &&
-                          category.map((item, idx) => (
-                            <MenuItem
-                              key={idx}
-                              value={item.categoryId}
-                              // onClick={() => item.children!.length < 1 && handleAddCategory(item)}
-                            >
-                              {item.categoryName}
-                            </MenuItem>
-                          ))}
-                      </Select>
-                    </FormControl>
-                    <FormControl size="small" fullWidth>
-                      <InputLabel>중분류</InputLabel>
-                      <Select
-                        label="중분류"
-                        defaultValue={''}
-                        onChange={(event) =>
-                          setSelectCategory((prev) => ({ ...prev, 2: Number(event.target.value) }))
-                        }
-                      >
-                        {category &&
-                          category
-                            .filter((value) => value.categoryId === selectCategory['1'])
-                            .map((item1, idx) =>
-                              item1.children!.map((item2) => (
-                                <MenuItem
-                                  key={idx}
-                                  value={item2.categoryId}
-                                  // onClick={() =>
-                                  //   item2.children!.length < 1 && handleAddCategory(item2)
-                                  // }
-                                >
-                                  {item2.categoryName}
-                                </MenuItem>
-                              )),
-                            )}
-                      </Select>
-                    </FormControl>
-                  </SelectWrap>
-                </CategoryWrap>
-              </TableCell>
-            </TableRow>
+            {data.categoryId === 0 && (
+              <TableRow>
+                <TableCell align="center">카테고리</TableCell>
+                <TableCell align="left">
+                  <CategoryWrap>
+                    <SelectWrap>
+                      <FormControl size="small" fullWidth>
+                        <InputLabel>대분류</InputLabel>
+                        <Select
+                          label="대분류"
+                          value={selectCategory[1]}
+                          onChange={(event) =>
+                            setSelectCategory((prev) => ({
+                              ...prev,
+                              1: Number(event.target.value),
+                            }))
+                          }
+                        >
+                          {category &&
+                            category.map((item, idx) => (
+                              <MenuItem key={idx} value={item.categoryId}>
+                                {item.categoryName}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </FormControl>
+                      <FormControl size="small" fullWidth>
+                        <InputLabel>중분류</InputLabel>
+                        <Select
+                          label="중분류"
+                          value={selectCategory[2]}
+                          onChange={(event) =>
+                            setSelectCategory((prev) => ({
+                              ...prev,
+                              2: Number(event.target.value),
+                            }))
+                          }
+                        >
+                          {category &&
+                            category
+                              .filter((value) => value.categoryId === selectCategory['1'])
+                              .map((item1, idx) =>
+                                item1.children!.map((item2) => (
+                                  <MenuItem key={idx} value={item2.categoryId}>
+                                    {item2.categoryName}
+                                  </MenuItem>
+                                )),
+                              )}
+                        </Select>
+                      </FormControl>
+                    </SelectWrap>
+                  </CategoryWrap>
+                </TableCell>
+              </TableRow>
+            )}
             <TableRow>
               <TableCell align="center">카테고리명</TableCell>
               <TableCell align="left">
-                <TextField size="small" fullWidth {...register('categoryName')} />
+                <TextField
+                  size="small"
+                  fullWidth
+                  value={data.categoryName}
+                  onChange={(event) =>
+                    setData((prev) => ({ ...prev, categoryName: event.target.value }))
+                  }
+                />
               </TableCell>
             </TableRow>
-            {/* <TableRow>
-              <TableCell align="center">깊이</TableCell>
-              <TableCell align="left">
-                <TextField type="number" size="small" fullWidth {...register('categoryDepth')} />
-              </TableCell>
-            </TableRow> */}
           </Table>
           <ButtonWrap>
-            <Button variant="outlined" color="secondary">
+            <Button variant="outlined" onClick={handleDeleteCategory}>
               삭제
             </Button>
             <FlexWrap>
-              <Button variant="outlined" type="submit">
+              <Button
+                variant="outlined"
+                type="submit"
+                onClick={() =>
+                  setData({
+                    categoryId: 0,
+                    categoryParent: 0,
+                    categoryName: '',
+                    categoryDepth: 1,
+                  })
+                }
+              >
                 신규 등록
               </Button>
-              <Button variant="contained" type="submit">
-                수정 완료
-              </Button>
+              {data.categoryId === 0 ? (
+                <Button variant="contained" type="submit" onClick={handleAddCategory}>
+                  등록 완료
+                </Button>
+              ) : (
+                <Button variant="contained" type="submit" onClick={handleEditCategory}>
+                  수정 완료
+                </Button>
+              )}
             </FlexWrap>
           </ButtonWrap>
         </Form>
@@ -297,32 +371,11 @@ const TableWrap = styled.div`
   width: 100%;
   height: calc(100% - 40px);
   display: flex;
-  /* align-items: center; */
   gap: 30px;
 `;
 
-// const ButtonWrap = styled.div`
-//   width: 100%;
-//   box-sizing: border-box;
-//   height: 40px;
-//   position: relative;
-// `;
-
-// const CenterWrap = styled.div`
-//   position: absolute;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-// `;
-
-// const RightWrap = styled.div`
-//   position: absolute;
-//   top: 0;
-//   right: 0;
-// `;
-
 const Form = styled.div`
-  width: 60%;
+  width: 70%;
 `;
 
 const EmptyText = styled.p`

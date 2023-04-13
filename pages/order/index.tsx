@@ -3,29 +3,50 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import OrderItem from '@/components/Order/OrderItem';
-import { ICart } from '@/interfaces/cart';
 import { formatPrice } from '@/utils/format';
-import Link from 'next/link';
-import { Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { MESSAGES } from '@/constants/messages';
-import { useForm } from 'react-hook-form';
 import { alterModal } from '@/components/SignIn/function';
+import styled from '@emotion/styled';
+import { instance } from '@/apis/instance';
+
+interface ICssProps {
+  border: string;
+}
+interface ICssButtonProps {
+  bc: string;
+  color: string;
+}
 
 const Order = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const {
-    handleSubmit,
-    register,
-    formState: { errors, isSubmitting },
-  } = useForm();
 
-  const [items, setItems] = useState([]);
-  const [allCheck, setAllCheck] = useState(false);
-  const [useCheck, setUseCheck] = useState(false);
-  const [payCheck, setPayCheck] = useState(false);
+  const [method, setMethod] = useState('');
+  const [items, setItems] = useState([
+    {
+      cartId: 0,
+      numberOfPeople: 0,
+      option: {
+        endDate: '',
+        productOptionId: 0,
+        startDate: '',
+      },
+      productId: 0,
+      productName: '',
+      productOptions: [
+        {
+          endDate: '',
+          productOptionId: 0,
+          startDate: '',
+        },
+      ],
+      productPrice: 0,
+      productThumbnail: '',
+      singleRoomNumber: 0,
+      singleRoomPrice: 0,
+    },
+  ]);
 
   useEffect(() => {
     if (router.query.items === undefined) {
@@ -36,154 +57,214 @@ const Order = () => {
     }
   }, [router.query.items]);
 
-  useEffect(() => {
-    if (useCheck && payCheck) {
-      setAllCheck(true);
-    } else {
-      setAllCheck(false);
-    }
-  }, [useCheck, payCheck]);
+  const sum = items.reduce(
+    (acc, item) =>
+      acc +
+      (item.numberOfPeople * item.productPrice + item.singleRoomNumber * item.singleRoomPrice),
+    0,
+  );
+  console.log(items);
 
-  Object.values(errors).map((error) => {
-    if (error !== undefined) {
-      alterModal(error.message as string, dispatch);
-    }
+  const data = items.map((item) => {
+    const dataItem = {
+      productId: item.productId,
+      productOptionId: item.option.productOptionId,
+      reservationPeopleNumber: item.numberOfPeople,
+      reservationSingleRoomNumber: item.singleRoomNumber,
+    };
+    console.log(dataItem);
+    return dataItem;
   });
-
-  const allcheck = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      setAllCheck(true);
-      setUseCheck(true);
-      setPayCheck(true);
-    } else {
-      setAllCheck(false);
-      setUseCheck(false);
-      setPayCheck(false);
-    }
-  };
-  // console.log(Object.values(errors));
+  console.log(data);
 
   return (
     <div>
-      <PageTitle title="결제하기" />
-      <form
-        onSubmit={handleSubmit(async (data) => {
-          console.log(data);
-          // router.push('/order/success')
-        })}
-      >
-        <div>
-          <div>예약 상품 정보</div>
-          {items.map((item, idx) => (
-            <OrderItem key={idx} item={item} />
+      <PageWrap>
+        <PageTitle title="결제하기" />
+      </PageWrap>
+      <Container>
+        <ItemWrap>
+          {items.map((item) => (
+            <div key={item.productId}>
+              <Title border="3px solid #707070">{item.productName}</Title>
+              <TravelInfo>
+                <TravelDate>
+                  <TravelTitle>여행 예정일</TravelTitle>
+                  <div>
+                    {item.option.startDate.split('-').join('.')} ~{' '}
+                    {item.option.endDate.split('-').join('.')}
+                  </div>
+                </TravelDate>
+                <TravelDate>
+                  <TravelTitle>인원 수</TravelTitle>
+                  <TravelTitle>{item.numberOfPeople}명</TravelTitle>
+                </TravelDate>
+              </TravelInfo>
+            </div>
           ))}
-        </div>
-        <div>
-          <div>예약자 정보</div>
-          <div>
-            <input
-              type="text"
-              placeholder="이름"
-              {...register('name', {
-                required: MESSAGES.INPUT.CHECK.NAME,
-                pattern: {
-                  value: /[가-힣]{3,4}/,
-                  message: MESSAGES.INPUT.ERROR.NAME_PATTERN,
+          <AllPrice>
+            <TravelTitle>전체금액</TravelTitle>
+            <TotalPrice>
+              <PriceTitle>결제 금액 (세금 포함)</PriceTitle>
+              <Price>{formatPrice(sum)}</Price>
+            </TotalPrice>
+          </AllPrice>
+        </ItemWrap>
+        <PaymentWrap>
+          <Title border="0">결제방법</Title>
+          <Buttons>
+            <Button
+              onClick={() => {
+                setMethod('무통장 입금');
+              }}
+              bc={method === '무통장 입금' ? 'black' : 'white'}
+              color={method === '무통장 입금' ? 'white' : 'black'}
+            >
+              무통장 입금
+            </Button>
+            <Button
+              onClick={() => {
+                setMethod('실시간 계좌이체');
+              }}
+              bc={method === '실시간 계좌이체' ? 'black' : 'white'}
+              color={method === '실시간 계좌이체' ? 'white' : 'black'}
+            >
+              계좌 이체
+            </Button>
+          </Buttons>
+        </PaymentWrap>
+        <PayButton
+          onClick={async () => {
+            if (method === '') {
+              await alterModal('입금방법을 선택해 주세요', dispatch);
+            } else {
+              await instance({
+                method: 'POST',
+                url: 'https://www.go-together.store:443/reservations',
+                data: {
+                  paymentMethod: method,
+                  reservationList: data,
                 },
-                maxLength: {
-                  value: 4,
-                  message: MESSAGES.INPUT.ERROR.NAME_MAX,
-                },
-              })}
-            />
-            <input
-              type="text"
-              placeholder="연락처"
-              {...register('phone', {
-                required: MESSAGES.INPUT.CHECK.PHONE,
-                pattern: {
-                  value: /[0-9]{3}[0-9]{3,4}[0-9]{4}/,
-                  message: MESSAGES.INPUT.ERROR.PHONE_PATTERN,
-                },
-                maxLength: {
-                  value: 11,
-                  message: MESSAGES.INPUT.ERROR.PHONE_MAX,
-                },
-              })}
-            />
-            <input
-              type="text"
-              placeholder="이메일(선택)"
-              {...register('email', {
-                pattern: {
-                  value: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-                  message: MESSAGES.INPUT.ERROR.EMAIL_PATTERN,
-                },
-              })}
-            />
-          </div>
-        </div>
-        <div>
-          <div>주문 요약</div>
-          <div>
-            <div>
-              <div>상품가격</div>
-              {items.map((item: ICart, idx) => (
-                <div key={idx}>{formatPrice(item.productPrice)}</div>
-              ))}
-            </div>
-            <div>
-              <div>총 예약금액</div>
-              <div>{router.query.amount}</div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div>결제수단</div>
-        </div>
-        <div>
-          <div>
-            <input
-              type="checkbox"
-              id="allAgree"
-              {...register('allAgree', {
-                required: MESSAGES.INPUT.CHECK.AGREE,
-              })}
-              checked={allCheck}
-              onChange={allcheck}
-            />
-            <label htmlFor="allAgree">전체 동의</label>
-          </div>
-          <div>
-            <div>
-              <input
-                type="checkbox"
-                id="useAgree"
-                checked={useCheck}
-                onChange={() => (useCheck ? setUseCheck(false) : setUseCheck(true))}
-              />
-              <label htmlFor="useAgree">개인정보 수집 및 이용 동의</label>
-              <Link href="/">
-                <span>약관보기</span>
-              </Link>
-            </div>
-            <div>
-              <input
-                type="checkbox"
-                id="payAgree"
-                checked={payCheck}
-                onChange={() => (payCheck ? setPayCheck(false) : setPayCheck(true))}
-              />
-              <label htmlFor="payAgree">예약조건 확인 및 결제진행에 동의</label>
-            </div>
-          </div>
-          <Button type="submit" disabled={isSubmitting}>
-            결제하기
-          </Button>
-        </div>
-      </form>
+              })
+                .then((res) => {
+                  console.log(res);
+                  router.push({
+                    pathname: '/order/success',
+                    query: { items: JSON.stringify(items) },
+                  });
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            }
+          }}
+        >
+          {formatPrice(sum)} 결제
+        </PayButton>
+      </Container>
     </div>
   );
 };
 
 export default Order;
+const PageWrap = styled.div`
+  margin: 0 10px 40px;
+`;
+const Container = styled.div`
+  margin: 0 10px 40px;
+  display: flex;
+  gap: 20px;
+  flex-direction: row;
+  @media (max-width: 1200px) {
+    flex-direction: column;
+  }
+  position: relative;
+  padding-bottom: 60px;
+`;
+const ItemWrap = styled.div`
+  background-color: #f7f7f7;
+  padding: 35px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  width: 943px;
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
+`;
+const PaymentWrap = styled.div`
+  background-color: #f7f7f7;
+  padding-top: 35px;
+  height: 406px;
+  border-radius: 8px;
+  @media (max-width: 1200px) {
+    height: fit-content;
+  }
+`;
+const Title = styled.div`
+  font-weight: bold;
+  font-size: 24px;
+  padding: 25px;
+  border-bottom: ${(props: ICssProps) => props.border};
+`;
+const TravelInfo = styled.div`
+  padding: 25px;
+  border-bottom: 3px solid #707070;
+`;
+const TravelDate = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 45px;
+`;
+const TravelTitle = styled.div`
+  font-weight: bold;
+  font-size: 24px;
+`;
+const AllPrice = styled.div`
+  padding: 25px;
+`;
+const TotalPrice = styled.div`
+  margin-top: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+const PriceTitle = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  color: #707070;
+`;
+const Price = styled.div`
+  font-size: 24px;
+  font-weight: bold;
+  color: #0cb1f3;
+`;
+const Buttons = styled.div`
+  padding: 40px 15px;
+`;
+const Button = styled.button`
+  background-color: ${(props: ICssButtonProps) => props.bc};
+  color: ${(props) => props.color};
+  height: 40px;
+  border-radius: 8px;
+  width: 100%;
+  margin-bottom: 10px;
+  border: 0;
+  font-size: 20px;
+`;
+const PayButton = styled.button`
+  position: absolute;
+  background-color: #6dd0f8;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 100px;
+  border: 0;
+  border-radius: 8px;
+  bottom: 0px;
+  right: 0;
+  @media (max-width: 1200px) {
+    width: 100%;
+    box-sizing: border-box;
+  }
+`;

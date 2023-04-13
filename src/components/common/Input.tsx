@@ -14,10 +14,15 @@ interface ICssInputProps {
 
 const Input = ({ error, register, id, type, placeholder, label }: IInputProps) => {
   const router = useRouter();
+  console.log(router.asPath.slice(0, 12));
   const margin = () => {
     if (router.asPath === '/signup' && id !== 'passwordConfirmation') {
       return '50';
     } else if (router.asPath === '/signup' && id === 'passwordConfirmation') {
+      return '70';
+    } else if (router.asPath.slice(0, 12) === '/mypage/info' && id !== 'passwordConfirmation') {
+      return '50';
+    } else if (router.asPath.slice(0, 12) === '/mypage/info' && id === 'passwordConfirmation') {
       return '70';
     } else return '40';
   };
@@ -35,8 +40,16 @@ const Input = ({ error, register, id, type, placeholder, label }: IInputProps) =
         type={type}
         placeholder={placeholder}
         {...register}
-        width={router.asPath === '/signup' ? '100%' : '335px'}
-        padding={router.asPath === '/signup' ? '0' : '15px'}
+        width={
+          router.asPath === '/signup' || router.asPath.slice(0, 12) === '/mypage/info'
+            ? '100%'
+            : '335px'
+        }
+        padding={
+          router.asPath === '/signup' || router.asPath.slice(0, 12) === '/mypage/info'
+            ? '0'
+            : '15px'
+        }
       />
       {error && (
         <Error role="alert">

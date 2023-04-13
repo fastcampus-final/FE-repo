@@ -32,15 +32,15 @@ const Container = styled.div`
   flex-direction: column;
   cursor: pointer;
   gap: 10px;
-  width: 23vw;
+  width: 324px;
   @media (max-width: 1200px) {
     width: 35vw;
   }
 `;
 
 const ProductImg = styled.img`
-  width: 23vw;
-  height: 23vw;
+  width: 324px;
+  height: 324px;
   border-radius: 10px;
   @media (max-width: 1200px) {
     width: 35vw;

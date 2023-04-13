@@ -2,22 +2,33 @@ import { getMyWishList } from '@/apis/mypage/wish';
 import PageTitle from '@/components/common/PageTitle';
 import MyPageNavbar from '@/components/layout/MyPageNavbar';
 import WishCard from '@/components/Mypage/Wish/WishCard';
-import { IWishList } from '@/interfaces/wishlist';
+import { MESSAGES } from '@/constants/messages';
+import { IWish } from '@/interfaces/wish';
 import { RootState } from '@/store';
+import { setModal } from '@/store/modal';
 import { setWishState } from '@/store/wish';
 import styled from '@emotion/styled';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const MyWish = () => {
   const dispatch = useDispatch();
-  const [product, setProduct] = useState<IWishList[]>([]);
-  const favorList: IWishList[] = useSelector((state: RootState) => state.wish);
+  const wish: IWish[] = useSelector((state: RootState) => state.wish);
 
   useEffect(() => {
     (async () => {
-      const data = await getMyWishList();
-      dispatch(setWishState(data));
+      try {
+        const data = await getMyWishList();
+        dispatch(setWishState(data));
+      } catch {
+        return dispatch(
+          setModal({
+            isOpen: true,
+            text: MESSAGES.MYPAGE.WISH.ERROR_GET_WISH,
+            onClickOk: () => dispatch(setModal({ isOpen: false })),
+          }),
+        );
+      }
     })();
   }, []);
 
@@ -27,8 +38,8 @@ const MyWish = () => {
       <MypageWrap>
         <PageTitle title="나의 관심 상품" />
         <CardContainer>
-          {favorList.length > 0 ? (
-            favorList.map((item) => <WishCard key={item.productId} data={item} />)
+          {wish.length > 0 ? (
+            wish.map((item) => <WishCard key={item.productId} data={item} />)
           ) : (
             <p>관심 상품이 없습니다.</p>
           )}

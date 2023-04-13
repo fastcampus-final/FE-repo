@@ -83,12 +83,12 @@ const Notice = () => {
                   onClick={() =>
                     router.push(
                       {
-                        pathname: ROUTES.ADMIN.NOTICE_BY_ID(String(item.boardId)),
+                        pathname: ROUTES.ADMIN.NOTICE_BY_ID(item.boardId),
                         query: {
                           id: item.boardId,
                         },
                       },
-                      ROUTES.ADMIN.NOTICE_BY_ID(String(item.boardId)),
+                      ROUTES.ADMIN.NOTICE_BY_ID(item.boardId),
                     )
                   }
                 >

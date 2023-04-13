@@ -36,7 +36,10 @@ export const signUpLogin = async (data: any, dispatch: any, router: any, setCook
       if (res.status === 200) {
         await setCookies('accessToken', res.data.accessToken as string);
         await setCookies('refreshToken', res.data.refreshToken as string);
-        router.push('/signup/success');
+        router.push({
+          pathname: '/signup/success',
+          query: { email: data.userEmail },
+        });
         await alterModal(MESSAGES.SIGNUP.COMPLETE_SIGNUP, dispatch);
       } else if (res.status === 401) {
         await alterModal(MESSAGES.SIGNUP.WITHDRAWAL, dispatch);

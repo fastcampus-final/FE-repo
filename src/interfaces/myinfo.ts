@@ -14,9 +14,12 @@ interface IInfoProps {
 }
 
 export interface IPatchMyInfoProps {
-  birth: string;
-  email: string;
-  name: string;
-  password: string;
-  phone: string;
+  passportFirstName: string;
+  passportLastName: string;
+  userGender: string;
+  userBirth: string;
+  userEmail: string;
+  userName: string;
+  userType: string;
+  userPhoneNumber: string;
 }
