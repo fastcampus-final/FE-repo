@@ -49,7 +49,7 @@ const Layout = ({ children }: Props) => {
               <Header />
             </div>
           )}
-          <Main>{children}</Main>
+          <Main isSearch={router.asPath === '/product'}>{children}</Main>
           <Footer />
           <ScrollTop />
           <Modal />
@@ -70,11 +70,11 @@ const Container = styled.div`
   }
 `;
 
-const Main = styled.div`
+const Main = styled.div<{ isSearch: boolean }>`
   margin-bottom: 90px;
   padding-top: 150px;
   @media (max-width: 1200px) {
-    padding-top: 70px;
+    padding-top: ${(props) => (props.isSearch ? '0' : '70px')};
   }
 `;
 
@@ -88,6 +88,7 @@ const AdminWrap = styled.div`
   display: flex;
   width: 100%;
 `;
+
 const Product = styled.div`
   @media (max-width: 1200px) {
     display: none;

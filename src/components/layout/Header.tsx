@@ -11,6 +11,7 @@ import MenuList from './header/MenuList';
 import Navbar from './Navbar';
 import { Button } from '@mui/material';
 import { mypageLogout } from '../Mypage/apis';
+import { ROUTES } from '@/constants/routes';
 
 const Header = () => {
   const [cookies, setCookies, removeCookies] = useCookies();
@@ -44,15 +45,19 @@ const Header = () => {
             {router.asPath !== '/product' && <Search />}
             <MyCartHeader />
             <MenuList />
+            {cookies.accessToken && cookies.refreshToken ? (
+              <Button
+                onClick={() => {
+                  mypageLogout(dispatch, router, cookies, removeCookies);
+                }}
+              >
+                로그아웃
+              </Button>
+            ) : (
+              <Button onClick={() => router.push(ROUTES.LOGIN)}>로그인</Button>
+            )}
           </Menus>
         )}
-        <Button
-          onClick={() => {
-            mypageLogout(dispatch, router, cookies, removeCookies);
-          }}
-        >
-          로그아웃
-        </Button>
       </HeaderContainer>
       <NavContainer>
         <Navbar />

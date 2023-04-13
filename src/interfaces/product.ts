@@ -3,7 +3,12 @@ export interface IProduct {
   productName: string;
   productPrice: number;
   productThumbnail: string;
+  productSummary?: string;
   productStatus?: string;
+  categories?: {
+    categoryName: string;
+    categoryId: number;
+  }[];
 }
 
 export interface IProductDetail {
