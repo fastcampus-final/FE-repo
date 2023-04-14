@@ -27,7 +27,6 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    // test
     console.log(response);
     return response;
   },
