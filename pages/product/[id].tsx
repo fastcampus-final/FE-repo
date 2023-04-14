@@ -7,6 +7,7 @@ import { formatPrice } from '@/utils/format';
 
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { RxCrossCircled } from 'react-icons/rx';
+import { BsShare } from 'react-icons/bs';
 
 import Select, { OnChangeValue } from 'react-select';
 import { IWish } from '@/interfaces/wish';
@@ -329,13 +330,32 @@ const ProductDetail = () => {
     }
   };
 
+  const shareClick = () => {
+    return dispatch(
+      setModal({
+        share: true,
+        isOpen: true,
+        text: '공유하기',
+        onClickOk: () =>
+          dispatch(
+            setModal({
+              isOpen: false,
+            }),
+          ),
+      }),
+    );
+  };
+
   return (
     <DetailContent>
       <Simple>
         <Image src={productDetail?.thumbnail} alt="product image" />
         <TextContent>
           <h2>{productDetail?.name}</h2>
-          <p className="price">{formatPrice(productPrice)}</p>
+          <div className="price">
+            <p>{formatPrice(productPrice)}</p>
+            <BsShare size={20} onClick={() => shareClick()} />
+          </div>
           <p className="summary">{productDetail?.summary}</p>
           <p className="title">여행 지역</p>
           <p className="detail">{productDetail?.area}</p>
@@ -538,12 +558,19 @@ const TextContent = styled.div`
     margin-bottom: 1rem;
   }
   .price {
-    font-size: 1.5rem;
-    font-weight: 500;
     border-bottom: 1px solid rgba(33, 37, 41, 0.2);
-    color: #4581f8;
     padding-bottom: 24px;
     margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    p {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #4581f8;
+    }
+    svg {
+      width: 15%;
+    }
   }
   .summary {
     font-size: 1.2rem;
