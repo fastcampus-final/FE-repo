@@ -1,42 +1,32 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
-import Depth3 from './nav/Depth3';
-import AsideNav from './nav/AsideNav';
-import { instance } from '@/apis/instance';
 import NavCateD1 from './nav/NavCateD1';
+import { useDispatch } from 'react-redux';
+import { getNavBarData } from '@/apis/layout';
 
 const datas = {
   categoryId: 101,
   categoryName: '여행준비',
   children: [
     { categoryId: 101, categoryName: '커뮤니티', children: [] },
-    { categoryId: 102, categoryName: '마이페이지', children: [] },
+    { categoryId: 105, categoryName: '여행 유형 테스트', children: [] },
   ],
 };
 
 const Navbar = () => {
   const [categories, setCategories] = useState([{ categoryName: '', children: [], categoryId: 0 }]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    instance({
-      method: 'GET',
-      url: 'https://www.go-together.store:443/categories',
-    })
-      .then((res) => {
-        // console.log(res.data);
-        setCategories(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    getNavBarData({ setCategories, dispatch });
   }, []);
 
   return (
     <Container>
-      <NavCateD1 data={datas} />
       {categories.map((data) => (
         <NavCateD1 data={data} key={data.categoryId} />
       ))}
+      <NavCateD1 data={datas} />
     </Container>
   );
 };

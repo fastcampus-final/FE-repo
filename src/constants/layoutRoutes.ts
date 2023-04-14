@@ -1,6 +1,9 @@
+import { ROUTES } from '@/constants/routes';
+
 export const layoutRoutes: any = {
-  '101': '/community/review',
-  '102': '/mypage',
-  '103': '/login',
-  '104': '/cart',
+  '101': ROUTES.REVIEW,
+  '102': ROUTES.MYPAGE.MAIN,
+  '103': ROUTES.LOGIN,
+  '104': ROUTES.CART,
+  '105': ROUTES.SURVEY,
 };

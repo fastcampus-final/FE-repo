@@ -25,7 +25,7 @@ const TextContainer = styled.span`
   }
 `;
 const Input = styled.input`
-  width: 40vw;
+  width: 42vw;
   border: 0;
   height: 25px;
   background-color: inherit;
@@ -38,7 +38,7 @@ const Container = styled.div`
   background-color: #f1f3f5;
   height: 40px;
   padding: 0 0 0 10px;
-  width: 43vw;
+  width: 45vw;
   border-radius: 8px;
   @media (max-width: 1200px) {
     background-color: white;

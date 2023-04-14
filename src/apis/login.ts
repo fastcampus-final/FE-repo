@@ -1,6 +1,6 @@
 import { instance } from '@/apis/instance';
 import { MESSAGES } from '@/constants/messages';
-import { alterModal } from '../SignIn/function';
+import { alterModal } from '../utils/check';
 
 export const login = async (data: any, dispatch: any, router: any, setCookies: any) => {
   await instance({
@@ -9,7 +9,6 @@ export const login = async (data: any, dispatch: any, router: any, setCookies: a
     data: data,
   })
     .then(async (res) => {
-      console.log(res);
       if (res.status === 200 && res.data.role === 'ROLE_USER') {
         await setCookies('accessToken', res.data.accessToken as string);
         await setCookies('refreshToken', res.data.refreshToken as string);
@@ -20,7 +19,7 @@ export const login = async (data: any, dispatch: any, router: any, setCookies: a
         await setCookies('accessToken', res.data.accessToken as string);
         await setCookies('refreshToken', res.data.refreshToken as string);
         await setCookies('isAdmin', res.data.role);
-        // await alterModal(MESSAGES.LOGIN.ADMIN_LOGIN, dispatch);
+        await alterModal(MESSAGES.LOGIN.ADMIN_LOGIN, dispatch);
       } else if (res.status === 401) {
         await alterModal(MESSAGES.LOGIN.WITHDRAWAL, dispatch);
       } else if (res.status === 404) {
@@ -29,9 +28,7 @@ export const login = async (data: any, dispatch: any, router: any, setCookies: a
         await alterModal(MESSAGES.LOGIN.ERROR_LOGIN, dispatch);
       }
     })
-    .catch(async (error) => {
-      console.log(error);
+    .catch(async () => {
       await alterModal(MESSAGES.LOGIN.ERROR_LOGIN, dispatch);
-      // throw new Error(error);
     });
 };

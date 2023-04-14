@@ -1,4 +1,3 @@
-import { instance } from '@/apis/instance';
 import React, { useEffect, useMemo, useState } from 'react';
 import AdminTable from './AdminTable';
 import { userColumns } from './userColumns';
@@ -8,8 +7,11 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import styled from '@emotion/styled';
+import { useDispatch } from 'react-redux';
+import { getUserTable } from '@/apis/admin/user';
 
 const UserTable = () => {
+  const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [datas, setDatas] = useState({
     content: [
@@ -25,24 +27,10 @@ const UserTable = () => {
   });
 
   useEffect(() => {
-    instance({
-      method: 'GET',
-      url: `https://www.go-together.store:443/admin/userList?page=${page}`,
-    })
-      .then((res) => {
-        console.log(res);
-        setDatas(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    getUserTable({ page, setDatas, dispatch });
   }, [page]);
 
   const columns = useMemo(() => userColumns, []);
-  //   const data = useMemo(() => datas, []);
-
-  //   console.log(columns);
-  console.log(datas);
 
   return (
     <div>

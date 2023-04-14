@@ -1,4 +1,3 @@
-import { instance } from '@/apis/instance';
 import PageTitle from '@/components/common/PageTitle';
 import withAuth from '@/components/common/PrivateRouter';
 import { Button } from '@mui/material';
@@ -10,9 +9,11 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import styled from '@emotion/styled';
 import { orderColumns } from '@/components/Admin/Order/orderColumns';
 import AdminOrderTable from '@/components/Admin/Order/AdminOrderTable';
-import { formatPrice } from '@/utils/format';
+import { useDispatch } from 'react-redux';
+import { getOrderData } from '@/apis/admin/order';
 
 const Order = () => {
+  const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [datas, setdatas] = useState({
     content: [
@@ -37,15 +38,7 @@ const Order = () => {
   });
 
   useEffect(() => {
-    instance({
-      method: 'GET',
-      url: `https://www.go-together.store:443/admin/reservations?page=${page}`,
-    })
-      .then((res) => {
-        console.log(res.data);
-        setdatas(res.data);
-      })
-      .catch((error) => console.log(error));
+    getOrderData({ setdatas, page, dispatch });
   }, [page]);
 
   const columns = useMemo(() => orderColumns, []);

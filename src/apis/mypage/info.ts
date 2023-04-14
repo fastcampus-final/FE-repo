@@ -1,7 +1,7 @@
 import { instance } from '@/apis/instance';
 import { MESSAGES } from '@/constants/messages';
 import { IPatchMyInfoProps } from '@/interfaces/myinfo';
-import { alterModal } from '../SignIn/function';
+import { alterModal } from '../../utils/check';
 
 export const patchMyInfo = async (
   data: any,
@@ -16,7 +16,6 @@ export const patchMyInfo = async (
     data: data,
   })
     .then(async (res) => {
-      console.log(res);
       if (res.status === 200) {
         await setPatchInfo({ ...patchInfo, userPhoneNumber: data.userPhoneNumber });
         await setChangeInfo(false);
@@ -28,7 +27,6 @@ export const patchMyInfo = async (
       }
     })
     .catch(async (error) => {
-      console.log(error);
       await alterModal(error, dispatch);
     });
 };
@@ -39,7 +37,6 @@ export const searchMyPassword = async (data: any, dispatch: any) => {
     url: `https://www.go-together.store:443/auth/find/password?email=${data.email}`,
   })
     .then(async (res) => {
-      console.log(res);
       if (res.status === 200) {
         await alterModal('이메일로 비밀번호 변경 url이 발송되었습니다.', dispatch);
       } else {
@@ -47,7 +44,6 @@ export const searchMyPassword = async (data: any, dispatch: any) => {
       }
     })
     .catch((error) => {
-      console.log(error);
       alterModal(
         '서버에 오류가 생겨 비밀번호 url이 발송되지 못했습니다. 다시 시도해주세요.',
         dispatch,
@@ -78,24 +74,23 @@ export const deleteMyAccount = async (
       }
     })
     .catch((error) => {
-      console.log(error);
       alterModal('에러로 인해 탈퇴가 정상적으로 진행되지 않았습니다. 다시 시도해주세요.', dispatch);
     });
 };
 
 export const getMyInfo = async (
   setMyinfo: React.Dispatch<React.SetStateAction<IPatchMyInfoProps>>,
+  dispatch: any,
 ) => {
   instance({
     method: 'GET',
     url: 'https://www.go-together.store:443/user/myInfo',
   })
     .then((res) => {
-      console.log(res);
       setMyinfo(res.data);
     })
-    .catch((error) => {
-      console.log(error);
+    .catch(() => {
+      alterModal('서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요', dispatch);
       // throw new Error(error);
     });
 };
@@ -114,7 +109,6 @@ export const mypageLogout = async (
     },
   })
     .then(async (res) => {
-      console.log(res);
       if (res.status === 200) {
         await removeCookies('accessToken');
         await removeCookies('refreshToken');
@@ -134,7 +128,6 @@ export const mypageLogout = async (
       }
     })
     .catch(async (error) => {
-      console.log(error);
       await removeCookies('accessToken');
       await removeCookies('refreshToken');
       await removeCookies('isAdmin');

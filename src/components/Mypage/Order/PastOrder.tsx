@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import ArrowRight from '@/../public/icons/arrowRight.svg';
 
-import DetailData from '@/dummydata/orderDetail.json';
 import { useRouter } from 'next/router';
 import { ROUTES } from '@/constants/routes';
+import { getReservationDetail } from '@/apis/mypage/order';
 
 interface Props {
   data: IOrder;
@@ -18,7 +18,8 @@ const PastOrder = ({ data }: Props) => {
 
   useEffect(() => {
     (async () => {
-      setDetailData(DetailData);
+      const detail = await getReservationDetail(data.reservationDetailId);
+      setDetailData(detail);
     })();
   });
 

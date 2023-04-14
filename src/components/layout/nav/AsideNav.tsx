@@ -1,22 +1,14 @@
-import { instance } from '@/apis/instance';
 import React, { useEffect, useState } from 'react';
 import Depth1 from './Depth1';
+import { useDispatch } from 'react-redux';
+import { getNavData } from '@/apis/layout';
 
 const AsideNav = () => {
   const [datas, setDatas] = useState([{ categoryName: '', children: [], categoryId: 0 }]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    instance({
-      method: 'GET',
-      url: 'https://www.go-together.store:443/categories',
-    })
-      .then((res) => {
-        // console.log(res.data);
-        setDatas(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    getNavData({ setDatas, dispatch });
   }, []);
 
   return (

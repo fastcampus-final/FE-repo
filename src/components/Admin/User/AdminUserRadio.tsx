@@ -1,6 +1,7 @@
-import { instance } from '@/apis/instance';
+import { getRadioUserAdmin, putRadioUserAdmin } from '@/apis/admin/user';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 interface IProps {
   name: string;
@@ -14,22 +15,11 @@ const AdminUserRadio = ({ name, id1, id2, label1, label2 }: IProps) => {
   const [userData, setUserData] = useState('');
   const [disabled, setDisabled] = useState(true);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    instance({
-      method: 'GET',
-      url: `https://www.go-together.store:443/admin/user/${router.query.id}`,
-    })
-      .then((res) => {
-        console.log(res.data[`${name}`]);
-        setUserData(res.data[`${name}`]);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    getRadioUserAdmin({ router, setUserData, name, dispatch });
   }, []);
-
-  console.log(userData);
 
   return (
     <div>
@@ -68,19 +58,7 @@ const AdminUserRadio = ({ name, id1, id2, label1, label2 }: IProps) => {
       ) : (
         <button
           onClick={async () => {
-            await instance({
-              method: 'PUT',
-              url: `https://www.go-together.store:443/admin/userDetail/${router.query.id}`,
-              data: {
-                [name]: userData,
-              },
-            })
-              .then((res) => {
-                console.log(res);
-              })
-              .catch((error) => {
-                console.log(error);
-              });
+            putRadioUserAdmin({ router, name, userData, dispatch });
             await setDisabled(true);
           }}
         >

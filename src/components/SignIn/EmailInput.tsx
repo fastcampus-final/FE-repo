@@ -1,7 +1,7 @@
 import { MESSAGES } from '@/constants/messages';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { signupEmailCheck } from './apis';
+import { signupEmailCheck } from '../../apis/signup';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
@@ -57,7 +57,6 @@ const EmailInput = ({ register, error, email, setEmailCheck, emailCheck }: IInpu
             <Button
               onClick={async () => {
                 await signupEmailCheck(email as string, setEmailCheck);
-                console.log(email, emailCheck);
               }}
             >
               중복확인

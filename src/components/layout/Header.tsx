@@ -1,40 +1,25 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import Search from './header/SearchHeader';
 import { useRouter } from 'next/router';
 import { useCookies } from 'react-cookie';
-import { tokenRefresh } from './header/apis';
+import { tokenRefresh } from '../../apis/layout';
 import { useDispatch } from 'react-redux';
 import Logo from './header/Logo';
 import MyCartHeader from './header/MyCartHeader';
 import MenuList from './header/MenuList';
 import Navbar from './Navbar';
-import { Button } from '@mui/material';
-import { mypageLogout } from '../Mypage/apis';
-import { ROUTES } from '@/constants/routes';
 
 const Header = () => {
   const [cookies, setCookies, removeCookies] = useCookies();
   const dispatch = useDispatch();
+  const router = useRouter();
 
   setInterval(async () => {
     if (cookies.accessToken && cookies.refreshToken) {
       await tokenRefresh(router, dispatch, cookies, removeCookies, setCookies);
     }
   }, 1000000);
-
-  const router = useRouter();
-
-  // console.log(window.onload);
-  // window.onload = function () {
-  //   console.log('hello');
-  // };
-
-  // useEffect(() => {
-  //   window.onload = function () {
-  //     console.log('hello');
-  //   };
-  // }, []);
 
   return (
     <Container>
@@ -45,17 +30,6 @@ const Header = () => {
             {router.asPath !== '/product' && <Search />}
             <MyCartHeader />
             <MenuList />
-            {cookies.accessToken && cookies.refreshToken ? (
-              <Button
-                onClick={() => {
-                  mypageLogout(dispatch, router, cookies, removeCookies);
-                }}
-              >
-                로그아웃
-              </Button>
-            ) : (
-              <Button onClick={() => router.push(ROUTES.LOGIN)}>로그인</Button>
-            )}
           </Menus>
         )}
       </HeaderContainer>
@@ -87,7 +61,6 @@ const HeaderContainer = styled.div`
   display: flex;
   gap: 30px;
   align-items: center;
-  justify-content: space-between;
   background-color: white;
   @media (max-width: 1200px) {
     padding: 16px;
@@ -97,8 +70,6 @@ const HeaderContainer = styled.div`
 const Menus = styled.div`
   display: flex;
   align-items: center;
-  width: 1200px;
-  margin: 0 auto;
 `;
 
 const NavContainer = styled.ul`

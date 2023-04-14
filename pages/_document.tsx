@@ -16,6 +16,7 @@ export default function Document() {
         <meta property="og:url" content="https://go-together.vercel.app/" />
         <meta property="og:site_name" content="고투게더" />
         <link rel="icon" href="/favicon.ico" />
+        <script defer src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
         <title>고투게더</title>
       </Head>
       <body>

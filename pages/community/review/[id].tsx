@@ -35,8 +35,6 @@ const ReviewDetail = () => {
     })();
   }, [window.location.pathname]);
 
-  console.log(router.query);
-
   const deleteHandler = () => {
     return dispatch(
       setModal({

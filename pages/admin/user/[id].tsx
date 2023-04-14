@@ -9,11 +9,11 @@ import React from 'react';
 const UserDetail = () => {
   return (
     <div>
-      <AdminUserInput id="name" label="이름" type="text" test="^[가-힣]{3,4}$" />
-      <NotChangeInput id="email" label="이메일" type="email" />
-      <AdminUserInput id="brithday" label="생일" type="text" test="^[0-9]{8}$" />
+      <AdminUserInput id="userName" label="이름" type="text" test="^[가-힣]{3,4}$" />
+      <NotChangeInput id="userEmail" label="이메일" type="email" />
+      <AdminUserInput id="userBirthday" label="생일" type="text" test="^[0-9]{8}$" />
       <AdminUserInput
-        id="phoneNumber"
+        id="userPhoneNumber"
         label="연락처"
         type="tel"
         test="^[0-9]{3}[0-9]{3,4}[0-9]{4}$"
@@ -26,9 +26,9 @@ const UserDetail = () => {
         label1="계정 탈퇴"
         label2="사용가능 계정"
       />
-      <AdminUserRadio name="gender" id1="female" id2="male" label1="여성" label2="남성" />
+      <AdminUserRadio name="userGender" id1="female" id2="male" label1="여성" label2="남성" />
       <NotChangeInput id="userId" label="회원번호" type="number" />
-      <NotChangeInput id="type" label="여행 타입" type="text" />
+      <NotChangeInput id="userType" label="여행 타입" type="text" />
       <RoleChange />
     </div>
   );

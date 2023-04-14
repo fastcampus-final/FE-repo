@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
-import { mypageLogout } from './apis';
+import { mypageLogout } from '../../apis/mypage/info';
 import styled from '@emotion/styled';
 
 interface ICssprops {

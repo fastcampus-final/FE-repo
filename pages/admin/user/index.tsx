@@ -11,6 +11,4 @@ const User = () => {
     </div>
   );
 };
-
-export default User;
-// export default withAuth(User);
+export default withAuth(User);

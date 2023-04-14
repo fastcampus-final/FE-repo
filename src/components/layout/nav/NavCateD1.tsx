@@ -34,7 +34,6 @@ const NavCateD1 = ({ data }: { data: IProps }) => {
               onClick={() => {
                 if (data.children.length === 0) {
                   if (data.categoryId > 100) {
-                    console.log('hello');
                     router.push({
                       pathname: layoutRoutes[data.categoryId],
                     });

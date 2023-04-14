@@ -1,5 +1,30 @@
 import { instance } from '@/apis/instance';
-import { alterModal } from '@/components/SignIn/function';
+import { alterModal } from '@/utils/check';
+
+interface IGetNavDataProps {
+  setDatas: React.Dispatch<
+    React.SetStateAction<
+      {
+        categoryName: string;
+        children: never[];
+        categoryId: number;
+      }[]
+    >
+  >;
+  dispatch: any;
+}
+interface IGetNavBarDataProps {
+  setCategories: React.Dispatch<
+    React.SetStateAction<
+      {
+        categoryName: string;
+        children: never[];
+        categoryId: number;
+      }[]
+    >
+  >;
+  dispatch: any;
+}
 
 export const tokenRefresh = async (
   router: any,
@@ -16,14 +41,12 @@ export const tokenRefresh = async (
     },
   })
     .then((res) => {
-      console.log(res);
       if (res.status === 200) {
         removeCookies('accessToken');
         setCookies('accessToken', res.data.accessToken);
       } else headerLogout(router, dispatch, cookies, removeCookies);
     })
-    .catch((error) => {
-      console.log(error);
+    .catch(() => {
       headerLogout(router, dispatch, cookies, removeCookies);
     });
 };
@@ -59,11 +82,36 @@ const headerLogout = async (router: any, dispatch: any, cookies: any, removeCook
         );
       }
     })
-    .catch(async (error) => {
+    .catch(async () => {
       await removeCookies('accessToken');
       await removeCookies('refreshToken');
       await removeCookies('isAdmin');
-      console.log(error);
       alterModal('서버 장애로 인해 로그아웃이 되지 않았습니다. 다시 시도해주세요.', dispatch);
+    });
+};
+
+export const getNavData = ({ setDatas, dispatch }: IGetNavDataProps) => {
+  instance({
+    method: 'GET',
+    url: 'https://www.go-together.store:443/categories',
+  })
+    .then((res) => {
+      setDatas(res.data);
+    })
+    .catch(() => {
+      alterModal('서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요', dispatch);
+    });
+};
+
+export const getNavBarData = ({ setCategories, dispatch }: IGetNavBarDataProps) => {
+  instance({
+    method: 'GET',
+    url: 'https://www.go-together.store:443/categories',
+  })
+    .then((res) => {
+      setCategories(res.data);
+    })
+    .catch(() => {
+      alterModal('서버장해로 인해 데이터를 불러올 수 없습니다\n다시 시도해주세요', dispatch);
     });
 };

@@ -5,7 +5,7 @@ import React from 'react';
 import { useCookies } from 'react-cookie';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { deleteMyAccount, searchMyPassword } from '../Mypage/apis';
+import { deleteMyAccount, searchMyPassword } from '../../apis/mypage/info';
 import Input from './Input';
 import EmailInput from '../SignIn/EmailInput';
 import styled from '@emotion/styled';

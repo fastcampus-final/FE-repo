@@ -1,6 +1,6 @@
 import { instance } from '@/apis/instance';
 import { MESSAGES } from '@/constants/messages';
-import { alterModal } from './function';
+import { alterModal } from '../utils/check';
 
 export const signUp = async (data: any, dispatch: any) => {
   await instance({
@@ -10,14 +10,12 @@ export const signUp = async (data: any, dispatch: any) => {
   })
     .then(async (res) => {
       if (res.status === 201) {
-        console.log(res);
+        return res;
       } else {
-        console.log(res);
         await alterModal(MESSAGES.SIGNUP.ERROR_SIGNUP, dispatch);
       }
     })
     .catch(async (error) => {
-      console.log(error);
       await alterModal(MESSAGES.SIGNUP.ERROR_SIGNUP, dispatch);
     });
 };
@@ -32,7 +30,6 @@ export const signUpLogin = async (data: any, dispatch: any, router: any, setCook
     },
   })
     .then(async (res) => {
-      console.log(res);
       if (res.status === 200) {
         await setCookies('accessToken', res.data.accessToken as string);
         await setCookies('refreshToken', res.data.refreshToken as string);
@@ -48,7 +45,6 @@ export const signUpLogin = async (data: any, dispatch: any, router: any, setCook
       }
     })
     .catch(async (error) => {
-      console.log(error);
       await alterModal(MESSAGES.LOGIN.ERROR_LOGIN, dispatch);
     });
 };
@@ -62,7 +58,6 @@ export const signupEmailCheck = async (
     url: `https://www.go-together.store:443/auth/email/check?userEmail=${email}`,
   })
     .then((res) => {
-      console.log(res);
       if (res.status === 200 && setEmailCheck !== undefined) {
         setEmailCheck(true);
       } else if (res.status !== 200 && setEmailCheck !== undefined) {
@@ -70,7 +65,6 @@ export const signupEmailCheck = async (
       }
     })
     .catch((error) => {
-      console.log(error);
       if (setEmailCheck !== undefined) {
         setEmailCheck(false);
       }

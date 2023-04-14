@@ -1,9 +1,0 @@
-{
-  "boardId": 1,
-  "userName": "홍길동",
-  "boardType": "여행후기",
-  "boardTitle": "국내 여행 후기입니다~",
-  "boardContent": "<p>아바타</p><p><img src=\"blob:http://localhost:3000/4aea6f6d-1af7-4f07-ba99-31a08c46d655\" alt=\"input alt text\" contenteditable=\"false\"><br></p>",
-  "createdDate": "2022-01-02",
-  "updatedDate": "2022-01-03"
-}

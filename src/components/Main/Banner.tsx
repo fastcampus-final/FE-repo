@@ -1,7 +1,6 @@
 import { getBannerList } from '@/apis/main';
 import { IBanner } from '@/interfaces/main';
 import React, { useEffect, useState } from 'react';
-
 import styled from '@emotion/styled';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper';
@@ -11,8 +10,6 @@ import { HiOutlineArrowNarrowRight } from 'react-icons/hi';
 
 import { isMobile } from 'react-device-detect';
 
-import BannerList from '@/dummydata/bannerList.json';
-
 const Banner = () => {
   const router = useRouter();
   const [bannerList, setBannerList] = useState<Array<IBanner>>([]);
@@ -21,7 +18,6 @@ const Banner = () => {
     (async () => {
       const data = await getBannerList();
       setBannerList(data);
-      // setBannerList(BannerList);
     })();
   }, []);
 
