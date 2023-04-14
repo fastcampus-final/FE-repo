@@ -11,8 +11,8 @@ import { useCookies } from 'react-cookie';
 import { useState } from 'react';
 import Withdrawal from '@/components/Mypage/Withdrawal';
 import EmailInput from '@/components/SignIn/EmailInput';
-import { alterModal } from '@/components/SignIn/function';
-import { login } from '@/components/Login/apis';
+import { alterModal } from '@/utils/check';
+import { login } from '@/apis/login';
 import styled from '@emotion/styled';
 import PageTitle from '@/components/common/PageTitle';
 import PasswordModal from '@/components/common/PasswordModal';
@@ -51,7 +51,6 @@ const Login = () => {
       </Text>
       <form
         onSubmit={handleSubmit(async (data) => {
-          console.log(data);
           await login(data, dispatch, router, setCookies);
         })}
       >

@@ -1,29 +1,18 @@
-import { instance } from '@/apis/instance';
+import { getRoleUserData, patchRoleAdmin, patchRoleUser } from '@/apis/admin/user';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 const RoleChange = () => {
   const [userData, setUserData] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [disabled, setDisabled] = useState(true);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    instance({
-      method: 'GET',
-      url: `https://www.go-together.store:443/admin/user/${router.query.id}`,
-    })
-      .then((res) => {
-        console.log(res.data);
-        setUserData(res.data.role);
-        setUserEmail(res.data.email);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    getRoleUserData({ router, setUserData, setUserEmail, dispatch });
   }, []);
-
-  console.log(userData);
 
   return (
     <div>
@@ -63,29 +52,9 @@ const RoleChange = () => {
         <button
           onClick={async () => {
             if (userData === 'ROLE_ADMIN') {
-              instance({
-                method: 'PATCH',
-                url: `https://www.go-together.store:443/admin/setAdmin/${userEmail}`,
-              })
-                .then(async (res) => {
-                  console.log(res);
-                  await setDisabled(true);
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
+              patchRoleAdmin({ userEmail, setDisabled, dispatch });
             } else if (userData === 'ROLE_USER') {
-              instance({
-                method: 'PATCH',
-                url: `https://www.go-together.store:443/admin/deprivation/${userEmail}`,
-              })
-                .then(async (res) => {
-                  console.log(res);
-                  await setDisabled(true);
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
+              patchRoleUser({ userEmail, setDisabled, dispatch });
             }
           }}
         >

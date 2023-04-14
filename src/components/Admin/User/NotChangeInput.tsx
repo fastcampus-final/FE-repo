@@ -1,6 +1,7 @@
-import { instance } from '@/apis/instance';
+import { getInputUserData } from '@/apis/admin/user';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 interface IProps {
   id: string;
@@ -11,20 +12,10 @@ interface IProps {
 const NotChangeInput = ({ id, label, type }: IProps) => {
   const [userData, setUserData] = useState('');
   const router = useRouter();
-  console.log(userData);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    instance({
-      method: 'GET',
-      url: `https://www.go-together.store:443/admin/user/${router.query.id}`,
-    })
-      .then((res) => {
-        // console.log(res.data[`${id}`]);
-        setUserData(res.data[`${id}`]);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    getInputUserData({ router, setUserData, id, dispatch });
   }, []);
 
   return (

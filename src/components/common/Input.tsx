@@ -14,7 +14,6 @@ interface ICssInputProps {
 
 const Input = ({ error, register, id, type, placeholder, label }: IInputProps) => {
   const router = useRouter();
-  console.log(router.asPath.slice(0, 12));
   const margin = () => {
     if (router.asPath === '/signup' && id !== 'passwordConfirmation') {
       return '50';

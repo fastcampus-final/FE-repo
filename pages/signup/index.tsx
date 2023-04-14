@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form';
 import { MESSAGES } from '@/constants/messages';
 import { useRouter } from 'next/router';
 import { useCookies } from 'react-cookie';
-import { alterModal, checkPassword } from '@/components/SignIn/function';
-import { signUpLogin, signUp } from '@/components/SignIn/apis';
+import { alterModal, checkPassword } from '@/utils/check';
+import { signUpLogin, signUp } from '@/apis/signup';
 import GenderInput from '@/components/SignIn/GenderInput';
 import EmailInput from '@/components/SignIn/EmailInput';
 import { useDispatch } from 'react-redux';
@@ -42,7 +42,6 @@ const Signup = () => {
       <Text>회원으로 고투게더의 다양한 여행을 만나보세요</Text>
       <Form
         onSubmit={handleSubmit(async (data) => {
-          console.log(data);
           if (confirm(MESSAGES.SIGNUP.SUBMIT_CHECK) && emailCheck) {
             await signUp(data, dispatch);
             await signUpLogin(data, dispatch, router, setCookies);

@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
-import Depth3 from './nav/Depth3';
-import AsideNav from './nav/AsideNav';
 import { instance } from '@/apis/instance';
 import NavCateD1 from './nav/NavCateD1';
+import { alterModal } from '../../utils/check';
+import { useDispatch } from 'react-redux';
+import { getNavBarData } from '@/apis/layout';
 
 const datas = {
   categoryId: 101,
@@ -16,19 +17,10 @@ const datas = {
 
 const Navbar = () => {
   const [categories, setCategories] = useState([{ categoryName: '', children: [], categoryId: 0 }]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    instance({
-      method: 'GET',
-      url: 'https://www.go-together.store:443/categories',
-    })
-      .then((res) => {
-        // console.log(res.data);
-        setCategories(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    getNavBarData({ setCategories, dispatch });
   }, []);
 
   return (

@@ -7,8 +7,8 @@ import { useForm } from 'react-hook-form';
 import Input from '@/components/common/Input';
 import { MESSAGES } from '@/constants/messages';
 import { useDispatch } from 'react-redux';
-import { checkPassword } from '@/components/SignIn/function';
-import { patchMyInfo } from '@/components/Mypage/apis';
+import { checkPassword } from '@/utils/check';
+import { patchMyInfo } from '@/apis/mypage/info';
 import styled from '@emotion/styled';
 import MyPageNavbar from '@/components/layout/MyPageNavbar';
 import NotInputPassport from '@/components/Mypage/Info/NotInputPassport';
@@ -47,8 +47,6 @@ const MyInfo = () => {
     formState: { isSubmitting, errors },
   } = useForm();
 
-  console.log(patchInfo);
-
   return (
     <Container>
       <MyPageNavbar />
@@ -71,7 +69,6 @@ const MyInfo = () => {
           {changeInfo ? (
             <form
               onSubmit={handleSubmit(async (data) => {
-                console.log(data);
                 await patchMyInfo(data, setPatchInfo, patchInfo, setChangeInfo, dispatch);
               })}
             >

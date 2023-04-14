@@ -6,9 +6,9 @@ import { useState } from 'react';
 import { formatPrice } from '@/utils/format';
 import { useDispatch } from 'react-redux';
 import { MESSAGES } from '@/constants/messages';
-import { alterModal } from '@/components/SignIn/function';
+import { alterModal } from '@/utils/check';
 import styled from '@emotion/styled';
-import { instance } from '@/apis/instance';
+import { postOrder } from '@/apis/order';
 
 interface ICssProps {
   border: string;
@@ -63,7 +63,6 @@ const Order = () => {
       (item.numberOfPeople * item.productPrice + item.singleRoomNumber * item.singleRoomPrice),
     0,
   );
-  console.log(items);
 
   const data = items.map((item) => {
     const dataItem = {
@@ -72,10 +71,8 @@ const Order = () => {
       reservationPeopleNumber: item.numberOfPeople,
       reservationSingleRoomNumber: item.singleRoomNumber,
     };
-    console.log(dataItem);
     return dataItem;
   });
-  console.log(data);
 
   return (
     <div>
@@ -138,24 +135,7 @@ const Order = () => {
             if (method === '') {
               await alterModal('입금방법을 선택해 주세요', dispatch);
             } else {
-              await instance({
-                method: 'POST',
-                url: 'https://www.go-together.store:443/reservations',
-                data: {
-                  paymentMethod: method,
-                  reservationList: data,
-                },
-              })
-                .then((res) => {
-                  console.log(res);
-                  router.push({
-                    pathname: '/order/success',
-                    query: { items: JSON.stringify(items) },
-                  });
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
+              postOrder({ method, data, router, items, dispatch });
             }
           }}
         >
