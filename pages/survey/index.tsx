@@ -29,6 +29,7 @@ import { setModal } from '@/store/modal';
 import { MESSAGES } from '@/constants/messages';
 import withAuth from '@/components/common/PrivateRouter';
 import { formatMbtiToText } from '@/utils/format';
+import { isMobile } from 'react-device-detect';
 
 const Servey = () => {
   const dispatch = useDispatch();
@@ -150,7 +151,7 @@ const Servey = () => {
               <Swiper
                 modules={[Pagination, Navigation, Autoplay]}
                 spaceBetween={10}
-                slidesPerView={3}
+                slidesPerView={isMobile ? 2 : 3}
                 loop={true}
                 autoplay={{
                   delay: 2000,

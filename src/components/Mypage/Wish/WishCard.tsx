@@ -20,7 +20,7 @@ const WishCard = ({ data }: Props) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    router.push(ROUTES.PRODUCT_BY_ID(data.wishlistId));
+    router.push(ROUTES.PRODUCT_BY_ID(data.productId));
   };
 
   const handleDeleteWish = async (id: number) => {
@@ -73,6 +73,7 @@ const Container = styled.div`
   gap: 10px;
   width: 100%;
   position: relative;
+  box-sizing: border-box;
 `;
 
 const Title = styled.p`
@@ -82,6 +83,7 @@ const Title = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
   @media (max-width: 1200px) {
     font-size: 14px;
     width: 43vw;

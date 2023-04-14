@@ -57,9 +57,19 @@ const Container = styled.div`
   margin: 0 auto;
   gap: 30px;
   padding: 16px 0;
+  box-sizing: border-box;
   @media (max-width: 1200px) {
     padding: 16px;
+    width: 100%;
   }
+
+  /* @media (max-width: 1200px) {
+    flex-direction: column;
+    flex-direction: column-reverse;
+  }
+  @media (max-width: 1200px) {
+    padding: 16px;
+  } */
 `;
 
 const CardContainer = styled.div`

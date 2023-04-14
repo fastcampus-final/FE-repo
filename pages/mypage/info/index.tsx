@@ -51,7 +51,7 @@ const MyInfo = () => {
     <Container>
       <MyPageNavbar />
       <MypageWrap>
-        <PageTitle title="내 프로필" />
+        <PageTitle title="나의 정보" />
         <div>
           <SmallMonitor>
             <GetMyinfo />
