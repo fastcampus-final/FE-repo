@@ -275,7 +275,7 @@ const ProductText = styled.div`
   flex-direction: column;
   gap: 10px;
   width: 100%;
-  height: 120px;
+  height: 150px;
   justify-content: space-between;
 `;
 

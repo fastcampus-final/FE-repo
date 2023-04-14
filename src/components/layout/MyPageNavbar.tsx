@@ -4,7 +4,6 @@ import Withdrawal from '@/components/Mypage/Withdrawal';
 import { ROUTES } from '@/constants/routes';
 import styled from '@emotion/styled';
 import List from '@mui/material/List';
-// import ListItemButton from '@mui/material/ListItemButton';
 import { useRouter } from 'next/router';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
@@ -19,29 +18,31 @@ const MyPageNavbar = () => {
   return (
     <MypageNavbar none={router.asPath.slice(0, 8) === '/mypage/' ? 'none' : 'block'}>
       <List>
+        <ListItemButton onClick={() => router.push(ROUTES.MYPAGE.INFO)}>
+          <Text>나의 정보</Text>
+          <div>
+            <KeyboardArrowRightIcon />
+          </div>
+        </ListItemButton>
         <ListItemButton onClick={() => router.push(ROUTES.MYPAGE.WISH)}>
-          {/* <ListItemText primary="관심 상품" /> */}
-          <div>관심상품</div>
+          <Text>나의 관심 상품</Text>
           <div>
             <KeyboardArrowRightIcon />
           </div>
         </ListItemButton>
         <ListItemButton onClick={() => router.push(ROUTES.MYPAGE.ORDER)}>
-          <div>예약 조회</div>
+          <Text>나의 예약 내역</Text>
           <div>
             <KeyboardArrowRightIcon />
           </div>
         </ListItemButton>
         <ListItemButton onClick={() => router.push(ROUTES.MYPAGE.REVIEW)}>
-          <div>내가 작성한 후기글</div>
+          <Text>나의 여행 후기</Text>
           <div>
             <KeyboardArrowRightIcon />
           </div>
         </ListItemButton>
       </List>
-      <LogoutWrap>
-        <Logout />
-      </LogoutWrap>
       <WithdrawalWrap>
         <Withdrawal modal={modal} setmodal={setmodal} />
       </WithdrawalWrap>
@@ -75,8 +76,10 @@ const ListItemButton = styled.button`
   background-color: inherit;
   width: 100%;
   font-size: 14px;
+  cursor: pointer;
 `;
 const WithdrawalWrap = styled.div`
+  font-size: 14px;
   margin-top: 30px;
   @media (max-width: 1200px) {
     margin-top: 180px;
@@ -84,4 +87,8 @@ const WithdrawalWrap = styled.div`
   }
   display: flex;
   align-items: center;
+`;
+
+const Text = styled.p`
+  font-size: 16px;
 `;

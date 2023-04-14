@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 import 'swiper/css';
 import 'swiper/css/free-mode';
@@ -83,9 +82,6 @@ const Home = ({ posts }: Props) => {
 
   return (
     <HomeContent mobile={isMobile.toString()}>
-      <Head>
-        <title>고투게더</title>
-      </Head>
       <Banner />
 
       <ContentWrap>
