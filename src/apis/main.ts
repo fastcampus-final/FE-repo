@@ -12,7 +12,7 @@ export const getProductDetail = async (id: number) => {
 };
 
 export const getPopularRegions = async () => {
-  const { data } = await instance.get(API_URLS.PRODUCT.PRODUCT_BY_POPULAR());
+  const { data } = await instance.get(API_URLS.PRODUCT.PRODUCT_BY_RECOMMEND);
   return data;
 };
 
